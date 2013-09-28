@@ -11,14 +11,12 @@ namespace Dolstagis.Web.Routing
         private IDictionary<string, RouteTableEntry> _children
             = new Dictionary<string, RouteTableEntry>(StringComparer.OrdinalIgnoreCase);
 
-        private IList<RouteTableEntry> _parameterChildren
-            = new List<RouteTableEntry>();
+        private IList<ParameterEntry> _parameterChildren
+            = new List<ParameterEntry>();
 
         public IRouteDefinition Definition { get; set; }
 
         public string Name { get; private set; }
-
-        public bool IsParameter { get { return this is ParameterEntry; } }
 
         public RouteTableEntry Parent { get; private set; }
 
@@ -38,8 +36,8 @@ namespace Dolstagis.Web.Routing
                     : new RouteTableEntry(null, name);
                 child.Parent = this;
                 _children.Add(name, child);
-                if (child.IsParameter) {
-                    _parameterChildren.Add(child);
+                if (child is ParameterEntry) {
+                    _parameterChildren.Add((ParameterEntry)child);
                 }
             }
             return child;
@@ -48,7 +46,7 @@ namespace Dolstagis.Web.Routing
         public IEnumerable<RouteTableEntry> GetMatchingChildren(string name)
         {
             RouteTableEntry child;
-            if (_children.TryGetValue(name, out child) && !child.IsParameter) {
+            if (_children.TryGetValue(name, out child) && !(child is ParameterEntry)) {
                 return Enumerable.Repeat(child, 1);
             }
             else {

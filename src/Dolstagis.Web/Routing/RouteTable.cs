@@ -66,8 +66,8 @@ namespace Dolstagis.Web.Routing
             var result = new RouteInfo(entry.Definition);
             int index = pathParts.Length - 1;
             while (entry != null) {
-                if (entry.IsParameter) {
-                    string key = entry.Name.Substring(1, entry.Name.Length - 2);
+                if (entry is ParameterEntry) {
+                    string key = ((ParameterEntry)entry).ParameterName;
                     result.Arguments[key] = pathParts[index];
                 }
                 entry = entry.Parent;
