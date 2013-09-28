@@ -64,6 +64,7 @@
       <Link>Properties\VersionInfo.cs</Link>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Web\Routing\RoutingHelpersFixture.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Dolstagis.Web.Aspnet\Dolstagis.Web.Aspnet.csproj">

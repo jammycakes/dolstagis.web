@@ -65,6 +65,7 @@
     <Compile Include="Routing\IRouteDefinition.cs" />
     <Compile Include="Routing\RouteDefinition.cs" />
     <Compile Include="Routing\RouteInfo.cs" />
+    <Compile Include="Routing\RoutingHelpers.cs" />
     <Compile Include="Status.cs" />
   </ItemGroup>
   <ItemGroup>
