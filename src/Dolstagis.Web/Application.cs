@@ -14,6 +14,10 @@ namespace Dolstagis.Web
         {
         }
 
+        public void AddModule<T>(T module) where T: Module, new()
+        {
+        }
+
         public void ProcessRequest(IHttpContext context)
         {
             ProcessRequestAsync(context).Wait();
