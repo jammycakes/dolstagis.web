@@ -13,7 +13,7 @@ namespace Dolstagis.Web
     ///  of the application lifecycle.
     /// </summary>
 
-    public class Module
+    public class Module : IRouteRegistry
     {
         /// <summary>
         ///  Gets the text description of the module.
@@ -31,9 +31,16 @@ namespace Dolstagis.Web
         ///  Creates a new instance of this module.
         /// </summary>
 
+        #region /* ====== Implementation of IRouteRegistry ====== */
+
+        public IList<IRouteDefinition> Routes { get; private set; }
+
+        #endregion
+
         public Module()
         {
             this.Enabled = true;
+            this.Routes = new List<IRouteDefinition>();
         }
 
         /// <summary>
@@ -45,6 +52,14 @@ namespace Dolstagis.Web
 
         public void AddHandler<T>() where T: Handler
         {
+            var attributes = typeof(T).GetCustomAttributes(typeof(RouteAttribute), true);
+            if (!attributes.Any()) {
+                throw new ArgumentException("Type " + typeof(T) + " does not declare any routes, and no route was specified.");
+            }
+
+            foreach (RouteAttribute attr in attributes) {
+                AddHandler<T>(attr.Route, x => true);
+            }
         }
 
         /// <summary>
@@ -59,6 +74,7 @@ namespace Dolstagis.Web
 
         public void AddHandler<T>(string route) where T: Handler
         {
+            AddHandler<T>(route, x => true);
         }
 
         /// <summary>
@@ -77,6 +93,7 @@ namespace Dolstagis.Web
 
         public void AddHandler<T>(string route, Func<RouteInfo, bool> precondition) where T: Handler
         {
+            this.Routes.Add(new RouteDefinition(typeof(T), route, this, precondition));
         }
     }
 }
