@@ -60,6 +60,7 @@
     </Compile>
     <Compile Include="RouteAttribute.cs" />
     <Compile Include="Routing\RouteInfo.cs" />
+    <Compile Include="Status.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
