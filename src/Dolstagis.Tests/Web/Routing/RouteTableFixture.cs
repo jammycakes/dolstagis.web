@@ -101,5 +101,45 @@ namespace Dolstagis.Tests.Web.Routing
             var routeTable = new RouteTable(new FirstModule());
             Assert.IsNull(routeTable.Lookup("/one/two/three/four/five"));
         }
+
+        [Test]
+        [Ignore("TODO: not yet implemented")]
+        public void CanGetRouteWithGreedyParameter()
+        {
+            var routeTable = new RouteTable(new FirstModule());
+            var route = routeTable.Lookup("/one/two/greedy/three/four/five");
+            Assert.AreEqual("three/four/five", route.Arguments["id"]);
+            Assert.IsNull(routeTable.Lookup("/one/two/greedy"));
+        }
+
+        [Test]
+        [Ignore("TODO: not yet implemented")]
+        public void CanGetRouteWithOptionalParameter()
+        {
+            var routeTable = new RouteTable(new FirstModule());
+            var route = routeTable.Lookup("/one/two/optional/three");
+            Assert.AreEqual("three", route.Arguments["id"]);
+            Assert.IsNotNull(routeTable.Lookup("/one/two/optional"));
+            Assert.IsNull(routeTable.Lookup("/one/two/optional/three/four/five"));
+        }
+
+        [Test]
+        [Ignore("TODO: not yet implemented")]
+        public void CanGetRouteWithOptionalGreedyParameter()
+        {
+            var routeTable = new RouteTable(new FirstModule());
+            var route = routeTable.Lookup("/one/two/optgreedy/three/four/five");
+            Assert.AreEqual("three/four/five", route.Arguments["id"]);
+            Assert.IsNotNull(routeTable.Lookup("/one/two/optgreedy"));
+        }
+
+        [Test]
+        [Ignore("TODO: not yet implemented")]
+        public void VerifyOptionalParametersAreNotStored()
+        {
+            var routeTable = new RouteTable(new FirstModule());
+            var route = routeTable.Lookup("/one/two/optional");
+            Assert.IsFalse(route.Arguments.ContainsKey("id"));
+        }
     }
 }
