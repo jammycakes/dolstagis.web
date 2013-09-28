@@ -16,5 +16,11 @@ namespace Dolstagis.Web.Aspnet
         {
             _httpContext = httpContext;
         }
+
+        public IHttpRequest Request { get; private set; }
+
+        public IHttpResponse Response { get; private set; }
+
+        public IHttpApplication Application { get; private set; }
     }
 }

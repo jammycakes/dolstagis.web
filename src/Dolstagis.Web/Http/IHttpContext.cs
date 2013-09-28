@@ -8,5 +8,10 @@ namespace Dolstagis.Web.Http
 {
     public interface IHttpContext
     {
+        IHttpRequest Request { get; }
+
+        IHttpResponse Response { get; }
+
+        IHttpApplication Application { get; }
     }
 }
