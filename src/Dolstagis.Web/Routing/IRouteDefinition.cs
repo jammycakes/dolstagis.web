@@ -31,5 +31,11 @@ namespace Dolstagis.Web.Routing
         /// </summary>
 
         IRouteRegistry Module { get; }
+
+        /// <summary>
+        ///  Gets the string representation of the route.
+        /// </summary>
+
+        string Route { get; }
     }
 }

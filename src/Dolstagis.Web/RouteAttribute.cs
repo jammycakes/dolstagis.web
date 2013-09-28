@@ -13,6 +13,7 @@ namespace Dolstagis.Web
 
         public RouteAttribute(string route)
         {
+            this.Route = route;
         }
     }
 }
