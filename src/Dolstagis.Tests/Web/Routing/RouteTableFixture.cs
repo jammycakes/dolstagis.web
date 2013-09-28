@@ -103,6 +103,38 @@ namespace Dolstagis.Tests.Web.Routing
         }
 
         [Test]
+        [ExpectedException(typeof(InvalidOperationException))]
+        public void GreedyParametersMustComeLast()
+        {
+            var routeTable = new RouteTable(new CustomRouteModule("/one/two/{id*}/{name?}"));
+            routeTable.RebuildRouteTable();
+        }
+
+        [Test]
+        [ExpectedException(typeof(InvalidOperationException))]
+        public void OptionalParametersMustNotBeFollowedByNonOptionalParameters()
+        {
+            var routeTable = new RouteTable(new CustomRouteModule("/one/two/{id?}/{name+}"));
+            routeTable.RebuildRouteTable();
+        }
+
+        [Test]
+        [ExpectedException(typeof(InvalidOperationException))]
+        public void OptionalParametersMustNotBeFollowedByExactMatches()
+        {
+            var routeTable = new RouteTable(new CustomRouteModule("/one/two/{id?}/three"));
+            routeTable.RebuildRouteTable();
+        }
+
+
+        [Test]
+        public void CanHaveMultipleOptionalParameters()
+        {
+            var routeTable = new RouteTable(new CustomRouteModule("/one/two/{id?}/{name*}"));
+            routeTable.RebuildRouteTable();
+        }
+
+        [Test]
         [Ignore("TODO: not yet implemented")]
         public void CanGetRouteWithGreedyParameter()
         {
