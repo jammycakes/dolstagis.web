@@ -62,5 +62,14 @@ namespace Dolstagis.Tests.Web.Routing
             Assert.AreEqual(1, route.Arguments.Count);
             Assert.AreEqual("de-DE", route.Arguments["language"]);
         }
+
+        [Test]
+        public void DoesNotGetRouteWhenNoMatches()
+        {
+            var routeTable = new RouteTable(new FirstModule());
+            Assert.IsNull(routeTable.Lookup("/de-DE/"));
+            Assert.IsNull(routeTable.Lookup("/de-DE/one/wibble"));
+            Assert.IsNull(routeTable.Lookup("/de-DE/one/two/wibble/wobble"));
+        }
     }
 }
