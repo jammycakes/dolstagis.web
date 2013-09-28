@@ -78,5 +78,28 @@ namespace Dolstagis.Tests.Web.Routing
             var routeTable = new RouteTable(new FirstModule(), new DisabledModule());
             Assert.IsNull(routeTable.Lookup("/foo/bar"));
         }
+
+        [Test]
+        public void CanGetRouteThatEndsWithParameter()
+        {
+            var routeTable = new RouteTable(new FirstModule());
+            var route = routeTable.Lookup("/one/two/three/1");
+            Assert.AreEqual(typeof(ChildHandler), route.Definition.HandlerType);
+            Assert.AreEqual("1", route.Arguments["id"]);
+        }
+
+        [Test]
+        public void DoesNotGetRouteWithParameterMissing()
+        {
+            var routeTable = new RouteTable(new FirstModule());
+            Assert.IsNull(routeTable.Lookup("/one/two/three"));
+        }
+
+        [Test]
+        public void DoesNotGetRouteWithTooManyParameters()
+        {
+            var routeTable = new RouteTable(new FirstModule());
+            Assert.IsNull(routeTable.Lookup("/one/two/three/four/five"));
+        }
     }
 }
