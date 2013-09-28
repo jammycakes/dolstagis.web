@@ -10,7 +10,7 @@ namespace Dolstagis.Web.Routing
     {
         private Func<RouteInfo, bool> _precondition;
 
-        public RouteDefinition(Type handlerType, string route, Module module, Func<RouteInfo, bool> precondition)
+        public RouteDefinition(Type handlerType, string route, IRouteRegistry module, Func<RouteInfo, bool> precondition)
         {
             this.HandlerType = handlerType;
             this.Route = route;
@@ -27,6 +27,6 @@ namespace Dolstagis.Web.Routing
             return _precondition(routeInfo);
         }
 
-        public Module Module { get; private set; }
+        public IRouteRegistry Module { get; private set; }
     }
 }

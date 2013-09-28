@@ -30,6 +30,6 @@ namespace Dolstagis.Web.Routing
         ///  Gets the module in which this route was declared.
         /// </summary>
 
-        Module Module { get; }
+        IRouteRegistry Module { get; }
     }
 }
