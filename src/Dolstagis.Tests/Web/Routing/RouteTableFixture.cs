@@ -52,5 +52,15 @@ namespace Dolstagis.Tests.Web.Routing
             var route = routeTable.Lookup("/one/two");
             Assert.AreEqual(typeof(ChildHandler), route.Definition.HandlerType);
         }
+
+        [Test]
+        public void CanGetParametrisedRouteWhenOnlyOne()
+        {
+            var routeTable = new RouteTable(new FirstModule());
+            var route = routeTable.Lookup("/de-DE/one/two");
+            Assert.AreEqual(typeof(LanguageHandler), route.Definition.HandlerType);
+            Assert.AreEqual(1, route.Arguments.Count);
+            Assert.AreEqual("de-DE", route.Arguments["language"]);
+        }
     }
 }

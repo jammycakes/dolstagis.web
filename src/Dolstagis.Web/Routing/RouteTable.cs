@@ -47,10 +47,10 @@ namespace Dolstagis.Web.Routing
             }
         }
 
-        private IEnumerable<RouteInfo> GetCandidates(RouteTableEntry node, string[] path, int index)
+        private IEnumerable<RouteTableEntry> GetCandidates(RouteTableEntry node, string[] path, int index)
         {
             if (index >= path.Length) {
-                yield return new RouteInfo(node.Definition);
+                yield return node;
             }
             else {
                 foreach (var candidate in node.GetMatchingChildren(path[index])) {
@@ -59,6 +59,21 @@ namespace Dolstagis.Web.Routing
                     }
                 }
             }
+        }
+
+        private RouteInfo GetRouteInfo(RouteTableEntry entry, string[] pathParts)
+        {
+            var result = new RouteInfo(entry.Definition);
+            int index = pathParts.Length - 1;
+            while (entry != null) {
+                if (entry.IsParameter) {
+                    string key = entry.Name.Substring(1, entry.Name.Length - 2);
+                    result.Arguments[key] = pathParts[index];
+                }
+                entry = entry.Parent;
+                index--;
+            }
+            return result;
         }
 
         /// <summary>
@@ -76,7 +91,7 @@ namespace Dolstagis.Web.Routing
             EnsureRouteTable();
             var parts = path.SplitUrlPath();
             var candidates = GetCandidates(Root, parts, 0);
-            return candidates.FirstOrDefault();
+            return candidates.Select(x => GetRouteInfo(x, parts)).LastOrDefault();
         }
     }
 }

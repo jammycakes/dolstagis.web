@@ -20,6 +20,8 @@ namespace Dolstagis.Web.Routing
 
         public bool IsParameter { get; private set; }
 
+        public RouteTableEntry Parent { get; private set; }
+
         public RouteTableEntry(IRouteDefinition definition, string name)
         {
             this.Definition = definition;
@@ -32,6 +34,7 @@ namespace Dolstagis.Web.Routing
             RouteTableEntry child;
             if (!_children.TryGetValue(name, out child)) {
                 child = new RouteTableEntry(null, name);
+                child.Parent = this;
                 _children.Add(name, child);
                 if (child.IsParameter) {
                     _parameterChildren.Add(child);
