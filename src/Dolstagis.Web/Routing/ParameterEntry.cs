@@ -20,7 +20,7 @@ namespace Dolstagis.Web.Routing
             Greedy = "*+".Contains(last);
             Optional = "*?".Contains(last);
             if (Greedy || Optional) {
-                s = s.Substring(s.Length - 1);
+                s = s.Substring(0, s.Length - 1);
             }
             ParameterName = s;
         }

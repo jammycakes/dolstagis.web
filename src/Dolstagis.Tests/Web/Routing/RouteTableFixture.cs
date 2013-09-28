@@ -150,7 +150,6 @@ namespace Dolstagis.Tests.Web.Routing
         }
 
         [Test]
-        [Ignore("TODO: not yet implemented")]
         public void CanGetRouteWithGreedyParameter()
         {
             var routeTable = new RouteTable(new FirstModule());
@@ -160,7 +159,6 @@ namespace Dolstagis.Tests.Web.Routing
         }
 
         [Test]
-        [Ignore("TODO: not yet implemented")]
         public void CanGetRouteWithOptionalParameter()
         {
             var routeTable = new RouteTable(new FirstModule());
@@ -171,7 +169,6 @@ namespace Dolstagis.Tests.Web.Routing
         }
 
         [Test]
-        [Ignore("TODO: not yet implemented")]
         public void CanGetRouteWithOptionalGreedyParameter()
         {
             var routeTable = new RouteTable(new FirstModule());
@@ -181,7 +178,6 @@ namespace Dolstagis.Tests.Web.Routing
         }
 
         [Test]
-        [Ignore("TODO: not yet implemented")]
         public void VerifyOptionalParametersAreNotStored()
         {
             var routeTable = new RouteTable(new FirstModule());

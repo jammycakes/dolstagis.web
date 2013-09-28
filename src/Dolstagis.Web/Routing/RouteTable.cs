@@ -27,6 +27,14 @@ namespace Dolstagis.Web.Routing
                 target = target.GetOrCreateChild(name);
             }
             target.Definition = definition;
+            // For optional parameters, back up the tree,
+            // associating this definition with all optional parameters
+            // and the last required one.
+            while (target is ParameterEntry && ((ParameterEntry)target).Optional
+                && target.Parent != null && target.Parent.Definition == null) {
+                target = target.Parent;
+                target.Definition = definition;
+            }
         }
 
         public void RebuildRouteTable()
@@ -55,7 +63,7 @@ namespace Dolstagis.Web.Routing
 
         private IEnumerable<RouteTableEntry> GetCandidates(RouteTableEntry node, string[] path, int index)
         {
-            if (index >= path.Length) {
+            if (index >= path.Length || (node is ParameterEntry && ((ParameterEntry)node).Greedy)) {
                 yield return node;
             }
             else {
@@ -69,15 +77,28 @@ namespace Dolstagis.Web.Routing
 
         private RouteInfo GetRouteInfo(RouteTableEntry entry, string[] pathParts)
         {
+            var e = entry;
+            var stack = new Stack<RouteTableEntry>();
+            while (e.Parent != null) { // ignore the root element
+                stack.Push(e);
+                e = e.Parent;
+            }
+
             var result = new RouteInfo(entry.Definition);
-            int index = pathParts.Length - 1;
-            while (entry != null) {
-                if (entry is ParameterEntry) {
-                    string key = ((ParameterEntry)entry).ParameterName;
-                    result.Arguments[key] = pathParts[index];
+            int index = 0;
+            while (stack.Count > 0 && index < pathParts.Length) {
+                e = stack.Pop();
+                if (e is ParameterEntry) {
+                    var pe = (ParameterEntry)e;
+                    string key = pe.ParameterName;
+                    if (pe.Greedy) {
+                        result.Arguments[key] = String.Join("/", pathParts.Skip(index).ToArray());
+                    }
+                    else {
+                        result.Arguments[key] = pathParts[index];
+                    }
                 }
-                entry = entry.Parent;
-                index--;
+                index++;
             }
             return result;
         }
