@@ -59,6 +59,8 @@
       <Link>Properties\VersionInfo.cs</Link>
     </Compile>
     <Compile Include="RouteAttribute.cs" />
+    <Compile Include="Routing\IRouteDefinition.cs" />
+    <Compile Include="Routing\RouteDefinition.cs" />
     <Compile Include="Routing\RouteInfo.cs" />
     <Compile Include="Status.cs" />
   </ItemGroup>
