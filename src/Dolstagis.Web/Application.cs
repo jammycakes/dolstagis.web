@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Dolstagis.Web.Http;
 using StructureMap;
 
 namespace Dolstagis.Web
@@ -13,13 +14,17 @@ namespace Dolstagis.Web
         {
         }
 
-        public void ProcessRequest(IRequestContext context)
+        public void ProcessRequest(IHttpContext context)
+        {
+            ProcessRequestAsync(context).Wait();
+        }
+
+        public async Task ProcessRequestAsync(IHttpContext context)
         {
         }
 
         public void Dispose()
         {
-
         }
     }
 }
