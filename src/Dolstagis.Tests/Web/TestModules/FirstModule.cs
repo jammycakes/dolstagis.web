@@ -13,9 +13,9 @@ namespace Dolstagis.Tests.Web.TestModules
         public FirstModule()
         {
             AddHandler<RootHandler>();
-            AddHandler<RootHandler>("one/two");
-            AddHandler<RootHandler>("one/three");
-            AddHandler<RootHandler>("{language}/one/two");
+            AddHandler<ChildHandler>("one/two");
+            AddHandler<ChildHandler>("one/three");
+            AddHandler<LanguageHandler>("{language}/one/two");
         }
     }
 }

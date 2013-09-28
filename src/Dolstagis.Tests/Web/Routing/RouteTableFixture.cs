@@ -14,14 +14,6 @@ namespace Dolstagis.Tests.Web.Routing
     public class RouteTableFixture
     {
         [Test]
-        public void CanGetRoot()
-        {
-            var routeTable = new RouteTable(new FirstModule());
-            var route = routeTable.Lookup("/");
-            Assert.AreEqual(typeof(RootHandler), route.Definition.HandlerType);
-        }
-
-        [Test]
         public void CanGetExactChildNode()
         {
             var routeTable = new RouteTable(new FirstModule());
@@ -43,6 +35,22 @@ namespace Dolstagis.Tests.Web.Routing
             Assert.AreEqual("{language}", two.Single().Name);
             Assert.IsTrue(two.Single().IsParameter);
             Assert.IsNull(two.Single().Definition);
+        }
+
+        [Test]
+        public void CanGetRoot()
+        {
+            var routeTable = new RouteTable(new FirstModule());
+            var route = routeTable.Lookup("/");
+            Assert.AreEqual(typeof(RootHandler), route.Definition.HandlerType);
+        }
+
+        [Test]
+        public void CanGetExactRoute()
+        {
+            var routeTable = new RouteTable(new FirstModule());
+            var route = routeTable.Lookup("/one/two");
+            Assert.AreEqual(typeof(ChildHandler), route.Definition.HandlerType);
         }
     }
 }

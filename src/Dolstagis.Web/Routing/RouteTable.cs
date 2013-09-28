@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -38,6 +39,28 @@ namespace Dolstagis.Web.Routing
             }
         }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        public void EnsureRouteTable()
+        {
+            if (Root == null) {
+                RebuildRouteTable();
+            }
+        }
+
+        private IEnumerable<RouteInfo> GetCandidates(RouteTableEntry node, string[] path, int index)
+        {
+            if (index >= path.Length) {
+                yield return new RouteInfo(node.Definition);
+            }
+            else {
+                foreach (var candidate in node.GetMatchingChildren(path[index])) {
+                    foreach (var child in GetCandidates(candidate, path, index + 1)) {
+                        yield return child;
+                    }
+                }
+            }
+        }
+
         /// <summary>
         ///  Given a path, looks up the corresponding route, and extracts its parameters.
         /// </summary>
@@ -50,7 +73,10 @@ namespace Dolstagis.Web.Routing
 
         public RouteInfo Lookup(string path)
         {
-            return new RouteInfo(_modules.First().Routes.First());
+            EnsureRouteTable();
+            var parts = path.SplitUrlPath();
+            var candidates = GetCandidates(Root, parts, 0);
+            return candidates.FirstOrDefault();
         }
     }
 }
