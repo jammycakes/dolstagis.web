@@ -91,7 +91,8 @@ namespace Dolstagis.Web.Routing
             EnsureRouteTable();
             var parts = path.SplitUrlPath();
             var candidates = GetCandidates(Root, parts, 0);
-            return candidates.Select(x => GetRouteInfo(x, parts)).LastOrDefault(x => x.Definition != null);
+            return candidates.Select(x => GetRouteInfo(x, parts))
+                .LastOrDefault(x => x.Definition != null && x.Definition.Module.Enabled);
         }
     }
 }

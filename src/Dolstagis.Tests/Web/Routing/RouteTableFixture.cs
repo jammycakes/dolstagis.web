@@ -71,5 +71,12 @@ namespace Dolstagis.Tests.Web.Routing
             Assert.IsNull(routeTable.Lookup("/de-DE/one/wibble"));
             Assert.IsNull(routeTable.Lookup("/de-DE/one/two/wibble/wobble"));
         }
+
+        [Test]
+        public void DoesNotGetRouteFromDisabledModules()
+        {
+            var routeTable = new RouteTable(new FirstModule(), new DisabledModule());
+            Assert.IsNull(routeTable.Lookup("/foo/bar"));
+        }
     }
 }
