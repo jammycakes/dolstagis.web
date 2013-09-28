@@ -135,6 +135,21 @@ namespace Dolstagis.Tests.Web.Routing
         }
 
         [Test]
+        public void ErrorInBuildingRouteTableDoesNotSetRoot()
+        {
+            RouteTable routeTable = null;
+            try {
+                routeTable = new RouteTable(new CustomRouteModule("/one/two/{id?}/three"));
+                routeTable.RebuildRouteTable();
+            }
+            catch (InvalidOperationException) {
+                Assert.IsNull(routeTable.Root);
+                return;
+            }
+            Assert.Fail();
+        }
+
+        [Test]
         [Ignore("TODO: not yet implemented")]
         public void CanGetRouteWithGreedyParameter()
         {

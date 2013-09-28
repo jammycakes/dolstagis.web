@@ -31,11 +31,17 @@ namespace Dolstagis.Web.Routing
 
         public void RebuildRouteTable()
         {
-            Root = new RouteTableEntry(null, String.Empty);
-            foreach (var module in _modules) {
-                foreach (var route in module.Routes) {
-                    AddRouteToTable(route);
+            try {
+                Root = new RouteTableEntry(null, String.Empty);
+                foreach (var module in _modules) {
+                    foreach (var route in module.Routes) {
+                        AddRouteToTable(route);
+                    }
                 }
+            }
+            catch {
+                Root = null;
+                throw;
             }
         }
 
