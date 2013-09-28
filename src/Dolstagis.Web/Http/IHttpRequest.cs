@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
 
@@ -52,12 +53,12 @@ namespace Dolstagis.Web.Http
         ///  Gets the query string components.
         /// </summary>
 
-        IDictionary<string, string> Query { get; }
+        NameValueCollection Query { get; }
 
         /// <summary>
         ///  Gets the form values.
         /// </summary>
 
-        IDictionary<string, string> Form { get; }
+        NameValueCollection Form { get; }
     }
 }

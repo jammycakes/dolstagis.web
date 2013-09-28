@@ -10,11 +10,11 @@ namespace Dolstagis.Web.Aspnet
 {
     public class HttpRequestContext : IHttpContext
     {
-        private HttpContextBase _httpContext;
-
         public HttpRequestContext(HttpContextBase httpContext)
         {
-            _httpContext = httpContext;
+            Request = new HttpRequest(httpContext.Request);
+            Response = new HttpResponse(httpContext.Response);
+            Application = new HttpApplication(httpContext.Request);
         }
 
         public IHttpRequest Request { get; private set; }

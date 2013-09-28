@@ -6,8 +6,14 @@ using System.Threading.Tasks;
 
 namespace Dolstagis.Web
 {
+    /// <summary>
+    ///  Represents an HTTP status code.
+    /// </summary>
+
     public sealed class Status
     {
+        private static IDictionary<int, Status> _statuses = new Dictionary<int, Status>();
+
         public int Code { get; private set; }
 
         public string Description { get; private set; }
@@ -16,6 +22,23 @@ namespace Dolstagis.Web
         {
             this.Code = code;
             this.Description = description;
+            _statuses.Add(this.Code, this);
+        }
+
+        /// <summary>
+        ///  Gets an HTTP status object by code.
+        /// </summary>
+        /// <param name="code">
+        ///  The HTTP status code.
+        /// </param>
+        /// <returns>
+        ///  A <see cref="Status"/> instance, or null if undefined.
+        /// </returns>
+
+        public Status ByCode(int code)
+        {
+            Status result;
+            return _statuses.TryGetValue(code, out result) ? result : null;
         }
 
         // The values are based on the list found at http://en.wikipedia.org/wiki/List_of_HTTP_status_codes
