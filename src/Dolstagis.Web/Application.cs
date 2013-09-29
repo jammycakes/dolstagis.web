@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Dolstagis.Web.Http;
+using Dolstagis.Web.Routing;
 using StructureMap;
 
 namespace Dolstagis.Web
@@ -15,6 +16,8 @@ namespace Dolstagis.Web
 
     public class Application : IDisposable
     {
+        private static IContainer _container;
+
         /// <summary>
         ///  Called by the application container (an HTTP application, for example)
         ///  to perform any setup tasks before requests can be processed.
@@ -22,6 +25,9 @@ namespace Dolstagis.Web
 
         public void Init()
         {
+            _container = ObjectFactory.Container;
+                x.For<Application>().Singleton().Use(this);
+                x.For<RouteTable>().Singleton();
         }
 
         /// <summary>
@@ -45,6 +51,10 @@ namespace Dolstagis.Web
 
         public void AddModule(Module module)
         {
+            _container.Configure(x => {
+                x.AddRegistry(module.Services);
+                x.For<Module>().Singleton().Add(module);
+            });
         }
 
         /// <summary>

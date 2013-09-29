@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Dolstagis.Web.Routing;
+using StructureMap.Configuration.DSL;
 
 namespace Dolstagis.Web
 {
@@ -15,6 +16,8 @@ namespace Dolstagis.Web
 
     public class Module : IRouteRegistry
     {
+        public Registry Services { get; private set; }
+
         /// <summary>
         ///  Gets the text description of the module.
         /// </summary>
@@ -41,6 +44,7 @@ namespace Dolstagis.Web
         {
             this.Enabled = true;
             this.Routes = new List<IRouteDefinition>();
+            this.Services = new Registry();
         }
 
         /// <summary>
