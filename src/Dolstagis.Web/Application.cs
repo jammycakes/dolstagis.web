@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Dolstagis.Web.Http;
+using Dolstagis.Web.Lifecycle;
 using Dolstagis.Web.Routing;
 using StructureMap;
 
@@ -26,8 +27,12 @@ namespace Dolstagis.Web
         public void Init()
         {
             _container = ObjectFactory.Container;
+            _container.Configure(x => {
                 x.For<Application>().Singleton().Use(this);
                 x.For<RouteTable>().Singleton();
+                x.For<IRequestProcessor>().Use<RequestProcessor>();
+                x.For<IExceptionHandler>().Use<ExceptionHandler>();
+            });
         }
 
         /// <summary>
@@ -81,6 +86,21 @@ namespace Dolstagis.Web
 
         public async Task ProcessRequestAsync(IHttpContext context)
         {
+            using (var childContainer = _container.GetNestedContainer()) {
+                Exception fault = null;
+                try {
+                    var requestProcessor = childContainer.GetInstance<IRequestProcessor>();
+                    await requestProcessor.ProcessRequest(context); 
+                }
+                catch (Exception ex) {
+                    fault = ex;
+                }
+
+                if (fault != null) {
+                    var exceptionHandler = childContainer.GetInstance<IExceptionHandler>();
+                    await exceptionHandler.HandleException(context, fault);
+                }
+            }
         }
 
         /// <summary>
