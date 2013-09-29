@@ -69,6 +69,8 @@
     <Compile Include="..\.version\VersionInfo.cs" Condition="Exists('..\.version\VersionInfo.cs')">
       <Link>Properties\VersionInfo.cs</Link>
     </Compile>
+    <Compile Include="HomeModule.cs" />
+    <Compile Include="Index.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

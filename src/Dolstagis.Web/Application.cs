@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Dolstagis.Web.Http;
@@ -60,6 +61,38 @@ namespace Dolstagis.Web
                 x.AddRegistry(module.Services);
                 x.For<Module>().Singleton().Add(module);
             });
+        }
+
+        /// <summary>
+        ///  Scan an assembly for modules to add.
+        /// </summary>
+        /// <param name="assembly">
+        ///  The assembly.
+        /// </param>
+        /// <remarks>
+        ///  Only modules with a public default constructor will be instantiated.
+        ///  The order in which they are added is non-deterministic.
+        /// </remarks>
+
+        public void AddAllModulesInAssembly(Assembly assembly)
+        {
+            Type[] types;
+
+            try {
+                types = assembly.GetTypes();
+            }
+            catch (ReflectionTypeLoadException ex) {
+                types = ex.Types;
+            }
+
+            foreach (var type in types.Where(t => typeof(Module).IsAssignableFrom(t)))
+            {
+                var constructor = type.GetConstructor(Type.EmptyTypes);
+                if (constructor != null) {
+                    var module = constructor.Invoke(null) as Module;
+                    AddModule(module);
+                }
+            }
         }
 
         /// <summary>
