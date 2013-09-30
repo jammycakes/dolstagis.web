@@ -52,6 +52,7 @@
     <Compile Include="Http\IHttpRequest.cs" />
     <Compile Include="Http\IHttpResponse.cs" />
     <Compile Include="Lifecycle\ExceptionHandler.cs" />
+    <Compile Include="Lifecycle\ActionInvocation.cs" />
     <Compile Include="Lifecycle\IExceptionHandler.cs" />
     <Compile Include="Lifecycle\IRequestProcessor.cs" />
     <Compile Include="Module.cs" />
