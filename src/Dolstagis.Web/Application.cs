@@ -60,6 +60,7 @@ namespace Dolstagis.Web
             _container.Configure(x => {
                 x.AddRegistry(module.Services);
                 x.For<Module>().Singleton().Add(module);
+                x.For<IRouteRegistry>().Singleton().Add(module);
             });
         }
 
