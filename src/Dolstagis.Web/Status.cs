@@ -10,6 +10,7 @@ namespace Dolstagis.Web
     ///  Represents an HTTP status code.
     /// </summary>
 
+    [Serializable]
     public sealed class Status
     {
         private static IDictionary<int, Status> _statuses = new Dictionary<int, Status>();
@@ -26,6 +27,15 @@ namespace Dolstagis.Web
         }
 
         /// <summary>
+        ///  Throws an exception with this status code.
+        /// </summary>
+
+        public void Throw()
+        {
+            throw new HttpStatusException(this);
+        }
+
+        /// <summary>
         ///  Gets an HTTP status object by code.
         /// </summary>
         /// <param name="code">
@@ -35,7 +45,7 @@ namespace Dolstagis.Web
         ///  A <see cref="Status"/> instance, or null if undefined.
         /// </returns>
 
-        public Status ByCode(int code)
+        public static Status ByCode(int code)
         {
             Status result;
             return _statuses.TryGetValue(code, out result) ? result : null;

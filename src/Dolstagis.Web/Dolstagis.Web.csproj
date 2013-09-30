@@ -46,6 +46,7 @@
   <ItemGroup>
     <Compile Include="Application.cs" />
     <Compile Include="Handler.cs" />
+    <Compile Include="HttpStatusException.cs" />
     <Compile Include="Http\IHttpApplication.cs" />
     <Compile Include="Http\IHttpContext.cs" />
     <Compile Include="Http\IHttpRequest.cs" />
