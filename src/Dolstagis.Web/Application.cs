@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -124,7 +125,10 @@ namespace Dolstagis.Web
                 Exception fault = null;
                 try {
                     var requestProcessor = childContainer.GetInstance<IRequestProcessor>();
-                    await requestProcessor.ProcessRequest(context); 
+                    var result = await requestProcessor.ProcessRequest(context);
+                    using (var writer = new StreamWriter(context.Response.ResponseStream)) {
+                        await writer.WriteLineAsync(result.ToString());
+                    }
                 }
                 catch (Exception ex) {
                     fault = ex;
