@@ -10,7 +10,7 @@ namespace WebApp
     [Route("/")]
     public class Index : Handler
     {
-        public async Task<string> Get()
+        public string Get()
         {
             return "Hello world";
         }
