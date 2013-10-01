@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Dolstagis.Web.Views;
 
-namespace Dolstagis.Web.Lifecycle
+namespace Dolstagis.Web.Views
 {
     public interface IViewFactory
     {
