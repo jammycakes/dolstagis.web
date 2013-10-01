@@ -26,7 +26,7 @@ namespace Dolstagis.Web
         ///  to perform any setup tasks before requests can be processed.
         /// </summary>
 
-        public void Init()
+        public Application()
         {
             _container = ObjectFactory.Container;
             _container.Configure(x => {

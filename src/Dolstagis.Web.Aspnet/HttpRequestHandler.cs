@@ -46,7 +46,6 @@ namespace Dolstagis.Web.Aspnet
 
             if (_application != null) return;
             _application = new Application();
-            _application.Init();
             foreach (var assembly in BuildManager.GetReferencedAssemblies().Cast<Assembly>()) {
                 if (!assembly.IsDynamic && !ignores.Any
                     (x => assembly.FullName.StartsWith(x, StringComparison.InvariantCulture))) {
