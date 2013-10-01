@@ -78,7 +78,7 @@ namespace Dolstagis.Web.Views
         ///  A <see cref="Stream"/> object, or null if the resource was not found.
         /// </returns>
 
-        public Stream Open(string path, string appRoot)
+        public IResource Get(string path, string appRoot)
         {
             var parts = path.SplitUrlPath();
             string locatorPath, resourcePath;
@@ -88,8 +88,8 @@ namespace Dolstagis.Web.Views
                 IList<IResourceLocation> locationList;
                 if (_locations.TryGetValue(locatorPath, out locationList)) {
                     foreach (var location in locationList) {
-                        var stream = location.OpenIfAvailable(resourcePath, appRoot);
-                        if (stream != null) return stream;
+                        var resource = location.Get(resourcePath, appRoot);
+                        if (resource != null) return resource;
                     }
                 }
             }

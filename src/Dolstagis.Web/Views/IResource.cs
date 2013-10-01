@@ -7,8 +7,14 @@ using System.Threading.Tasks;
 
 namespace Dolstagis.Web.Views
 {
-    public interface IResourceLocation
+    public interface IResource
     {
-        IResource Get(string path, string appRoot);
+        bool Exists { get; }
+
+        DateTime LastModified { get; }
+
+        long? Length { get; }
+
+        Stream Open();
     }
 }

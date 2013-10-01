@@ -16,7 +16,7 @@ namespace Dolstagis.Web.Views
             _root = root;
         }
 
-        public Stream OpenIfAvailable(string path, string appRoot)
+        public IResource Get(string path, string appRoot)
         {
             string absPath = Path.Combine(
                 appRoot,
@@ -25,7 +25,7 @@ namespace Dolstagis.Web.Views
             );
 
             if (File.Exists(absPath)) {
-                return new FileStream(absPath, FileMode.Open, FileAccess.Read);
+                return new FileResource(absPath);
             }
             else {
                 return null;
