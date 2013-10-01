@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Dolstagis.Web.Routing;
 
-namespace Dolstagis.Web.Views
+namespace Dolstagis.Web.Views.Static
 {
     public class ResourceLocator
     {

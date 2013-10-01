@@ -55,8 +55,8 @@
     <Compile Include="Lifecycle\ActionInvocation.cs" />
     <Compile Include="Lifecycle\IExceptionHandler.cs" />
     <Compile Include="Lifecycle\IRequestProcessor.cs" />
-    <Compile Include="Views\FileResource.cs" />
-    <Compile Include="Views\IResource.cs" />
+    <Compile Include="Views\Static\FileResource.cs" />
+    <Compile Include="Views\Static\IResource.cs" />
     <Compile Include="Views\IViewFactory.cs" />
     <Compile Include="Module.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -82,11 +82,11 @@
     <Compile Include="StaticResult.cs" />
     <Compile Include="Status.cs" />
     <Compile Include="ViewResult.cs" />
-    <Compile Include="Views\FilespaceResourceLocation.cs" />
+    <Compile Include="Views\Static\FilespaceResourceLocation.cs" />
     <Compile Include="Views\HtmlView.cs" />
     <Compile Include="Views\IView.cs" />
-    <Compile Include="Views\ResourceLocator.cs" />
-    <Compile Include="Views\IResourceLocation.cs" />
+    <Compile Include="Views\Static\ResourceLocator.cs" />
+    <Compile Include="Views\Static\IResourceLocation.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

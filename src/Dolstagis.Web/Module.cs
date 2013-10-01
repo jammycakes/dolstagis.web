@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Dolstagis.Web.Routing;
 using Dolstagis.Web.Views;
+using Dolstagis.Web.Views.Static;
 using StructureMap.Configuration.DSL;
 
 namespace Dolstagis.Web
