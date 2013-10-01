@@ -19,7 +19,7 @@ namespace Dolstagis.Web
 
     public class Application : IDisposable
     {
-        private static IContainer _container;
+        private IContainer _container;
 
         /// <summary>
         ///  Called by the application container (an HTTP application, for example)
@@ -28,12 +28,10 @@ namespace Dolstagis.Web
 
         public Application()
         {
-            _container = ObjectFactory.Container;
+            _container = new Container();
             _container.Configure(x => {
                 x.For<Application>().Singleton().Use(this);
-                x.For<RouteTable>().Singleton();
-                x.For<IRequestProcessor>().Use<RequestProcessor>();
-                x.For<IExceptionHandler>().Use<ExceptionHandler>();
+                x.AddRegistry<CoreServices>();
             });
         }
 
