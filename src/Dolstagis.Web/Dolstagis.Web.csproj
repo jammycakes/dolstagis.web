@@ -57,6 +57,7 @@
     <Compile Include="Lifecycle\IExceptionHandler.cs" />
     <Compile Include="Lifecycle\IRequestProcessor.cs" />
     <Compile Include="Views\Static\FileResource.cs" />
+    <Compile Include="Views\Static\IMimeTypes.cs" />
     <Compile Include="Views\Static\IResource.cs" />
     <Compile Include="Views\IViewFactory.cs" />
     <Compile Include="Module.cs" />
@@ -86,6 +87,7 @@
     <Compile Include="Views\Static\FilespaceResourceLocation.cs" />
     <Compile Include="Views\HtmlView.cs" />
     <Compile Include="Views\IView.cs" />
+    <Compile Include="Views\Static\MimeTypes.cs" />
     <Compile Include="Views\Static\ResourceLocator.cs" />
     <Compile Include="Views\Static\IResourceLocation.cs" />
   </ItemGroup>
