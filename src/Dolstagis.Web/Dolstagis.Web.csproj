@@ -86,6 +86,8 @@
     <Compile Include="Views\IView.cs" />
     <Compile Include="Views\ResourceLocator.cs" />
     <Compile Include="Views\IResourceLocation.cs" />
+    <Compile Include="Views\IViewEngine.cs" />
+    <Compile Include="Views\ViewEngineRegistry.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
