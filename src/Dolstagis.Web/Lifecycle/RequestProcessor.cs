@@ -6,17 +6,22 @@ using System.Text;
 using System.Threading.Tasks;
 using Dolstagis.Web.Http;
 using Dolstagis.Web.Routing;
+using Dolstagis.Web.Views;
 
 namespace Dolstagis.Web.Lifecycle
 {
     public class RequestProcessor : IRequestProcessor
     {
         private RouteTable _routes;
+        private IList<IViewFactory> _viewFactories;
         private Func<ActionInvocation> _createAction;
 
-        public RequestProcessor(RouteTable routes, Func<ActionInvocation> createAction)
+        public RequestProcessor(RouteTable routes,
+            IEnumerable<IViewFactory> viewFactories,
+            Func<ActionInvocation> createAction)
         {
             _routes = routes;
+            _viewFactories = (viewFactories ?? Enumerable.Empty<IViewFactory>()).ToList();
             _createAction = createAction;
         }
 
@@ -49,7 +54,7 @@ namespace Dolstagis.Web.Lifecycle
             return action;
         }
 
-        public async Task<object> ProcessRequest(IHttpContext context)
+        public async Task<object> InvokeRequest(IHttpContext context)
         {
             var action = GetAction(context);
             if (action == null) Status.NotFound.Throw();
@@ -63,6 +68,13 @@ namespace Dolstagis.Web.Lifecycle
             else {
                 return result;
             }
+        }
+
+        public async Task ProcessRequest(IHttpContext context)
+        {
+            var result = await InvokeRequest(context);
+            var view = _viewFactories.Select(x => x.CreateView(result)).FirstOrDefault() ?? new HtmlView();
+            await view.Render(context, result);
         }
     }
 }

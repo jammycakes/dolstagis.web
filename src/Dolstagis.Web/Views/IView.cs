@@ -5,10 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using Dolstagis.Web.Http;
 
-namespace Dolstagis.Web.Lifecycle
+namespace Dolstagis.Web.Views
 {
-    public interface IRequestProcessor
+    public interface IView
     {
-        Task ProcessRequest(IHttpContext context);
+        Task Render(IHttpContext context, object data);
     }
 }

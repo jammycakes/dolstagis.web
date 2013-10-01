@@ -55,6 +55,7 @@
     <Compile Include="Lifecycle\ActionInvocation.cs" />
     <Compile Include="Lifecycle\IExceptionHandler.cs" />
     <Compile Include="Lifecycle\IRequestProcessor.cs" />
+    <Compile Include="Lifecycle\IViewFactory.cs" />
     <Compile Include="Module.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="..\.version\DefaultVersionInfo.cs" Condition="!Exists('..\.version\VersionInfo.cs')">
@@ -78,6 +79,8 @@
     <Compile Include="Routing\RoutingHelpers.cs" />
     <Compile Include="Status.cs" />
     <Compile Include="Views\FilespaceResourceLocation.cs" />
+    <Compile Include="Views\HtmlView.cs" />
+    <Compile Include="Views\IView.cs" />
     <Compile Include="Views\ResourceLocator.cs" />
     <Compile Include="Views\IResourceLocation.cs" />
   </ItemGroup>

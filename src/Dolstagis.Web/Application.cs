@@ -125,10 +125,7 @@ namespace Dolstagis.Web
                 Exception fault = null;
                 try {
                     var requestProcessor = childContainer.GetInstance<IRequestProcessor>();
-                    var result = await requestProcessor.ProcessRequest(context);
-                    using (var writer = new StreamWriter(context.Response.ResponseStream)) {
-                        await writer.WriteLineAsync(result.ToString());
-                    }
+                    await requestProcessor.ProcessRequest(context);
                 }
                 catch (Exception ex) {
                     fault = ex;
