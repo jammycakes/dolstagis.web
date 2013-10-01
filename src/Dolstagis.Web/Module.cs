@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Dolstagis.Web.Routing;
+using Dolstagis.Web.Views;
 using StructureMap.Configuration.DSL;
 
 namespace Dolstagis.Web
@@ -17,6 +18,18 @@ namespace Dolstagis.Web
     public class Module : IRouteRegistry
     {
         public Registry Services { get; private set; }
+
+        /// <summary>
+        ///  Gets the registry of HTML templates.
+        /// </summary>
+
+        public ResourceLocator Templates { get; private set; }
+
+        /// <summary>
+        ///  Gets the registry of static files.
+        /// </summary>
+
+        public ResourceLocator StaticFiles { get; private set; }
 
         /// <summary>
         ///  Gets the text description of the module.
@@ -45,6 +58,8 @@ namespace Dolstagis.Web
             this.Enabled = true;
             this.Routes = new List<IRouteDefinition>();
             this.Services = new Registry();
+            this.Templates = new ResourceLocator();
+            this.StaticFiles = new ResourceLocator();
         }
 
         /// <summary>

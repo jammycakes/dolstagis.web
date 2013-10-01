@@ -77,6 +77,9 @@
     <Compile Include="Routing\RouteTable.cs" />
     <Compile Include="Routing\RoutingHelpers.cs" />
     <Compile Include="Status.cs" />
+    <Compile Include="Views\FilespaceResourceLocation.cs" />
+    <Compile Include="Views\ResourceLocator.cs" />
+    <Compile Include="Views\IResourceLocation.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
