@@ -92,6 +92,8 @@
     <Compile Include="Views\Static\MimeTypes.cs" />
     <Compile Include="Views\Static\ResourceLocator.cs" />
     <Compile Include="Views\Static\IResourceLocation.cs" />
+    <Compile Include="Views\Static\StaticHandler.cs" />
+    <Compile Include="Views\Static\StaticResultProcessor.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

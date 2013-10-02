@@ -74,6 +74,7 @@ namespace Dolstagis.Web.Lifecycle
         {
             var result = await InvokeRequest(context);
             var processor = _resultProcessors.LastOrDefault(x => x.CanProcess(result));
+            if (processor == null) Status.NotFound.Throw();
             await processor.Process(result, context);
         }
     }

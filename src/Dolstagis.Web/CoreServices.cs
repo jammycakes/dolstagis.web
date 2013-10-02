@@ -19,6 +19,8 @@ namespace Dolstagis.Web
 
             For<IRequestProcessor>().Use<RequestProcessor>();
             For<IExceptionHandler>().Use<ExceptionHandler>();
+
+            For<IResultProcessor>().Singleton().Add<StaticResultProcessor>();
         }
     }
 }

@@ -115,5 +115,14 @@ namespace Dolstagis.Web
         {
             this.Routes.Add(new RouteDefinition(typeof(T), route, this, precondition));
         }
+
+
+        public void AddStaticFiles(string path)
+        {
+            path = path.NormaliseUrlPath();
+            string route = path + "/{path+}";
+            AddHandler<StaticHandler>(route);
+            this.Services.For<IResourceLocation>().Singleton().Use(new FilespaceResourceLocation(path));
+        }
     }
 }
