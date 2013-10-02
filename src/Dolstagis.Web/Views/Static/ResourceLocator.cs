@@ -10,7 +10,7 @@ namespace Dolstagis.Web.Views.Static
 {
     public class ResourceLocator
     {
-        public IDictionary<string, IList<IResourceLocation>> _locations
+        private IDictionary<string, IList<IResourceLocation>> _locations
             = new Dictionary<string, IList<IResourceLocation>>(StringComparer.OrdinalIgnoreCase);
 
         public ResourceLocator()
