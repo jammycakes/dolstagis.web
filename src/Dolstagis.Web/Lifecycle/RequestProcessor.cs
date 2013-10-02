@@ -13,15 +13,15 @@ namespace Dolstagis.Web.Lifecycle
     public class RequestProcessor : IRequestProcessor
     {
         private RouteTable _routes;
-        private IList<IViewFactory> _viewFactories;
+        private IList<IResultProcessor> _resultProcessors;
         private Func<ActionInvocation> _createAction;
 
         public RequestProcessor(RouteTable routes,
-            IEnumerable<IViewFactory> viewFactories,
+            IEnumerable<IResultProcessor> resultProcessors,
             Func<ActionInvocation> createAction)
         {
             _routes = routes;
-            _viewFactories = (viewFactories ?? Enumerable.Empty<IViewFactory>()).ToList();
+            _resultProcessors = (resultProcessors ?? Enumerable.Empty<IResultProcessor>()).ToList();
             _createAction = createAction;
         }
 
@@ -73,8 +73,8 @@ namespace Dolstagis.Web.Lifecycle
         public async Task ProcessRequest(IHttpContext context)
         {
             var result = await InvokeRequest(context);
-            var view = _viewFactories.Select(x => x.CreateView(result)).FirstOrDefault() ?? new HtmlView();
-            await view.Render(context, result);
+            var processor = _resultProcessors.LastOrDefault(x => x.CanProcess(result));
+            await processor.Process(result, context);
         }
     }
 }
