@@ -116,13 +116,36 @@ namespace Dolstagis.Web
             this.Routes.Add(new RouteDefinition(typeof(T), route, this, precondition));
         }
 
+        /// <summary>
+        ///  Registers a directory or file of static files.
+        /// </summary>
+        /// <param name="path">
+        ///  The path to the static file or directory.
+        /// </param>
 
         public void AddStaticFiles(string path)
         {
+            AddStaticFiles(path, path);
+        }
+
+        /// <summary>
+        ///  Registers a directory or file of static files at a different location from
+        ///  that within the filespace of the website.
+        /// </summary>
+        /// <param name="path">
+        ///  The virtual path to the static file or directory.
+        /// </param>
+        /// <param name="physicalPath">
+        ///  The physical path to the static file or directory. This may be either relative
+        ///  to the application root, or else an absolute path.
+        /// </param>
+
+        public void AddStaticFiles(string path, string physicalPath)
+        {
             path = path.NormaliseUrlPath();
-            string route = path + "/{path+}";
+            string route = path + "/{path*}";
             AddHandler<StaticHandler>(route);
-            this.Services.For<IResourceLocation>().Singleton().Use(new FilespaceResourceLocation(path));
+            this.Services.For<IResourceLocation>().Singleton().Use(new FilespaceResourceLocation(physicalPath));
         }
     }
 }

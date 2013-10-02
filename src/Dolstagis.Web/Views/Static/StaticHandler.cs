@@ -8,7 +8,7 @@ namespace Dolstagis.Web.Views.Static
 {
     public class StaticHandler : Handler
     {
-        public object Get(string path)
+        public object Get(string path = "")
         {
             return new StaticResult(path);
         }
