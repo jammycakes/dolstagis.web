@@ -11,6 +11,7 @@ namespace WebApp
         public HomeModule()
         {
             AddHandler<Index>();
+            AddStaticFiles("content");
         }
     }
 }
