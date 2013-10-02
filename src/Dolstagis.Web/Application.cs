@@ -31,6 +31,9 @@ namespace Dolstagis.Web
             _container = new Container();
             _container.Configure(x => {
                 x.For<Application>().Singleton().Use(this);
+                x.For<IHttpRequest>().Use(ctx => ctx.GetInstance<IHttpContext>().Request);
+                x.For<IHttpResponse>().Use(ctx => ctx.GetInstance<IHttpContext>().Response);
+                x.For<IHttpApplication>().Use(ctx => ctx.GetInstance<IHttpContext>().Application);
                 x.AddRegistry<CoreServices>();
             });
         }
@@ -120,6 +123,7 @@ namespace Dolstagis.Web
         public async Task ProcessRequestAsync(IHttpContext context)
         {
             using (var childContainer = _container.GetNestedContainer()) {
+                childContainer.Configure(x => x.For<IHttpContext>().Use(context));
                 Exception fault = null;
                 try {
                     var requestProcessor = childContainer.GetInstance<IRequestProcessor>();
