@@ -61,7 +61,6 @@
     <Compile Include="Views\Static\FileResource.cs" />
     <Compile Include="Views\Static\IMimeTypes.cs" />
     <Compile Include="Views\Static\IResource.cs" />
-    <Compile Include="Views\IViewFactory.cs" />
     <Compile Include="Module.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="..\.version\DefaultVersionInfo.cs" Condition="!Exists('..\.version\VersionInfo.cs')">
