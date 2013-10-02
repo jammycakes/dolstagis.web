@@ -14,7 +14,7 @@ namespace Dolstagis.Web
     {
         public CoreServices()
         {
-            For<RouteTable>().Singleton();
+            For<RouteTable>().Singleton().Use<RouteTable>();
             For<IMimeTypes>().Singleton().Use<MimeTypes>();
 
             For<IRequestProcessor>().Use<RequestProcessor>();
