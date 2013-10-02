@@ -24,7 +24,7 @@ namespace Dolstagis.Web.Views.Static
                 .Where(x => x != null).FirstOrDefault();
             if (resource == null) Status.NotFound.Throw();
             context.Response.Status = Status.OK;
-            context.Response.AddHeader("Content-Type", _mimeTypes.GetMimeType(data.Path));
+            context.Response.AddHeader("Content-Type", _mimeTypes.GetMimeType(resource.Name));
             context.Response.AddHeader("Last-Modified", resource.LastModified.ToString("R"));
             if (resource.Length.HasValue) {
                 context.Response.AddHeader("Content-Length", resource.Length.Value.ToString());

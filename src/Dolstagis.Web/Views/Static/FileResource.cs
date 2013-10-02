@@ -25,6 +25,8 @@ namespace Dolstagis.Web.Views.Static
 
         public long? Length { get; private set; }
 
+        public string Name { get { return _fileInfo.Name; } }
+
         public System.IO.Stream Open()
         {
             return new FileStream(_fileInfo.FullName, FileMode.Open, FileAccess.Read);

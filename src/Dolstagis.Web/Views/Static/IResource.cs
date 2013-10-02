@@ -15,6 +15,8 @@ namespace Dolstagis.Web.Views.Static
 
         long? Length { get; }
 
+        string Name { get; }
+
         Stream Open();
     }
 }
