@@ -14,13 +14,10 @@ namespace Dolstagis.Web.Aspnet
         {
             Request = new HttpRequest(httpContext.Request);
             Response = new HttpResponse(httpContext.Response);
-            Application = new HttpApplication(httpContext.Request);
         }
 
         public IHttpRequest Request { get; private set; }
 
         public IHttpResponse Response { get; private set; }
-
-        public IHttpApplication Application { get; private set; }
     }
 }

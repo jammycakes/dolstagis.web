@@ -11,7 +11,5 @@ namespace Dolstagis.Web.Http
         IHttpRequest Request { get; }
 
         IHttpResponse Response { get; }
-
-        IHttpApplication Application { get; }
     }
 }

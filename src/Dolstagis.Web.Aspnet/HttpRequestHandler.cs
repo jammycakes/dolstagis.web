@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Compilation;
+using System.Web.Hosting;
 
 namespace Dolstagis.Web.Aspnet
 {
@@ -45,7 +46,9 @@ namespace Dolstagis.Web.Aspnet
             };
 
             if (_application != null) return;
-            _application = new Application();
+            _application = new Application
+                (HostingEnvironment.ApplicationVirtualPath, HostingEnvironment.ApplicationPhysicalPath);
+
             foreach (var assembly in BuildManager.GetReferencedAssemblies().Cast<Assembly>()) {
                 if (!assembly.IsDynamic && !ignores.Any
                     (x => assembly.FullName.StartsWith(x, StringComparison.InvariantCulture))) {

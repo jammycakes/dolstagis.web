@@ -11,16 +11,18 @@ namespace Dolstagis.Web.Views.Static
     {
         private IList<ResourceLocator> _locators;
         private IMimeTypes _mimeTypes;
+        private Application _application;
 
-        public StaticResultProcessor(IEnumerable<Module> modules, IMimeTypes mimeTypes)
+        public StaticResultProcessor(IEnumerable<Module> modules, IMimeTypes mimeTypes, Application application)
         {
             _locators = modules.Select(x => x.StaticFiles).Where(x => x != null).ToList();
             _mimeTypes = mimeTypes;
+            _application = application;
         }
 
         public override async Task Process(StaticResult data, Http.IHttpContext context)
         {
-            var resource = _locators.Select(x => x.Get(data.Path, context.Application.PhysicalRoot))
+            var resource = _locators.Select(x => x.Get(data.Path, _application.PhysicalPath))
                 .Where(x => x != null).FirstOrDefault();
             if (resource == null) Status.NotFound.Throw();
             context.Response.Status = Status.OK;
