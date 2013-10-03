@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 using System.Web;
 using Dolstagis.Web.Http;
 
-namespace Dolstagis.Web.Aspnet
+namespace Dolstagis.Web
 {
-    public class HttpRequestContext : IRequestContext
+    public class RequestContext : IRequestContext
     {
-        public HttpRequestContext(HttpContextBase httpContext)
+        public RequestContext(IHttpRequest request, IHttpResponse response)
         {
-            Request = new HttpRequest(httpContext.Request);
-            Response = new HttpResponse(httpContext.Response);
+            Request = request;
+            Response = response;
         }
 
         public IHttpRequest Request { get; private set; }

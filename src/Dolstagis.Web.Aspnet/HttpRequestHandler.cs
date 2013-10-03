@@ -26,8 +26,11 @@ namespace Dolstagis.Web.Aspnet
         public override async Task ProcessRequestAsync(HttpContext context)
         {
             EnsureInit();
-            var requestContext = new HttpRequestContext(new HttpContextWrapper(context));
-            await _application.ProcessRequestAsync(requestContext);
+            var abstractContext = new HttpContextWrapper(context);
+
+            var request = new Dolstagis.Web.Aspnet.HttpRequest(abstractContext.Request);
+            var response = new Dolstagis.Web.Aspnet.HttpResponse(abstractContext.Response);
+            await _application.ProcessRequestAsync(request, response);
         }
 
         [MethodImpl(MethodImplOptions.Synchronized)]

@@ -120,9 +120,9 @@ namespace Dolstagis.Web
         ///  The <see cref="IRequestContext"/> containing request and response objects.
         /// </param>
 
-        public void ProcessRequest(IRequestContext context)
+        public void ProcessRequest(IHttpRequest request, IHttpResponse response)
         {
-            ProcessRequestAsync(context).Wait();
+            ProcessRequestAsync(request, response).Wait();
         }
 
         /// <summary>
@@ -135,8 +135,9 @@ namespace Dolstagis.Web
         ///  A <see cref="Task"/> instance.
         /// </returns>
 
-        public async Task ProcessRequestAsync(IRequestContext context)
+        public async Task ProcessRequestAsync(IHttpRequest request, IHttpResponse response)
         {
+            var context = new RequestContext(request, response);
             using (var childContainer = _container.GetNestedContainer()) {
                 childContainer.Configure(x => x.For<IRequestContext>().Use(context));
                 Exception fault = null;
