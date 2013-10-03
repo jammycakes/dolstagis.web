@@ -20,7 +20,7 @@ namespace Dolstagis.Web.Views.Static
             _application = application;
         }
 
-        public override async Task Process(StaticResult data, Http.IHttpContext context)
+        public override async Task Process(StaticResult data, IRequestContext context)
         {
             var resource = _locators.Select(x => x.Get(data.Path, _application.PhysicalPath))
                 .Where(x => x != null).FirstOrDefault();

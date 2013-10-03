@@ -8,7 +8,7 @@ using Dolstagis.Web.Http;
 
 namespace Dolstagis.Web.Aspnet
 {
-    public class HttpRequestContext : IHttpContext
+    public class HttpRequestContext : IRequestContext
     {
         public HttpRequestContext(HttpContextBase httpContext)
         {

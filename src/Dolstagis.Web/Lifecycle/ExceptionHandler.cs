@@ -9,7 +9,7 @@ namespace Dolstagis.Web.Lifecycle
 {
     public class ExceptionHandler : IExceptionHandler
     {
-        public async Task HandleException(Http.IHttpContext context, Exception ex)
+        public async Task HandleException(IRequestContext context, Exception ex)
         {
             context.Response.Status = Status.InternalServerError;
             context.Response.AddHeader("Content-Type", "text/plain");

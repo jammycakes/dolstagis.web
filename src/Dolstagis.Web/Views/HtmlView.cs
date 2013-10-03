@@ -10,7 +10,7 @@ namespace Dolstagis.Web.Views
 {
     public class HtmlView : IView
     {
-        public async Task Render(IHttpContext context, object data)
+        public async Task Render(IRequestContext context, object data)
         {
             var response = context.Response;
             if (data == null) {

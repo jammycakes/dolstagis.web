@@ -9,6 +9,6 @@ namespace Dolstagis.Web.Lifecycle
 {
     public interface IRequestProcessor
     {
-        Task ProcessRequest(IHttpContext context);
+        Task ProcessRequest(IRequestContext context);
     }
 }

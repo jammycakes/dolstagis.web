@@ -47,8 +47,8 @@ namespace Dolstagis.Web
             _container = new Container();
             _container.Configure(x => {
                 x.For<Application>().Singleton().Use(this);
-                x.For<IHttpRequest>().Use(ctx => ctx.GetInstance<IHttpContext>().Request);
-                x.For<IHttpResponse>().Use(ctx => ctx.GetInstance<IHttpContext>().Response);
+                x.For<IHttpRequest>().Use(ctx => ctx.GetInstance<IRequestContext>().Request);
+                x.For<IHttpResponse>().Use(ctx => ctx.GetInstance<IRequestContext>().Response);
                 x.AddRegistry<CoreServices>();
             });
         }
@@ -117,10 +117,10 @@ namespace Dolstagis.Web
         ///  Processes a request synchronously.
         /// </summary>
         /// <param name="context">
-        ///  The <see cref="IHttpContext"/> containing request and response objects.
+        ///  The <see cref="IRequestContext"/> containing request and response objects.
         /// </param>
 
-        public void ProcessRequest(IHttpContext context)
+        public void ProcessRequest(IRequestContext context)
         {
             ProcessRequestAsync(context).Wait();
         }
@@ -129,16 +129,16 @@ namespace Dolstagis.Web
         ///  Processes a request asynchronously.
         /// </summary>
         /// <param name="context">
-        ///  The <see cref="IHttpContext"/> containing request and response objects.
+        ///  The <see cref="IRequestContext"/> containing request and response objects.
         /// </param>
         /// <returns>
         ///  A <see cref="Task"/> instance.
         /// </returns>
 
-        public async Task ProcessRequestAsync(IHttpContext context)
+        public async Task ProcessRequestAsync(IRequestContext context)
         {
             using (var childContainer = _container.GetNestedContainer()) {
-                childContainer.Configure(x => x.For<IHttpContext>().Use(context));
+                childContainer.Configure(x => x.For<IRequestContext>().Use(context));
                 Exception fault = null;
                 try {
                     var requestProcessor = childContainer.GetInstance<IRequestProcessor>();

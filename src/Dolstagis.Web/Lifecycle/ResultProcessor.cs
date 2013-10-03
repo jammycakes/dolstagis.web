@@ -14,11 +14,11 @@ namespace Dolstagis.Web.Lifecycle
             return (data is T);
         }
 
-        public Task Process(object data, IHttpContext context)
+        public Task Process(object data, IRequestContext context)
         {
             return Process((T)data, context);
         }
 
-        public abstract Task Process(T data, IHttpContext context);
+        public abstract Task Process(T data, IRequestContext context);
     }
 }

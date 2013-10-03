@@ -54,7 +54,7 @@
     <Compile Include="CoreServices.cs" />
     <Compile Include="Handler.cs" />
     <Compile Include="HttpStatusException.cs" />
-    <Compile Include="Http\IHttpContext.cs" />
+    <Compile Include="IRequestContext.cs" />
     <Compile Include="Http\IHttpRequest.cs" />
     <Compile Include="Http\IHttpResponse.cs" />
     <Compile Include="Lifecycle\ExceptionHandler.cs" />

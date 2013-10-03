@@ -25,7 +25,7 @@ namespace Dolstagis.Web.Lifecycle
             _createAction = createAction;
         }
 
-        public ActionInvocation GetAction(IHttpContext context)
+        public ActionInvocation GetAction(IRequestContext context)
         {
             var route = _routes.Lookup(context.Request.AppRelativePath);
             if (route == null) return null;
@@ -54,7 +54,7 @@ namespace Dolstagis.Web.Lifecycle
             return action;
         }
 
-        public async Task<object> InvokeRequest(IHttpContext context)
+        public async Task<object> InvokeRequest(IRequestContext context)
         {
             var action = GetAction(context);
             if (action == null) Status.NotFound.Throw();
@@ -70,7 +70,7 @@ namespace Dolstagis.Web.Lifecycle
             }
         }
 
-        public async Task ProcessRequest(IHttpContext context)
+        public async Task ProcessRequest(IRequestContext context)
         {
             var result = await InvokeRequest(context);
             var processor = _resultProcessors.LastOrDefault(x => x.CanProcess(result));
