@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Dolstagis.Web.Http;
+using Dolstagis.Web.Lifecycle;
 
 namespace Dolstagis.Web
 {
@@ -12,5 +13,7 @@ namespace Dolstagis.Web
         IRequest Request { get; }
 
         IResponse Response { get; }
+
+        ActionInvocation Action { get; }
     }
 }

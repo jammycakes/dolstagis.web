@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -137,22 +136,13 @@ namespace Dolstagis.Web
 
         public async Task ProcessRequestAsync(IRequest request, IResponse response)
         {
-            var context = new RequestContext(request, response);
             using (var childContainer = _container.GetNestedContainer()) {
-                childContainer.Configure(x => x.For<IRequestContext>().Use(context));
-                Exception fault = null;
-                try {
-                    var requestProcessor = childContainer.GetInstance<IRequestProcessor>();
-                    await requestProcessor.ProcessRequest(context);
-                }
-                catch (Exception ex) {
-                    fault = ex;
-                }
-
-                if (fault != null) {
-                    var exceptionHandler = childContainer.GetInstance<IExceptionHandler>();
-                    await exceptionHandler.HandleException(context, fault);
-                }
+                childContainer.Configure(x => {
+                    x.For<IContainer>().Use(childContainer);
+                    x.For<IRequest>().Use(request);
+                    x.For<IResponse>().Use(response);
+                });
+                await childContainer.GetInstance<IRequestProcessor>().ProcessRequest(request, response);
             }
         }
 
