@@ -10,7 +10,7 @@ namespace Dolstagis.Web.Http
     ///  Provides an interface to the raw HTTP response.
     /// </summary>
 
-    public interface IHttpResponse
+    public interface IResponse
     {
         /// <summary>
         ///  Adds a header to the response.

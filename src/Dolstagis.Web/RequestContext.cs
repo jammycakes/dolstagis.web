@@ -10,14 +10,14 @@ namespace Dolstagis.Web
 {
     public class RequestContext : IRequestContext
     {
-        public RequestContext(IHttpRequest request, IHttpResponse response)
+        public RequestContext(IRequest request, IResponse response)
         {
             Request = request;
             Response = response;
         }
 
-        public IHttpRequest Request { get; private set; }
+        public IRequest Request { get; private set; }
 
-        public IHttpResponse Response { get; private set; }
+        public IResponse Response { get; private set; }
     }
 }

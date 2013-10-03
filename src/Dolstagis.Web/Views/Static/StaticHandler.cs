@@ -9,9 +9,9 @@ namespace Dolstagis.Web.Views.Static
 {
     public class StaticHandler : Handler
     {
-        private IHttpRequest _request;
+        private IRequest _request;
 
-        public StaticHandler(IHttpRequest request)
+        public StaticHandler(IRequest request)
         {
             _request = request;
         }

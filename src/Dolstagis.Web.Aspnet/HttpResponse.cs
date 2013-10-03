@@ -8,7 +8,7 @@ using Dolstagis.Web.Http;
 
 namespace Dolstagis.Web.Aspnet
 {
-    public class HttpResponse : IHttpResponse
+    public class HttpResponse : IResponse
     {
         private HttpResponseBase _innerResponse;
 

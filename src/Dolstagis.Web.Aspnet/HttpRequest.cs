@@ -9,7 +9,7 @@ using Dolstagis.Web.Http;
 
 namespace Dolstagis.Web.Aspnet
 {
-    public class HttpRequest : IHttpRequest
+    public class HttpRequest : IRequest
     {
         public HttpRequest(HttpRequestBase innerRequest)
         {

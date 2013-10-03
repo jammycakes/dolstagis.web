@@ -10,7 +10,7 @@ namespace Dolstagis.Web.Http
     ///  Represents a raw HTTP request.
     /// </summary>
 
-    public interface IHttpRequest
+    public interface IRequest
     {
         /// <summary>
         ///  Gets the HTTP method.

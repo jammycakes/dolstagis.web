@@ -9,8 +9,8 @@ namespace Dolstagis.Web
 {
     public interface IRequestContext
     {
-        IHttpRequest Request { get; }
+        IRequest Request { get; }
 
-        IHttpResponse Response { get; }
+        IResponse Response { get; }
     }
 }
