@@ -41,7 +41,7 @@ namespace Dolstagis.Web.Views.Static
 
         public void Add(string baseUrl, string physicalPath)
         {
-            Add(baseUrl, new FilespaceResourceLocation(baseUrl.NormaliseUrlPath()));
+            Add(baseUrl, new FilespaceResourceLocation(physicalPath));
         }
 
         /// <summary>
@@ -81,16 +81,28 @@ namespace Dolstagis.Web.Views.Static
         public IResource Get(string path, string appRoot)
         {
             var parts = path.SplitUrlPath();
-            string locatorPath, resourcePath;
-            for (var i = parts.Length - 1; i >= 0; i--) {
-                locatorPath = String.Join("/", parts.Take(i).ToArray());
-                resourcePath = String.Join("/", parts.Skip(i).ToArray());
-                IList<IResourceLocation> locationList;
-                if (_locations.TryGetValue(locatorPath, out locationList)) {
-                    foreach (var location in locationList) {
-                        var resource = location.Get(resourcePath, appRoot);
-                        if (resource != null) return resource;
-                    }
+            if (parts.Any()) {
+                string locatorPath, resourcePath;
+                for (var i = parts.Length - 1; i >= 0; i--) {
+                    locatorPath = String.Join("/", parts.Take(i).ToArray());
+                    resourcePath = String.Join("/", parts.Skip(i).ToArray());
+                    var resource = GetResource(locatorPath, resourcePath, appRoot);
+                    if (resource != null) return resource;
+                }
+                return null;
+            }
+            else {
+                return GetResource("", "", appRoot);
+            }
+        }
+
+        private IResource GetResource(string locatorPath, string resourcePath, string appRoot)
+        {
+            IList<IResourceLocation> locationList;
+            if (_locations.TryGetValue(locatorPath, out locationList)) {
+                foreach (var location in locationList) {
+                    var resource = location.Get(resourcePath, appRoot);
+                    if (resource != null) return resource;
                 }
             }
             return null;

@@ -145,7 +145,26 @@ namespace Dolstagis.Web
             path = path.NormaliseUrlPath();
             string route = path + "/{path*}";
             AddHandler<StaticHandler>(route);
-            this.Services.For<IResourceLocation>().Singleton().Use(new FilespaceResourceLocation(physicalPath));
+            this.StaticFiles.Add(path, physicalPath);
+        }
+
+        /// <summary>
+        ///  Registers a directory or file of static files with a custom <see cref="IResourceLocation" />
+        ///  instance.
+        /// </summary>
+        /// <param name="path">
+        ///  The virtual path to the static file or directory.
+        /// </param>
+        /// <param name="location">
+        ///  The <see cref="IResourceLocation"/> instance used to find the static files.
+        /// </param>
+
+        public void AddStaticFiles(string path, IResourceLocation location)
+        {
+            path = path.NormaliseUrlPath();
+            string route = path + "/{path*}";
+            AddHandler<StaticHandler>(route);
+            this.StaticFiles.Add(path, location);
         }
     }
 }
