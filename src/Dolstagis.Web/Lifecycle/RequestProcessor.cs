@@ -61,6 +61,9 @@ namespace Dolstagis.Web.Lifecycle
             }
 
             if (fault != null) {
+                while (fault is AggregateException && ((AggregateException)fault).InnerExceptions.Count == 1) {
+                    fault = ((AggregateException)fault).InnerExceptions.Single();
+                }
                 await _exceptionHandler.HandleException(context, fault);
             }
         }
