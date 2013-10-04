@@ -16,7 +16,7 @@ namespace Dolstagis.Web
     ///  application which marshals services and manages request lifecycles.
     /// </summary>
 
-    public class Application : IDisposable, Dolstagis.Web.IApplicationContext
+    public class Application : IDisposable, IApplicationContext
     {
         private IContainer _container;
 
@@ -25,7 +25,7 @@ namespace Dolstagis.Web
         ///  or trailing slashes.
         /// </summary>
 
-        public string VirtualPath { get; private set; }
+        public VirtualPath VirtualPath { get; private set; }
 
         /// <summary>
         ///  Gets the root physical path of the application.
@@ -40,7 +40,7 @@ namespace Dolstagis.Web
 
         public Application(string virtualPath, string physicalPath)
         {
-            this.VirtualPath = virtualPath.NormaliseUrlPath();
+            this.VirtualPath = new VirtualPath(virtualPath);
             this.PhysicalPath = physicalPath;
 
             _container = new Container();

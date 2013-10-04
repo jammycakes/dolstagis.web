@@ -5,6 +5,6 @@ namespace Dolstagis.Web
     public interface IApplicationContext
     {
         string PhysicalPath { get; }
-        string VirtualPath { get; }
+        VirtualPath VirtualPath { get; }
     }
 }
