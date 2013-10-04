@@ -15,9 +15,9 @@ namespace Dolstagis.Web.Aspnet
         {
             this.Url = innerRequest.Unvalidated.Url;
             this.Method = innerRequest.HttpMethod;
-            this.Path = Url.AbsolutePath;
-            this.AppRelativePath = Url.AbsolutePath
-                .Substring(innerRequest.ApplicationPath.Length).TrimStart('/');
+            this.Path = new VirtualPath(Url.AbsolutePath);
+            this.AppRelativePath = new VirtualPath("~/" +
+                Url.AbsolutePath.Substring(innerRequest.ApplicationPath.Length).TrimStart('/'));
             this.Protocol = innerRequest.ServerVariables["SERVER_PROTOCOL"];
             this.IsSecure = innerRequest.IsSecureConnection;
             this.Query = innerRequest.Unvalidated.QueryString;
@@ -26,9 +26,9 @@ namespace Dolstagis.Web.Aspnet
 
         public string Method { get; private set; }
 
-        public string Path { get; private set; }
+        public VirtualPath Path { get; private set; }
 
-        public string AppRelativePath { get; private set; }
+        public VirtualPath AppRelativePath { get; private set; }
 
         public string Protocol { get; private set; }
 

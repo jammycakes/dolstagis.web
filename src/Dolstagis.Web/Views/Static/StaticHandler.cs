@@ -18,7 +18,7 @@ namespace Dolstagis.Web.Views.Static
 
         public object Get(string path = "")
         {
-            return new StaticResult(_request.AppRelativePath);
+            return new StaticResult(_request.AppRelativePath.Path);
         }
     }
 }

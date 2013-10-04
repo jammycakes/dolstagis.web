@@ -22,14 +22,14 @@ namespace Dolstagis.Web.Http
         ///  Gets the full path passed in the request.
         /// </summary>
 
-        string Path { get; }
+        VirtualPath Path { get; }
 
         /// <summary>
         ///  Gets the path relative to the application root.
         ///  This MUST NOT start with a slash.
         /// </summary>
 
-        string AppRelativePath { get; }
+        VirtualPath AppRelativePath { get; }
 
         /// <summary>
         ///  Gets the protocol and version (HTTP/1.0 or HTTP/1.1)
