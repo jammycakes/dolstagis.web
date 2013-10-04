@@ -138,7 +138,6 @@ namespace Dolstagis.Web
         {
             using (var childContainer = _container.GetNestedContainer()) {
                 childContainer.Configure(x => {
-                    x.For<IContainer>().Use(childContainer);
                     x.For<IRequest>().Use(request);
                     x.For<IResponse>().Use(response);
                 });
