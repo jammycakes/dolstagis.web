@@ -79,5 +79,17 @@ namespace Dolstagis.Web
                 return new VirtualPath(this.Parts.Concat(other.Parts), this.Type);
             }
         }
+
+        public override string ToString()
+        {
+            switch (Type) {
+                case VirtualPathType.Absolute:
+                    return "/" + Path;
+                case VirtualPathType.AppRelative:
+                    return "~/" + Path;
+                default:
+                    return Path;
+            }
+        }
     }
 }
