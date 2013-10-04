@@ -36,6 +36,18 @@ namespace Dolstagis.Web
         }
 
         /// <summary>
+        ///  Gets a string representation of this HTTP status.
+        /// </summary>
+        /// <returns>
+        ///  The string representation of this status.
+        /// </returns>
+
+        public override string ToString()
+        {
+            return String.Format("{0} {1}", this.Code, this.Description);
+        }
+
+        /// <summary>
         ///  Gets an HTTP status object by code.
         /// </summary>
         /// <param name="code">
