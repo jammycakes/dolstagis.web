@@ -137,13 +137,44 @@ namespace Dolstagis.Web
             if (other == null) return null;
             if (other.Type != this.Type) return null;
             if (this.Type == VirtualPathType.RequestRelative) return null;
+            return GetSubPathInternal(other, ignoreCase, VirtualPathType.RequestRelative);
+        }
+
+        /// <summary>
+        ///  Given that this path is the application path, and that the other path is the
+        ///  request path, gets the app-relative path.
+        /// </summary>
+        /// <param name="other">
+        ///  The request path.
+        /// </param>
+        /// <param name="ignoreCase">
+        ///  true to perform a case-insensitive comparison, or false for case-sensitive.
+        /// </param>
+        /// <returns>
+        ///  A request-relative virtual path from this path to other. Returns null if
+        ///    (a) either path is not absolute, or
+        ///    (c) other is not a sub-path of this.
+        /// </returns>
+
+        public VirtualPath GetAppRelativePath(VirtualPath other, bool ignoreCase)
+        {
+            if (other == null) return null;
+            if (this.Type != VirtualPathType.Absolute || other.Type != VirtualPathType.Absolute) return null;
+            return GetSubPathInternal(other, ignoreCase, VirtualPathType.AppRelative);
+        }
+
+        private VirtualPath GetSubPathInternal(VirtualPath other, bool ignoreCase, VirtualPathType type)
+        {
             if (this.Parts.Count > other.Parts.Count) return null;
             var comparison = ignoreCase ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal;
             for (var i = 0; i < this.Parts.Count; i++) {
                 if (!this.Parts[i].Equals(other.Parts[i], comparison)) return null;
             }
-            return new VirtualPath(other.Parts.Skip(this.Parts.Count), VirtualPathType.RequestRelative);
+            return new VirtualPath(other.Parts.Skip(this.Parts.Count), type);
         }
+
+
+        /* ====== Object method overrides ====== */
 
         public override string ToString()
         {
