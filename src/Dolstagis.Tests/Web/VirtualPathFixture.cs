@@ -40,5 +40,29 @@ namespace Dolstagis.Tests.Web
             Assert.AreEqual(expectedType, actual.Type);
             Assert.AreEqual(expectedPath, actual.Path);
         }
+
+        [TestCase("/one/two", "/one/two/three/four", false, "three/four")]
+        [TestCase("~/one/two", "~/one/two/three/four", false, "three/four")]
+        [TestCase("/one/two", "/ONE/TWO/three/four", true, "three/four")]
+        [TestCase("/one/two", "/ONE/TWO/three/four", false, null)]
+        [TestCase("one/two", "one/two/three/four", false, null)]
+        [TestCase("/one/two", "~/one/two/three/four", false, null)]
+        [TestCase("~/one/two", "/one/two/three/four", false, null)]
+        [TestCase("/one/two", "/one/three/three/four", false, null)]
+        public void CanGetSubPath(string first, string second, bool ignoreCase, string expected)
+        {
+            var v1 = new VirtualPath(first);
+            var v2 = new VirtualPath(second);
+            var diff = v1.GetSubPath(v2, ignoreCase);
+            if (expected == null) {
+                Assert.IsNull(diff);
+            }
+            else {
+                Assert.AreEqual(expected, diff.ToString());
+            }
+
+
+
+        }
     }
 }
