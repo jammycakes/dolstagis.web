@@ -66,6 +66,7 @@
     <Compile Include="Lifecycle\RequestContextBuilder.cs" />
     <Compile Include="Lifecycle\ResultProcessor.cs" />
     <Compile Include="RequestContext.cs" />
+    <Compile Include="Views\Nustache\NustacheViewEngine.cs" />
     <Compile Include="Views\Static\FileResource.cs" />
     <Compile Include="Views\Static\IMimeTypes.cs" />
     <Compile Include="Views\Static\IResource.cs" />
@@ -102,6 +103,7 @@
     <Compile Include="Views\Static\StaticHandler.cs" />
     <Compile Include="Views\Static\StaticResultProcessor.cs" />
     <Compile Include="Views\IViewEngine.cs" />
+    <Compile Include="Views\ViewEngineBase.cs" />
     <Compile Include="Views\ViewEngineRegistry.cs" />
   </ItemGroup>
   <ItemGroup>

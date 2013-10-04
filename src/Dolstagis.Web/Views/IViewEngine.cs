@@ -9,5 +9,7 @@ namespace Dolstagis.Web.Views
     public interface IViewEngine
     {
         IEnumerable<string> Extensions { get; }
+
+        IView GetView(string pathToView);
     }
 }
