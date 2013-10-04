@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Dolstagis.Web.Views.Static
+namespace Dolstagis.Web.Static
 {
     public interface IResource
     {

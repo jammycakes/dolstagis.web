@@ -5,9 +5,9 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace Dolstagis.Web.Views.Static
+namespace Dolstagis.Web.Static
 {
-    public class MimeTypes : Dolstagis.Web.Views.Static.IMimeTypes
+    public class MimeTypes : Dolstagis.Web.Static.IMimeTypes
     {
         // Taken from http://stackoverflow.com/questions/1029740/get-mime-type-from-filename-extension/3393525#3393525
         // Note: we're not using System.Web.MimeMapping for two reasons.

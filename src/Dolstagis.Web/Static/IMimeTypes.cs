@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Dolstagis.Web.Views.Static
+namespace Dolstagis.Web.Static
 {
     public interface IMimeTypes
     {
