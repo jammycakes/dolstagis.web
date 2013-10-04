@@ -83,6 +83,7 @@
     <Compile Include="Web\TestModules\Handlers\ChildHandler.cs" />
     <Compile Include="Web\TestModules\Handlers\LanguageHandler.cs" />
     <Compile Include="Web\TestModules\Handlers\RootHandler.cs" />
+    <Compile Include="Web\VirtualPathFixture.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Dolstagis.Web.Aspnet\Dolstagis.Web.Aspnet.csproj">

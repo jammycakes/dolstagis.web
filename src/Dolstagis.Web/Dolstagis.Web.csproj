@@ -66,6 +66,7 @@
     <Compile Include="Lifecycle\IResultProcessor.cs" />
     <Compile Include="Lifecycle\RequestContextBuilder.cs" />
     <Compile Include="Lifecycle\ResultProcessor.cs" />
+    <Compile Include="VirtualPath.cs" />
     <Compile Include="RequestContext.cs" />
     <Compile Include="Views\Nustache\NustacheViewEngine.cs" />
     <Compile Include="Static\FileResource.cs" />
@@ -106,6 +107,7 @@
     <Compile Include="Views\IViewEngine.cs" />
     <Compile Include="Views\ViewEngineBase.cs" />
     <Compile Include="Views\ViewEngineRegistry.cs" />
+    <Compile Include="VirtualPathType.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
