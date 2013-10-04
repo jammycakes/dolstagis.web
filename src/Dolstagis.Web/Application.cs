@@ -47,8 +47,6 @@ namespace Dolstagis.Web
             _container.Configure(x => {
                 x.For<Application>().Singleton().Use(this);
                 x.For<IApplicationContext>().Singleton().Use(this);
-                x.For<IRequest>().Use(ctx => ctx.GetInstance<IRequestContext>().Request);
-                x.For<IResponse>().Use(ctx => ctx.GetInstance<IRequestContext>().Response);
                 x.AddRegistry<CoreServices>();
             });
         }
