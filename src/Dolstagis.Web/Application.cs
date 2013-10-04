@@ -16,7 +16,7 @@ namespace Dolstagis.Web
     ///  application which marshals services and manages request lifecycles.
     /// </summary>
 
-    public class Application : IDisposable
+    public class Application : IDisposable, Dolstagis.Web.IApplicationContext
     {
         private IContainer _container;
 
@@ -46,6 +46,7 @@ namespace Dolstagis.Web
             _container = new Container();
             _container.Configure(x => {
                 x.For<Application>().Singleton().Use(this);
+                x.For<IApplicationContext>().Singleton().Use(this);
                 x.For<IRequest>().Use(ctx => ctx.GetInstance<IRequestContext>().Request);
                 x.For<IResponse>().Use(ctx => ctx.GetInstance<IRequestContext>().Response);
                 x.AddRegistry<CoreServices>();

@@ -44,15 +44,15 @@ namespace Dolstagis.Web
 
         public bool Enabled { get; set; }
 
-        /// <summary>
-        ///  Creates a new instance of this module.
-        /// </summary>
-
         #region /* ====== Implementation of IRouteRegistry ====== */
 
         public IList<IRouteDefinition> Routes { get; private set; }
 
         #endregion
+
+        /// <summary>
+        ///  Creates a new instance of this module.
+        /// </summary>
 
         public Module()
         {
