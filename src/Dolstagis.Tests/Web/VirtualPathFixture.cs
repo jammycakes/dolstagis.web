@@ -60,9 +60,16 @@ namespace Dolstagis.Tests.Web
             else {
                 Assert.AreEqual(expected, diff.ToString());
             }
+        }
 
-
-
+        [TestCase("/", VirtualPathType.Absolute)]
+        [TestCase("~/", VirtualPathType.AppRelative)]
+        [TestCase("", VirtualPathType.RequestRelative)]
+        public void CanGetRootPath(string path, VirtualPathType expectedType)
+        {
+            var vPath = new VirtualPath(path);
+            CollectionAssert.IsEmpty(vPath.Parts);
+            Assert.AreEqual(expectedType, vPath.Type);
         }
     }
 }

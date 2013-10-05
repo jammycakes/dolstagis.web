@@ -74,7 +74,11 @@ namespace Dolstagis.Web
 
         private IEnumerable<string> GetParts(string path)
         {
-            return GetParts(path.Trim('/').Split('/'));
+            var parts = path.Trim('/').Split('/');
+            if (parts.Length == 1 && String.IsNullOrEmpty(parts[0])) {
+                parts = new string[0];
+            }
+            return GetParts(parts);
         }
 
         private IEnumerable<string> GetParts(IEnumerable<string> parts)
