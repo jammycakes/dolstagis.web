@@ -68,6 +68,7 @@
     <Compile Include="Lifecycle\ResultProcessor.cs" />
     <Compile Include="Static\FileResourceLocation.cs" />
     <Compile Include="Static\ResourceLocation.cs" />
+    <Compile Include="Static\ResourceLocator.cs" />
     <Compile Include="VirtualPath.cs" />
     <Compile Include="RequestContext.cs" />
     <Compile Include="Views\Nustache\NustacheViewEngine.cs" />
