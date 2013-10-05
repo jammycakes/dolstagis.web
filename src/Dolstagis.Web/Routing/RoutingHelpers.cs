@@ -8,6 +8,7 @@ namespace Dolstagis.Web.Routing
 {
     public static class RoutingHelpers
     {
+        // [Obsolete("Use VirtualPath class instead", true)]
         private static string[] NormalisePathParts(string[] path)
         {
             var parts = new Stack<string>();

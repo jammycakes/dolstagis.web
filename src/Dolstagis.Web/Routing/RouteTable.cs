@@ -113,10 +113,10 @@ namespace Dolstagis.Web.Routing
         ///  A <see cref="RouteInfo"/> instance, or null if no routes match.
         /// </returns>
 
-        public RouteInfo Lookup(string path)
+        public RouteInfo Lookup(VirtualPath path)
         {
             EnsureRouteTable();
-            var parts = path.SplitUrlPath();
+            var parts = path.Parts.ToArray();
             var candidates = GetCandidates(Root, parts, 0);
             return candidates.Select(x => GetRouteInfo(x, parts))
                 .LastOrDefault(x => x.Definition != null && x.Definition.Module.Enabled);
