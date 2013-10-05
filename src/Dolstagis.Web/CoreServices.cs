@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Dolstagis.Web.Lifecycle;
 using Dolstagis.Web.Routing;
 using Dolstagis.Web.Static;
-using Dolstagis.Web.Views.Static;
+using vs = Dolstagis.Web.Views.Static;
 using StructureMap.Configuration.DSL;
 
 namespace Dolstagis.Web
@@ -22,7 +22,7 @@ namespace Dolstagis.Web
             For<IRequestProcessor>().Use<RequestProcessor>();
             For<IExceptionHandler>().Use<ExceptionHandler>();
 
-            For<IResultProcessor>().Singleton().Add<StaticResultProcessor>();
+            For<IResultProcessor>().Singleton().Add<vs.StaticResultProcessor>();
         }
     }
 }

@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Dolstagis.Web.Routing;
 using Dolstagis.Web.Views;
-using Dolstagis.Web.Views.Static;
+using vs = Dolstagis.Web.Views.Static;
 using StructureMap.Configuration.DSL;
 
 namespace Dolstagis.Web
@@ -24,13 +24,13 @@ namespace Dolstagis.Web
         ///  Gets the registry of HTML templates.
         /// </summary>
 
-        public ResourceLocator Templates { get; private set; }
+        public vs.ResourceLocator Templates { get; private set; }
 
         /// <summary>
         ///  Gets the registry of static files.
         /// </summary>
 
-        public ResourceLocator StaticFiles { get; private set; }
+        public vs.ResourceLocator StaticFiles { get; private set; }
 
         /// <summary>
         ///  Gets the text description of the module.
@@ -59,8 +59,8 @@ namespace Dolstagis.Web
             this.Enabled = true;
             this.Routes = new List<IRouteDefinition>();
             this.Services = new Registry();
-            this.Templates = new ResourceLocator();
-            this.StaticFiles = new ResourceLocator();
+            this.Templates = new vs.ResourceLocator();
+            this.StaticFiles = new vs.ResourceLocator();
         }
 
         /// <summary>
@@ -144,7 +144,7 @@ namespace Dolstagis.Web
         {
             path = path.NormaliseUrlPath();
             string route = path + "/{path*}";
-            AddHandler<StaticHandler>(route);
+            AddHandler<vs.StaticHandler>(route);
             this.StaticFiles.Add(path, physicalPath);
         }
 
@@ -159,11 +159,11 @@ namespace Dolstagis.Web
         ///  The <see cref="IResourceLocation"/> instance used to find the static files.
         /// </param>
 
-        public void AddStaticFiles(string path, IResourceLocation location)
+        public void AddStaticFiles(string path, vs.IResourceLocation location)
         {
             path = path.NormaliseUrlPath();
             string route = path + "/{path*}";
-            AddHandler<StaticHandler>(route);
+            AddHandler<vs.StaticHandler>(route);
             this.StaticFiles.Add(path, location);
         }
     }
