@@ -21,7 +21,7 @@ namespace Dolstagis.Web.Routing
 
         private void AddRouteToTable(IRouteDefinition definition)
         {
-            var pathParts = definition.Route.SplitUrlPath();
+            var pathParts = definition.Route.Split(new[] { '/' }, StringSplitOptions.RemoveEmptyEntries);
             var target = Root;
             foreach (var name in pathParts) {
                 target = target.GetOrCreateChild(name);
