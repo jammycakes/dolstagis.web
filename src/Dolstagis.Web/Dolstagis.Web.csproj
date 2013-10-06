@@ -72,6 +72,7 @@
     <Compile Include="Static\StaticRequestHandler.cs" />
     <Compile Include="Static\StaticResult.cs" />
     <Compile Include="Static\StaticResultProcessor.cs" />
+    <Compile Include="Views\ViewResultProcessor.cs" />
     <Compile Include="VirtualPath.cs" />
     <Compile Include="RequestContext.cs" />
     <Compile Include="Views\Nustache\NustacheViewEngine.cs" />
