@@ -148,9 +148,54 @@ namespace Dolstagis.Web
                     )
                 );
             }
+        }
+
+
+        /// <summary>
+        ///  Registers a directory or file of static files.
+        /// </summary>
+        /// <param name="path">
+        ///  The path to the static file or directory.
+        /// </param>
+
+        public void AddViews(string path)
+        {
+            var vPath = new VirtualPath(path);
+            Services.For<ResourceLocation>()
+                .Add(ctx => new FileResourceLocation("Views", vPath, ctx.GetInstance<IApplicationContext>()));
 
             string route = vPath.Path + "/{path*}";
             AddHandler<StaticRequestHandler>(route);
+        }
+
+        /// <summary>
+        ///  Registers a directory or file of static files at a different location from
+        ///  that within the filespace of the website.
+        /// </summary>
+        /// <param name="path">
+        ///  The virtual path to the static file or directory.
+        /// </param>
+        /// <param name="physicalPath">
+        ///  The physical path to the static file or directory. This may be either relative
+        ///  to the application root, or else an absolute path.
+        /// </param>
+
+        public void AddViews(string path, string physicalPath)
+        {
+            var vPath = new VirtualPath(path);
+            if (Path.IsPathRooted(physicalPath)) {
+                Services.For<ResourceLocation>()
+                    .Add(ctx => new FileResourceLocation("Views", vPath, physicalPath));
+            }
+            else {
+                Services.For<ResourceLocation>()
+                    .Add(ctx => new FileResourceLocation(
+                        "Views", vPath,
+                        new VirtualPath(physicalPath),
+                        ctx.GetInstance<IApplicationContext>()
+                    )
+                );
+            }
         }
     }
 }
