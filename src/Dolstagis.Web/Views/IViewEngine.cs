@@ -10,6 +10,6 @@ namespace Dolstagis.Web.Views
     {
         IEnumerable<string> Extensions { get; }
 
-        IView GetView(string pathToView);
+        IView GetView(VirtualPath pathToView);
     }
 }

@@ -14,10 +14,10 @@ namespace Dolstagis.Web.Views
 
         public abstract IEnumerable<string> Extensions { get; }
 
-        public IView GetView(string pathToView)
+        public IView GetView(VirtualPath pathToView)
         {
             IView result;
-            string key = pathToView.NormaliseUrlPath();
+            string key = pathToView.Path;
             if (!_cache.TryGetValue(key, out result)) {
                 result = CreateView(key);
                 _cache[key] = result;
