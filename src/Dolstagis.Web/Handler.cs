@@ -8,5 +8,6 @@ namespace Dolstagis.Web
 {
     public class Handler
     {
+        public IRequestContext Context { get; internal set; }
     }
 }

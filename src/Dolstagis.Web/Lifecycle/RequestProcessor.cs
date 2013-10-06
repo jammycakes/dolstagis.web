@@ -30,7 +30,7 @@ namespace Dolstagis.Web.Lifecycle
             var action = context.Action;
             if (action == null) Status.NotFound.Throw();
             if (action.Method == null) Status.MethodNotAllowed.Throw();
-            var result = action.Invoke();
+            var result = action.Invoke(context);
             if (result == null) Status.NotFound.Throw();
             if (result is Task) {
                 await (Task)result;
