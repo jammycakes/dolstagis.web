@@ -8,12 +8,15 @@ namespace Dolstagis.Web.Static
 {
     public abstract class ResourceLocation
     {
+        public string Type { get; private set; }
+
         public VirtualPath Root { get; private set; }
 
         protected abstract IResource CreateResource(VirtualPath path);
 
-        protected ResourceLocation(VirtualPath root)
+        protected ResourceLocation(string type, VirtualPath root)
         {
+            Type = type;
             if (root.Type != VirtualPathType.AppRelative) {
                 throw new ArgumentException("The root path must be app-relative.");
             }

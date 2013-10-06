@@ -4,27 +4,23 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Dolstagis.Web.Lifecycle;
-using Dolstagis.Web.Static;
 
-namespace Dolstagis.Web.Views.Static
+namespace Dolstagis.Web.Static
 {
     public class StaticResultProcessor : ResultProcessor<StaticResult>
     {
-        private IList<ResourceLocator> _locators;
+        private ResourceLocator _locator;
         private IMimeTypes _mimeTypes;
-        private Application _application;
 
-        public StaticResultProcessor(IEnumerable<Module> modules, IMimeTypes mimeTypes, Application application)
+        public StaticResultProcessor(ResourceLocator locator, IMimeTypes mimeTypes)
         {
-            _locators = modules.Select(x => x.StaticFiles).Where(x => x != null).ToList();
+            _locator = locator;
             _mimeTypes = mimeTypes;
-            _application = application;
         }
 
         public override async Task Process(StaticResult data, IRequestContext context)
         {
-            var resource = _locators.Select(x => x.Get(data.Path, _application.PhysicalPath))
-                .Where(x => x != null).FirstOrDefault();
+            var resource = _locator.GetResource(data.Path);
             if (resource == null) Status.NotFound.Throw();
             context.Response.Status = Status.OK;
             context.Response.AddHeader("Content-Type", _mimeTypes.GetMimeType(resource.Name));

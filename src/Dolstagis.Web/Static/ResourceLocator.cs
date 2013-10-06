@@ -10,9 +10,9 @@ namespace Dolstagis.Web.Static
     {
         private IEnumerable<ResourceLocation> _locations;
 
-        public ResourceLocator(IEnumerable<ResourceLocation> locations)
+        public ResourceLocator(string type, IEnumerable<ResourceLocation> locations)
         {
-            _locations = locations;
+            _locations = locations.Where(x => x.Type == type).ToList(); ;
         }
 
         public IResource GetResource(VirtualPath path)
@@ -20,6 +20,7 @@ namespace Dolstagis.Web.Static
             var candidates =
                 from location in _locations
                 let mine = location.Root.GetSubPath(path, true)
+                where mine != null
                 orderby location.Root.Parts.Count descending
                 let resource = location.GetResource(mine)
                 where resource != null

@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using Dolstagis.Web.Lifecycle;
 using Dolstagis.Web.Routing;
 using Dolstagis.Web.Static;
-using vs = Dolstagis.Web.Views.Static;
 using StructureMap.Configuration.DSL;
 
 namespace Dolstagis.Web
@@ -22,7 +21,12 @@ namespace Dolstagis.Web
             For<IRequestProcessor>().Use<RequestProcessor>();
             For<IExceptionHandler>().Use<ExceptionHandler>();
 
-            For<IResultProcessor>().Singleton().Add<vs.StaticResultProcessor>();
+            For<ResourceLocator>().Singleton().Use<ResourceLocator>();
+
+            For<IResultProcessor>().Singleton().Add<StaticResultProcessor>()
+                .Ctor<ResourceLocator>().Is(ctx => new ResourceLocator
+                    ("StaticFiles", ctx.GetAllInstances<ResourceLocation>())
+                );
         }
     }
 }

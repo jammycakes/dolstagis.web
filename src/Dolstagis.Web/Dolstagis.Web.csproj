@@ -69,6 +69,9 @@
     <Compile Include="Static\FileResourceLocation.cs" />
     <Compile Include="Static\ResourceLocation.cs" />
     <Compile Include="Static\ResourceLocator.cs" />
+    <Compile Include="Static\StaticRequestHandler.cs" />
+    <Compile Include="Static\StaticResult.cs" />
+    <Compile Include="Static\StaticResultProcessor.cs" />
     <Compile Include="VirtualPath.cs" />
     <Compile Include="RequestContext.cs" />
     <Compile Include="Views\Nustache\NustacheViewEngine.cs" />
@@ -99,14 +102,9 @@
     <Compile Include="StaticResult.cs" />
     <Compile Include="Status.cs" />
     <Compile Include="ViewResult.cs" />
-    <Compile Include="Views\Static\FilespaceResourceLocation.cs" />
     <Compile Include="Views\HtmlView.cs" />
     <Compile Include="Views\IView.cs" />
     <Compile Include="Static\MimeTypes.cs" />
-    <Compile Include="Views\Static\ResourceLocator.cs" />
-    <Compile Include="Views\Static\IResourceLocation.cs" />
-    <Compile Include="Views\Static\StaticHandler.cs" />
-    <Compile Include="Views\Static\StaticResultProcessor.cs" />
     <Compile Include="Views\IViewEngine.cs" />
     <Compile Include="Views\ViewEngineBase.cs" />
     <Compile Include="Views\ViewEngineRegistry.cs" />

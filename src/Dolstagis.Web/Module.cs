@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using Dolstagis.Web.Routing;
 using Dolstagis.Web.Views;
-using vs = Dolstagis.Web.Views.Static;
 using StructureMap.Configuration.DSL;
 using Dolstagis.Web.Static;
+using System.IO;
 
 namespace Dolstagis.Web
 {
@@ -20,18 +20,6 @@ namespace Dolstagis.Web
     public class Module : IRouteRegistry
     {
         public Registry Services { get; private set; }
-
-        /// <summary>
-        ///  Gets the registry of HTML templates.
-        /// </summary>
-
-        public vs.ResourceLocator Templates { get; private set; }
-
-        /// <summary>
-        ///  Gets the registry of static files.
-        /// </summary>
-
-        public vs.ResourceLocator StaticFiles { get; private set; }
 
         /// <summary>
         ///  Gets the text description of the module.
@@ -60,8 +48,6 @@ namespace Dolstagis.Web
             this.Enabled = true;
             this.Routes = new List<IRouteDefinition>();
             this.Services = new Registry();
-            this.Templates = new vs.ResourceLocator();
-            this.StaticFiles = new vs.ResourceLocator();
         }
 
         /// <summary>
@@ -127,11 +113,11 @@ namespace Dolstagis.Web
         public void AddStaticFiles(string path)
         {
             var vPath = new VirtualPath(path);
-            Services.For<ResourceLocation>().Singleton().Add<FileResourceLocation>()
-                .Ctor<VirtualPath>("root").Is(vPath).Named("StaticFiles");
+            Services.For<ResourceLocation>()
+                .Add(ctx => new FileResourceLocation("StaticFiles", vPath, ctx.GetInstance<IApplicationContext>()));
 
-            // TODO: refactor once old code is deprecated
-            AddStaticFiles(path, path);
+            string route = vPath.Path + "/{path*}";
+            AddHandler<StaticRequestHandler>(route);
         }
 
         /// <summary>
@@ -149,18 +135,22 @@ namespace Dolstagis.Web
         public void AddStaticFiles(string path, string physicalPath)
         {
             var vPath = new VirtualPath(path);
-            Services.For<ResourceLocation>().Singleton().Add<FileResourceLocation>()
-                .Ctor<VirtualPath>("root").Is(vPath)
-                .Ctor<string>("fileLocation").Is(physicalPath)
-                .Named("StaticFiles");
+            if (Path.IsPathRooted(physicalPath)) {
+                Services.For<ResourceLocation>()
+                    .Add(ctx => new FileResourceLocation("StaticFiles", vPath, physicalPath));
+            }
+            else {
+                Services.For<ResourceLocation>()
+                    .Add(ctx => new FileResourceLocation(
+                        "StaticFiles", vPath,
+                        new VirtualPath(physicalPath),
+                        ctx.GetInstance<IApplicationContext>()
+                    )
+                );
+            }
 
-            // TODO: remove once old code is deprecated
-            path = path.NormaliseUrlPath();
-
-            // TODO: refactor once old code is deprecated
-            string route = path + "/{path*}";
-            AddHandler<vs.StaticHandler>(route);
-            this.StaticFiles.Add(path, physicalPath);
+            string route = vPath.Path + "/{path*}";
+            AddHandler<StaticRequestHandler>(route);
         }
     }
 }

@@ -20,8 +20,8 @@ namespace Dolstagis.Web.Static
         /// </param>
         /// <param name="application"></param>
 
-        public FileResourceLocation(VirtualPath root, IApplicationContext application)
-            : base(root)
+        public FileResourceLocation(string type, VirtualPath root, IApplicationContext application)
+            : base(type, root)
         {
             var parts = new string[] { application.PhysicalPath }.Concat(root.Parts).ToArray();
             FileLocation = Path.Combine(parts);
@@ -34,14 +34,17 @@ namespace Dolstagis.Web.Static
         /// <param name="root">
         ///  The root URL for the files. This must be app-relative.
         /// </param>
-        /// <param name="fileLocation">
+        /// <param name="physicalFileLocation">
         ///  The location in the filespace where the files are located.
         /// </param>
 
-        public FileResourceLocation(VirtualPath root, string fileLocation)
-            : base(root)
+        public FileResourceLocation(string type, VirtualPath root, string physicalFileLocation)
+            : base(type, root)
         {
-            FileLocation = fileLocation;
+            if (!Path.IsPathRooted(physicalFileLocation)) {
+                throw new ArgumentException("Physical file location must be an absolute path.");
+            }
+            FileLocation = physicalFileLocation;
         }
 
         /// <summary>
@@ -51,25 +54,25 @@ namespace Dolstagis.Web.Static
         /// <param name="root">
         ///  The root URL for the files. This must be app-relative.
         /// </param>
-        /// <param name="fileLocation">
+        /// <param name="virtualFileLocation">
         ///  The location in the application where the files are located. This may be either
         ///  app-relative or request-relative; in the latter case, it will be taken as being
         ///  relative to the root.
         /// </param>
         /// <param name="application"></param>
 
-        public FileResourceLocation(VirtualPath root, VirtualPath fileLocation, IApplicationContext application)
-            : base(root)
+        public FileResourceLocation(string type, VirtualPath root, VirtualPath virtualFileLocation, IApplicationContext application)
+            : base(type, root)
         {
-            switch (fileLocation.Type) {
+            switch (virtualFileLocation.Type) {
                 case VirtualPathType.Absolute:
                     throw new ArgumentException("The file location must be within the application.", "fileLocation");
                 case VirtualPathType.RequestRelative:
-                    fileLocation = root.Append(fileLocation);
+                    virtualFileLocation = root.Append(virtualFileLocation);
                     break;
             }
 
-            var parts = new string[] { application.PhysicalPath }.Concat(fileLocation.Parts).ToArray();
+            var parts = new string[] { application.PhysicalPath }.Concat(virtualFileLocation.Parts).ToArray();
             FileLocation = Path.Combine(parts);
         }
 
