@@ -19,12 +19,12 @@ namespace Dolstagis.Web.Views
             IView result;
             string key = pathToView.Path;
             if (!_cache.TryGetValue(key, out result)) {
-                result = CreateView(key);
+                result = CreateView(pathToView);
                 _cache[key] = result;
             }
             return result;
         }
 
-        protected abstract IView CreateView(string pathToView);
+        protected abstract IView CreateView(VirtualPath pathToView);
     }
 }

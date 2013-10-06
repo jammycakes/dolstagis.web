@@ -16,7 +16,7 @@ namespace Dolstagis.Web.Views.Nustache
             get { return _extensions; }
         }
 
-        protected override IView CreateView(string pathToView)
+        protected override IView CreateView(VirtualPath pathToView)
         {
             throw new NotImplementedException();
         }
