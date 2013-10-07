@@ -7,7 +7,7 @@ using Dolstagis.Web.Static;
 
 namespace Dolstagis.Web.Views
 {
-    public class ViewEngineRegistry
+    public class ViewRegistry
     {
         private IDictionary<string, IViewEngine> _viewEngines
             = new Dictionary<string, IViewEngine>(StringComparer.OrdinalIgnoreCase);
@@ -17,7 +17,7 @@ namespace Dolstagis.Web.Views
 
         private ResourceLocator _locator;
 
-        public ViewEngineRegistry(ResourceLocator locator, IEnumerable<IViewEngine> viewEngines)
+        public ViewRegistry(ResourceLocator locator, IEnumerable<IViewEngine> viewEngines)
         {
             _locator = locator;
             foreach (var engine in viewEngines)

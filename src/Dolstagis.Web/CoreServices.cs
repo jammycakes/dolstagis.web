@@ -29,7 +29,7 @@ namespace Dolstagis.Web
                     ("StaticFiles", ctx.GetAllInstances<ResourceLocation>())
                 );
 
-            For<ViewEngineRegistry>().Singleton().Use<ViewEngineRegistry>()
+            For<ViewRegistry>().Singleton().Use<ViewRegistry>()
                 .Ctor<ResourceLocator>().Is(ctx => new ResourceLocator
                     ("Views", ctx.GetAllInstances<ResourceLocation>())
                 );

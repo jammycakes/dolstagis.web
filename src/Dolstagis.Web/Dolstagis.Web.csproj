@@ -108,7 +108,7 @@
     <Compile Include="Static\MimeTypes.cs" />
     <Compile Include="Views\IViewEngine.cs" />
     <Compile Include="Views\ViewEngineBase.cs" />
-    <Compile Include="Views\ViewEngineRegistry.cs" />
+    <Compile Include="Views\ViewRegistry.cs" />
     <Compile Include="VirtualPathType.cs" />
   </ItemGroup>
   <ItemGroup>

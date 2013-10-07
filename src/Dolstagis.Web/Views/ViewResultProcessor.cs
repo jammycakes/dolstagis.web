@@ -9,9 +9,9 @@ namespace Dolstagis.Web.Views
 {
     public class ViewResultProcessor : ResultProcessor<ViewResult>
     {
-        private ViewEngineRegistry _registry;
+        private ViewRegistry _registry;
 
-        public ViewResultProcessor(ViewEngineRegistry registry)
+        public ViewResultProcessor(ViewRegistry registry)
         {
             _registry = registry;
         }
