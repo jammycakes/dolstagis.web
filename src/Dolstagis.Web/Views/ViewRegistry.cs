@@ -12,9 +12,6 @@ namespace Dolstagis.Web.Views
         private IDictionary<string, IViewEngine> _viewEngines
             = new Dictionary<string, IViewEngine>(StringComparer.OrdinalIgnoreCase);
 
-        private IDictionary<string, IView> _viewCache
-            = new Dictionary<string, IView>(StringComparer.OrdinalIgnoreCase);
-
         private IResourceLocator _locator;
 
         public ViewRegistry(IResourceLocator locator, IEnumerable<IViewEngine> viewEngines)
@@ -44,20 +41,8 @@ namespace Dolstagis.Web.Views
 
         public IView GetView(VirtualPath pathToView)
         {
-            if (pathToView == null) throw new ArgumentNullException("pathToView");
-            if (!pathToView.Parts.Any()) throw new ArgumentException("Path to view can not be empty.", "pathToView");
-            IView result;
-            string key = pathToView.Path;
-            if (!_viewCache.TryGetValue(key, out result)) {
-                result = CreateView(pathToView);
-                _viewCache[key] = result;
-            }
-            return result;
-        }
-
-        private IView CreateView(VirtualPath pathToView)
-        {
-            return null;
+            var engine = this.GetViewEngine(pathToView);
+            return engine.GetView(pathToView, _locator);
         }
     }
 }
