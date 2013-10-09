@@ -10,8 +10,9 @@ namespace WebApp
     {
         public HomeModule()
         {
-            AddStaticFiles("~/", "index.html");
             AddStaticFiles("~/content");
+            AddHandler<Index>();
+            AddViews("~/", "views");
         }
     }
 }

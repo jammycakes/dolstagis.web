@@ -10,9 +10,9 @@ namespace WebApp
     [Route("/")]
     public class Index : Handler
     {
-        public string Get()
+        public object Get()
         {
-            return "Hello world";
+            return new ViewResult("~/hello.nustache", new { Message = "Hello from Nustache" });
         }
     }
 }

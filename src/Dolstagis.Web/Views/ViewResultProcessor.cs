@@ -16,9 +16,10 @@ namespace Dolstagis.Web.Views
             _registry = registry;
         }
 
-        public override Task Process(ViewResult data, IRequestContext context)
+        public override async Task Process(ViewResult data, IRequestContext context)
         {
-            throw new NotImplementedException();
+            var view = _registry.GetView(data.Path);
+            await view.Render(context, data);
         }
     }
 }

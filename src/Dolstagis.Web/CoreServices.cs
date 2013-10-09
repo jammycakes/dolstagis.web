@@ -7,6 +7,7 @@ using Dolstagis.Web.Lifecycle;
 using Dolstagis.Web.Routing;
 using Dolstagis.Web.Static;
 using Dolstagis.Web.Views;
+using Dolstagis.Web.Views.Nustache;
 using StructureMap.Configuration.DSL;
 
 namespace Dolstagis.Web
@@ -29,10 +30,16 @@ namespace Dolstagis.Web
                     ("StaticFiles", ctx.GetAllInstances<ResourceLocation>())
                 );
 
+            For<IResultProcessor>().Singleton().Add<ViewResultProcessor>();
+
             For<ViewRegistry>().Singleton().Use<ViewRegistry>()
                 .Ctor<IResourceLocator>().Is(ctx => new ResourceLocator
                     ("Views", ctx.GetAllInstances<ResourceLocation>())
                 );
+
+            /* ====== View engines ====== */
+
+            For<IViewEngine>().Singleton().Add<NustacheViewEngine>();
         }
     }
 }

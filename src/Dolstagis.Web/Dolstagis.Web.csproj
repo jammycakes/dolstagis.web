@@ -73,6 +73,7 @@
     <Compile Include="Static\StaticRequestHandler.cs" />
     <Compile Include="Static\StaticResult.cs" />
     <Compile Include="Static\StaticResultProcessor.cs" />
+    <Compile Include="Views\Nustache\NustacheView.cs" />
     <Compile Include="Views\ViewEngineNotFoundException.cs" />
     <Compile Include="Views\ViewNotFoundException.cs" />
     <Compile Include="Views\ViewResultProcessor.cs" />
