@@ -25,6 +25,23 @@ namespace Dolstagis.Web.Views
                     _viewEngines[ext] = engine;
         }
 
+        public IViewEngine GetViewEngine(VirtualPath pathToView)
+        {
+            if (pathToView == null) {
+                throw new ArgumentNullException("pathToView");
+            }
+            if (pathToView.Parts.Count == 0)
+                throw new ViewEngineNotFoundException("No view was specified.");
+            var split = pathToView.Parts.Last().Split('.');
+            if (split.Length <= 1) {
+                throw new ViewEngineNotFoundException("No view engine could be found to handle this view.");
+            }
+
+            IViewEngine result;
+            if (_viewEngines.TryGetValue(split.Last(), out result)) return result;
+            throw new ViewEngineNotFoundException("No view engine could be found to handle this view.");
+        }
+
         public IView GetView(VirtualPath pathToView)
         {
             if (pathToView == null) throw new ArgumentNullException("pathToView");
