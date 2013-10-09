@@ -89,6 +89,10 @@
       <Project>{25892703-ecbf-410c-b47a-7ee2aa2ee259}</Project>
       <Name>Dolstagis.Web.Aspnet</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Dolstagis.Web.Views.Nustache\Dolstagis.Web.Views.Nustache.csproj">
+      <Project>{2c298f3a-d57e-4d56-a529-88c47d5d809b}</Project>
+      <Name>Dolstagis.Web.Views.Nustache</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Dolstagis.Web\Dolstagis.Web.csproj">
       <Project>{e0e930ff-37b5-4495-8a73-3f69073e4629}</Project>
       <Name>Dolstagis.Web</Name>
