@@ -148,6 +148,9 @@ namespace Dolstagis.Web
                     )
                 );
             }
+
+            string route = vPath.Path + "/{path*}";
+            AddHandler<StaticRequestHandler>(route);
         }
 
 
