@@ -15,9 +15,9 @@ namespace Dolstagis.Web.Views
         private IDictionary<string, IView> _viewCache
             = new Dictionary<string, IView>(StringComparer.OrdinalIgnoreCase);
 
-        private ResourceLocator _locator;
+        private IResourceLocator _locator;
 
-        public ViewRegistry(ResourceLocator locator, IEnumerable<IViewEngine> viewEngines)
+        public ViewRegistry(IResourceLocator locator, IEnumerable<IViewEngine> viewEngines)
         {
             _locator = locator;
             foreach (var engine in viewEngines)

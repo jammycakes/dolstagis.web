@@ -9,10 +9,10 @@ namespace Dolstagis.Web.Static
 {
     public class StaticResultProcessor : ResultProcessor<StaticResult>
     {
-        private ResourceLocator _locator;
+        private IResourceLocator _locator;
         private IMimeTypes _mimeTypes;
 
-        public StaticResultProcessor(ResourceLocator locator, IMimeTypes mimeTypes)
+        public StaticResultProcessor(IResourceLocator locator, IMimeTypes mimeTypes)
         {
             _locator = locator;
             _mimeTypes = mimeTypes;

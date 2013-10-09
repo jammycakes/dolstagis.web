@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Dolstagis.Web.Static
 {
-    public class ResourceLocator
+    public class ResourceLocator : IResourceLocator
     {
         private IEnumerable<ResourceLocation> _locations;
 
