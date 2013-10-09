@@ -9,7 +9,7 @@ namespace Dolstagis.Web.Views.Nustache
 {
     public class NustacheViewEngine : ViewEngineBase
     {
-        private static readonly string[] _extensions = new[] { "nustache" };
+        private static readonly string[] _extensions = new[] { "mustache", "nustache" };
 
         public override IEnumerable<string> Extensions
         {
