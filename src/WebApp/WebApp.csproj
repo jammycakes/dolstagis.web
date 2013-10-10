@@ -77,6 +77,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="views\hello.nustache" />
+    <Content Include="views\header.nustache" />
+    <Content Include="views\footer.nustache" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
