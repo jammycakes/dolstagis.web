@@ -19,8 +19,8 @@ namespace Dolstagis.Tests.Web.Views
         {
             var engine = new Mock<IViewEngine>();
             engine.SetupGet(x => x.Extensions).Returns(new[] { "nustache" });
-            var locator = new Mock<IResourceLocator>();
-            var registry = new ViewRegistry(locator.Object, new[] { engine.Object });
+            var resolver = new Mock<IResourceResolver>();
+            var registry = new ViewRegistry(resolver.Object, new[] { engine.Object });
 
             var gotEngine = registry.GetViewEngine(new VirtualPath("~/test.nustache"));
 
@@ -33,8 +33,8 @@ namespace Dolstagis.Tests.Web.Views
         {
             var engine = new Mock<IViewEngine>();
             engine.SetupGet(x => x.Extensions).Returns(new[] { "nustache" });
-            var locator = new Mock<IResourceLocator>();
-            var registry = new ViewRegistry(locator.Object, new[] { engine.Object });
+            var resolver = new Mock<IResourceResolver>();
+            var registry = new ViewRegistry(resolver.Object, new[] { engine.Object });
             registry.GetViewEngine(new VirtualPath("~/test.cshtml"));
         }
     }

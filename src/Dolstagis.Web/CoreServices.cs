@@ -22,17 +22,17 @@ namespace Dolstagis.Web
             For<IRequestProcessor>().Use<RequestProcessor>();
             For<IExceptionHandler>().Use<ExceptionHandler>();
 
-            For<IResourceLocator>().Singleton().Use<ResourceLocator>();
+            For<IResourceResolver>().Singleton().Use<ResourceResolver>();
 
             For<IResultProcessor>().Singleton().Add<StaticResultProcessor>()
-                .Ctor<IResourceLocator>().Is(ctx => new ResourceLocator
+                .Ctor<IResourceResolver>().Is(ctx => new ResourceResolver
                     ("StaticFiles", ctx.GetAllInstances<ResourceLocation>())
                 );
 
             For<IResultProcessor>().Singleton().Add<ViewResultProcessor>();
 
             For<ViewRegistry>().Singleton().Use<ViewRegistry>()
-                .Ctor<IResourceLocator>().Is(ctx => new ResourceLocator
+                .Ctor<IResourceResolver>().Is(ctx => new ResourceResolver
                     ("Views", ctx.GetAllInstances<ResourceLocation>())
                 );
         }

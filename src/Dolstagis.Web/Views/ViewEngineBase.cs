@@ -15,17 +15,17 @@ namespace Dolstagis.Web.Views
 
         public abstract IEnumerable<string> Extensions { get; }
 
-        public IView GetView(VirtualPath pathToView, IResourceLocator locator)
+        public IView GetView(VirtualPath pathToView, IResourceResolver resolver)
         {
             IView result;
             string key = pathToView.Path;
             if (!_cache.TryGetValue(key, out result)) {
-                result = CreateView(pathToView, locator);
+                result = CreateView(pathToView, resolver);
                 _cache[key] = result;
             }
             return result;
         }
 
-        protected abstract IView CreateView(VirtualPath pathToView, IResourceLocator locator);
+        protected abstract IView CreateView(VirtualPath pathToView, IResourceResolver resolver);
     }
 }

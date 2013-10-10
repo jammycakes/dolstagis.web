@@ -2,7 +2,7 @@
 
 namespace Dolstagis.Web.Static
 {
-    public interface IResourceLocator
+    public interface IResourceResolver
     {
         IResource GetResource(Dolstagis.Web.VirtualPath path);
     }

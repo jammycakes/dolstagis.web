@@ -9,18 +9,18 @@ namespace Dolstagis.Web.Static
 {
     public class StaticResultProcessor : ResultProcessor<StaticResult>
     {
-        private IResourceLocator _locator;
+        private IResourceResolver _resolver;
         private IMimeTypes _mimeTypes;
 
-        public StaticResultProcessor(IResourceLocator locator, IMimeTypes mimeTypes)
+        public StaticResultProcessor(IResourceResolver resolver, IMimeTypes mimeTypes)
         {
-            _locator = locator;
+            _resolver = resolver;
             _mimeTypes = mimeTypes;
         }
 
         public override async Task Process(StaticResult data, IRequestContext context)
         {
-            var resource = _locator.GetResource(data.Path);
+            var resource = _resolver.GetResource(data.Path);
             if (resource == null) Status.NotFound.Throw();
             context.Response.Status = Status.OK;
             context.Response.AddHeader("Content-Type", _mimeTypes.GetMimeType(resource.Name));

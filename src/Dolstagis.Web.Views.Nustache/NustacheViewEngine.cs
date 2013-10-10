@@ -16,9 +16,9 @@ namespace Dolstagis.Web.Views.Nustache
             get { return _extensions; }
         }
 
-        protected override IView CreateView(VirtualPath pathToView, Static.IResourceLocator locator)
+        protected override IView CreateView(VirtualPath pathToView, Static.IResourceResolver resolver)
         {
-            var resource = locator.GetResource(pathToView);
+            var resource = resolver.GetResource(pathToView);
             if (resource == null || !resource.Exists) {
                 throw new ViewNotFoundException("There is no view at " + pathToView.ToString());
             }

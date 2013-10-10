@@ -11,6 +11,6 @@ namespace Dolstagis.Web.Views
     {
         IEnumerable<string> Extensions { get; }
 
-        IView GetView(VirtualPath pathToView, IResourceLocator locator);
+        IView GetView(VirtualPath pathToView, IResourceResolver resolver);
     }
 }

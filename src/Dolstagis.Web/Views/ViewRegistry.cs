@@ -12,11 +12,11 @@ namespace Dolstagis.Web.Views
         private IDictionary<string, IViewEngine> _viewEngines
             = new Dictionary<string, IViewEngine>(StringComparer.OrdinalIgnoreCase);
 
-        private IResourceLocator _locator;
+        private IResourceResolver _resolver;
 
-        public ViewRegistry(IResourceLocator locator, IEnumerable<IViewEngine> viewEngines)
+        public ViewRegistry(IResourceResolver resolver, IEnumerable<IViewEngine> viewEngines)
         {
-            _locator = locator;
+            _resolver = resolver;
             foreach (var engine in viewEngines)
                 foreach (var ext in engine.Extensions)
                     _viewEngines[ext] = engine;
@@ -42,7 +42,7 @@ namespace Dolstagis.Web.Views
         public IView GetView(VirtualPath pathToView)
         {
             var engine = this.GetViewEngine(pathToView);
-            return engine.GetView(pathToView, _locator);
+            return engine.GetView(pathToView, _resolver);
         }
     }
 }

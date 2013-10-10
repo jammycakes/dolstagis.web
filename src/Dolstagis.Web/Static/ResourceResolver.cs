@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace Dolstagis.Web.Static
 {
-    public class ResourceLocator : IResourceLocator
+    public class ResourceResolver : IResourceResolver
     {
         private IEnumerable<ResourceLocation> _locations;
 
-        public ResourceLocator(string type, IEnumerable<ResourceLocation> locations)
+        public ResourceResolver(string type, IEnumerable<ResourceLocation> locations)
         {
             _locations = locations.Where(x => x.Type == type).ToList(); ;
         }
