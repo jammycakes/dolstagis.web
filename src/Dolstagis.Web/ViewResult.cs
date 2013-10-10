@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Dolstagis.Web
 {
-    public class ViewResult
+    public class ViewResult : ResultBase
     {
         public VirtualPath Path { get; private set; }
 

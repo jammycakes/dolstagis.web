@@ -66,6 +66,7 @@
     <Compile Include="Lifecycle\IResultProcessor.cs" />
     <Compile Include="Lifecycle\RequestContextBuilder.cs" />
     <Compile Include="Lifecycle\ResultProcessor.cs" />
+    <Compile Include="ResultBase.cs" />
     <Compile Include="Static\FileResourceLocation.cs" />
     <Compile Include="Static\IResourceResolver.cs" />
     <Compile Include="Static\ResourceLocation.cs" />

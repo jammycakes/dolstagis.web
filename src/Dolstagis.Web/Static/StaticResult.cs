@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Dolstagis.Web.Static
 {
-    public class StaticResult
+    public class StaticResult : ResultBase
     {
         public VirtualPath Path { get; private set; }
 

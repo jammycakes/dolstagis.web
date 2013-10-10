@@ -7,7 +7,7 @@ using Dolstagis.Web.Http;
 
 namespace Dolstagis.Web.Lifecycle
 {
-    public abstract class ResultProcessor<T> : IResultProcessor
+    public abstract class ResultProcessor<T> : IResultProcessor where T: ResultBase
     {
         public bool CanProcess(object data)
         {
@@ -16,7 +16,17 @@ namespace Dolstagis.Web.Lifecycle
 
         public Task Process(object data, IRequestContext context)
         {
-            return Process((T)data, context);
+            var typedData = (T)data;
+            ProcessHeaders(typedData, context);
+            return Process(typedData, context);
+        }
+
+        private void ProcessHeaders(T typedData, IRequestContext context)
+        {
+            context.Response.Status = typedData.Status;
+            foreach (var key in typedData.Headers.Keys) {
+                context.Response.AddHeader(key, typedData.Headers[key]);
+            }
         }
 
         public abstract Task Process(T data, IRequestContext context);
