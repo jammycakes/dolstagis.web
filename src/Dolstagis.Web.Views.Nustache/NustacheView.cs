@@ -13,13 +13,16 @@ namespace Dolstagis.Web.Views.Nustache
     {
         private NustacheViewEngine _engine;
         private VirtualPath _path;
+        private IResourceResolver _resolver;
+
         public Template Template { get; private set; }
 
 
-        public NustacheView(NustacheViewEngine engine, VirtualPath path, IResource resource)
+        public NustacheView(NustacheViewEngine engine, VirtualPath path, IResource resource, IResourceResolver resolver)
         {
             _engine = engine;
             _path = path;
+            _resolver = resolver;
             using (var stream = resource.Open())
             using (var reader = new StreamReader(stream)) {
                 Template = new Template();
@@ -27,10 +30,21 @@ namespace Dolstagis.Web.Views.Nustache
             }
         }
 
+        private Template GetChildTemplate(string path)
+        {
+            var newPath = new VirtualPath(path);
+            if (newPath.Type != VirtualPathType.AppRelative) {
+                throw new NotSupportedException("The Nustache view engine only supports app-relative paths at present.");
+            }
+            var result = _engine.GetView(newPath, _resolver) as NustacheView;
+            if (result == null) return null;
+            return result.Template;
+        }
+
         public async Task Render(IRequestContext context, object data)
         {
             using (var writer = new StreamWriter(context.Response.ResponseStream)) {
-                Template.Render(data, writer, null);
+                Template.Render(data, writer, GetChildTemplate);
             }
         }
     }

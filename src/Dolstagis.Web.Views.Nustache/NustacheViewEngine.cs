@@ -23,7 +23,7 @@ namespace Dolstagis.Web.Views.Nustache
                 throw new ViewNotFoundException("There is no view at " + pathToView.ToString());
             }
 
-            return new NustacheView(this, pathToView, resource);
+            return new NustacheView(this, pathToView, resource, resolver);
         }
     }
 }
