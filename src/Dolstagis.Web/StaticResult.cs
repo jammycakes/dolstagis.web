@@ -7,7 +7,7 @@ using Dolstagis.Web.Routing;
 
 namespace Dolstagis.Web
 {
-    public class StaticResult
+    public class StaticResult : ResultBase
     {
         public string Path { get; private set; }
 
