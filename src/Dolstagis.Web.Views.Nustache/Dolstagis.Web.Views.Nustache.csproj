@@ -62,6 +62,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Dolstagis.Web.Views.Nustache.nuspec" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

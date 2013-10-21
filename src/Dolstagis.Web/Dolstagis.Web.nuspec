@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<package>
+  <metadata>
+    <id>Dolstagis.Web</id>
+    <version>0.1.0.0</version>
+    <title>Dolstagis.Web</title>
+    <authors>James McKay</authors>
+    <owners>James McKay</owners>
+    <licenseUrl>http://opensource.org/licenses/MIT</licenseUrl>
+    <projectUrl>https://github.com/jammycakes/dolstagis.web</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>
+      Yet another ALT.MVC framework for .NET.
+    </description>
+    <copyright>Copyright 2013 James McKay</copyright>
+    <tags>web alt.mvc</tags>
+    <dependencies>
+      <dependency id="structuremap" />
+      <dependency id="Newtonsoft.Json" />
+    </dependencies>
+  </metadata>
+</package>
