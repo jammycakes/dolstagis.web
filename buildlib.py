@@ -82,3 +82,14 @@ using System.Runtime.InteropServices;
         for prop in properties:
             args.append('/p:' + prop + '=' + properties[prop])
         self.run(MSBUILD, args)
+
+
+    # ====== nunit ====== #
+
+    """
+    Runs the unit tests against a given NUnit project.
+    """
+    def nunit(self, nunit_project, configuration):
+        NUNIT = self._abspath('src/packages/NUnit.Runners.2.6.3/tools/nunit-console.exe')
+        args = [self._abspath(nunit_project), '/config=' + configuration]
+        self.run(NUNIT, args)
