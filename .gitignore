@@ -157,3 +157,5 @@ $RECYCLE.BIN/
 
 # Mac desktop service store files
 .DS_Store
+src/Dolstagis.Tests/Dolstagis.Tests.VisualState.xml
+src/Dolstagis.Tests/TestResult.xml
