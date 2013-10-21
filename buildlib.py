@@ -51,11 +51,10 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyVersion("%(version)s")]
 [assembly: AssemblyFileVersion("%(version)s")]
 [assembly: AssemblyInformationalVersion("%(versioninfo)s")]
-''' % { 'version' : self.version, 'versioninfo' : informational_version }
+''' % { 'version' : self.version + '.' + str(self.build_number), 'versioninfo' : informational_version }
 
         with open(self._abspath(path), 'w') as vf:
             vf.write(versionfile)
-
 
 
     # ====== run ====== #
@@ -76,6 +75,8 @@ using System.Runtime.InteropServices;
     """
     def msbuild(self, build_file, *targets, **properties):
         MSBUILD = 'C:\\Program Files (x86)\\MSBuild\\12.0\\Bin\\MSBuild.exe'
+        if not properties.get('Configuration'):
+            properties['Configuration'] = self.configuration
         args = [self._abspath(build_file)]
         if targets:
             args.append('/target:' + reduce(lambda a,b: a+','+b, targets))
@@ -89,7 +90,7 @@ using System.Runtime.InteropServices;
     """
     Runs the unit tests against a given NUnit project.
     """
-    def nunit(self, nunit_project, configuration):
+    def nunit(self, nunit_project):
         NUNIT = self._abspath('src/packages/NUnit.Runners.2.6.3/tools/nunit-console.exe')
-        args = [self._abspath(nunit_project), '/config=' + configuration]
+        args = [self._abspath(nunit_project), '/config=' + self.configuration]
         self.run(NUNIT, args)
