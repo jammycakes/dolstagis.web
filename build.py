@@ -9,3 +9,4 @@ project.versioninfo = False
 
 project.clean()
 project.write_version('src/.version/VersionInfo.cs')
+project.msbuild('src/Dolstagis.Web.sln', 'Clean', 'Build', Configuration='Debug', Platform='Any CPU')
