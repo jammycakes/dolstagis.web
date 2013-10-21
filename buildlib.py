@@ -26,6 +26,12 @@ class Project:
             self.root_dir = os.path.abspath(root)
         self.build_dir = self._abspath(build)
 
+    """
+    Post initialisation setup steps.
+    """
+    def start(self):
+        self.file_version = self.version + '.' + str(self.build_number)
+        self.informational_version = (self.version + '-' + self.versioninfo if self.versioninfo else self.file_version)
 
     # ====== clean ====== #
 
@@ -41,7 +47,6 @@ class Project:
     # ====== write_version ====== #
 
     def write_version(self, path):
-        informational_version = self.version + ('-' + self.versioninfo if self.versioninfo else '')
         versionfile = '''
 using System;
 using System.Reflection;
@@ -51,7 +56,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyVersion("%(version)s")]
 [assembly: AssemblyFileVersion("%(version)s")]
 [assembly: AssemblyInformationalVersion("%(versioninfo)s")]
-''' % { 'version' : self.version + '.' + str(self.build_number), 'versioninfo' : informational_version }
+''' % { 'version' : self.file_version, 'versioninfo' : self.informational_version }
 
         with open(self._abspath(path), 'w') as vf:
             vf.write(versionfile)
@@ -94,3 +99,37 @@ using System.Runtime.InteropServices;
         NUNIT = self._abspath('src/packages/NUnit.Runners.2.6.3/tools/nunit-console.exe')
         args = [self._abspath(nunit_project), '/config=' + self.configuration]
         self.run(NUNIT, args)
+
+    # ====== make_nuget ====== #
+
+    """
+    Prepares a NuGet package.
+    """
+    def make_nuget(self, project):
+        nuspec = self._abspath('src/' + project + '/' + project + '.nuspec')
+        if not os.path.isfile(nuspec):
+            return
+        nuget_base = os.path.join(self.build_dir, '.nuget')
+        nuget_project = os.path.join(nuget_base, project)
+        nuget_lib = os.path.join(nuget_project, 'lib')
+        nuget_content = os.path.join(nuget_project, 'content')
+        built_lib = self._abspath('src/' + project + '/bin/' + self.configuration)
+        shutil.copytree(
+            built_lib, nuget_lib,
+            ignore = lambda d, x: [a for a in x if not a.lower().startswith(project.lower() + '.')]
+        )
+        shutil.copy2(nuspec, nuget_project)
+        NUGET = self._abspath('src/.nuget/NuGet.exe')
+        self.run(NUGET, [
+            'pack',
+            os.path.join(nuget_project, project + '.nuspec'),
+            '-OutputDirectory', self.build_dir,
+            '-Version', self.informational_version
+        ])
+
+    """
+    Prepares a collection of NuGet packages.
+    """
+    def make_nugets(self, *projects):
+        for project in projects:
+            self.make_nuget(project)
