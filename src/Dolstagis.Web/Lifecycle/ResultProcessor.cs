@@ -27,6 +27,10 @@ namespace Dolstagis.Web.Lifecycle
             foreach (var key in typedData.Headers.Keys) {
                 context.Response.AddHeader(key, typedData.Headers[key]);
             }
+            if (typedData.Encoding != null)
+            {
+                context.Response.AddHeader("Content-Encoding", typedData.Encoding.WebName);
+            }
         }
 
         public abstract Task Process(T data, IRequestContext context);

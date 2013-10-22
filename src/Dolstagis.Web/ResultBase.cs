@@ -10,12 +10,15 @@ namespace Dolstagis.Web
     {
         public Status Status { get; set; }
 
+        public Encoding Encoding { get; set; }
+
         public IDictionary<string, string> Headers { get; private set; }
 
         public ResultBase()
         {
             Headers = new Dictionary<string, string>();
             Status = Status.OK;
+            Encoding = Encoding.UTF8;
         }
     }
 }
