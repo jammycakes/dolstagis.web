@@ -9,6 +9,6 @@ namespace Dolstagis.Web.Views
 {
     public interface IView
     {
-        Task Render(IRequestContext context, object data);
+        Task Render(IRequestContext context, ViewResult data);
     }
 }
