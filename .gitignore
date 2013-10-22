@@ -157,6 +157,11 @@ $RECYCLE.BIN/
 
 # Mac desktop service store files
 .DS_Store
+
+# Build and test results
 src/Dolstagis.Tests/Dolstagis.Tests.VisualState.xml
 src/Dolstagis.Tests/TestResult.xml
 TestResult.xml
+
+__pycache__/
+*.py[cdo]
