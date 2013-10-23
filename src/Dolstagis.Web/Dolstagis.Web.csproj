@@ -58,6 +58,8 @@
     <Compile Include="IRequestContext.cs" />
     <Compile Include="Http\IRequest.cs" />
     <Compile Include="Http\IResponse.cs" />
+    <Compile Include="JsonResult.cs" />
+    <Compile Include="JsonResultProcessor.cs" />
     <Compile Include="Lifecycle\ExceptionHandler.cs" />
     <Compile Include="Lifecycle\ActionInvocation.cs" />
     <Compile Include="Lifecycle\IExceptionHandler.cs" />

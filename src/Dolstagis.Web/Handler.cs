@@ -62,5 +62,17 @@ namespace Dolstagis.Web
         {
             return new ViewResult(path, model);
         }
+
+        /// <summary>
+        ///  Returns a JSON result
+        /// </summary>
+        /// <param name="data">
+        ///  The object to serialise as JSON.
+        /// </param>
+        /// <returns></returns>
+        public ResultBase Json(object data)
+        {
+            return new JsonResult(data);
+        }
     }
 }
