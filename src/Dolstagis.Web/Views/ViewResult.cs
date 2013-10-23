@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Dolstagis.Web
+namespace Dolstagis.Web.Views
 {
     public class ViewResult : ResultBase
     {

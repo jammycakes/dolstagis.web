@@ -104,7 +104,7 @@
     <Compile Include="Routing\RouteTable.cs" />
     <Compile Include="Routing\RoutingHelpers.cs" />
     <Compile Include="Status.cs" />
-    <Compile Include="ViewResult.cs" />
+    <Compile Include="Views\ViewResult.cs" />
     <Compile Include="Views\IView.cs" />
     <Compile Include="Static\MimeTypes.cs" />
     <Compile Include="Views\IViewEngine.cs" />

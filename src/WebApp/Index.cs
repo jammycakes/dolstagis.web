@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using Dolstagis.Web;
+using Dolstagis.Web.Views;
 
 namespace WebApp
 {
@@ -12,7 +13,7 @@ namespace WebApp
     {
         public object Get()
         {
-            return new ViewResult("~/hello.nustache", new { Message = "Hello from Nustache" });
+            return View("~/hello.nustache", new { Message = "Hello from Nustache" });
         }
     }
 }
