@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using Dolstagis.Web;
+﻿using Dolstagis.Web;
 
 namespace WebApp
 {
@@ -11,8 +7,8 @@ namespace WebApp
         public HomeModule()
         {
             AddStaticFiles("~/content");
+            AddViews("~/views");
             AddHandler<Index>();
-            AddViews("~/", "views");
         }
     }
 }

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Web;
-using Dolstagis.Web;
-using Dolstagis.Web.Views;
+﻿using Dolstagis.Web;
 
 namespace WebApp
 {
@@ -13,7 +7,7 @@ namespace WebApp
     {
         public object Get()
         {
-            return View("~/hello.nustache", new { Message = "Hello from Nustache" });
+            return View("~/views/hello.nustache", new { Message = "Hello from Nustache" });
         }
     }
 }
