@@ -54,11 +54,14 @@
     <Compile Include="CoreServices.cs" />
     <Compile Include="Handler.cs" />
     <Compile Include="HttpStatusException.cs" />
+    <Compile Include="Http\Constants.cs" />
     <Compile Include="Http\Cookie.cs" />
     <Compile Include="Http\HttpEncoder.cs" />
     <Compile Include="Http\HttpUtility.cs" />
+    <Compile Include="Http\ISessionCookieBuilder.cs" />
     <Compile Include="Http\Request.cs" />
     <Compile Include="Http\Response.cs" />
+    <Compile Include="Http\SessionCookieBuilder.cs" />
     <Compile Include="IApplicationContext.cs" />
     <Compile Include="IRequestContext.cs" />
     <Compile Include="Http\IRequest.cs" />

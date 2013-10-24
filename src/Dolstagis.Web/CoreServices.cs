@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Dolstagis.Web.Http;
 using Dolstagis.Web.Lifecycle;
 using Dolstagis.Web.Routing;
 using Dolstagis.Web.Static;
@@ -23,6 +24,7 @@ namespace Dolstagis.Web
             For<IExceptionHandler>().Use<ExceptionHandler>();
 
             For<IResourceResolver>().Singleton().Use<ResourceResolver>();
+            For<ISessionCookieBuilder>().Singleton().Use<SessionCookieBuilder>();
 
             For<IResultProcessor>().Singleton().Add<StaticResultProcessor>()
                 .Ctor<IResourceResolver>().Is(ctx => new ResourceResolver
