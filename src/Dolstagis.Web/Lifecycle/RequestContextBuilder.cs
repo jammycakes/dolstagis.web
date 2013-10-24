@@ -50,7 +50,7 @@ namespace Dolstagis.Web.Lifecycle
         }
 
 
-        public IRequestContext CreateContext(Http.IRequest request, Http.IResponse response)
+        public IRequestContext CreateContext(Http.Request request, Http.Response response)
         {
             var action = GetAction(request);
             if (action == null) return null;

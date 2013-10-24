@@ -57,6 +57,8 @@
     <Compile Include="Http\Cookie.cs" />
     <Compile Include="Http\HttpEncoder.cs" />
     <Compile Include="Http\HttpUtility.cs" />
+    <Compile Include="Http\Request.cs" />
+    <Compile Include="Http\Response.cs" />
     <Compile Include="IApplicationContext.cs" />
     <Compile Include="IRequestContext.cs" />
     <Compile Include="Http\IRequest.cs" />
