@@ -60,5 +60,10 @@ namespace Dolstagis.Web.Http
         /// </summary>
 
         NameValueCollection Form { get; }
+
+        /// <summary>
+        ///  Gets the HTTP headers.
+        /// </summary>
+        NameValueCollection Headers { get; }
     }
 }

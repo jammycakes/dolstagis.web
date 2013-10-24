@@ -21,6 +21,7 @@ namespace Dolstagis.Web.Aspnet
             this.IsSecure = innerRequest.IsSecureConnection;
             this.Query = innerRequest.Unvalidated.QueryString;
             this.Form = innerRequest.Unvalidated.Form;
+            this.Headers = innerRequest.Unvalidated.Headers;
         }
 
         public string Method { get; private set; }
@@ -38,5 +39,8 @@ namespace Dolstagis.Web.Aspnet
         public NameValueCollection Query { get; private set; }
 
         public NameValueCollection Form { get; private set; }
+
+
+        public NameValueCollection Headers { get; private set; }
     }
 }
