@@ -36,5 +36,10 @@ namespace Dolstagis.Web.Http
                 _innerResponse.Status = value;
             }
         }
+
+        public void AddCookie(Cookie cookie)
+        {
+            _innerResponse.AddHeader("Set-Cookie", cookie.ToHeaderString());
+        }
     }
 }

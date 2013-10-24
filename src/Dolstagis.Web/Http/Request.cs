@@ -9,6 +9,9 @@ namespace Dolstagis.Web.Http
     public class Request : IRequest
     {
         private IRequest _innerRequest;
+        private IDictionary<string, Cookie> _cookies;
+
+        #region /* ====== IRequest implementation ====== */
 
         public Request(IRequest innerRequest)
         {
@@ -58,6 +61,35 @@ namespace Dolstagis.Web.Http
         public System.Collections.Specialized.NameValueCollection Headers
         {
             get { return _innerRequest.Headers; }
+        }
+
+        #endregion
+
+
+        public IDictionary<string, Cookie> Cookies
+        {
+            get
+            {
+                if (_cookies == null)
+                {
+                    var cookieHeaders = Headers.GetValues("Cookie");
+                    if (cookieHeaders != null)
+                    {
+                        var data = from header in cookieHeaders
+                                   from str in header.Split(';')
+                                   let parts = str.Trim().Split(new char[] { '=' }, 2)
+                                   let key = parts[0]
+                                   let value = parts.Length == 2 ? HttpUtility.UrlDecode(parts[1]) : null
+                                   select new Cookie(key, value);
+                        _cookies = data.ToDictionary(k => k.Name);
+                    }
+                    else
+                    {
+                        _cookies = new Dictionary<string, Cookie>();
+                    }
+                }
+                return _cookies;
+            }
         }
     }
 }
