@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Dolstagis.Web.Http;
 
-namespace Dolstagis.Web.Http
+namespace Dolstagis.Web.Sessions
 {
-    public class SessionCookieBuilder : Dolstagis.Web.Http.ISessionCookieBuilder
+    public class SessionCookieBuilder : ISessionCookieBuilder
     {
         public TimeSpan Lifetime { get; set; }
 

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Dolstagis.Web.Http;
+using Dolstagis.Web.Sessions;
 
 namespace Dolstagis.Web.Lifecycle
 {
@@ -58,11 +59,14 @@ namespace Dolstagis.Web.Lifecycle
             }
             finally
             {
-                var cookie = _sessionCookieBuilder.CreateSessionCookie(context.Request.SessionID);
-                if (cookie != null)
+                if (_sessionCookieBuilder != null)
                 {
-                    cookie.Secure = context.Request.IsSecure;
-                    context.Response.AddCookie(cookie);
+                    var cookie = _sessionCookieBuilder.CreateSessionCookie(context.Request.SessionID);
+                    if (cookie != null)
+                    {
+                        cookie.Secure = context.Request.IsSecure;
+                        context.Response.AddCookie(cookie);
+                    }
                 }
             }
             await processor.Process(result, context);

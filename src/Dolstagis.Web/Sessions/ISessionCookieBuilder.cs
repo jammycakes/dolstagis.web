@@ -1,5 +1,7 @@
 ﻿using System;
-namespace Dolstagis.Web.Http
+using Dolstagis.Web.Http;
+
+namespace Dolstagis.Web.Sessions
 {
     public interface ISessionCookieBuilder
     {

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Dolstagis.Web.Http;
 using Dolstagis.Web.Lifecycle;
 using Dolstagis.Web.Routing;
+using Dolstagis.Web.Sessions;
 using Dolstagis.Web.Static;
 using Dolstagis.Web.Views;
 using StructureMap.Configuration.DSL;
