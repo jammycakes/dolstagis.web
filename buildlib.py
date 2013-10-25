@@ -31,7 +31,14 @@ class Project:
     """
     def start(self):
         self.file_version = self.version + '.' + str(self.build_number)
-        self.informational_version = (self.version + '-' + self.versioninfo if self.versioninfo else self.file_version)
+        if self.versioninfo:
+            self.informational_version = self.version + '-' + self.versioninfo + '.' + str(self.build_number)
+            self.nuget_version = self.version + '-' + self.versioninfo + str(self.build_number)
+        else:
+            self.informational_version = self.file_version
+            self.nuget_version = self.file_version
+        
+        print ('Building version: ' + self.informational_version)
 
     # ====== clean ====== #
 
@@ -68,8 +75,6 @@ using System.Runtime.InteropServices;
     Executes a process from the command line.
     """
     def run(self, path, args):
-        print(path)
-        print(args)
         check_call([path] + list(args))
 
 
@@ -131,5 +136,5 @@ using System.Runtime.InteropServices;
             'pack',
             os.path.join(nuget_project, project + '.nuspec'),
             '-OutputDirectory', self.build_dir,
-            '-Version', self.informational_version
+            '-Version', self.nuget_version
         ])
