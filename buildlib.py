@@ -105,7 +105,7 @@ using System.Runtime.InteropServices;
     """
     Prepares a NuGet package.
     """
-    def make_nuget(self, project):
+    def make_nuget(self, project, **folders):
         nuspec = self._abspath('src/' + project + '/' + project + '.nuspec')
         if not os.path.isfile(nuspec):
             return
@@ -119,6 +119,13 @@ using System.Runtime.InteropServices;
             ignore = lambda d, x: [a for a in x if not a.lower().startswith(project.lower() + '.')]
         )
         shutil.copy2(nuspec, nuget_project)
+        for folder in folders:
+            destdir = os.path.join(nuget_project, folder)
+            os.makedirs(destdir)
+            for f in folders[folder]:
+                src = self._abspath('src/' + project + '/' + f)
+                dest = os.path.join(destdir, f)
+                shutil.copy2(src, dest)
         NUGET = self._abspath('src/.nuget/NuGet.exe')
         self.run(NUGET, [
             'pack',
@@ -126,10 +133,3 @@ using System.Runtime.InteropServices;
             '-OutputDirectory', self.build_dir,
             '-Version', self.informational_version
         ])
-
-    """
-    Prepares a collection of NuGet packages.
-    """
-    def make_nugets(self, *projects):
-        for project in projects:
-            self.make_nuget(project)

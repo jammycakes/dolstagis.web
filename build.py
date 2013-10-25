@@ -14,9 +14,9 @@ project.write_version('src/.version/VersionInfo.cs')
 project.msbuild('src/Dolstagis.Web.sln', 'Clean', 'Build', Platform='Any CPU')
 project.nunit('src/Dolstagis.Tests/Dolstagis.Tests.nunit')
 
-project.make_nugets(
-    'Dolstagis.Web',
-    'Dolstagis.Web.Aspnet',
-    # 'Dolstagis.Web.Owin',
-    'Dolstagis.Web.Views.Nustache'
+project.make_nuget('Dolstagis.Web')
+project.make_nuget('Dolstagis.Web.Aspnet',
+    content = ['web.config.transform']
 )
+project.make_nuget('Dolstagis.Web.Views.Nustache')
+
