@@ -83,7 +83,8 @@ namespace Dolstagis.Web.Http
                                    let key = parts[0]
                                    let value = parts.Length == 2 ? HttpUtility.UrlDecode(parts[1]) : null
                                    select new Cookie(key, value);
-                        _cookies = data.ToDictionary(k => k.Name);
+                        _cookies = new Dictionary<string, Cookie>();
+                        foreach (var cookie in data) _cookies[cookie.Name] = cookie;
                     }
                     else
                     {
