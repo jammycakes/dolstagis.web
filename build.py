@@ -3,7 +3,7 @@ from buildlib import *
 
 project = Project(__file__, 'build')
 
-project.version = '0.0.0'
+project.version = '0.0.2'
 project.versioninfo = 'alpha'
 project.build_number = 0
 project.configuration = 'Debug'
