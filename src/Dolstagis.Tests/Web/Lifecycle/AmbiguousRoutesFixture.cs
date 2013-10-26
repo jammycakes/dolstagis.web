@@ -54,5 +54,11 @@ namespace Dolstagis.Tests.Web.Lifecycle
             Assert.AreEqual("Second", Execute("GET", "/HandledBySecond"));
         }
 
+        [Test]
+        public void FavourSpecificOverArguments()
+        {
+            Assert.AreEqual("First", Execute("GET", "/args/the-first"));
+            Assert.AreEqual("wibble", Execute("GET", "/args/wibble"));
+        }
     }
 }

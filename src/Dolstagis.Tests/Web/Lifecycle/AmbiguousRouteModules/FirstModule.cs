@@ -13,6 +13,8 @@ namespace Dolstagis.Tests.Web.Lifecycle.AmbiguousRouteModules
         {
             this.AddHandler<FirstHandler>("HandledByFirst");
             this.AddHandler<NullHandler>("HandledBySecond");
+            this.AddHandler<ArgHandler>("args/{arg}");
+            this.AddHandler<FirstHandler>("args/the-first");
         }
     }
 }
