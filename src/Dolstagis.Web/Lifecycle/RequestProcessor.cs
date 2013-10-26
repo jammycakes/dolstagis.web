@@ -32,18 +32,21 @@ namespace Dolstagis.Web.Lifecycle
         public async Task<object> InvokeRequest(IRequestContext context)
         {
             if (context == null) Status.NotFound.Throw();
-            var action = context.Action;
-            if (action == null) Status.NotFound.Throw();
-            if (action.Method == null) Status.MethodNotAllowed.Throw();
-            var result = action.Invoke(context);
-            if (result == null) Status.NotFound.Throw();
-            if (result is Task) {
-                await (Task)result;
-                return ((dynamic)result).Result;
+            var actions = context.Actions.Where(x => x.Method != null);
+            foreach (var action in actions)
+            {
+                var result = action.Invoke(context);
+                if (result is Task)
+                {
+                    await (Task)result;
+                    return ((dynamic)result).Result;
+                }
+                else if (result != null)
+                {
+                    return result;
+                }
             }
-            else {
-                return result;
-            }
+            throw new HttpStatusException(Status.NotFound);
         }
 
         public async Task ProcessRequest(IRequestContext context)

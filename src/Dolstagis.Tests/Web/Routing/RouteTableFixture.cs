@@ -22,7 +22,7 @@ namespace Dolstagis.Tests.Web.Routing
             var one = routeTable.Root.GetMatchingChildren("one");
             Assert.AreEqual("one", one.Single().Name);
             Assert.IsNotInstanceOf<ParameterEntry>(one.Single());
-            Assert.IsNull(one.Single().Definition);
+            CollectionAssert.IsEmpty(one.Single().Definitions);
         }
 
         [Test]
@@ -34,7 +34,7 @@ namespace Dolstagis.Tests.Web.Routing
             var two = routeTable.Root.GetMatchingChildren("two");
             Assert.AreEqual("{language}", two.Single().Name);
             Assert.IsInstanceOf<ParameterEntry>(two.Single());
-            Assert.IsNull(two.Single().Definition);
+            CollectionAssert.IsEmpty(two.Single().Definitions);
         }
 
         [Test]

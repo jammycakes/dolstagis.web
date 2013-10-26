@@ -11,17 +11,17 @@ namespace Dolstagis.Web
 {
     public class RequestContext : IRequestContext
     {
-        public RequestContext(Request request, Response response, ActionInvocation action)
+        public RequestContext(Request request, Response response, IEnumerable<ActionInvocation> actions)
         {
             Request = request;
             Response = response;
-            Action = action;
+            Actions = actions.ToList();
         }
 
         public Request Request { get; private set; }
 
         public Response Response { get; private set; }
 
-        public ActionInvocation Action { get; private set; }
+        public IList<ActionInvocation> Actions { get; private set; }
     }
 }

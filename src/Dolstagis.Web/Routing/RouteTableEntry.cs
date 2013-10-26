@@ -14,15 +14,16 @@ namespace Dolstagis.Web.Routing
         private IList<ParameterEntry> _parameterChildren
             = new List<ParameterEntry>();
 
-        public IRouteDefinition Definition { get; set; }
+        private IList<IRouteDefinition> _definitions = new List<IRouteDefinition>();
+
+        public IList<IRouteDefinition> Definitions { get { return _definitions; } }
 
         public string Name { get; private set; }
 
         public RouteTableEntry Parent { get; private set; }
 
-        public RouteTableEntry(IRouteDefinition definition, string name)
+        public RouteTableEntry(string name)
         {
-            this.Definition = definition;
             this.Name = name;
         }
 
@@ -32,8 +33,8 @@ namespace Dolstagis.Web.Routing
             RouteTableEntry child;
             if (!_children.TryGetValue(name, out child)) {
                 child = isParameter
-                    ? new ParameterEntry(null, name)
-                    : new RouteTableEntry(null, name);
+                    ? new ParameterEntry(name)
+                    : new RouteTableEntry(name);
                 child.Parent = this;
                 _children.Add(name, child);
                 if (child is ParameterEntry) {

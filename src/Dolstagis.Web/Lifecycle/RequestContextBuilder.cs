@@ -24,6 +24,17 @@ namespace Dolstagis.Web.Lifecycle
         {
             var route = _routes.Lookup(request.AppRelativePath).FirstOrDefault();
             if (route == null) return null;
+            return GetAction(request, route);
+        }
+
+        public IEnumerable<ActionInvocation> GetActions(IRequest request)
+        {
+            return _routes.Lookup(request.AppRelativePath)
+                .Select(route => GetAction(request, route));
+        }
+
+        private ActionInvocation GetAction(IRequest request, RouteInfo route)
+        {
             var action = _createAction();
             action.HandlerType = route.Definition.HandlerType;
             var method = action.HandlerType.GetMethod(request.Method,
@@ -31,15 +42,19 @@ namespace Dolstagis.Web.Lifecycle
             if (method == null) return action;
             action.Method = method;
             var args = new List<object>();
-            foreach (var parameter in method.GetParameters()) {
+            foreach (var parameter in method.GetParameters())
+            {
                 string arg;
-                if (route.Arguments.TryGetValue(parameter.Name, out arg)) {
+                if (route.Arguments.TryGetValue(parameter.Name, out arg))
+                {
                     args.Add(arg);
                 }
-                else if (parameter.IsOptional) {
+                else if (parameter.IsOptional)
+                {
                     args.Add(parameter.HasDefaultValue ? parameter.DefaultValue : null);
                 }
-                else {
+                else
+                {
                     throw new InvalidOperationException(String.Format(
                         "Required argument {0} was not supplied to method {1} on handler {2}",
                         parameter.Name, method.Name, action.HandlerType));
@@ -52,9 +67,8 @@ namespace Dolstagis.Web.Lifecycle
 
         public IRequestContext CreateContext(Http.Request request, Http.Response response)
         {
-            var action = GetAction(request);
-            if (action == null) return null;
-            return new RequestContext(request, response, action);
+            var actions = GetActions(request);
+            return new RequestContext(request, response, actions);
         }
     }
 }

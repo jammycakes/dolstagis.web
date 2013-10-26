@@ -26,21 +26,21 @@ namespace Dolstagis.Web.Routing
             foreach (var name in pathParts) {
                 target = target.GetOrCreateChild(name);
             }
-            target.Definition = definition;
+            target.Definitions.Add(definition);
             // For optional parameters, back up the tree,
             // associating this definition with all optional parameters
             // and the last required one.
             while (target is ParameterEntry && ((ParameterEntry)target).Optional
-                && target.Parent != null && target.Parent.Definition == null) {
+                && target.Parent != null) {
                 target = target.Parent;
-                target.Definition = definition;
+                target.Definitions.Add(definition);
             }
         }
 
         public void RebuildRouteTable()
         {
             try {
-                Root = new RouteTableEntry(null, String.Empty);
+                Root = new RouteTableEntry(String.Empty);
                 foreach (var module in _modules) {
                     foreach (var route in module.Routes) {
                         AddRouteToTable(route);
@@ -75,7 +75,7 @@ namespace Dolstagis.Web.Routing
             }
         }
 
-        private RouteInfo GetRouteInfo(RouteTableEntry entry, string[] pathParts)
+        private IEnumerable<RouteInfo> GetRouteInfo(RouteTableEntry entry, string[] pathParts)
         {
             var e = entry;
             var stack = new Stack<RouteTableEntry>();
@@ -84,7 +84,8 @@ namespace Dolstagis.Web.Routing
                 e = e.Parent;
             }
 
-            var result = new RouteInfo(entry.Definition);
+            var arguments = new Dictionary<string, string>();
+
             int index = 0;
             while (stack.Count > 0 && index < pathParts.Length) {
                 e = stack.Pop();
@@ -92,15 +93,16 @@ namespace Dolstagis.Web.Routing
                     var pe = (ParameterEntry)e;
                     string key = pe.ParameterName;
                     if (pe.Greedy) {
-                        result.Arguments[key] = String.Join("/", pathParts.Skip(index).ToArray());
+                        arguments[key] = String.Join("/", pathParts.Skip(index).ToArray());
                     }
                     else {
-                        result.Arguments[key] = pathParts[index];
+                        arguments[key] = pathParts[index];
                     }
                 }
                 index++;
             }
-            return result;
+
+            return entry.Definitions.Select(definition => new RouteInfo(definition, arguments));
         }
 
         /// <summary>
@@ -118,8 +120,11 @@ namespace Dolstagis.Web.Routing
             EnsureRouteTable();
             var parts = path.Parts.ToArray();
             var candidates = GetCandidates(Root, parts, 0);
-            return candidates.Select(x => GetRouteInfo(x, parts))
-                .Where(x => x.Definition != null && x.Definition.Module.Enabled);
+            return
+                from candidate in candidates
+                from routeInfo in GetRouteInfo(candidate, parts)
+                where routeInfo.Definition != null && routeInfo.Definition.Module.Enabled
+                select routeInfo;
         }
     }
 }

@@ -8,10 +8,10 @@ namespace Dolstagis.Web.Routing
 {
     public class RouteInfo
     {
-        public RouteInfo(IRouteDefinition definition)
+        public RouteInfo(IRouteDefinition definition, IDictionary<string, string> arguments)
         {
             this.Definition = definition;
-            this.Arguments = new Dictionary<string, string>();
+            this.Arguments = arguments;
         }
 
         public IRouteDefinition Definition { get; private set; }

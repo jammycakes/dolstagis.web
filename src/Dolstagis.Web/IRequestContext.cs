@@ -14,6 +14,6 @@ namespace Dolstagis.Web
 
         Response Response { get; }
 
-        ActionInvocation Action { get; }
+        IList<ActionInvocation> Actions { get; }
     }
 }

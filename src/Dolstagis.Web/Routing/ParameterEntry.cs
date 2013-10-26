@@ -9,8 +9,8 @@ namespace Dolstagis.Web.Routing
 {
     public class ParameterEntry : RouteTableEntry
     {
-        public ParameterEntry(IRouteDefinition definition, string name)
-            : base(definition, name)
+        public ParameterEntry(string name)
+            : base(name)
         {
             if (!name.StartsWith("{") || !name.EndsWith("}")) {
                 throw new ArgumentException("Parameter names must be enclosed in braces", "name");
