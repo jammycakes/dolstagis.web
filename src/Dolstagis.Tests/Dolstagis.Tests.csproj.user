@@ -4,7 +4,7 @@
     <StartAction>Program</StartAction>
     <StartProgram>$(SolutionDir)\packages\NUnit.Runners.2.6.3\tools\nunit.exe</StartProgram>
     <StartArguments>Dolstagis.Tests.nunit /config:$(Configuration)</StartArguments>
-    <StartWorkingDirectory>$(ProjectDir)</StartWorkingDirectory>
+    <StartWorkingDirectory>..\..</StartWorkingDirectory>
   </PropertyGroup>
   <PropertyGroup>
     <ProjectView>ProjectFiles</ProjectView>
