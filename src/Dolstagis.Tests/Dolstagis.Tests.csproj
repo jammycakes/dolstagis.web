@@ -80,7 +80,6 @@
     <Compile Include="Web\TestModules\CustomRouteModule.cs" />
     <Compile Include="Web\TestModules\DisabledModule.cs" />
     <Compile Include="Web\TestModules\FirstModule.cs" />
-    <Compile Include="Web\Routing\RoutingHelpersFixture.cs" />
     <Compile Include="Web\TestModules\Handlers\ChildHandler.cs" />
     <Compile Include="Web\TestModules\Handlers\LanguageHandler.cs" />
     <Compile Include="Web\TestModules\Handlers\RootHandler.cs" />
