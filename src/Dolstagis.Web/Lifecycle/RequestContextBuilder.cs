@@ -22,7 +22,7 @@ namespace Dolstagis.Web.Lifecycle
 
         public ActionInvocation GetAction(IRequest request)
         {
-            var route = _routes.Lookup(request.AppRelativePath);
+            var route = _routes.Lookup(request.AppRelativePath).FirstOrDefault();
             if (route == null) return null;
             var action = _createAction();
             action.HandlerType = route.Definition.HandlerType;

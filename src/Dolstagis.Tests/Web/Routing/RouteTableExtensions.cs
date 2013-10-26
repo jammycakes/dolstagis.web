@@ -12,7 +12,7 @@ namespace Dolstagis.Tests.Web.Routing
     {
         public static RouteInfo Lookup(this RouteTable routeTable, string route)
         {
-            return routeTable.Lookup(new VirtualPath(route));
+            return routeTable.Lookup(new VirtualPath(route)).FirstOrDefault();
         }
     }
 }
