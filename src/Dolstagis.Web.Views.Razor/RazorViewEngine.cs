@@ -3,19 +3,28 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Razor;
+using Dolstagis.Web.Static;
 
 namespace Dolstagis.Web.Views.Razor
 {
     public class RazorViewEngine : ViewEngineBase
     {
-        private static readonly string[] _extensions = new[] { "cshtml", "vbhtml" };
+        private readonly string _extension;
+        private readonly RazorCodeLanguage _language;
+
+        public RazorViewEngine(string extension, RazorCodeLanguage language)
+        {
+            _extension = extension;
+            _language = language;
+        }
 
         public override IEnumerable<string> Extensions
         {
-            get { return _extensions; }
+            get { return new[] { _extension }; }
         }
 
-        protected override IView CreateView(VirtualPath pathToView, Static.IResourceResolver resolver)
+        protected override IView CreateView(VirtualPath pathToView, IResourceResolver resolver)
         {
             var resource = resolver.GetResource(pathToView);
             if (resource == null || !resource.Exists)

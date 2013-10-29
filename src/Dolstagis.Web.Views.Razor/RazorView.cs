@@ -22,6 +22,7 @@ namespace Dolstagis.Web.Views.Razor
             this._resource = resource;
             this._resolver = resolver;
         }
+
         public async Task Render(Stream stream, ViewResult data)
         {
         }
