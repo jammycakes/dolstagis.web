@@ -41,9 +41,9 @@ namespace Dolstagis.Web.Views.Nustache
             return result.Template;
         }
 
-        public async Task Render(IRequestContext context, ViewResult data)
+        public async Task Render(Stream stream, ViewResult data)
         {
-            using (var writer = new StreamWriter(context.Response.ResponseStream, data.Encoding)) {
+            using (var writer = new StreamWriter(stream, data.Encoding)) {
                 Template.Render(data, writer, GetChildTemplate);
             }
         }
