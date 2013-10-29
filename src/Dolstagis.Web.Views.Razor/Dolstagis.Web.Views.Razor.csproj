@@ -55,6 +55,8 @@
     <Compile Include="..\.version\VersionInfo.cs" Condition="Exists('..\.version\VersionInfo.cs')">
       <Link>Properties\VersionInfo.cs</Link>
     </Compile>
+    <Compile Include="RazorView.cs" />
+    <Compile Include="RazorViewEngine.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
