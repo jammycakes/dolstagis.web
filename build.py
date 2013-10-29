@@ -3,9 +3,9 @@ from buildlib import *
 
 project = Project(__file__, 'build')
 
-project.version = '0.0.2'
+project.version = '0.0.3'
 project.versioninfo = 'alpha'
-project.build_number = 2
+project.build_number = 0
 project.configuration = 'Debug'
 
 project.start()
