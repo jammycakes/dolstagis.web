@@ -16,7 +16,7 @@ namespace Dolstagis.Web
     ///  application which marshals services and manages request lifecycles.
     /// </summary>
 
-    public class Application : IDisposable, IApplicationContext
+    public class ApplicationContext : IDisposable, IApplicationContext
     {
         private IContainer _container;
 
@@ -38,14 +38,14 @@ namespace Dolstagis.Web
         ///  to perform any setup tasks before requests can be processed.
         /// </summary>
 
-        public Application(string virtualPath, string physicalPath)
+        public ApplicationContext(string virtualPath, string physicalPath)
         {
             this.VirtualPath = new VirtualPath(virtualPath);
             this.PhysicalPath = physicalPath;
 
             _container = new Container();
             _container.Configure(x => {
-                x.For<Application>().Singleton().Use(this);
+                x.For<ApplicationContext>().Singleton().Use(this);
                 x.For<IApplicationContext>().Singleton().Use(this);
                 x.AddRegistry<CoreServices>();
             });

@@ -50,6 +50,7 @@ namespace Dolstagis.Web
             this.Services = new Registry();
         }
 
+
         /// <summary>
         ///  Registers a <see cref="Handler"/> in this module by type,
         ///  with a route specified in a [Route] attribute on the handler
