@@ -95,6 +95,11 @@ namespace Dolstagis.Web
 
         public void Dispose()
         {
+            if (_container != null)
+            {
+                _container.Dispose();
+                _container = null;
+            }
         }
     }
 }
