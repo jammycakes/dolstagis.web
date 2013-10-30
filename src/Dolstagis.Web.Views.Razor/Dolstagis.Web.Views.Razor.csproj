@@ -62,6 +62,7 @@
     <Compile Include="RazorModule.cs" />
     <Compile Include="RazorView.cs" />
     <Compile Include="RazorViewEngine.cs" />
+    <Compile Include="TemplateBase.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
