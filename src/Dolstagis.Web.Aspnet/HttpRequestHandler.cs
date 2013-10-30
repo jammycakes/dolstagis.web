@@ -13,7 +13,7 @@ namespace Dolstagis.Web.Aspnet
 {
     public class HttpRequestHandler : HttpTaskAsyncHandler
     {
-        private static ApplicationContext _application;
+        private static Application _application;
 
         public override bool IsReusable
         {
@@ -49,7 +49,7 @@ namespace Dolstagis.Web.Aspnet
             };
 
             if (_application != null) return;
-            _application = new ApplicationContext
+            _application = new Application
                 (HostingEnvironment.ApplicationVirtualPath, HostingEnvironment.ApplicationPhysicalPath);
 
             foreach (var assembly in BuildManager.GetReferencedAssemblies().Cast<Assembly>()) {

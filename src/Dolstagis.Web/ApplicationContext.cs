@@ -38,12 +38,22 @@ namespace Dolstagis.Web
         ///  to perform any setup tasks before requests can be processed.
         /// </summary>
 
-        public ApplicationContext(string virtualPath, string physicalPath)
+        public ApplicationContext(string virtualPath, string physicalPath, IEnumerable<Module> modules)
         {
             this.VirtualPath = new VirtualPath(virtualPath);
             this.PhysicalPath = physicalPath;
 
             _container = new Container();
+            foreach (var module in modules)
+            {
+                _container.Configure(x =>
+                {
+                    x.AddRegistry(module.Services);
+                    x.For<Module>().Singleton().Add(module);
+                    x.For<IRouteRegistry>().Singleton().Add(module);
+                });
+            }
+
             _container.Configure(x => {
                 x.For<ApplicationContext>().Singleton().Use(this);
                 x.For<IApplicationContext>().Singleton().Use(this);
@@ -51,65 +61,6 @@ namespace Dolstagis.Web
             });
         }
 
-        /// <summary>
-        ///  Registers a module with the application by type.
-        /// </summary>
-        /// <typeparam name="T">
-        ///  They type of module to register.
-        /// </typeparam>
-
-        public void AddModule<T>() where T: Module, new()
-        {
-            AddModule(new T());
-        }
-
-        /// <summary>
-        ///  Registers a module with the application by instance.
-        /// </summary>
-        /// <param name="module">
-        ///  The module to register.
-        /// </param>
-
-        public void AddModule(Module module)
-        {
-            _container.Configure(x => {
-                x.AddRegistry(module.Services);
-                x.For<Module>().Singleton().Add(module);
-                x.For<IRouteRegistry>().Singleton().Add(module);
-            });
-        }
-
-        /// <summary>
-        ///  Scan an assembly for modules to add.
-        /// </summary>
-        /// <param name="assembly">
-        ///  The assembly.
-        /// </param>
-        /// <remarks>
-        ///  Only modules with a public default constructor will be instantiated.
-        ///  The order in which they are added is non-deterministic.
-        /// </remarks>
-
-        public void AddAllModulesInAssembly(Assembly assembly)
-        {
-            Type[] types;
-
-            try {
-                types = assembly.GetTypes();
-            }
-            catch (ReflectionTypeLoadException ex) {
-                types = ex.Types;
-            }
-
-            foreach (var type in types.Where(t => typeof(Module).IsAssignableFrom(t)))
-            {
-                var constructor = type.GetConstructor(Type.EmptyTypes);
-                if (constructor != null) {
-                    var module = constructor.Invoke(null) as Module;
-                    AddModule(module);
-                }
-            }
-        }
 
         /// <summary>
         ///  Processes a request synchronously.
