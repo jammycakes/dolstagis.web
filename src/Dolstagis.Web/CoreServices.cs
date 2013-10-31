@@ -24,7 +24,6 @@ namespace Dolstagis.Web
             For<IRequestProcessor>().Use<RequestProcessor>();
             For<IExceptionHandler>().Use<ExceptionHandler>();
 
-            For<IResourceResolver>().Singleton().Use<ResourceResolver>();
             For<ISessionCookieBuilder>().Singleton().Use<SessionCookieBuilder>();
 
             For<IResultProcessor>().Singleton().Add<StaticResultProcessor>()
