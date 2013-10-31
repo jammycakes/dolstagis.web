@@ -56,11 +56,14 @@
     <Compile Include="ContentResultProcessor.cs" />
     <Compile Include="CoreServices.cs" />
     <Compile Include="Handler.cs" />
+    <Compile Include="HeadResult.cs" />
+    <Compile Include="HeadResultProcessor.cs" />
     <Compile Include="HttpStatusException.cs" />
     <Compile Include="Http\Constants.cs" />
     <Compile Include="Http\Cookie.cs" />
     <Compile Include="Http\HttpEncoder.cs" />
     <Compile Include="Http\HttpUtility.cs" />
+    <Compile Include="RedirectResult.cs" />
     <Compile Include="Sessions\ISessionCookieBuilder.cs" />
     <Compile Include="Http\Request.cs" />
     <Compile Include="Http\Response.cs" />

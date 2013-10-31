@@ -95,5 +95,25 @@ namespace Dolstagis.Web
         {
             return new ContentResult(content, contentType);
         }
+
+        /// <summary>
+        ///  Returns a temporary redirection to an alternative resource.
+        /// </summary>
+        /// <param name="url"></param>
+        /// <returns></returns>
+        public RedirectResult Redirect(string url)
+        {
+            return new RedirectResult(url);
+        }
+
+        /// <summary>
+        ///  Returns a permanent redirection to an alternative resource.
+        /// </summary>
+        /// <param name="url"></param>
+        /// <returns></returns>
+        public RedirectResult RedirectPermanently(string url)
+        {
+            return new RedirectResult(url, Status.MovedPermanently);
+        }
     }
 }
