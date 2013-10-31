@@ -21,8 +21,9 @@ namespace Dolstagis.Web.Lifecycle
             return Process(typedData, context);
         }
 
-        private void ProcessHeaders(T typedData, IRequestContext context)
+        protected virtual void ProcessHeaders(T typedData, IRequestContext context)
         {
+            typedData.Headers.Remove("Content-Encoding");
             context.Response.Status = typedData.Status;
             foreach (var key in typedData.Headers.Keys) {
                 context.Response.AddHeader(key, typedData.Headers[key]);

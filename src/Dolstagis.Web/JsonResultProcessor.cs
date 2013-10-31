@@ -13,7 +13,6 @@ namespace Dolstagis.Web
     {
         public override async Task Process(JsonResult data, IRequestContext context)
         {
-            context.Response.AddHeader("Content-Type", "application/json");
             using (var textWriter = new StreamWriter(context.Response.ResponseStream, data.Encoding))
             {
                 var serializer = new JsonSerializer();
