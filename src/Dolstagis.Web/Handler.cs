@@ -74,5 +74,26 @@ namespace Dolstagis.Web
         {
             return new JsonResult(data);
         }
+
+        /// <summary>
+        ///  Returns a content result of content type text/plain.
+        /// </summary>
+        /// <param name="content"></param>
+        /// <returns></returns>
+        public ContentResult Content(string content)
+        {
+            return new ContentResult(content);
+        }
+
+        /// <summary>
+        ///  Returns a content result with a given content type.
+        /// </summary>
+        /// <param name="content"></param>
+        /// <param name="contentType"></param>
+        /// <returns></returns>
+        public ContentResult Content(string content, string contentType)
+        {
+            return new ContentResult(content, contentType);
+        }
     }
 }

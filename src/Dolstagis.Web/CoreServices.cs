@@ -31,9 +31,9 @@ namespace Dolstagis.Web
                 .Ctor<IResourceResolver>().Is(ctx => new ResourceResolver
                     ("StaticFiles", ctx.GetAllInstances<ResourceLocation>())
                 );
-
             For<IResultProcessor>().Singleton().Add<ViewResultProcessor>();
             For<IResultProcessor>().Singleton().Add<JsonResultProcessor>();
+            For<IResultProcessor>().Singleton().Add<ContentResultProcessor>();
 
             For<ViewRegistry>().Singleton().Use<ViewRegistry>()
                 .Ctor<IResourceResolver>().Is(ctx => new ResourceResolver
