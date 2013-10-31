@@ -114,7 +114,7 @@ namespace Dolstagis.Web
         public void AddStaticFiles(string path)
         {
             var vPath = new VirtualPath(path);
-            Services.For<ResourceLocation>()
+            Services.For<ResourceMapping>()
                 .Add(ctx => new FileResourceLocation("StaticFiles", vPath, ctx.GetInstance<IApplicationContext>()));
 
             string route = vPath.Path + "/{path*}";
@@ -122,7 +122,7 @@ namespace Dolstagis.Web
         }
 
         /// <summary>
-        ///  Registers a directory or file of static files at a different location from
+        ///  Registers a directory or file of static files at a different mapping from
         ///  that within the filespace of the website.
         /// </summary>
         /// <param name="path">
@@ -137,11 +137,11 @@ namespace Dolstagis.Web
         {
             var vPath = new VirtualPath(path);
             if (Path.IsPathRooted(physicalPath)) {
-                Services.For<ResourceLocation>()
+                Services.For<ResourceMapping>()
                     .Add(ctx => new FileResourceLocation("StaticFiles", vPath, physicalPath));
             }
             else {
-                Services.For<ResourceLocation>()
+                Services.For<ResourceMapping>()
                     .Add(ctx => new FileResourceLocation(
                         "StaticFiles", vPath,
                         new VirtualPath(physicalPath),
@@ -165,7 +165,7 @@ namespace Dolstagis.Web
         public void AddViews(string path)
         {
             var vPath = new VirtualPath(path);
-            Services.For<ResourceLocation>()
+            Services.For<ResourceMapping>()
                 .Add(ctx => new FileResourceLocation("Views", vPath, ctx.GetInstance<IApplicationContext>()));
 
             string route = vPath.Path + "/{path*}";
@@ -173,7 +173,7 @@ namespace Dolstagis.Web
         }
 
         /// <summary>
-        ///  Registers a directory or file of static files at a different location from
+        ///  Registers a directory or file of static files at a different mapping from
         ///  that within the filespace of the website.
         /// </summary>
         /// <param name="path">
@@ -188,11 +188,11 @@ namespace Dolstagis.Web
         {
             var vPath = new VirtualPath(path);
             if (Path.IsPathRooted(physicalPath)) {
-                Services.For<ResourceLocation>()
+                Services.For<ResourceMapping>()
                     .Add(ctx => new FileResourceLocation("Views", vPath, physicalPath));
             }
             else {
-                Services.For<ResourceLocation>()
+                Services.For<ResourceMapping>()
                     .Add(ctx => new FileResourceLocation(
                         "Views", vPath,
                         new VirtualPath(physicalPath),

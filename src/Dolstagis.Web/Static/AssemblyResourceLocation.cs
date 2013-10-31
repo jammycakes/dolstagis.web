@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Dolstagis.Web.Static
 {
-    public class AssemblyResourceLocation : ResourceLocation
+    public class AssemblyResourceLocation : ResourceMapping
     {
         public Assembly Assembly { get; private set; }
 

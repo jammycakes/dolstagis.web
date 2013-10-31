@@ -87,7 +87,7 @@
     <Compile Include="Static\AssemblyResourceLocation.cs" />
     <Compile Include="Static\FileResourceLocation.cs" />
     <Compile Include="Static\IResourceResolver.cs" />
-    <Compile Include="Static\ResourceLocation.cs" />
+    <Compile Include="Static\ResourceMapping.cs" />
     <Compile Include="Static\ResourceResolver.cs" />
     <Compile Include="Static\StaticRequestHandler.cs" />
     <Compile Include="Static\StaticResult.cs" />

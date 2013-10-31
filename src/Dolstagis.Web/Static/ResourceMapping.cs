@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Dolstagis.Web.Static
 {
-    public abstract class ResourceLocation
+    public abstract class ResourceMapping
     {
         public string Type { get; private set; }
 
@@ -14,7 +14,7 @@ namespace Dolstagis.Web.Static
 
         protected abstract IResource CreateResource(VirtualPath path);
 
-        protected ResourceLocation(string type, VirtualPath root)
+        protected ResourceMapping(string type, VirtualPath root)
         {
             Type = type;
             if (root.Type != VirtualPathType.AppRelative) {

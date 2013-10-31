@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Dolstagis.Web.Static
 {
-    public class FileResourceLocation : ResourceLocation
+    public class FileResourceLocation : ResourceMapping
     {
         public string FileLocation { get; private set; }
 
@@ -29,20 +29,20 @@ namespace Dolstagis.Web.Static
 
         /// <summary>
         ///  Creates a new <see cref="FileResourceLocation"/> serving up files from a
-        ///  physical path at an arbitrary location on the filesystem.
+        ///  physical path at an arbitrary mapping on the filesystem.
         /// </summary>
         /// <param name="root">
         ///  The root URL for the files. This must be app-relative.
         /// </param>
         /// <param name="physicalFileLocation">
-        ///  The location in the filespace where the files are located.
+        ///  The mapping in the filespace where the files are located.
         /// </param>
 
         public FileResourceLocation(string type, VirtualPath root, string physicalFileLocation)
             : base(type, root)
         {
             if (!Path.IsPathRooted(physicalFileLocation)) {
-                throw new ArgumentException("Physical file location must be an absolute path.");
+                throw new ArgumentException("Physical file mapping must be an absolute path.");
             }
             FileLocation = physicalFileLocation;
         }
@@ -55,7 +55,7 @@ namespace Dolstagis.Web.Static
         ///  The root URL for the files. This must be app-relative.
         /// </param>
         /// <param name="virtualFileLocation">
-        ///  The location in the application where the files are located. This may be either
+        ///  The mapping in the application where the files are located. This may be either
         ///  app-relative or request-relative; in the latter case, it will be taken as being
         ///  relative to the root.
         /// </param>
@@ -66,7 +66,7 @@ namespace Dolstagis.Web.Static
         {
             switch (virtualFileLocation.Type) {
                 case VirtualPathType.Absolute:
-                    throw new ArgumentException("The file location must be within the application.", "fileLocation");
+                    throw new ArgumentException("The file mapping must be within the application.", "fileLocation");
                 case VirtualPathType.RequestRelative:
                     virtualFileLocation = root.Append(virtualFileLocation);
                     break;
