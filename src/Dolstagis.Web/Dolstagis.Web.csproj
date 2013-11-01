@@ -52,6 +52,7 @@
   <ItemGroup>
     <Compile Include="Application.cs" />
     <Compile Include="ApplicationContext.cs" />
+    <Compile Include="ApplicationContextExtensions.cs" />
     <Compile Include="ContentResult.cs" />
     <Compile Include="ContentResultProcessor.cs" />
     <Compile Include="CoreServices.cs" />
