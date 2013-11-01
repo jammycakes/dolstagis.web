@@ -19,7 +19,7 @@ namespace Dolstagis.Web.Static
             _resourceName = resourceName;
             var info = _assembly.GetManifestResourceInfo(resourceName);
             Exists = (info != null);
-            LastModified = File.GetLastWriteTime(info.FileName);
+            LastModified = File.GetLastWriteTime(_assembly.Location);
             Length = null;
         }
 
