@@ -7,21 +7,20 @@ using System.Threading.Tasks;
 
 namespace Dolstagis.Web.Static
 {
-    public class AssemblyResourceLocation : ResourceMapping
+    public class AssemblyResourceLocation : IResourceLocation
     {
         public Assembly Assembly { get; private set; }
 
         public string RootNamespace { get; private set; }
 
-        public AssemblyResourceLocation(string type, VirtualPath root, Assembly assembly, string rootNamespace)
-            : base(type, root)
+        public AssemblyResourceLocation(Assembly assembly, string rootNamespace)
         {
             this.Assembly = assembly;
             this.RootNamespace = RootNamespace;
         }
 
 
-        protected override IResource CreateResource(VirtualPath path)
+        public IResource GetResource(VirtualPath path)
         {
             var resourceName = RootNamespace + "." + String.Join(".", path.Parts.ToArray());
             var name = this.Assembly.GetManifestResourceNames().FirstOrDefault

@@ -8,6 +8,7 @@ using Dolstagis.Web.Views;
 using StructureMap.Configuration.DSL;
 using Dolstagis.Web.Static;
 using System.IO;
+using StructureMap;
 
 namespace Dolstagis.Web
 {
@@ -104,6 +105,85 @@ namespace Dolstagis.Web
             this.Routes.Add(new RouteDefinition(typeof(T), route, this, precondition));
         }
 
+        /* ====== AddStaticFiles and AddViews helper methods ====== */
+
+        private void AddStaticResources(string type, VirtualPath vPath, Func<IContext, IResourceLocation> locationFactory)
+        {
+            Services.For<ResourceMapping>()
+                .Add(ctx => new ResourceMapping(type, vPath, locationFactory(ctx)));
+        }
+
+        private void AddStaticResources(string type, VirtualPath vPath, IResourceLocation location)
+        {
+            Services.For<ResourceMapping>().Add(ctx => new ResourceMapping("StaticFiles", vPath, location));
+        }
+
+        private void AddStaticResources(string type, VirtualPath path)
+        {
+            AddStaticResources(type, path, ctx => new FileResourceLocation
+                (ctx.GetInstance<IApplicationContext>().MapPath(path)));
+        }
+
+        private void AddStaticResources(string type, VirtualPath path, string physicalPath)
+        {
+            if (Path.IsPathRooted(physicalPath))
+            {
+                AddStaticResources(type, path, new FileResourceLocation(physicalPath));
+            }
+            else
+            {
+                var vPhysicalPath = new VirtualPath(physicalPath);
+                AddStaticResources(type, path, ctx => new FileResourceLocation(
+                    ctx.GetInstance<IApplicationContext>().MapPath(vPhysicalPath)));
+            }
+            AddStaticFilesHandler(path);
+        }
+
+        private void AddStaticFilesHandler(VirtualPath vPath)
+        {
+            AddHandler<StaticRequestHandler>(vPath.Path + "/{path*}");
+        }
+
+        /* ====== AddStaticFiles methods ====== */
+
+        /// <summary>
+        ///  Registers a directory or file of static files,
+        ///  using a location created with dependencies taken from the IOC container.
+        /// </summary>
+        /// <param name="vPath"></param>
+        /// <param name="locationFactory"></param>
+
+        public void AddStaticFiles(VirtualPath vPath, Func<IContext, IResourceLocation> locationFactory)
+        {
+            AddStaticResources("StaticFiles", vPath, locationFactory);
+            AddStaticFilesHandler(vPath);
+        }
+
+        /// <summary>
+        ///  Registers a directory or file of static files at the specified location.
+        /// </summary>
+        /// <param name="vPath"></param>
+        /// <param name="location"></param>
+
+        public void AddStaticFiles(VirtualPath vPath, IResourceLocation location)
+        {
+            AddStaticResources("StaticFiles", vPath, location);
+            AddStaticFilesHandler(vPath);
+        }
+
+        /// <summary>
+        ///  Registers a directory or file of static files.
+        /// </summary>
+        /// <param name="path">
+        ///  The path to the static file or directory.
+        /// </param>
+
+        public void AddStaticFiles(VirtualPath path)
+        {
+            AddStaticResources("StaticFiles", path);
+            AddStaticFilesHandler(path);
+        }
+
         /// <summary>
         ///  Registers a directory or file of static files.
         /// </summary>
@@ -113,12 +193,25 @@ namespace Dolstagis.Web
 
         public void AddStaticFiles(string path)
         {
-            var vPath = new VirtualPath(path);
-            Services.For<ResourceMapping>()
-                .Add(ctx => new FileResourceLocation("StaticFiles", vPath, ctx.GetInstance<IApplicationContext>()));
+            AddStaticFiles(new VirtualPath(path));
+        }
 
-            string route = vPath.Path + "/{path*}";
-            AddHandler<StaticRequestHandler>(route);
+        /// <summary>
+        ///  Registers a directory or file of static files at a different mapping from
+        ///  that within the filespace of the website.
+        /// </summary>
+        /// <param name="path">
+        ///  The virtual path to the static file or directory.
+        /// </param>
+        /// <param name="physicalPath">
+        ///  The physical path to the static file or directory. This may be either relative
+        ///  to the application root, or else an absolute path.
+        /// </param>
+
+        public void AddStaticFiles(VirtualPath path, string physicalPath)
+        {
+            AddStaticResources("StaticFiles", path, physicalPath);
+            AddStaticFilesHandler(path);
         }
 
         /// <summary>
@@ -135,41 +228,73 @@ namespace Dolstagis.Web
 
         public void AddStaticFiles(string path, string physicalPath)
         {
-            var vPath = new VirtualPath(path);
-            if (Path.IsPathRooted(physicalPath)) {
-                Services.For<ResourceMapping>()
-                    .Add(ctx => new FileResourceLocation("StaticFiles", vPath, physicalPath));
-            }
-            else {
-                Services.For<ResourceMapping>()
-                    .Add(ctx => new FileResourceLocation(
-                        "StaticFiles", vPath,
-                        new VirtualPath(physicalPath),
-                        ctx.GetInstance<IApplicationContext>()
-                    )
-                );
-            }
-
-            string route = vPath.Path + "/{path*}";
-            AddHandler<StaticRequestHandler>(route);
+            AddStaticFiles(new VirtualPath(path), physicalPath);
         }
 
+        /* ====== AddViews methods ====== */
 
         /// <summary>
-        ///  Registers a directory or file of static files.
+        ///  Registers a directory or file of views,
+        ///  using a location created with dependencies taken from the IOC container.
+        /// </summary>
+        /// <param name="vPath"></param>
+        /// <param name="locationFactory"></param>
+
+        public void AddViews(VirtualPath vPath, Func<IContext, IResourceLocation> locationFactory)
+        {
+            AddStaticResources("Views", vPath, locationFactory);
+        }
+
+        /// <summary>
+        ///  Registers a directory or file of views at the specified location.
+        /// </summary>
+        /// <param name="vPath"></param>
+        /// <param name="location"></param>
+
+        public void AddViews(VirtualPath vPath, IResourceLocation location)
+        {
+            AddStaticResources("Views", vPath, location);
+        }
+
+        /// <summary>
+        ///  Registers a directory or file of view locations.
         /// </summary>
         /// <param name="path">
-        ///  The path to the static file or directory.
+        ///  The path to the view template or directory.
+        /// </param>
+
+        public void AddViews(VirtualPath path)
+        {
+            AddStaticResources("Views", path);
+        }
+
+        /// <summary>
+        ///  Registers a directory or file of view locations.
+        /// </summary>
+        /// <param name="path">
+        ///  The path to the view template or directory.
         /// </param>
 
         public void AddViews(string path)
         {
-            var vPath = new VirtualPath(path);
-            Services.For<ResourceMapping>()
-                .Add(ctx => new FileResourceLocation("Views", vPath, ctx.GetInstance<IApplicationContext>()));
+            AddViews(new VirtualPath(path));
+        }
 
-            string route = vPath.Path + "/{path*}";
-            AddHandler<StaticRequestHandler>(route);
+        /// <summary>
+        ///  Registers a directory or file of static files at a different mapping from
+        ///  that within the filespace of the website.
+        /// </summary>
+        /// <param name="path">
+        ///  The virtual path to the static file or directory.
+        /// </param>
+        /// <param name="physicalPath">
+        ///  The physical path to the static file or directory. This may be either relative
+        ///  to the application root, or else an absolute path.
+        /// </param>
+
+        public void AddViews(VirtualPath path, string physicalPath)
+        {
+            AddStaticResources("Views", path, physicalPath);
         }
 
         /// <summary>
@@ -186,20 +311,7 @@ namespace Dolstagis.Web
 
         public void AddViews(string path, string physicalPath)
         {
-            var vPath = new VirtualPath(path);
-            if (Path.IsPathRooted(physicalPath)) {
-                Services.For<ResourceMapping>()
-                    .Add(ctx => new FileResourceLocation("Views", vPath, physicalPath));
-            }
-            else {
-                Services.For<ResourceMapping>()
-                    .Add(ctx => new FileResourceLocation(
-                        "Views", vPath,
-                        new VirtualPath(physicalPath),
-                        ctx.GetInstance<IApplicationContext>()
-                    )
-                );
-            }
+            AddViews(new VirtualPath(path), physicalPath);
         }
     }
 }
