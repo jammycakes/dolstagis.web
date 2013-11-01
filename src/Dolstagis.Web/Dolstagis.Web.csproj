@@ -51,13 +51,20 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Application.cs" />
+    <Compile Include="ApplicationContext.cs" />
+    <Compile Include="ApplicationContextExtensions.cs" />
+    <Compile Include="ContentResult.cs" />
+    <Compile Include="ContentResultProcessor.cs" />
     <Compile Include="CoreServices.cs" />
     <Compile Include="Handler.cs" />
+    <Compile Include="HeadResult.cs" />
+    <Compile Include="HeadResultProcessor.cs" />
     <Compile Include="HttpStatusException.cs" />
     <Compile Include="Http\Constants.cs" />
     <Compile Include="Http\Cookie.cs" />
     <Compile Include="Http\HttpEncoder.cs" />
     <Compile Include="Http\HttpUtility.cs" />
+    <Compile Include="RedirectResult.cs" />
     <Compile Include="Sessions\ISessionCookieBuilder.cs" />
     <Compile Include="Http\Request.cs" />
     <Compile Include="Http\Response.cs" />
@@ -80,8 +87,9 @@
     <Compile Include="Static\AssemblyResource.cs" />
     <Compile Include="Static\AssemblyResourceLocation.cs" />
     <Compile Include="Static\FileResourceLocation.cs" />
+    <Compile Include="Static\IResourceLocation.cs" />
     <Compile Include="Static\IResourceResolver.cs" />
-    <Compile Include="Static\ResourceLocation.cs" />
+    <Compile Include="Static\ResourceMapping.cs" />
     <Compile Include="Static\ResourceResolver.cs" />
     <Compile Include="Static\StaticRequestHandler.cs" />
     <Compile Include="Static\StaticResult.cs" />
@@ -126,6 +134,9 @@
   <ItemGroup>
     <None Include="Dolstagis.Web.nuspec" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Static\_dolstagis\images\logo.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

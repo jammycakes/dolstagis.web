@@ -13,6 +13,7 @@ namespace Dolstagis.Web
         public JsonResult(object data)
         {
             Data = data;
+            ContentType = "application/json";
         }
     }
 }

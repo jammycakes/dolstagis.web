@@ -24,20 +24,19 @@ namespace Dolstagis.Web
             For<IRequestProcessor>().Use<RequestProcessor>();
             For<IExceptionHandler>().Use<ExceptionHandler>();
 
-            For<IResourceResolver>().Singleton().Use<ResourceResolver>();
             For<ISessionCookieBuilder>().Singleton().Use<SessionCookieBuilder>();
 
             For<IResultProcessor>().Singleton().Add<StaticResultProcessor>()
                 .Ctor<IResourceResolver>().Is(ctx => new ResourceResolver
-                    ("StaticFiles", ctx.GetAllInstances<ResourceLocation>())
+                    ("StaticFiles", ctx.GetAllInstances<ResourceMapping>())
                 );
-
             For<IResultProcessor>().Singleton().Add<ViewResultProcessor>();
             For<IResultProcessor>().Singleton().Add<JsonResultProcessor>();
+            For<IResultProcessor>().Singleton().Add<ContentResultProcessor>();
 
             For<ViewRegistry>().Singleton().Use<ViewRegistry>()
                 .Ctor<IResourceResolver>().Is(ctx => new ResourceResolver
-                    ("Views", ctx.GetAllInstances<ResourceLocation>())
+                    ("Views", ctx.GetAllInstances<ResourceMapping>())
                 );
         }
     }

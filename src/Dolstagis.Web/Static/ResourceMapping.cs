@@ -6,21 +6,22 @@ using System.Threading.Tasks;
 
 namespace Dolstagis.Web.Static
 {
-    public abstract class ResourceLocation
+    public class ResourceMapping
     {
         public string Type { get; private set; }
 
         public VirtualPath Root { get; private set; }
 
-        protected abstract IResource CreateResource(VirtualPath path);
+        public IResourceLocation Location { get; private set; }
 
-        protected ResourceLocation(string type, VirtualPath root)
+        public ResourceMapping(string type, VirtualPath root, IResourceLocation location)
         {
-            Type = type;
             if (root.Type != VirtualPathType.AppRelative) {
                 throw new ArgumentException("The root path must be app-relative.");
             }
             Root = root;
+            Type = type;
+            Location = location;
         }
 
         public IResource GetResource(VirtualPath path)
@@ -39,7 +40,7 @@ namespace Dolstagis.Web.Static
                 throw new ArgumentException("The path to locate must be a sub-path of the root.");
             }
 
-            return CreateResource(path);
+            return Location.GetResource(path);
         }
     }
 }

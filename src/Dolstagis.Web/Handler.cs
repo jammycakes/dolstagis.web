@@ -74,5 +74,46 @@ namespace Dolstagis.Web
         {
             return new JsonResult(data);
         }
+
+        /// <summary>
+        ///  Returns a content result of content type text/plain.
+        /// </summary>
+        /// <param name="content"></param>
+        /// <returns></returns>
+        public ContentResult Content(string content)
+        {
+            return new ContentResult(content);
+        }
+
+        /// <summary>
+        ///  Returns a content result with a given content type.
+        /// </summary>
+        /// <param name="content"></param>
+        /// <param name="contentType"></param>
+        /// <returns></returns>
+        public ContentResult Content(string content, string contentType)
+        {
+            return new ContentResult(content, contentType);
+        }
+
+        /// <summary>
+        ///  Returns a temporary redirection to an alternative resource.
+        /// </summary>
+        /// <param name="url"></param>
+        /// <returns></returns>
+        public RedirectResult Redirect(string url)
+        {
+            return new RedirectResult(url);
+        }
+
+        /// <summary>
+        ///  Returns a permanent redirection to an alternative resource.
+        /// </summary>
+        /// <param name="url"></param>
+        /// <returns></returns>
+        public RedirectResult RedirectPermanently(string url)
+        {
+            return new RedirectResult(url, Status.MovedPermanently);
+        }
     }
 }

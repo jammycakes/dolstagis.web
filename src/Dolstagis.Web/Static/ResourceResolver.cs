@@ -8,21 +8,21 @@ namespace Dolstagis.Web.Static
 {
     public class ResourceResolver : IResourceResolver
     {
-        private IEnumerable<ResourceLocation> _locations;
+        private IEnumerable<ResourceMapping> _mappings;
 
-        public ResourceResolver(string type, IEnumerable<ResourceLocation> locations)
+        public ResourceResolver(string type, IEnumerable<ResourceMapping> mappings)
         {
-            _locations = locations.Where(x => x.Type == type).ToList(); ;
+            _mappings = mappings.Where(x => x.Type == type).ToList(); ;
         }
 
         public IResource GetResource(VirtualPath path)
         {
             var candidates =
-                from location in _locations
-                let mine = location.Root.GetSubPath(path, true)
+                from mapping in _mappings
+                let mine = mapping.Root.GetSubPath(path, true)
                 where mine != null
-                orderby location.Root.Parts.Count descending
-                let resource = location.GetResource(mine)
+                orderby mapping.Root.Parts.Count descending
+                let resource = mapping.GetResource(mine)
                 where resource != null
                 select resource;
 
