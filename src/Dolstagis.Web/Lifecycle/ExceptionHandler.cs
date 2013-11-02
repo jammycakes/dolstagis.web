@@ -45,7 +45,8 @@ namespace Dolstagis.Web.Lifecycle
             Exception fault = null;
 
             var vPath = new VirtualPath("~/errors/" + ex.Status.Code);
-            var view = _viewRegistry.GetView(vPath);
+            var view = _viewRegistry.GetView(vPath) ??
+                _viewRegistry.GetView(new VirtualPath("~/errors/default"));
             if (view != null)
             {
                 try
