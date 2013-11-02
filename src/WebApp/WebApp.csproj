@@ -80,6 +80,7 @@
     <Content Include="views\header.nustache" />
     <Content Include="views\footer.nustache" />
     <Content Include="errors\404.mustache" />
+    <Content Include="errors\default.mustache" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
