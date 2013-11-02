@@ -20,13 +20,6 @@ namespace Dolstagis.Web.Lifecycle
             _createAction = createAction;
         }
 
-        public ActionInvocation GetAction(IRequest request)
-        {
-            var route = _routes.Lookup(request.AppRelativePath).FirstOrDefault();
-            if (route == null) return null;
-            return GetAction(request, route);
-        }
-
         public IEnumerable<ActionInvocation> GetActions(IRequest request)
         {
             return _routes.Lookup(request.AppRelativePath)
