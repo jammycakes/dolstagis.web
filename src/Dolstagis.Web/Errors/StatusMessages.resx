@@ -1,0 +1,213 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Message400BadRequest" xml:space="preserve">
+    <value>Your browser sent a request that the server could not understand.</value>
+  </data>
+  <data name="Message401Unauthorized" xml:space="preserve">
+    <value>The server could not verify that you are authorised to access the requested URL. Either you specified the wrong credentials (e.g. user name and password) or your browser is not able to supply the correct credentials.</value>
+  </data>
+  <data name="Message403Forbidden" xml:space="preserve">
+    <value>You don't have permission to access the requested URL.</value>
+  </data>
+  <data name="Message404NotFound" xml:space="preserve">
+    <value>The URL that you requested was not found.</value>
+  </data>
+  <data name="Message405MethodNotAllowed" xml:space="preserve">
+    <value>The requested method is not allowed for this URL.</value>
+  </data>
+  <data name="Message406NotAcceptable" xml:space="preserve">
+    <value>The appropriate representation of the requested URL could not be found on this server.</value>
+  </data>
+  <data name="Message407ProxyAuthenticationRequired" xml:space="preserve">
+    <value>This proxy server could not verify that you are authorised to access the requested URL. Either you specified the wrong credentials (e.g. user name and password) or your browser is not able to supply the correct credentials.</value>
+  </data>
+  <data name="Message408RequestTimeout" xml:space="preserve">
+    <value>The server timed out waiting for the HTTP request for the client.</value>
+  </data>
+  <data name="Message410Gone" xml:space="preserve">
+    <value>The requested resource is no longer available on this server and there is no forwarding address. Please remove all references to this resource.</value>
+  </data>
+  <data name="Message411LengthRequired" xml:space="preserve">
+    <value>A request of this method requires a valid Content-Length.</value>
+  </data>
+  <data name="Message412PreconditionFailed" xml:space="preserve">
+    <value>The precondition on the request for this URL failed.</value>
+  </data>
+  <data name="Message413RequestEntityTooLarge" xml:space="preserve">
+    <value>The amount of data provided in this request exceeds the capacity limit.</value>
+  </data>
+  <data name="Message414RequestUriTooLong" xml:space="preserve">
+    <value>The requested URL is too long for this server.</value>
+  </data>
+  <data name="Message415UnsupportedMediaType" xml:space="preserve">
+    <value>The supplied request data is not in a format acceptable for the processing of this resource.</value>
+  </data>
+  <data name="Message416RequestedRangeNotSatisfiable" xml:space="preserve">
+    <value>None of the range-specifier values in the Range request-header field overlap the current extent of the selected resource.</value>
+  </data>
+  <data name="Message417ExpectationFailed" xml:space="preserve">
+    <value>The expectation given in the Expect: request header field could not be met by this server.</value>
+  </data>
+  <data name="Message418ImATeapot" xml:space="preserve">
+    <value>I'm a teapot</value>
+  </data>
+  <data name="Message420EnhanceYourCalm" xml:space="preserve">
+    <value>Enhance your calm</value>
+  </data>
+  <data name="Message422UnprocessableEntity" xml:space="preserve">
+    <value>The server understands the media type of the request entity, but was unable to process the contained instructions.</value>
+  </data>
+  <data name="Message423Locked" xml:space="preserve">
+    <value>The requested resource is currently locked. The lock must be released, or proper identification given before the method can be applied.</value>
+  </data>
+  <data name="Message424FailedDependency" xml:space="preserve">
+    <value>The method could not be performed on the resource because the requested action depended on another action and that other action failed.</value>
+  </data>
+  <data name="Message426UpgradeRequired" xml:space="preserve">
+    <value>The requested resource can only be retrieved using SSL. The server is willing to upgrade the current connection to SSL, but your client doesn't support it. Either upgrade your client, or try requesting the page using https://</value>
+  </data>
+  <data name="Message429TooManyRequests" xml:space="preserve">
+    <value>The user has sent too many requests in a given amount of time.</value>
+  </data>
+  <data name="Message500InternalServerError" xml:space="preserve">
+    <value>The server encountered an internal error or misconfiguration and was unable to complete your request.</value>
+  </data>
+  <data name="Message501NotImplemented" xml:space="preserve">
+    <value>This functionality has not yet been implemented.</value>
+  </data>
+  <data name="Message502BadGateway" xml:space="preserve">
+    <value>The proxy server received an invalid response from an upstream server.</value>
+  </data>
+  <data name="Message503ServiceUnavailable" xml:space="preserve">
+    <value>The service is temporarily unable to process your request due to maintenance downtime or capacity problems. Please try again later.</value>
+  </data>
+  <data name="Message504GatewayTimeout" xml:space="preserve">
+    <value>The gateway did not receive a timely response from the upstream server or application.</value>
+  </data>
+  <data name="Message506VariantAlsoNegotiates" xml:space="preserve">
+    <value>A variant for the requested URL is also a negotiable resource.</value>
+  </data>
+  <data name="Message507InsufficientStorage" xml:space="preserve">
+    <value>The resource could not be stored because there is insufficient storage space left in your allocation.</value>
+  </data>
+  <data name="Message510NotExtended" xml:space="preserve">
+    <value>A mandatory extension policy in the request is not accepted by the server for this resource.</value>
+  </data>
+</root>

@@ -20,7 +20,7 @@ namespace Dolstagis.Web.Views.Nustache
         {
             var resource = resolver.GetResource(pathToView);
             if (resource == null || !resource.Exists) {
-                throw new ViewNotFoundException("There is no view at " + pathToView.ToString());
+                return null;
             }
 
             return new NustacheView(this, pathToView, resource, resolver);

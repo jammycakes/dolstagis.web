@@ -28,14 +28,36 @@ namespace Dolstagis.Tests.Web.Views
         }
 
         [Test]
-        [ExpectedException(typeof(ViewEngineNotFoundException))]
-        public void CanNotGetViewEngineWhenNotFound()
+        public void ReturnsNullWhenViewEngineNotFound()
         {
             var engine = new Mock<IViewEngine>();
             engine.SetupGet(x => x.Extensions).Returns(new[] { "nustache" });
             var resolver = new Mock<IResourceResolver>();
             var registry = new ViewRegistry(resolver.Object, new[] { engine.Object });
-            registry.GetViewEngine(new VirtualPath("~/test.cshtml"));
+            Assert.IsNull(registry.GetViewEngine(new VirtualPath("~/test.cshtml")));
+        }
+
+        [TestCase("~/test.nustache", true)]
+        [TestCase("~/test", true)]
+        [TestCase("~/test.cshtml", false)]
+        public void CanGetView(string path, bool isExpected)
+        {
+            var engine = new Mock<IViewEngine>();
+            engine.SetupGet(x => x.Extensions).Returns(new[] { "nustache" });
+            var resolver = new Mock<IResourceResolver>();
+            var registry = new ViewRegistry(resolver.Object, new[] { engine.Object });
+            var view = Mock.Of<IView>();
+            engine.Setup(x => x.GetView(new VirtualPath("~/test.nustache"), It.IsAny<IResourceResolver>()))
+                .Returns(view);
+            var gotView = registry.GetView(new VirtualPath(path));
+            if (isExpected)
+            {
+                Assert.AreSame(view, gotView);
+            }
+            else
+            {
+                Assert.IsNull(gotView);
+            }
         }
     }
 }

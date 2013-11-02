@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Dolstagis.Web.Http;
 using Dolstagis.Web.Sessions;
+using Dolstagis.Web.Static;
 
 namespace Dolstagis.Web.Lifecycle
 {
@@ -32,6 +33,7 @@ namespace Dolstagis.Web.Lifecycle
         public async Task<object> InvokeRequest(IRequestContext context)
         {
             if (context == null) Status.NotFound.Throw();
+
             var actions = context.Actions.Where(x => x.Method != null);
             foreach (var action in actions)
             {
@@ -49,6 +51,19 @@ namespace Dolstagis.Web.Lifecycle
             throw new HttpStatusException(Status.NotFound);
         }
 
+        public async Task<object> InvokeRequestWithHomePageFallback(IRequestContext context)
+        {
+            if (context.Request.AppRelativePath.Parts.Any()
+                || context.Actions.Any())
+            {
+                return await InvokeRequest(context);
+            }
+            else
+            {
+                return new StaticResult(new VirtualPath("~/_dolstagis/index.html"));
+            }
+        }
+
         public async Task ProcessRequest(IRequestContext context)
         {
             object result;
@@ -56,7 +71,7 @@ namespace Dolstagis.Web.Lifecycle
 
             try
             {
-                result = await InvokeRequest(context);
+                result = await InvokeRequestWithHomePageFallback(context);
                 processor = _resultProcessors.LastOrDefault(x => x.CanProcess(result));
                 if (processor == null) Status.NotFound.Throw();
             }

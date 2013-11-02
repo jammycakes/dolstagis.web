@@ -22,27 +22,50 @@ namespace Dolstagis.Web.Views
                     _viewEngines[ext] = engine;
         }
 
+        /// <summary>
+        ///  Gets the view engine which will handle this view.
+        /// </summary>
+        /// <param name="pathToView"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentNullException">
+        ///  pathToView is null.
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        ///  No extension is specified for the view.
+        /// </exception>
         public IViewEngine GetViewEngine(VirtualPath pathToView)
         {
             if (pathToView == null) {
                 throw new ArgumentNullException("pathToView");
             }
-            if (pathToView.Parts.Count == 0)
-                throw new ViewEngineNotFoundException("No view was specified.");
+            if (pathToView.Parts.Count == 0) return null;
             var split = pathToView.Parts.Last().Split('.');
-            if (split.Length <= 1) {
-                throw new ViewEngineNotFoundException("No view engine could be found to handle this view.");
-            }
+            if (split.Length <= 1) return null;
 
             IViewEngine result;
             if (_viewEngines.TryGetValue(split.Last(), out result)) return result;
-            throw new ViewEngineNotFoundException("No view engine could be found to handle this view.");
+            return null;
         }
 
+        /// <summary>
+        ///  Gets a view.
+        /// </summary>
+        /// <param name="pathToView"></param>
+        /// <returns></returns>
         public IView GetView(VirtualPath pathToView)
         {
-            var engine = this.GetViewEngine(pathToView);
-            return engine.GetView(pathToView, _resolver);
+            var extendedPaths =
+                from extension in _viewEngines.Keys
+                select new VirtualPath(pathToView.ToString() + "." + extension);
+            var allPaths = new[] { pathToView }.Concat(extendedPaths);
+            var views =
+                from path in allPaths
+                let engine = this.GetViewEngine(path)
+                where engine != null
+                let view = engine.GetView(path, _resolver)
+                where view != null
+                select view;
+            return views.FirstOrDefault();
         }
     }
 }

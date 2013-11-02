@@ -18,6 +18,7 @@ namespace Dolstagis.Web
                 var serializer = new JsonSerializer();
                 serializer.Serialize(textWriter, data);
             }
+            await Task.Yield();
         }
     }
 }

@@ -8,6 +8,7 @@ namespace WebApp
         {
             AddStaticFiles("~/content");
             AddViews("~/views");
+            AddViews("~/errors");
             AddHandler<Index>();
         }
     }

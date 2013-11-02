@@ -17,7 +17,7 @@ namespace Dolstagis.Web.Views
 
         public IView GetView(VirtualPath pathToView, IResourceResolver resolver)
         {
-            IView result;
+            IView result = null;
             string key = pathToView.Path;
             if (!_cache.TryGetValue(key, out result)) {
                 result = CreateView(pathToView, resolver);

@@ -56,6 +56,11 @@
     <Compile Include="ContentResult.cs" />
     <Compile Include="ContentResultProcessor.cs" />
     <Compile Include="CoreServices.cs" />
+    <Compile Include="Errors\StatusMessages.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>StatusMessages.resx</DependentUpon>
+    </Compile>
     <Compile Include="Handler.cs" />
     <Compile Include="HeadResult.cs" />
     <Compile Include="HeadResultProcessor.cs" />
@@ -91,11 +96,10 @@
     <Compile Include="Static\IResourceResolver.cs" />
     <Compile Include="Static\ResourceMapping.cs" />
     <Compile Include="Static\ResourceResolver.cs" />
+    <Compile Include="Static\ResourceType.cs" />
     <Compile Include="Static\StaticRequestHandler.cs" />
     <Compile Include="Static\StaticResult.cs" />
     <Compile Include="Static\StaticResultProcessor.cs" />
-    <Compile Include="Views\ViewEngineNotFoundException.cs" />
-    <Compile Include="Views\ViewNotFoundException.cs" />
     <Compile Include="Views\ViewResultProcessor.cs" />
     <Compile Include="VirtualPath.cs" />
     <Compile Include="RequestContext.cs" />
@@ -130,13 +134,19 @@
     <Compile Include="Views\ViewEngineBase.cs" />
     <Compile Include="Views\ViewRegistry.cs" />
     <Compile Include="VirtualPathType.cs" />
+    <Compile Include="_dolstagis\DolstagisModule.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Dolstagis.Web.nuspec" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Static\_dolstagis\images\logo.png" />
+    <EmbeddedResource Include="Errors\StatusMessages.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>StatusMessages.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="_dolstagis\content\images\logo.png" />
+    <EmbeddedResource Include="_dolstagis\index.html" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
