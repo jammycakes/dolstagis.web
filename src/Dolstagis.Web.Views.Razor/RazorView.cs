@@ -25,6 +25,7 @@ namespace Dolstagis.Web.Views.Razor
 
         public async Task Render(Stream stream, ViewResult data)
         {
+            await Task.Yield();
         }
     }
 }

@@ -48,10 +48,7 @@ namespace Dolstagis.Web.Views.Razor
         protected override IView CreateView(VirtualPath pathToView, IResourceResolver resolver)
         {
             var resource = resolver.GetResource(pathToView);
-            if (resource == null || !resource.Exists)
-            {
-                throw new ViewNotFoundException("There is no view at " + pathToView.ToString());
-            }
+            if (resource == null || !resource.Exists) return null;
 
             return new RazorView(this, pathToView, resource, resolver);
         }
