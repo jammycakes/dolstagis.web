@@ -20,6 +20,16 @@ namespace Dolstagis.Web
             this.Status = status;
         }
 
+        public HttpStatusException(Status status, Exception innerException)
+            : base(status.ToString(), innerException)
+        {
+            this.Status = status;
+        }
+
+        public HttpStatusException(Exception innerException)
+            : this(Status.InternalServerError, innerException)
+        { }
+
         protected HttpStatusException(SerializationInfo info, StreamingContext context)
             : base(info, context)
         { }
