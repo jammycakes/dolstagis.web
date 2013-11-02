@@ -46,6 +46,7 @@ namespace Dolstagis.Web.Views.Nustache
             using (var writer = new StreamWriter(stream, data.Encoding)) {
                 Template.Render(data, writer, GetChildTemplate);
             }
+            await Task.Yield();
         }
     }
 }
