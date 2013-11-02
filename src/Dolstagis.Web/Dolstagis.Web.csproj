@@ -130,13 +130,15 @@
     <Compile Include="Views\ViewEngineBase.cs" />
     <Compile Include="Views\ViewRegistry.cs" />
     <Compile Include="VirtualPathType.cs" />
+    <Compile Include="_dolstagis\DolstagisModule.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Dolstagis.Web.nuspec" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Static\_dolstagis\images\logo.png" />
+    <EmbeddedResource Include="_dolstagis\content\images\logo.png" />
+    <EmbeddedResource Include="_dolstagis\index.html" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

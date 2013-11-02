@@ -1,0 +1,121 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>Dolstagis</title>
+
+    <style type="text/css">
+
+        body {
+            font: 12pt calibri, arial, helvetica, sans-serif;
+        }
+
+        #heading {
+            left: 0px;
+            top: 0px;
+            bottom: 0px;
+            width: 250px;
+            position: fixed;
+            border-right: 1px dotted #9999ff;
+            background-color: #f1db66;
+            padding: 20px;
+            box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            -webkit-box-sizing: border-box;
+        }
+
+        #content {
+            margin-left: 275px;
+        }
+
+        h1 {
+            text-align: center;
+            margin: 0px;
+            padding: 0px;
+        }
+
+        pre {
+            margin-left: 50px;
+            margin-right: 50px;
+            padding: 10px;
+            font: 10pt Consolas;
+            border: 1px solid black;
+            background-color: #f6eec4;
+            box-shadow: #900 2px 2px 4px;
+        }
+    </style>
+</head>
+<body>
+    <header id="heading">
+        <h1>
+            <a href="https://github.com/jammycakes/dolstagis.web">
+                <img src="_dolstagis/content/images/logo.png" alt="Dolstagis" />
+            </a>
+        </h1>
+
+        <ul>
+            <li>
+                <a href="https://github.com/jammycakes/dolstagis.web">
+                    GitHub project page
+                </a>
+            </li>
+            <li>
+                <a href="https://github.com/jammycakes/dolstagis.web/wiki">
+                    Documentation
+                </a>
+            </li>
+            <li>
+                <a href="https://github.com/jammycakes/dolstagis.web/issues">
+                    Issue tracker
+                </a>
+            </li>
+        </ul>
+
+    </header>
+    <section id="content">
+        <h2>
+            Welcome to Dolstagis.Web
+        </h2>
+        <p>
+            Congratulations! Your new Dolstagis.Web project is ready to go.
+        </p>
+        <p>
+            To get started, create a module and one or more handlers:
+        </p>
+<pre><code>using System;
+using Dolstagis.Web;
+
+public class MyModule: Module
+{
+    public MyModule()
+    {
+        AddHandler&lt;MyHomePage&gt;();
+    }
+}
+
+
+[Route("/")]
+public class MyHomePage: Handler
+{
+    public object Get()
+    {
+        return Content("Hello world!");
+    }
+}
+</code></pre>
+
+        <p>
+            For more information, see
+            <a href="https://github.com/jammycakes/dolstagis.web/wiki">the project wiki</a>.
+
+        </p>
+
+        <p>
+            This message will disappear when you define a handler for your home page.
+        </p>
+
+    </section>
+
+</body>
+</html>

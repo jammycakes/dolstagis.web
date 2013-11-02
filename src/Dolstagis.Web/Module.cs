@@ -107,24 +107,24 @@ namespace Dolstagis.Web
 
         /* ====== AddStaticFiles and AddViews helper methods ====== */
 
-        private void AddStaticResources(string type, VirtualPath vPath, Func<IContext, IResourceLocation> locationFactory)
+        protected void AddStaticResources(string type, VirtualPath vPath, Func<IContext, IResourceLocation> locationFactory)
         {
             Services.For<ResourceMapping>()
                 .Add(ctx => new ResourceMapping(type, vPath, locationFactory(ctx)));
         }
 
-        private void AddStaticResources(string type, VirtualPath vPath, IResourceLocation location)
+        protected void AddStaticResources(string type, VirtualPath vPath, IResourceLocation location)
         {
             Services.For<ResourceMapping>().Add(ctx => new ResourceMapping("StaticFiles", vPath, location));
         }
 
-        private void AddStaticResources(string type, VirtualPath path)
+        protected void AddStaticResources(string type, VirtualPath path)
         {
             AddStaticResources(type, path, ctx => new FileResourceLocation
                 (ctx.GetInstance<IApplicationContext>().MapPath(path)));
         }
 
-        private void AddStaticResources(string type, VirtualPath path, string physicalPath)
+        protected void AddStaticResources(string type, VirtualPath path, string physicalPath)
         {
             if (Path.IsPathRooted(physicalPath))
             {
@@ -159,6 +159,12 @@ namespace Dolstagis.Web
             AddStaticFilesHandler(vPath);
         }
 
+
+        public void AddStaticFiles(string path, Func<IContext, IResourceLocation> locationFactory)
+        {
+            AddStaticFiles(new VirtualPath(path), locationFactory);
+        }
+
         /// <summary>
         ///  Registers a directory or file of static files at the specified location.
         /// </summary>
@@ -169,6 +175,17 @@ namespace Dolstagis.Web
         {
             AddStaticResources("StaticFiles", vPath, location);
             AddStaticFilesHandler(vPath);
+        }
+
+        /// <summary>
+        ///  Registers a directory or file of static files at the specified location.
+        /// </summary>
+        /// <param name="path"></param>
+        /// <param name="location"></param>
+
+        public void AddStaticFiles(string path, IResourceLocation location)
+        {
+            AddStaticFiles(new VirtualPath(path), location);
         }
 
         /// <summary>
@@ -246,6 +263,18 @@ namespace Dolstagis.Web
         }
 
         /// <summary>
+        ///  Registers a directory or file of views,
+        ///  using a location created with dependencies taken from the IOC container.
+        /// </summary>
+        /// <param name="vPath"></param>
+        /// <param name="locationFactory"></param>
+
+        public void AddViews(string path, Func<IContext, IResourceLocation> locationFactory)
+        {
+            AddViews(new VirtualPath(path), locationFactory);
+        }
+
+        /// <summary>
         ///  Registers a directory or file of views at the specified location.
         /// </summary>
         /// <param name="vPath"></param>
@@ -255,6 +284,18 @@ namespace Dolstagis.Web
         {
             AddStaticResources("Views", vPath, location);
         }
+
+        /// <summary>
+        ///  Registers a directory or file of views at the specified location.
+        /// </summary>
+        /// <param name="vPath"></param>
+        /// <param name="location"></param>
+
+        public void AddViews(string path, IResourceLocation location)
+        {
+            AddViews(new VirtualPath(path), location);
+        }
+
 
         /// <summary>
         ///  Registers a directory or file of view locations.
