@@ -10,7 +10,7 @@ namespace Dolstagis.Web.Static
     {
         private IEnumerable<ResourceMapping> _mappings;
 
-        public ResourceResolver(string type, IEnumerable<ResourceMapping> mappings)
+        public ResourceResolver(ResourceType type, IEnumerable<ResourceMapping> mappings)
         {
             _mappings = mappings.Where(x => x.Type == type).ToList(); ;
         }

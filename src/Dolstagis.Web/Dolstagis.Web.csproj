@@ -91,6 +91,7 @@
     <Compile Include="Static\IResourceResolver.cs" />
     <Compile Include="Static\ResourceMapping.cs" />
     <Compile Include="Static\ResourceResolver.cs" />
+    <Compile Include="Static\ResourceType.cs" />
     <Compile Include="Static\StaticRequestHandler.cs" />
     <Compile Include="Static\StaticResult.cs" />
     <Compile Include="Static\StaticResultProcessor.cs" />

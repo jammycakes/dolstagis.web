@@ -15,7 +15,7 @@ namespace Dolstagis.Web._dolstagis
             string ns = this.GetType().Namespace;
             this.AddStaticFiles("~/_dolstagis/content",
                 new AssemblyResourceLocation(this.GetType().Assembly, ns + ".content"));
-            this.AddStaticResources("StaticFiles", new VirtualPath("~/_dolstagis/index.html"),
+            this.AddStaticResources(ResourceType.StaticFiles, new VirtualPath("~/_dolstagis/index.html"),
                 new AssemblyResourceLocation(this.GetType().Assembly, ns + ".index.html"));
         }
     }
