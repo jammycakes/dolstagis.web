@@ -42,19 +42,29 @@ namespace Dolstagis.Web.Lifecycle
 
         private async Task HandleHttpStatusException(IRequestContext context, HttpStatusException ex)
         {
-            context.Response.Status = ex.Status;
+            Exception fault = null;
 
             var vPath = new VirtualPath("~/errors/" + ex.Status.Code);
             var view = _viewRegistry.GetView(vPath);
             if (view != null)
             {
-                context.Response.AddHeader("Content-Type", "text/html");
-                context.Response.AddHeader("Content-Encoding", "utf-8");
-                await view.Render(context.Response.ResponseStream, new ViewResult(vPath.ToString(), ex));
+                try
+                {
+                    context.Response.Status = ex.Status;
+                    context.Response.AddHeader("Content-Type", "text/html");
+                    context.Response.AddHeader("Content-Encoding", "utf-8");
+                    await view.Render(context.Response.ResponseStream, new ViewResult(vPath.ToString(), ex));
+                    return;
+                }
+                catch (Exception exRendering)
+                {
+                    fault = new AggregateException(ex, exRendering);
+                    context.Response.Status = Status.InternalServerError;
+                }
             }
             else
             {
-                await DumpException(context, ex);
+                await DumpException(context, fault ?? ex);
             }
         }
     }
