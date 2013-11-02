@@ -14,17 +14,19 @@ namespace Dolstagis.Web
         private string _physicalPath;
         private IList<Module> _modules = new List<Module>();
         private Lazy<ApplicationContext> _context;
+        private ISettings _settings;
 
-        public Application(string virtualPath, string physicalPath)
+        public Application(string virtualPath, string physicalPath, ISettings settings)
         {
             _virtualPath = virtualPath;
             _physicalPath = physicalPath;
             _context = new Lazy<ApplicationContext>(CreateContext);
+            _settings = settings;
         }
 
         private ApplicationContext CreateContext()
         {
-            return new ApplicationContext(_virtualPath, _physicalPath, _modules.Where(x => x.Enabled));
+            return new ApplicationContext(_virtualPath, _physicalPath, _settings, _modules.Where(x => x.Enabled));
         }
 
 

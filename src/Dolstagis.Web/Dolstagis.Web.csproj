@@ -69,6 +69,7 @@
     <Compile Include="Http\Cookie.cs" />
     <Compile Include="Http\HttpEncoder.cs" />
     <Compile Include="Http\HttpUtility.cs" />
+    <Compile Include="ISettings.cs" />
     <Compile Include="RedirectResult.cs" />
     <Compile Include="Sessions\ISessionCookieBuilder.cs" />
     <Compile Include="Http\Request.cs" />

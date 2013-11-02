@@ -38,7 +38,7 @@ namespace Dolstagis.Web.Aspnet
         {
             var ignores = new string[] {
                 "Microsoft.",
-                "mscorlib,", 
+                "mscorlib,",
                 "System.",
                 "System,",
                 "IronPython",
@@ -50,7 +50,7 @@ namespace Dolstagis.Web.Aspnet
 
             if (_application != null) return;
             _application = new Application
-                (HostingEnvironment.ApplicationVirtualPath, HostingEnvironment.ApplicationPhysicalPath);
+                (HostingEnvironment.ApplicationVirtualPath, HostingEnvironment.ApplicationPhysicalPath, new Settings());
 
             foreach (var assembly in BuildManager.GetReferencedAssemblies().Cast<Assembly>()) {
                 if (!assembly.IsDynamic && !ignores.Any
