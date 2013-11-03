@@ -62,7 +62,14 @@ namespace Dolstagis.Web.Lifecycle
 
         private string RenderDebugInfo(IRequestContext context, HttpStatusException ex)
         {
-            return "";
+            if (ex.InnerException == null) return String.Empty;
+
+            var sb = new StringBuilder();
+            sb.AppendFormat("<h3>Stack trace</h3><section id=\"stacktrace\"><pre><code>{0}</code></pre></section>",
+                ex.InnerException.ToString()
+            );
+
+            return sb.ToString();
         }
 
         private async Task HandleHttpStatusException(IRequestContext context, HttpStatusException ex)
