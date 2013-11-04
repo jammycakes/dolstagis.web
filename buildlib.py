@@ -33,7 +33,8 @@ class Project:
         self.file_version = self.version + '.' + str(self.build_number)
         if self.versioninfo:
             self.informational_version = self.version + '-' + self.versioninfo + '.' + str(self.build_number)
-            self.nuget_version = self.version + '-' + self.versioninfo + str(self.build_number)
+            self.nuget_version = self.version + '-' + self.versioninfo + \
+                (str(self.build_number) if self.build_number > 0 else '')
         else:
             self.informational_version = self.file_version
             self.nuget_version = self.file_version
