@@ -15,7 +15,8 @@ namespace Dolstagis.Web.Views.Razor
         private readonly RazorCodeLanguage _language;
         private readonly RazorEngineHost _host;
 
-        public RazorViewEngine(string extension, RazorCodeLanguage language)
+        public RazorViewEngine(ISettings settings, string extension, RazorCodeLanguage language)
+            : base(settings)
         {
             _extension = extension;
             _language = language;
