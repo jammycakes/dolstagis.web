@@ -122,7 +122,10 @@ using System.Runtime.InteropServices;
         built_lib = self._abspath('src/' + project + '/bin/' + self.configuration)
         shutil.copytree(
             built_lib, nuget_lib,
-            ignore = lambda d, x: [a for a in x if not a.lower().startswith(project.lower() + '.')]
+            ignore = lambda d, x: [a for a in x if
+                                   (not a.lower().startswith(project.lower() + '.'))
+                                   or a.lower().endswith('.pdb')
+                                   ]
         )
         shutil.copy2(nuspec, nuget_project)
         for folder in folders:
