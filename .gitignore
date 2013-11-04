@@ -165,3 +165,4 @@ TestResult.xml
 
 __pycache__/
 *.py[cdo]
+*.swp
