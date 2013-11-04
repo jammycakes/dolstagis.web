@@ -27,6 +27,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApp", "WebApp\WebApp.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dolstagis.Web.Views.Nustache", "Dolstagis.Web.Views.Nustache\Dolstagis.Web.Views.Nustache.csproj", "{2C298F3A-D57E-4D56-A529-88C47D5D809B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dolstagis.Web.Views.Razor", "Dolstagis.Web.Views.Razor\Dolstagis.Web.Views.Razor.csproj", "{77E9084E-4C5A-4EDB-A7EB-18C3DD8CA11E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -57,6 +59,10 @@ Global
 		{2C298F3A-D57E-4D56-A529-88C47D5D809B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2C298F3A-D57E-4D56-A529-88C47D5D809B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2C298F3A-D57E-4D56-A529-88C47D5D809B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{77E9084E-4C5A-4EDB-A7EB-18C3DD8CA11E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{77E9084E-4C5A-4EDB-A7EB-18C3DD8CA11E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{77E9084E-4C5A-4EDB-A7EB-18C3DD8CA11E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{77E9084E-4C5A-4EDB-A7EB-18C3DD8CA11E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
