@@ -11,6 +11,8 @@ namespace Dolstagis.Web.Views.Nustache
     {
         private static readonly string[] _extensions = new[] { "mustache", "nustache" };
 
+        public NustacheViewEngine(ISettings settings) : base(settings) { }
+
         public override IEnumerable<string> Extensions
         {
             get { return _extensions; }
