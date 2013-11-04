@@ -124,7 +124,7 @@ using System.Runtime.InteropServices;
             built_lib, nuget_lib,
             ignore = lambda d, x: [a for a in x if
                                    (not a.lower().startswith(project.lower() + '.'))
-                                   or a.lower().endswith('.pdb')
+                                   or (a.lower().endswith('.pdb') and self.configuration.lower() == 'release')
                                    ]
         )
         shutil.copy2(nuspec, nuget_project)
