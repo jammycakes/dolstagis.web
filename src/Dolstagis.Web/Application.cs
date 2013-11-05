@@ -15,6 +15,7 @@ namespace Dolstagis.Web
         private IList<Module> _modules = new List<Module>();
         private Lazy<ApplicationContext> _context;
         private ISettings _settings;
+        private ISet<Assembly> _loadedAssemblies = new HashSet<Assembly>();
 
         public Application(string virtualPath, string physicalPath, ISettings settings)
         {
@@ -22,6 +23,7 @@ namespace Dolstagis.Web
             _physicalPath = physicalPath;
             _context = new Lazy<ApplicationContext>(CreateContext);
             _settings = settings;
+            AddAllModulesInAssembly(this.GetType().Assembly);
         }
 
         private ApplicationContext CreateContext()
@@ -67,6 +69,9 @@ namespace Dolstagis.Web
 
         public void AddAllModulesInAssembly(Assembly assembly)
         {
+            if (_loadedAssemblies.Contains(assembly)) return;
+            _loadedAssemblies.Add(assembly);
+
             Type[] types;
 
             try
