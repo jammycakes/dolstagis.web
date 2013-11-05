@@ -38,15 +38,15 @@ namespace Dolstagis.Web
         ///  to perform any setup tasks before requests can be processed.
         /// </summary>
 
-        public ApplicationContext(string virtualPath, string physicalPath, ISettings settings, IEnumerable<Module> modules)
+        public ApplicationContext(Application application, IEnumerable<Module> modules)
         {
-            this.VirtualPath = new VirtualPath(virtualPath);
-            this.PhysicalPath = physicalPath;
+            this.VirtualPath = new VirtualPath(application.VirtualPath);
+            this.PhysicalPath = application.PhysicalPath;
 
             _container = new Container();
             _container.Configure(x =>
             {
-                x.For<ISettings>().Singleton().Use(settings);
+                x.For<ISettings>().Singleton().Use(application.Settings);
                 x.For<ApplicationContext>().Singleton().Use(this);
                 x.For<IApplicationContext>().Singleton().Use(this);
                 x.AddRegistry<CoreServices>();

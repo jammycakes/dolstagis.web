@@ -10,25 +10,28 @@ namespace Dolstagis.Web
 {
     public class Application
     {
-        private string _virtualPath;
-        private string _physicalPath;
         private IList<Module> _modules = new List<Module>();
         private Lazy<ApplicationContext> _context;
-        private ISettings _settings;
         private ISet<Assembly> _loadedAssemblies = new HashSet<Assembly>();
+
+        public string VirtualPath { get; private set; }
+        public string PhysicalPath { get; private set; }
+        public ISettings Settings { get; private set; }
+        public IDictionary<string, object> Items { get; private set; }
 
         public Application(string virtualPath, string physicalPath, ISettings settings)
         {
-            _virtualPath = virtualPath;
-            _physicalPath = physicalPath;
             _context = new Lazy<ApplicationContext>(CreateContext);
-            _settings = settings;
+            VirtualPath = virtualPath;
+            PhysicalPath = physicalPath;
+            Settings = settings;
+            Items = new Dictionary<string, object>();
             AddAllModulesInAssembly(this.GetType().Assembly);
         }
 
         private ApplicationContext CreateContext()
         {
-            return new ApplicationContext(_virtualPath, _physicalPath, _settings, _modules.Where(x => x.Enabled));
+            return new ApplicationContext(this, _modules.Where(x => x.Enabled));
         }
 
 
