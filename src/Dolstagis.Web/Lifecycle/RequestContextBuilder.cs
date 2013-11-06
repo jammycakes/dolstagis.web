@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Dolstagis.Web.Http;
 using Dolstagis.Web.Routing;
+using Dolstagis.Web.Sessions;
 
 namespace Dolstagis.Web.Lifecycle
 {
@@ -58,10 +59,15 @@ namespace Dolstagis.Web.Lifecycle
         }
 
 
-        public IRequestContext CreateContext(Http.Request request, Http.Response response)
+        public IRequestContext CreateContext(Request request, Response response)
         {
             var actions = GetActions(request);
-            return new RequestContext(request, response, actions);
+            return new RequestContext(request, response, GetSession(request), actions);
+        }
+
+        private ISession GetSession(Request request)
+        {
+            return null;
         }
     }
 }

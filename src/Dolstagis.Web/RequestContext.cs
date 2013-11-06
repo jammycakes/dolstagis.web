@@ -6,15 +6,17 @@ using System.Threading.Tasks;
 using System.Web;
 using Dolstagis.Web.Http;
 using Dolstagis.Web.Lifecycle;
+using Dolstagis.Web.Sessions;
 
 namespace Dolstagis.Web
 {
     public class RequestContext : IRequestContext
     {
-        public RequestContext(Request request, Response response, IEnumerable<ActionInvocation> actions)
+        public RequestContext(Request request, Response response, ISession session, IEnumerable<ActionInvocation> actions)
         {
             Request = request;
             Response = response;
+            Session = session;
             Actions = actions.ToList();
         }
 
@@ -22,6 +24,9 @@ namespace Dolstagis.Web
 
         public Response Response { get; private set; }
 
+        public ISession Session { get; private set; }
+
         public IList<ActionInvocation> Actions { get; private set; }
+
     }
 }
