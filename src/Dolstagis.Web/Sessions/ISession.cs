@@ -23,5 +23,10 @@ namespace Dolstagis.Web.Sessions
         ///  If it never expires, returns null.
         /// </summary>
         DateTime? Expires { get; }
+
+        /// <summary>
+        ///  Terminates the session.
+        /// </summary>
+        void End();
     }
 }

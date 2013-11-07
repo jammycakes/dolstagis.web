@@ -73,6 +73,8 @@
     <Compile Include="Http\IResponseContext.cs" />
     <Compile Include="ISettings.cs" />
     <Compile Include="RedirectResult.cs" />
+    <Compile Include="Sessions\InMemorySession.cs" />
+    <Compile Include="Sessions\InMemorySessionStore.cs" />
     <Compile Include="Sessions\ISession.cs" />
     <Compile Include="Http\RequestContext.cs" />
     <Compile Include="Http\ResponseContext.cs" />

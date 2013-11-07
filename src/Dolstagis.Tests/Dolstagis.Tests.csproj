@@ -84,6 +84,7 @@
     <Compile Include="Web\Lifecycle\RequestProcessorFixture.cs" />
     <Compile Include="Web\Routing\RouteTableExtensions.cs" />
     <Compile Include="Web\Routing\RouteTableFixture.cs" />
+    <Compile Include="Web\Sessions\SessionFixture.cs" />
     <Compile Include="Web\Static\AssemblyResourceLocationFixture.cs" />
     <Compile Include="Web\TestModules\CustomRouteModule.cs" />
     <Compile Include="Web\TestModules\DisabledModule.cs" />
@@ -113,9 +114,7 @@
     <None Include="Dolstagis.Tests.nunit" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Web\Sessions\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <EmbeddedResource Include="Web\Static\EmbeddedResource.txt" />
   </ItemGroup>
