@@ -13,12 +13,12 @@ namespace Dolstagis.Web.Lifecycle
     {
         private IList<IResultProcessor> _resultProcessors;
         private IExceptionHandler _exceptionHandler;
-        private IRequestContextBuilder _contextBuilder;
+        private IHttpContextBuilder _contextBuilder;
 
         public RequestProcessor(
             IEnumerable<IResultProcessor> resultProcessors,
             IExceptionHandler exceptionHandler,
-            IRequestContextBuilder contextBuilder
+            IHttpContextBuilder contextBuilder
         )
         {
             _resultProcessors = (resultProcessors ?? Enumerable.Empty<IResultProcessor>()).ToList();

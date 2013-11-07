@@ -7,8 +7,8 @@ using Dolstagis.Web.Http;
 
 namespace Dolstagis.Web.Lifecycle
 {
-    public interface IRequestContextBuilder
+    public interface IHttpContextBuilder
     {
-        IHttpContext CreateContext(RequestContext request, ResponseContext response);
+        IHttpContext CreateContext(IRequestContext request, IResponseContext response);
     }
 }

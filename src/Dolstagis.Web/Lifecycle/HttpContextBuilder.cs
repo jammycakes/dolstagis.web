@@ -10,13 +10,13 @@ using Dolstagis.Web.Sessions;
 
 namespace Dolstagis.Web.Lifecycle
 {
-    public class RequestContextBuilder : IRequestContextBuilder
+    public class HttpContextBuilder : IHttpContextBuilder
     {
         private RouteTable _routes;
         private ISessionStore _sessionStore;
         private Func<ActionInvocation> _createAction;
 
-        public RequestContextBuilder(RouteTable routes, ISessionStore sessionStore,
+        public HttpContextBuilder(RouteTable routes, ISessionStore sessionStore,
             Func<ActionInvocation> createAction)
         {
             _routes = routes;
@@ -61,13 +61,13 @@ namespace Dolstagis.Web.Lifecycle
             return action;
         }
 
-        public IHttpContext CreateContext(RequestContext request, ResponseContext response)
+        public IHttpContext CreateContext(IRequestContext request, IResponseContext response)
         {
             var actions = GetActions(request);
             return new HttpContext(request, response, GetSession(request), actions);
         }
 
-        private ISession GetSession(RequestContext request)
+        private ISession GetSession(IRequestContext request)
         {
             if (_sessionStore == null) return null;
 
