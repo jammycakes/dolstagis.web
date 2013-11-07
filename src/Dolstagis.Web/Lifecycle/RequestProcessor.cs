@@ -27,7 +27,7 @@ namespace Dolstagis.Web.Lifecycle
         }
 
 
-        public async Task<object> InvokeRequest(IRequestContext context)
+        public async Task<object> InvokeRequest(IHttpContext context)
         {
             if (context == null) Status.NotFound.Throw();
 
@@ -48,7 +48,7 @@ namespace Dolstagis.Web.Lifecycle
             throw new HttpStatusException(Status.NotFound);
         }
 
-        public async Task<object> InvokeRequestWithHomePageFallback(IRequestContext context)
+        public async Task<object> InvokeRequestWithHomePageFallback(IHttpContext context)
         {
             if (context.Request.AppRelativePath.Parts.Any()
                 || context.Actions.Any())
@@ -61,7 +61,7 @@ namespace Dolstagis.Web.Lifecycle
             }
         }
 
-        public async Task ProcessRequest(IRequestContext context)
+        public async Task ProcessRequest(IHttpContext context)
         {
             object result;
             IResultProcessor processor;

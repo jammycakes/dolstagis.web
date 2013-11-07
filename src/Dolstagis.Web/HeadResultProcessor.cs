@@ -9,7 +9,7 @@ namespace Dolstagis.Web
 {
     public class HeadResultProcessor : ResultProcessor<HeadResult>
     {
-        public override async Task Process(HeadResult data, IRequestContext context)
+        public override async Task Process(HeadResult data, IHttpContext context)
         {
             await Task.Yield();
         }

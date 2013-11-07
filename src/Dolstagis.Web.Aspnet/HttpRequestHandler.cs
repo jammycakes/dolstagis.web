@@ -23,7 +23,7 @@ namespace Dolstagis.Web.Aspnet
             }
         }
 
-        public override async Task ProcessRequestAsync(HttpContext context)
+        public override async Task ProcessRequestAsync(System.Web.HttpContext context)
         {
             EnsureInit();
             var abstractContext = new HttpContextWrapper(context);

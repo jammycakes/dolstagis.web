@@ -10,9 +10,9 @@ using Dolstagis.Web.Sessions;
 
 namespace Dolstagis.Web
 {
-    public class RequestContext : IRequestContext
+    public class HttpContext : IHttpContext
     {
-        public RequestContext(Request request, Response response, ISession session, IEnumerable<ActionInvocation> actions)
+        public HttpContext(Request request, Response response, ISession session, IEnumerable<ActionInvocation> actions)
         {
             Request = request;
             Response = response;

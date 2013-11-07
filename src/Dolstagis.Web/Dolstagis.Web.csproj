@@ -76,7 +76,7 @@
     <Compile Include="Http\Response.cs" />
     <Compile Include="Sessions\ISessionStore.cs" />
     <Compile Include="IApplicationContext.cs" />
-    <Compile Include="IRequestContext.cs" />
+    <Compile Include="IHttpContext.cs" />
     <Compile Include="Http\IRequest.cs" />
     <Compile Include="Http\IResponse.cs" />
     <Compile Include="JsonResult.cs" />
@@ -103,7 +103,7 @@
     <Compile Include="Static\StaticResultProcessor.cs" />
     <Compile Include="Views\ViewResultProcessor.cs" />
     <Compile Include="VirtualPath.cs" />
-    <Compile Include="RequestContext.cs" />
+    <Compile Include="HttpContext.cs" />
     <Compile Include="Static\FileResource.cs" />
     <Compile Include="Static\IMimeTypes.cs" />
     <Compile Include="Static\IResource.cs" />

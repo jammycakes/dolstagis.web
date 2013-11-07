@@ -61,10 +61,10 @@ namespace Dolstagis.Web.Lifecycle
             return action;
         }
 
-        public IRequestContext CreateContext(Request request, Response response)
+        public IHttpContext CreateContext(Request request, Response response)
         {
             var actions = GetActions(request);
-            return new RequestContext(request, response, GetSession(request), actions);
+            return new HttpContext(request, response, GetSession(request), actions);
         }
 
         private ISession GetSession(Request request)
