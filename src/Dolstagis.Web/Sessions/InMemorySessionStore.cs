@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.Concurrent;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Runtime.CompilerServices;
 
@@ -12,6 +13,21 @@ namespace Dolstagis.Web.Sessions
     {
         private static ConcurrentDictionary<string, InMemorySession> _sessions
             = new ConcurrentDictionary<string, InMemorySession>();
+
+        private static void Purge()
+        {
+            foreach (string key in _sessions.Keys)
+            {
+                InMemorySession session;
+                if (_sessions.TryGetValue(key, out session) && session.Expires < DateTime.UtcNow)
+                {
+                    _sessions.TryRemove(key, out session);
+                }
+            }
+        }
+
+        private static readonly Timer timer = new Timer(x => Purge(), null, 60000, 60000);
+
 
         [MethodImpl(MethodImplOptions.Synchronized)]
         public ISession GetSession(string sessionID)
@@ -29,27 +45,14 @@ namespace Dolstagis.Web.Sessions
             return session;
         }
 
-        public void Purge(DateTime now)
+        void ISessionStore.Purge()
         {
-            foreach (string key in _sessions.Keys)
-            {
-                InMemorySession session;
-                if (_sessions.TryGetValue(key, out session) && session.Expires < now)
-                {
-                    _sessions.TryRemove(key, out session);
-                }
-            }
+            Purge();
         }
 
         internal void EndSession(InMemorySession session)
         {
             _sessions.TryRemove(session.ID, out session);
-        }
-
-
-        public void Purge()
-        {
-            Purge(DateTime.UtcNow);
         }
     }
 }

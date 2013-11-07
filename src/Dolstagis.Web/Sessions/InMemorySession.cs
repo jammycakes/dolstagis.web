@@ -27,6 +27,7 @@ namespace Dolstagis.Web.Sessions
             var bytes = new byte[32];
             rng.GetBytes(bytes);
             ID = Convert.ToBase64String(bytes);
+            Lifetime = TimeSpan.FromMinutes(20);
         }
 
         public IDictionary<string, object> Items
