@@ -14,19 +14,16 @@ namespace Dolstagis.Web.Lifecycle
         private IList<IResultProcessor> _resultProcessors;
         private IExceptionHandler _exceptionHandler;
         private IRequestContextBuilder _contextBuilder;
-        private ISessionCookieBuilder _sessionCookieBuilder;
 
         public RequestProcessor(
             IEnumerable<IResultProcessor> resultProcessors,
             IExceptionHandler exceptionHandler,
-            IRequestContextBuilder contextBuilder,
-            ISessionCookieBuilder sessionCookieBuilder
+            IRequestContextBuilder contextBuilder
         )
         {
             _resultProcessors = (resultProcessors ?? Enumerable.Empty<IResultProcessor>()).ToList();
             _exceptionHandler = exceptionHandler;
             _contextBuilder = contextBuilder;
-            _sessionCookieBuilder = sessionCookieBuilder;
         }
 
 
@@ -77,14 +74,15 @@ namespace Dolstagis.Web.Lifecycle
             }
             finally
             {
-                if (_sessionCookieBuilder != null)
+                if (context.Session != null && context.Session.ID != null)
                 {
-                    var cookie = _sessionCookieBuilder.CreateSessionCookie(context.Request.SessionID);
-                    if (cookie != null)
+                    var cookie = new Cookie(Constants.SessionKey, context.Session.ID)
                     {
-                        cookie.Secure = context.Request.IsSecure;
-                        context.Response.AddCookie(cookie);
-                    }
+                        Expires = context.Session.Expires,
+                        HttpOnly = true,
+                        Secure = context.Request.IsSecure
+                    };
+                    context.Response.AddCookie(cookie);
                 }
             }
             await processor.Process(result, context);

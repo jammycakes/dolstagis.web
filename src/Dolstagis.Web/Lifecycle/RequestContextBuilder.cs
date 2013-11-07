@@ -13,11 +13,14 @@ namespace Dolstagis.Web.Lifecycle
     public class RequestContextBuilder : IRequestContextBuilder
     {
         private RouteTable _routes;
+        private ISessionStore _sessionStore;
         private Func<ActionInvocation> _createAction;
 
-        public RequestContextBuilder(RouteTable routes, Func<ActionInvocation> createAction)
+        public RequestContextBuilder(RouteTable routes, ISessionStore sessionStore,
+            Func<ActionInvocation> createAction)
         {
             _routes = routes;
+            _sessionStore = sessionStore;
             _createAction = createAction;
         }
 
@@ -58,7 +61,6 @@ namespace Dolstagis.Web.Lifecycle
             return action;
         }
 
-
         public IRequestContext CreateContext(Request request, Response response)
         {
             var actions = GetActions(request);
@@ -67,7 +69,15 @@ namespace Dolstagis.Web.Lifecycle
 
         private ISession GetSession(Request request)
         {
-            return null;
+            if (_sessionStore == null) return null;
+
+            Cookie sessionCookie;
+            string sessionID =
+                request.Cookies.TryGetValue(Constants.SessionKey, out sessionCookie)
+                ? sessionCookie.Value
+                : null;
+
+            return _sessionStore.GetSession(sessionID);
         }
     }
 }

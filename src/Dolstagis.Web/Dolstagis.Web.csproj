@@ -72,11 +72,9 @@
     <Compile Include="ISettings.cs" />
     <Compile Include="RedirectResult.cs" />
     <Compile Include="Sessions\ISession.cs" />
-    <Compile Include="Sessions\ISessionCookieBuilder.cs" />
     <Compile Include="Http\Request.cs" />
     <Compile Include="Http\Response.cs" />
     <Compile Include="Sessions\ISessionStore.cs" />
-    <Compile Include="Sessions\SessionCookieBuilder.cs" />
     <Compile Include="IApplicationContext.cs" />
     <Compile Include="IRequestContext.cs" />
     <Compile Include="Http\IRequest.cs" />

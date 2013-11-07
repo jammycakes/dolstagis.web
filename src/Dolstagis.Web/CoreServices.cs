@@ -23,8 +23,7 @@ namespace Dolstagis.Web
             For<IRequestContextBuilder>().Use<RequestContextBuilder>();
             For<IRequestProcessor>().Use<RequestProcessor>();
             For<IExceptionHandler>().Use<ExceptionHandler>();
-
-            For<ISessionCookieBuilder>().Singleton().Use<SessionCookieBuilder>();
+            For<ISessionStore>().Use(ctx => null);
 
             For<IResultProcessor>().Singleton().Add<StaticResultProcessor>()
                 .Ctor<IResourceResolver>().Is(ctx => new ResourceResolver

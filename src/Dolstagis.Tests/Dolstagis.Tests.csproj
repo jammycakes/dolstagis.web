@@ -113,7 +113,9 @@
     <None Include="Dolstagis.Tests.nunit" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Web\Sessions\" />
+  </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Web\Static\EmbeddedResource.txt" />
   </ItemGroup>
