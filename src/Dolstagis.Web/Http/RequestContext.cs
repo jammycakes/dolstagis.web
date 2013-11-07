@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Dolstagis.Web.Http
 {
-    public class Request : IRequest
+    public class RequestContext : IRequestContext
     {
         private IRequest _innerRequest;
         private IDictionary<string, Cookie> _cookies;
@@ -15,7 +15,7 @@ namespace Dolstagis.Web.Http
 
         #region /* ====== IRequest implementation ====== */
 
-        public Request(IRequest innerRequest)
+        public RequestContext(IRequest innerRequest)
         {
             _innerRequest = innerRequest;
         }

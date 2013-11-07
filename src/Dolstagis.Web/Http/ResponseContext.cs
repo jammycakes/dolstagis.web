@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace Dolstagis.Web.Http
 {
-    public class Response : IResponse
+    public class ResponseContext : IResponseContext
     {
         IResponse _innerResponse;
 
-        public Response(IResponse innerResponse)
+        public ResponseContext(IResponse innerResponse)
         {
             _innerResponse = innerResponse;
         }

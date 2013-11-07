@@ -61,13 +61,13 @@ namespace Dolstagis.Web.Lifecycle
             return action;
         }
 
-        public IHttpContext CreateContext(Request request, Response response)
+        public IHttpContext CreateContext(RequestContext request, ResponseContext response)
         {
             var actions = GetActions(request);
             return new HttpContext(request, response, GetSession(request), actions);
         }
 
-        private ISession GetSession(Request request)
+        private ISession GetSession(RequestContext request)
         {
             if (_sessionStore == null) return null;
 

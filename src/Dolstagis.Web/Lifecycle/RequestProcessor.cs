@@ -88,7 +88,7 @@ namespace Dolstagis.Web.Lifecycle
             await processor.Process(result, context);
         }
 
-        public async Task ProcessRequest(Request request, Response response)
+        public async Task ProcessRequest(RequestContext request, ResponseContext response)
         {
             var context = _contextBuilder.CreateContext(request, response);
             Exception fault = null;

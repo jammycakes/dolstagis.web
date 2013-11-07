@@ -76,15 +76,15 @@ namespace Dolstagis.Web
 
         public async Task ProcessRequestAsync(IRequest request, IResponse response)
         {
-            var requestWrapper = new Request(request);
-            var responseWrapper = new Response(response);
+            var requestWrapper = new RequestContext(request);
+            var responseWrapper = new ResponseContext(response);
 
             using (var childContainer = _container.GetNestedContainer()) {
                 childContainer.Configure(x => {
                     x.For<IRequest>().Use(requestWrapper);
                     x.For<IResponse>().Use(responseWrapper);
-                    x.For<Request>().Use(requestWrapper);
-                    x.For<Response>().Use(responseWrapper);
+                    x.For<RequestContext>().Use(requestWrapper);
+                    x.For<ResponseContext>().Use(responseWrapper);
                 });
                 await childContainer.GetInstance<IRequestProcessor>()
                     .ProcessRequest(requestWrapper, responseWrapper);

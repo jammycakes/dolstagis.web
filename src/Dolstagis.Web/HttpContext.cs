@@ -12,7 +12,7 @@ namespace Dolstagis.Web
 {
     public class HttpContext : IHttpContext
     {
-        public HttpContext(Request request, Response response, ISession session, IEnumerable<ActionInvocation> actions)
+        public HttpContext(IRequestContext request, IResponseContext response, ISession session, IEnumerable<ActionInvocation> actions)
         {
             Request = request;
             Response = response;
@@ -20,9 +20,9 @@ namespace Dolstagis.Web
             Actions = actions.ToList();
         }
 
-        public Request Request { get; private set; }
+        public IRequestContext Request { get; private set; }
 
-        public Response Response { get; private set; }
+        public IResponseContext Response { get; private set; }
 
         public ISession Session { get; private set; }
 
