@@ -92,19 +92,25 @@ namespace Dolstagis.Web.Lifecycle
         {
             var context = _contextBuilder.CreateContext(request, response);
             Exception fault = null;
-            try {
+            try
+            {
                 await ProcessRequest(context);
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 fault = ex;
             }
 
-            if (fault != null) {
-                while (fault is AggregateException && ((AggregateException)fault).InnerExceptions.Count == 1) {
+            if (fault != null)
+            {
+                while (fault is AggregateException && ((AggregateException)fault).InnerExceptions.Count == 1)
+                {
                     fault = ((AggregateException)fault).InnerExceptions.Single();
                 }
                 await _exceptionHandler.HandleException(context, fault);
             }
+
+            if (context.Session != null) await context.Session.Persist();
         }
     }
 }

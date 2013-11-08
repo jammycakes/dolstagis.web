@@ -25,6 +25,11 @@ namespace Dolstagis.Web.Sessions
         DateTime? Expires { get; }
 
         /// <summary>
+        ///  Persists the session to its backing store.
+        /// </summary>
+        Task Persist();
+
+        /// <summary>
         ///  Terminates the session.
         /// </summary>
         void End();
