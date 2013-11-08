@@ -26,7 +26,7 @@ namespace Dolstagis.Tests.Web.Sessions
             mockRequest.SetupGet(x => x.Cookies).Returns(cookies);
             var mockResponse = new Mock<IResponseContext>();
             var store = new InMemorySessionStore();
-            var hcb = new HttpContextBuilder(new RouteTable(), store, () => null);
+            var hcb = new HttpContextBuilder(new RouteTable(), store, null, () => null);
 
             var ctx = hcb.CreateContext(mockRequest.Object, mockResponse.Object);
             Assert.IsNotNull(ctx.Session);
@@ -49,7 +49,7 @@ namespace Dolstagis.Tests.Web.Sessions
             mockRequest.SetupGet(x => x.AppRelativePath).Returns(new VirtualPath("~/"));
             mockRequest.SetupGet(x => x.Cookies).Returns(cookies);
             var mockResponse = new Mock<IResponseContext>();
-            var hcb = new HttpContextBuilder(new RouteTable(), store, () => null);
+            var hcb = new HttpContextBuilder(new RouteTable(), store, null, () => null);
 
             var ctx = hcb.CreateContext(mockRequest.Object, mockResponse.Object);
             Assert.IsNotNull(ctx.Session);

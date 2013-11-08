@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Dolstagis.Web.Auth;
 using Dolstagis.Web.Http;
 using Dolstagis.Web.Lifecycle;
 using Dolstagis.Web.Routing;
@@ -24,6 +25,7 @@ namespace Dolstagis.Web
             For<IRequestProcessor>().Use<RequestProcessor>();
             For<IExceptionHandler>().Use<ExceptionHandler>();
             For<ISessionStore>().Use(ctx => null);
+            For<IAuthenticator>().Singleton().Use<PrincipalAuthenticator>();
 
             For<IResultProcessor>().Singleton().Add<StaticResultProcessor>()
                 .Ctor<IResourceResolver>().Is(ctx => new ResourceResolver

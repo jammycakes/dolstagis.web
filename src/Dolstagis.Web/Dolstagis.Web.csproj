@@ -53,6 +53,10 @@
     <Compile Include="Application.cs" />
     <Compile Include="ApplicationContext.cs" />
     <Compile Include="ApplicationContextExtensions.cs" />
+    <Compile Include="Auth\IAuthenticator.cs" />
+    <Compile Include="Auth\IUser.cs" />
+    <Compile Include="Auth\PrincipalAuthenticator.cs" />
+    <Compile Include="Auth\PrincipalUser.cs" />
     <Compile Include="ContentResult.cs" />
     <Compile Include="ContentResultProcessor.cs" />
     <Compile Include="CoreServices.cs" />

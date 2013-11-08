@@ -43,5 +43,12 @@ namespace Dolstagis.Web.Sessions
         {
             _store.EndSession(this);
         }
+
+
+        public async Task Persist()
+        {
+            // Nothing to see here, move along please.
+            await Task.Yield();
+        }
     }
 }
