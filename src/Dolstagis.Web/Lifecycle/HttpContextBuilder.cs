@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using Dolstagis.Web.Auth;
 using Dolstagis.Web.Http;
 using Dolstagis.Web.Routing;
 using Dolstagis.Web.Sessions;
@@ -15,13 +16,16 @@ namespace Dolstagis.Web.Lifecycle
         private RouteTable _routes;
         private ISessionStore _sessionStore;
         private Func<ActionInvocation> _createAction;
+        private IAuthenticator _authenticator;
 
         public HttpContextBuilder(RouteTable routes, ISessionStore sessionStore,
+            IAuthenticator authenticator,
             Func<ActionInvocation> createAction)
         {
             _routes = routes;
             _sessionStore = sessionStore;
             _createAction = createAction;
+            _authenticator = authenticator;
         }
 
         public IEnumerable<ActionInvocation> GetActions(IRequest request)
@@ -64,7 +68,9 @@ namespace Dolstagis.Web.Lifecycle
         public IHttpContext CreateContext(IRequestContext request, IResponseContext response)
         {
             var actions = GetActions(request);
-            return new HttpContext(request, response, GetSession(request), actions);
+            var session = GetSession(request);
+            var user = _authenticator != null ? _authenticator.GetUser(request, session) : null;
+            return new HttpContext(request, response, session, user, actions);
         }
 
         private ISession GetSession(IRequestContext request)
