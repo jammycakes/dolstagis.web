@@ -54,9 +54,15 @@
     <Compile Include="ApplicationContext.cs" />
     <Compile Include="ApplicationContextExtensions.cs" />
     <Compile Include="Auth\IAuthenticator.cs" />
+    <Compile Include="Auth\IRequirement.cs" />
     <Compile Include="Auth\IUser.cs" />
     <Compile Include="Auth\PrincipalAuthenticator.cs" />
     <Compile Include="Auth\PrincipalUser.cs" />
+    <Compile Include="Auth\DenyAttribute.cs" />
+    <Compile Include="Auth\RequireAnonymousAttribute.cs" />
+    <Compile Include="Auth\RequireAllAttribute.cs" />
+    <Compile Include="Auth\RequireAnyAttribute.cs" />
+    <Compile Include="Auth\RequireLoginAttribute.cs" />
     <Compile Include="ContentResult.cs" />
     <Compile Include="ContentResultProcessor.cs" />
     <Compile Include="CoreServices.cs" />
