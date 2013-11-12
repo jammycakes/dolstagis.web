@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Dolstagis.Web.Auth;
 using Dolstagis.Web.Http;
 using Dolstagis.Web.Sessions;
 using Dolstagis.Web.Static;
@@ -27,13 +28,32 @@ namespace Dolstagis.Web.Lifecycle
         }
 
 
+        protected virtual bool IsLoginRequired(IHttpContext context, ActionInvocation action)
+        {
+            var attributes = action.Method.GetCustomAttributes(true).OfType<IRequirement>()
+                .Concat(action.HandlerType.GetCustomAttributes(true).OfType<IRequirement>());
+            return attributes.Any(x => x.IsDenied(context));
+        }
+
+        protected virtual async Task<object> GetLoginResult(IHttpContext context)
+        {
+            var result = new RedirectResult("/login", Status.SeeOther);
+            return Task.FromResult(result);
+        }
+
+
         public async Task<object> InvokeRequest(IHttpContext context)
         {
             if (context == null) Status.NotFound.Throw();
 
             var actions = context.Actions.Where(x => x.Method != null);
+
             foreach (var action in actions)
             {
+                if (IsLoginRequired(context, action))
+                {
+                    return await GetLoginResult(context);
+                }
                 var result = action.Invoke(context);
                 if (result is Task)
                 {
@@ -107,10 +127,15 @@ namespace Dolstagis.Web.Lifecycle
                 {
                     fault = ((AggregateException)fault).InnerExceptions.Single();
                 }
-                await _exceptionHandler.HandleException(context, fault);
+                await HandleException(context, fault);
             }
 
             if (context.Session != null) await context.Session.Persist();
+        }
+
+        public virtual async Task HandleException(IHttpContext context, Exception fault)
+        {
+            await _exceptionHandler.HandleException(context, fault);
         }
     }
 }

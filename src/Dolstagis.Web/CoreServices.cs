@@ -26,6 +26,7 @@ namespace Dolstagis.Web
             For<IExceptionHandler>().Use<ExceptionHandler>();
             For<ISessionStore>().Use(ctx => null);
             For<IAuthenticator>().Singleton().Use<PrincipalAuthenticator>();
+            For<ILoginHandler>().Use<LoginHandler>();
 
             For<IResultProcessor>().Singleton().Add<StaticResultProcessor>()
                 .Ctor<IResourceResolver>().Is(ctx => new ResourceResolver

@@ -82,6 +82,8 @@
     <Compile Include="Http\IRequestContext.cs" />
     <Compile Include="Http\IResponseContext.cs" />
     <Compile Include="ISettings.cs" />
+    <Compile Include="Lifecycle\ILoginHandler.cs" />
+    <Compile Include="Lifecycle\LoginHandler.cs" />
     <Compile Include="RedirectResult.cs" />
     <Compile Include="Sessions\InMemorySession.cs" />
     <Compile Include="Sessions\InMemorySessionStore.cs" />
