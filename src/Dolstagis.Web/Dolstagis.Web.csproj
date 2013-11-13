@@ -81,6 +81,7 @@
     <Compile Include="Http\HttpUtility.cs" />
     <Compile Include="Http\IRequestContext.cs" />
     <Compile Include="Http\IResponseContext.cs" />
+    <Compile Include="Http\RequestExtensions.cs" />
     <Compile Include="ISettings.cs" />
     <Compile Include="Lifecycle\ILoginHandler.cs" />
     <Compile Include="Lifecycle\LoginHandler.cs" />

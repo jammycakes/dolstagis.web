@@ -23,6 +23,19 @@ namespace Dolstagis.Web.Lifecycle
 
         protected virtual void ProcessHeaders(T typedData, IHttpContext context)
         {
+            // Location: header should be absolute per RFC 2616 para 14.30. Enforce this.
+
+            string location;
+            if (typedData.Headers.TryGetValue("Location", out location))
+            {
+                Uri u;
+                if (!Uri.TryCreate(location, UriKind.Absolute, out u))
+                {
+                    u = context.Request.GetAbsoluteUrl(new VirtualPath(location));
+                    typedData.Headers["Location"] = u.ToString();
+                }
+            }
+
             typedData.Headers.Remove("Content-Encoding");
             context.Response.Status = typedData.Status;
             foreach (var key in typedData.Headers.Keys) {
