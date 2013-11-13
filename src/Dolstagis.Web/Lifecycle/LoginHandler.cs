@@ -8,9 +8,16 @@ namespace Dolstagis.Web.Lifecycle
 {
     public class LoginHandler : ILoginHandler
     {
+        public string LoginUrl { get; set; }
+
+        public LoginHandler()
+        {
+            LoginUrl = "~/login";
+        }
+
         public object GetLogin(IHttpContext context)
         {
-            return new RedirectResult("/login", Status.SeeOther);
+            return new RedirectResult(LoginUrl, Status.SeeOther);
         }
     }
 }
