@@ -31,8 +31,17 @@ namespace Dolstagis.Web.Lifecycle
                 Uri u;
                 if (!Uri.TryCreate(location, UriKind.Absolute, out u))
                 {
-                    u = context.Request.GetAbsoluteUrl(new VirtualPath(location));
-                    typedData.Headers["Location"] = u.ToString();
+                    var parts = location.Split(new char[] { '?' }, 2);
+                    if (parts.Length == 2)
+                    {
+                        u = context.Request.GetAbsoluteUrl(new VirtualPath(parts[0]));
+                        typedData.Headers["Location"] = u.ToString() + "?" + parts[1];
+                    }
+                    else
+                    {
+                        u = context.Request.GetAbsoluteUrl(new VirtualPath(location));
+                        typedData.Headers["Location"] = u.ToString();
+                    }
                 }
             }
 
