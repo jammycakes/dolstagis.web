@@ -11,7 +11,8 @@ namespace WebApp
 
             AddStaticFiles("~/content");
             AddViews("~/views");
-            AddViews("~/errors");
+            // Uncomment the following line to use custom error messages.
+            // AddViews("~/errors");
             AddHandler<Index>();
         }
     }
