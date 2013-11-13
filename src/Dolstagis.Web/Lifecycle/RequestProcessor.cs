@@ -13,17 +13,17 @@ namespace Dolstagis.Web.Lifecycle
     public class RequestProcessor : IRequestProcessor
     {
         private IList<IResultProcessor> _resultProcessors;
-        private IExceptionHandler _exceptionHandler;
+        private IEnumerable<IExceptionHandler> _exceptionHandlers;
         private IHttpContextBuilder _contextBuilder;
 
         public RequestProcessor(
             IEnumerable<IResultProcessor> resultProcessors,
-            IExceptionHandler exceptionHandler,
+            IEnumerable<IExceptionHandler> exceptionHandlers,
             IHttpContextBuilder contextBuilder
         )
         {
             _resultProcessors = (resultProcessors ?? Enumerable.Empty<IResultProcessor>()).ToList();
-            _exceptionHandler = exceptionHandler;
+            _exceptionHandlers = exceptionHandlers;
             _contextBuilder = contextBuilder;
         }
 
@@ -135,7 +135,10 @@ namespace Dolstagis.Web.Lifecycle
 
         public virtual async Task HandleException(IHttpContext context, Exception fault)
         {
-            await _exceptionHandler.HandleException(context, fault);
+            foreach (var handler in _exceptionHandlers)
+            {
+                await handler.HandleException(context, fault);
+            }
         }
     }
 }
