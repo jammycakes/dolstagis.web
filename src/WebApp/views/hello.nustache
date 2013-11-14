@@ -1,5 +1,3 @@
 ﻿{{> ~/views/header.nustache}}
-    <p>
-        {{ Model.Message }}
-    </p>
+    <p>Session ID: {{ Model.ID }}</p>
 {{> ~/views/footer.nustache}}

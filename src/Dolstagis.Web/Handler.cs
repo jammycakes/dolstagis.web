@@ -10,7 +10,7 @@ namespace Dolstagis.Web
 {
     public class Handler
     {
-        public IRequestContext Context { get; internal set; }
+        public IHttpContext Context { get; internal set; }
 
         /// <summary>
         ///  Returns a static content result.

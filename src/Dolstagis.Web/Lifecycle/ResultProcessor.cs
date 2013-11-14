@@ -14,15 +14,37 @@ namespace Dolstagis.Web.Lifecycle
             return (data is T);
         }
 
-        public Task Process(object data, IRequestContext context)
+        public Task Process(object data, IHttpContext context)
         {
             var typedData = (T)data;
             ProcessHeaders(typedData, context);
             return Process(typedData, context);
         }
 
-        protected virtual void ProcessHeaders(T typedData, IRequestContext context)
+        protected virtual void ProcessHeaders(T typedData, IHttpContext context)
         {
+            // Location: header should be absolute per RFC 2616 para 14.30. Enforce this.
+
+            string location;
+            if (typedData.Headers.TryGetValue("Location", out location))
+            {
+                Uri u;
+                if (!Uri.TryCreate(location, UriKind.Absolute, out u))
+                {
+                    var parts = location.Split(new char[] { '?' }, 2);
+                    if (parts.Length == 2)
+                    {
+                        u = context.Request.GetAbsoluteUrl(new VirtualPath(parts[0]));
+                        typedData.Headers["Location"] = u.ToString() + "?" + parts[1];
+                    }
+                    else
+                    {
+                        u = context.Request.GetAbsoluteUrl(new VirtualPath(location));
+                        typedData.Headers["Location"] = u.ToString();
+                    }
+                }
+            }
+
             typedData.Headers.Remove("Content-Encoding");
             context.Response.Status = typedData.Status;
             foreach (var key in typedData.Headers.Keys) {
@@ -34,6 +56,6 @@ namespace Dolstagis.Web.Lifecycle
             }
         }
 
-        public abstract Task Process(T data, IRequestContext context);
+        public abstract Task Process(T data, IHttpContext context);
     }
 }

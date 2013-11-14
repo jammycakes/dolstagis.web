@@ -7,7 +7,8 @@ namespace WebApp
     {
         public object Get()
         {
-            return View("~/views/hello.nustache", new { Message = "Hello from Nustache" });
+
+            return View("~/views/hello.nustache", Context.Session);
         }
     }
 }

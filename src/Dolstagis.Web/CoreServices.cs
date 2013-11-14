@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Dolstagis.Web.Auth;
 using Dolstagis.Web.Http;
 using Dolstagis.Web.Lifecycle;
 using Dolstagis.Web.Routing;
@@ -20,11 +21,12 @@ namespace Dolstagis.Web
             For<RouteTable>().Singleton().Use<RouteTable>();
             For<IMimeTypes>().Singleton().Use<MimeTypes>();
 
-            For<IRequestContextBuilder>().Use<RequestContextBuilder>();
+            For<IHttpContextBuilder>().Use<HttpContextBuilder>();
             For<IRequestProcessor>().Use<RequestProcessor>();
             For<IExceptionHandler>().Use<ExceptionHandler>();
-
-            For<ISessionCookieBuilder>().Singleton().Use<SessionCookieBuilder>();
+            For<ISessionStore>().Use(ctx => null);
+            For<IAuthenticator>().Singleton().Use<PrincipalAuthenticator>();
+            For<ILoginHandler>().Use<LoginHandler>();
 
             For<IResultProcessor>().Singleton().Add<StaticResultProcessor>()
                 .Ctor<IResourceResolver>().Is(ctx => new ResourceResolver
@@ -33,6 +35,7 @@ namespace Dolstagis.Web
             For<IResultProcessor>().Singleton().Add<ViewResultProcessor>();
             For<IResultProcessor>().Singleton().Add<JsonResultProcessor>();
             For<IResultProcessor>().Singleton().Add<ContentResultProcessor>();
+            For<IResultProcessor>().Singleton().Add<HeadResultProcessor>();
 
             For<ViewRegistry>().Singleton().Use<ViewRegistry>()
                 .Ctor<IResourceResolver>().Is(ctx => new ResourceResolver

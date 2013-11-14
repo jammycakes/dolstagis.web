@@ -23,7 +23,7 @@ namespace Dolstagis.Web.Aspnet
             }
         }
 
-        public override async Task ProcessRequestAsync(HttpContext context)
+        public override async Task ProcessRequestAsync(System.Web.HttpContext context)
         {
             EnsureInit();
             var abstractContext = new HttpContextWrapper(context);
@@ -33,30 +33,42 @@ namespace Dolstagis.Web.Aspnet
             await _application.ProcessRequestAsync(request, response);
         }
 
+        static readonly string[] _ignores = new string[] {
+            "Microsoft.",
+            "mscorlib,",
+            "System.",
+            "System,",
+            "IronPython",
+            "IronRuby",
+            "CR_ExtUnitTest",
+            "CR_VSTest",
+            "DevExpress.CodeRush",
+            "StructureMap,",
+            "Nustache.Core,",
+            "Newtonsoft.Json,",
+            "Dolstagis.Web,"
+        };
+
         [MethodImpl(MethodImplOptions.Synchronized)]
         private void EnsureInit()
         {
-            var ignores = new string[] {
-                "Microsoft.",
-                "mscorlib,",
-                "System.",
-                "System,",
-                "IronPython",
-                "IronRuby",
-                "CR_ExtUnitTest",
-                "CR_VSTest",
-                "DevExpress.CodeRush"
-            };
-
             if (_application != null) return;
             _application = new Application
                 (HostingEnvironment.ApplicationVirtualPath, HostingEnvironment.ApplicationPhysicalPath, new Settings());
 
-            foreach (var assembly in BuildManager.GetReferencedAssemblies().Cast<Assembly>()) {
-                if (!assembly.IsDynamic && !ignores.Any
-                    (x => assembly.FullName.StartsWith(x, StringComparison.InvariantCulture))) {
-                        _application.AddAllModulesInAssembly(assembly);
-                }
+            var assemblies =
+                from assembly in BuildManager.GetReferencedAssemblies().Cast<Assembly>()
+                where !assembly.IsDynamic
+                where !_ignores.Any(x => assembly.FullName.StartsWith(x, StringComparison.InvariantCulture))
+                let order =
+                    assembly.FullName.StartsWith("Dolstagis.Web,", StringComparison.InvariantCulture) ? 0 :
+                    assembly.FullName.StartsWith("Dolstagis.Web.") ? 1 :
+                    2
+                orderby order
+                select assembly;
+
+            foreach (var assembly in assemblies) {
+                _application.AddAllModulesInAssembly(assembly);
             }
         }
     }

@@ -4,11 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Dolstagis.Web.Http;
+using Dolstagis.Web.Sessions;
 
-namespace Dolstagis.Web.Lifecycle
+namespace Dolstagis.Web.Auth
 {
-    public interface IExceptionHandler
+    public interface IAuthenticator
     {
-        Task HandleException(IHttpContext context, Exception ex);
+        IUser GetUser(IRequestContext request, ISession session);
     }
 }

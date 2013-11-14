@@ -38,15 +38,15 @@ namespace Dolstagis.Web
         ///  to perform any setup tasks before requests can be processed.
         /// </summary>
 
-        public ApplicationContext(string virtualPath, string physicalPath, ISettings settings, IEnumerable<Module> modules)
+        public ApplicationContext(Application application, IEnumerable<Module> modules)
         {
-            this.VirtualPath = new VirtualPath(virtualPath);
-            this.PhysicalPath = physicalPath;
+            this.VirtualPath = new VirtualPath(application.VirtualPath);
+            this.PhysicalPath = application.PhysicalPath;
 
             _container = new Container();
             _container.Configure(x =>
             {
-                x.For<ISettings>().Singleton().Use(settings);
+                x.For<ISettings>().Singleton().Use(application.Settings);
                 x.For<ApplicationContext>().Singleton().Use(this);
                 x.For<IApplicationContext>().Singleton().Use(this);
                 x.AddRegistry<CoreServices>();
@@ -68,7 +68,7 @@ namespace Dolstagis.Web
         ///  Processes a request asynchronously.
         /// </summary>
         /// <param name="context">
-        ///  The <see cref="IRequestContext"/> containing request and response objects.
+        ///  The <see cref="IHttpContext"/> containing request and response objects.
         /// </param>
         /// <returns>
         ///  A <see cref="Task"/> instance.
@@ -76,15 +76,15 @@ namespace Dolstagis.Web
 
         public async Task ProcessRequestAsync(IRequest request, IResponse response)
         {
-            var requestWrapper = new Request(request);
-            var responseWrapper = new Response(response);
+            var requestWrapper = new RequestContext(request);
+            var responseWrapper = new ResponseContext(response);
 
             using (var childContainer = _container.GetNestedContainer()) {
                 childContainer.Configure(x => {
                     x.For<IRequest>().Use(requestWrapper);
                     x.For<IResponse>().Use(responseWrapper);
-                    x.For<Request>().Use(requestWrapper);
-                    x.For<Response>().Use(responseWrapper);
+                    x.For<RequestContext>().Use(requestWrapper);
+                    x.For<ResponseContext>().Use(responseWrapper);
                 });
                 await childContainer.GetInstance<IRequestProcessor>()
                     .ProcessRequest(requestWrapper, responseWrapper);

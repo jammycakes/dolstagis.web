@@ -3,16 +3,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Dolstagis.Web.Auth;
 using Dolstagis.Web.Http;
 using Dolstagis.Web.Lifecycle;
+using Dolstagis.Web.Sessions;
 
 namespace Dolstagis.Web
 {
-    public interface IRequestContext
+    public interface IHttpContext
     {
-        Request Request { get; }
+        IRequestContext Request { get; }
 
-        Response Response { get; }
+        IResponseContext Response { get; }
+
+        ISession Session { get; }
+
+        IUser User { get; }
 
         IList<ActionInvocation> Actions { get; }
     }

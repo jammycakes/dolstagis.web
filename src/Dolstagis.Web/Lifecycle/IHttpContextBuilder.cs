@@ -7,8 +7,8 @@ using Dolstagis.Web.Http;
 
 namespace Dolstagis.Web.Lifecycle
 {
-    public interface IExceptionHandler
+    public interface IHttpContextBuilder
     {
-        Task HandleException(IHttpContext context, Exception ex);
+        IHttpContext CreateContext(IRequestContext request, IResponseContext response);
     }
 }

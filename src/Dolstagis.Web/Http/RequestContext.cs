@@ -7,15 +7,14 @@ using System.Threading.Tasks;
 
 namespace Dolstagis.Web.Http
 {
-    public class Request : IRequest
+    public class RequestContext : IRequestContext
     {
         private IRequest _innerRequest;
         private IDictionary<string, Cookie> _cookies;
-        private string _sessionID;
 
         #region /* ====== IRequest implementation ====== */
 
-        public Request(IRequest innerRequest)
+        public RequestContext(IRequest innerRequest)
         {
             _innerRequest = innerRequest;
         }
@@ -92,30 +91,6 @@ namespace Dolstagis.Web.Http
                     }
                 }
                 return _cookies;
-            }
-        }
-
-        private static RNGCryptoServiceProvider rng = new RNGCryptoServiceProvider();
-
-        public string SessionID
-        {
-            get
-            {
-                if (_sessionID == null)
-                {
-                    Cookie sessionCookie;
-                    if (Cookies.TryGetValue(Constants.SessionKey, out sessionCookie))
-                    {
-                        _sessionID = sessionCookie.Value;
-                    }
-                    else
-                    {
-                        var bytes = new byte[32];
-                        rng.GetBytes(bytes);
-                        _sessionID = Convert.ToBase64String(bytes);
-                    }
-                }
-                return _sessionID;
             }
         }
     }

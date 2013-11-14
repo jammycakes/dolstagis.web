@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Dolstagis.Web.Auth;
 using Dolstagis.Web.Http;
 using Dolstagis.Web.Sessions;
 using Dolstagis.Web.Static;
@@ -12,31 +13,47 @@ namespace Dolstagis.Web.Lifecycle
     public class RequestProcessor : IRequestProcessor
     {
         private IList<IResultProcessor> _resultProcessors;
-        private IExceptionHandler _exceptionHandler;
-        private IRequestContextBuilder _contextBuilder;
-        private ISessionCookieBuilder _sessionCookieBuilder;
+        private IEnumerable<IExceptionHandler> _exceptionHandlers;
+        private IHttpContextBuilder _contextBuilder;
 
         public RequestProcessor(
             IEnumerable<IResultProcessor> resultProcessors,
-            IExceptionHandler exceptionHandler,
-            IRequestContextBuilder contextBuilder,
-            ISessionCookieBuilder sessionCookieBuilder
+            IEnumerable<IExceptionHandler> exceptionHandlers,
+            IHttpContextBuilder contextBuilder
         )
         {
             _resultProcessors = (resultProcessors ?? Enumerable.Empty<IResultProcessor>()).ToList();
-            _exceptionHandler = exceptionHandler;
+            _exceptionHandlers = exceptionHandlers;
             _contextBuilder = contextBuilder;
-            _sessionCookieBuilder = sessionCookieBuilder;
         }
 
 
-        public async Task<object> InvokeRequest(IRequestContext context)
+        protected virtual bool IsLoginRequired(IHttpContext context, ActionInvocation action)
+        {
+            var attributes = action.Method.GetCustomAttributes(true).OfType<IRequirement>()
+                .Concat(action.HandlerType.GetCustomAttributes(true).OfType<IRequirement>());
+            return attributes.Any(x => x.IsDenied(context));
+        }
+
+        protected virtual Task<object> GetLoginResult(IHttpContext context)
+        {
+            var result = new RedirectResult("/login", Status.SeeOther);
+            return Task.FromResult<object>(result);
+        }
+
+
+        public async Task<object> InvokeRequest(IHttpContext context)
         {
             if (context == null) Status.NotFound.Throw();
 
             var actions = context.Actions.Where(x => x.Method != null);
+
             foreach (var action in actions)
             {
+                if (IsLoginRequired(context, action))
+                {
+                    return await GetLoginResult(context);
+                }
                 var result = action.Invoke(context);
                 if (result is Task)
                 {
@@ -51,7 +68,7 @@ namespace Dolstagis.Web.Lifecycle
             throw new HttpStatusException(Status.NotFound);
         }
 
-        public async Task<object> InvokeRequestWithHomePageFallback(IRequestContext context)
+        public async Task<object> InvokeRequestWithHomePageFallback(IHttpContext context)
         {
             if (context.Request.AppRelativePath.Parts.Any()
                 || context.Actions.Any())
@@ -64,7 +81,7 @@ namespace Dolstagis.Web.Lifecycle
             }
         }
 
-        public async Task ProcessRequest(IRequestContext context)
+        public async Task ProcessRequest(IHttpContext context)
         {
             object result;
             IResultProcessor processor;
@@ -77,35 +94,50 @@ namespace Dolstagis.Web.Lifecycle
             }
             finally
             {
-                if (_sessionCookieBuilder != null)
+                if (context.Session != null && context.Session.ID != null)
                 {
-                    var cookie = _sessionCookieBuilder.CreateSessionCookie(context.Request.SessionID);
-                    if (cookie != null)
+                    var cookie = new Cookie(Constants.SessionKey, context.Session.ID)
                     {
-                        cookie.Secure = context.Request.IsSecure;
-                        context.Response.AddCookie(cookie);
-                    }
+                        Expires = context.Session.Expires,
+                        HttpOnly = true,
+                        Secure = context.Request.IsSecure
+                    };
+                    context.Response.AddCookie(cookie);
                 }
             }
             await processor.Process(result, context);
         }
 
-        public async Task ProcessRequest(Request request, Response response)
+        public async Task ProcessRequest(RequestContext request, ResponseContext response)
         {
             var context = _contextBuilder.CreateContext(request, response);
             Exception fault = null;
-            try {
+            try
+            {
                 await ProcessRequest(context);
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 fault = ex;
             }
 
-            if (fault != null) {
-                while (fault is AggregateException && ((AggregateException)fault).InnerExceptions.Count == 1) {
+            if (fault != null)
+            {
+                while (fault is AggregateException && ((AggregateException)fault).InnerExceptions.Count == 1)
+                {
                     fault = ((AggregateException)fault).InnerExceptions.Single();
                 }
-                await _exceptionHandler.HandleException(context, fault);
+                await HandleException(context, fault);
+            }
+
+            if (context.Session != null) await context.Session.Persist();
+        }
+
+        public virtual async Task HandleException(IHttpContext context, Exception fault)
+        {
+            foreach (var handler in _exceptionHandlers)
+            {
+                await handler.HandleException(context, fault);
             }
         }
     }
