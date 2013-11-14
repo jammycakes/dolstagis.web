@@ -35,10 +35,10 @@ namespace Dolstagis.Web.Lifecycle
             return attributes.Any(x => x.IsDenied(context));
         }
 
-        protected virtual async Task<object> GetLoginResult(IHttpContext context)
+        protected virtual Task<object> GetLoginResult(IHttpContext context)
         {
             var result = new RedirectResult("/login", Status.SeeOther);
-            return Task.FromResult(result);
+            return Task.FromResult<object>(result);
         }
 
 

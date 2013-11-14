@@ -35,6 +35,7 @@ namespace Dolstagis.Web
             For<IResultProcessor>().Singleton().Add<ViewResultProcessor>();
             For<IResultProcessor>().Singleton().Add<JsonResultProcessor>();
             For<IResultProcessor>().Singleton().Add<ContentResultProcessor>();
+            For<IResultProcessor>().Singleton().Add<HeadResultProcessor>();
 
             For<ViewRegistry>().Singleton().Use<ViewRegistry>()
                 .Ctor<IResourceResolver>().Is(ctx => new ResourceResolver
