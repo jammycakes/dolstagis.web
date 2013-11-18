@@ -9,10 +9,15 @@ namespace Dolstagis.Web.Auth
 {
     public class PrincipalAuthenticator : IAuthenticator
     {
-        public IUser GetUser(Http.IRequestContext request, Sessions.ISession session)
+        public IUser GetUser(IHttpContext context)
         {
             var principal = Thread.CurrentPrincipal;
             return principal.Identity.IsAuthenticated ? new PrincipalUser(principal) : null;
+        }
+
+        public void SetUser(IHttpContext context, IUser user)
+        {
+            throw new NotSupportedException("Changing the logged in user is not supported.");
         }
     }
 }

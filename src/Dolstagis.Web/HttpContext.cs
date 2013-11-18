@@ -13,15 +13,18 @@ namespace Dolstagis.Web
 {
     public class HttpContext : IHttpContext
     {
+        private IAuthenticator _authenticator;
+        private IUser _user;
+
         public HttpContext(IRequestContext request, IResponseContext response,
             ISession session,
-            IUser user,
+            IAuthenticator authenticator,
             IEnumerable<ActionInvocation> actions)
         {
             Request = request;
             Response = response;
             Session = session;
-            User = user;
+            _authenticator = authenticator;
             Actions = actions.ToList();
         }
 
@@ -31,7 +34,33 @@ namespace Dolstagis.Web
 
         public ISession Session { get; private set; }
 
-        public IUser User { get; private set; }
+        private bool _fetchingUser;
+
+        public IUser User
+        {
+            get
+            {
+                if (_fetchingUser) return null;
+                if (_user == null && _authenticator != null)
+                {
+                    try
+                    {
+                        _fetchingUser = true;
+                        _user = _authenticator.GetUser(this);
+                    }
+                    finally
+                    {
+                        _fetchingUser = false;
+                    }
+                }
+                return _user;
+            }
+            set
+            {
+                _authenticator.SetUser(this, value);
+                _user = value;
+            }
+        }
 
         public IList<ActionInvocation> Actions { get; private set; }
 
