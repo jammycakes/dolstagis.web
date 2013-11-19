@@ -24,8 +24,8 @@ namespace Dolstagis.Web
             For<IHttpContextBuilder>().Use<HttpContextBuilder>();
             For<IRequestProcessor>().Use<RequestProcessor>();
             For<IExceptionHandler>().Use<ExceptionHandler>();
-            For<ISessionStore>().Use(ctx => null);
-            For<IAuthenticator>().Singleton().Use<PrincipalAuthenticator>();
+            For<ISessionStore>().Singleton().Use<InMemorySessionStore>();
+            For<IAuthenticator>().Singleton().Use<SessionAuthenticator>();
             For<ILoginHandler>().Use<LoginHandler>();
 
             For<IResultProcessor>().Singleton().Add<StaticResultProcessor>()
