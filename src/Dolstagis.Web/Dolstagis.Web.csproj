@@ -63,6 +63,7 @@
     <Compile Include="Auth\RequireAllAttribute.cs" />
     <Compile Include="Auth\RequireAnyAttribute.cs" />
     <Compile Include="Auth\RequireLoginAttribute.cs" />
+    <Compile Include="Auth\SessionAuthenticator.cs" />
     <Compile Include="ContentResult.cs" />
     <Compile Include="ContentResultProcessor.cs" />
     <Compile Include="CoreServices.cs" />

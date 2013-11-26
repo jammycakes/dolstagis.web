@@ -69,8 +69,7 @@ namespace Dolstagis.Web.Lifecycle
         {
             var actions = GetActions(request);
             var session = GetSession(request);
-            var user = _authenticator != null ? _authenticator.GetUser(request, session) : null;
-            return new HttpContext(request, response, session, user, actions);
+            return new HttpContext(request, response, session, _authenticator, actions);
         }
 
         private ISession GetSession(IRequestContext request)
