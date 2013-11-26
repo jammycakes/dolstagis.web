@@ -75,6 +75,7 @@
     <Compile Include="Handler.cs" />
     <Compile Include="HeadResult.cs" />
     <Compile Include="HeadResultProcessor.cs" />
+    <Compile Include="HtmlString.cs" />
     <Compile Include="HttpStatusException.cs" />
     <Compile Include="Http\Constants.cs" />
     <Compile Include="Http\Cookie.cs" />
@@ -83,6 +84,7 @@
     <Compile Include="Http\IRequestContext.cs" />
     <Compile Include="Http\IResponseContext.cs" />
     <Compile Include="Http\RequestExtensions.cs" />
+    <Compile Include="IHtmlString.cs" />
     <Compile Include="ISettings.cs" />
     <Compile Include="Lifecycle\ILoginHandler.cs" />
     <Compile Include="Lifecycle\LoginHandler.cs" />
