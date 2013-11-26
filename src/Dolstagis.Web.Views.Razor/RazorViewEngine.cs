@@ -30,8 +30,10 @@ namespace Dolstagis.Web.Views.Razor
                     writeLiteralMethodName: "WriteLiteral",
                     writeToMethodName: "WriteTo",
                     writeLiteralToMethodName: "WriteLiteralTo",
-                    templateTypeName: null,
-                    defineSectionMethodName: "DefineSection"
+                    templateTypeName: typeof(TemplateBase).FullName,
+                    defineSectionMethodName: "DefineSection",
+                    beginContextMethodName: "BeginContext",
+                    endContextMethodName: "EndContext"
                 )
             };
             _host.NamespaceImports.Add("System");
