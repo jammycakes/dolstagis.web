@@ -3,9 +3,9 @@ using Dolstagis.Web.Sessions;
 
 namespace WebApp
 {
-    public class HomeModule : Module
+    public class HomeFeature : Feature
     {
-        public HomeModule()
+        public HomeFeature()
         {
             Services.For<ISessionStore>().Singleton().Use<InMemorySessionStore>();
 

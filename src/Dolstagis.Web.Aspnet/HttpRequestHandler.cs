@@ -68,7 +68,7 @@ namespace Dolstagis.Web.Aspnet
                 select assembly;
 
             foreach (var assembly in assemblies) {
-                _application.AddAllModulesInAssembly(assembly);
+                _application.AddAllFeaturesInAssembly(assembly);
             }
         }
     }

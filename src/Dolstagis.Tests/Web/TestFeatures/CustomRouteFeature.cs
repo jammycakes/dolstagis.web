@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Dolstagis.Tests.Web.TestModules.Handlers;
+using Dolstagis.Tests.Web.TestFeatures.Handlers;
 using Dolstagis.Web;
 
-namespace Dolstagis.Tests.Web.TestModules
+namespace Dolstagis.Tests.Web.TestFeatures
 {
-    public class CustomRouteModule : Module
+    public class CustomRouteFeature : Feature
     {
-        public CustomRouteModule(string customRoute)
+        public CustomRouteFeature(string customRoute)
         {
             AddHandler<ChildHandler>(customRoute);
         }

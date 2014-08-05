@@ -5,13 +5,13 @@ using System.Text;
 using System.Threading.Tasks;
 using Dolstagis.Web;
 
-namespace Dolstagis.Tests.Web.Lifecycle.AmbiguousRouteModules
+namespace Dolstagis.Tests.Web.TestFeatures.Handlers
 {
-    public class FirstHandler : Handler
+    public class ChildHandler : Handler
     {
         public object Get()
         {
-            return "First";
+            return null;
         }
     }
 }

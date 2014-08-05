@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Dolstagis.Web;
 
-namespace Dolstagis.Tests.Web.TestModules.Handlers
+namespace Dolstagis.Tests.Web.TestFeatures.Handlers
 {
     [Route("/")]
     public class RootHandler : Handler

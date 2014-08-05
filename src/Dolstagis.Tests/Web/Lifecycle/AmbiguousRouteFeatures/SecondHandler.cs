@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Dolstagis.Web;
 using NUnit.Framework;
 
-namespace Dolstagis.Tests.Web.Lifecycle.AmbiguousRouteModules
+namespace Dolstagis.Tests.Web.Lifecycle.AmbiguousRouteFeatures
 {
     public class SecondHandler : Handler
     {

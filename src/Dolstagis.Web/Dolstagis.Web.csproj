@@ -125,7 +125,7 @@
     <Compile Include="Static\FileResource.cs" />
     <Compile Include="Static\IMimeTypes.cs" />
     <Compile Include="Static\IResource.cs" />
-    <Compile Include="Module.cs" />
+    <Compile Include="Feature.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="..\.version\DefaultVersionInfo.cs" Condition="!Exists('..\.version\VersionInfo.cs')">
       <Link>Properties\DefaultVersionInfo.cs</Link>

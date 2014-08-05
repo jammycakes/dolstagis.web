@@ -5,11 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using Dolstagis.Web;
 
-namespace Dolstagis.Tests.Web.Lifecycle.AmbiguousRouteModules
+namespace Dolstagis.Tests.Web.Lifecycle.AmbiguousRouteFeatures
 {
-    public class SecondModule : Module
+    public class SecondFeature : Feature
     {
-        public SecondModule()
+        public SecondFeature()
         {
             this.AddHandler<NullHandler>("HandledByFirst");
             this.AddHandler<SecondHandler>("HandledBySecond");

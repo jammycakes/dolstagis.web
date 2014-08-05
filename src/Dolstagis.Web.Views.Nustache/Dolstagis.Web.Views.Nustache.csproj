@@ -47,7 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="NustacheModule.cs" />
+    <Compile Include="NustacheFeature.cs" />
     <Compile Include="NustacheView.cs" />
     <Compile Include="NustacheViewEngine.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -27,10 +27,10 @@ namespace Dolstagis.Web.Routing
         bool IsPreconditionMet(RouteInfo routeInfo);
 
         /// <summary>
-        ///  Gets the module in which this route was declared.
+        ///  Gets the feature in which this route was declared.
         /// </summary>
 
-        IRouteRegistry Module { get; }
+        IRouteRegistry Feature { get; }
 
         /// <summary>
         ///  Gets the string representation of the route.

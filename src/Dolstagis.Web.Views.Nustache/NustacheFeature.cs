@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Dolstagis.Web.Views.Nustache
 {
-    public class NustacheModule : Module
+    public class NustacheFeature : Feature
     {
-        public NustacheModule()
+        public NustacheFeature()
         {
             this.Services.For<IViewEngine>().Singleton().Add<NustacheViewEngine>();
         }

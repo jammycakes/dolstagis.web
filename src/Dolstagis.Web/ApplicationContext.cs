@@ -38,7 +38,7 @@ namespace Dolstagis.Web
         ///  to perform any setup tasks before requests can be processed.
         /// </summary>
 
-        public ApplicationContext(Application application, IEnumerable<Module> modules)
+        public ApplicationContext(Application application, IEnumerable<Feature> features)
         {
             this.VirtualPath = new VirtualPath(application.VirtualPath);
             this.PhysicalPath = application.PhysicalPath;
@@ -52,13 +52,13 @@ namespace Dolstagis.Web
                 x.AddRegistry<CoreServices>();
             });
 
-            foreach (var module in modules)
+            foreach (var feature in features)
             {
                 _container.Configure(x =>
                 {
-                    x.AddRegistry(module.Services);
-                    x.For<Module>().Singleton().Add(module);
-                    x.For<IRouteRegistry>().Singleton().Add(module);
+                    x.AddRegistry(feature.Services);
+                    x.For<Feature>().Singleton().Add(feature);
+                    x.For<IRouteRegistry>().Singleton().Add(feature);
                 });
             }
         }

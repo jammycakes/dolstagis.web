@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Dolstagis.Tests.Web.Lifecycle.AmbiguousRouteModules;
+using Dolstagis.Tests.Web.Lifecycle.AmbiguousRouteFeatures;
 using Dolstagis.Web;
 using Dolstagis.Web.Http;
 using Dolstagis.Web.Lifecycle;
@@ -23,7 +23,7 @@ namespace Dolstagis.Tests.Web.Lifecycle
         [TestFixtureSetUp]
         public void CreateRouteTable()
         {
-            _routeTable = new RouteTable(new FirstModule(), new SecondModule());
+            _routeTable = new RouteTable(new FirstFeature(), new SecondFeature());
             _routeTable.RebuildRouteTable();
             _container = new Container();
         }

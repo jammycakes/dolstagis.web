@@ -14,22 +14,22 @@ namespace Dolstagis.Web
 {
     /// <summary>
     ///  A container for services and configuration for one part of the application.
-    ///  Modules can be enabled or disabled as required, and last for the duration
+    ///  Features can be enabled or disabled as required, and last for the duration
     ///  of the application lifecycle.
     /// </summary>
 
-    public class Module : IRouteRegistry
+    public class Feature : IRouteRegistry
     {
         public Registry Services { get; private set; }
 
         /// <summary>
-        ///  Gets the text description of the module.
+        ///  Gets the text description of the feature.
         /// </summary>
 
         public virtual string Description { get { return this.GetType().FullName; } }
 
         /// <summary>
-        ///  Gets or sets a value indicating whether the module is enabled.
+        ///  Gets or sets a value indicating whether the feature is enabled.
         /// </summary>
 
         public bool Enabled { get; set; }
@@ -41,10 +41,10 @@ namespace Dolstagis.Web
         #endregion
 
         /// <summary>
-        ///  Creates a new instance of this module.
+        ///  Creates a new instance of this feature.
         /// </summary>
 
-        public Module()
+        public Feature()
         {
             this.Enabled = true;
             this.Routes = new List<IRouteDefinition>();
@@ -53,7 +53,7 @@ namespace Dolstagis.Web
 
 
         /// <summary>
-        ///  Registers a <see cref="Handler"/> in this module by type,
+        ///  Registers a <see cref="Handler"/> in this feature by type,
         ///  with a route specified in a [Route] attribute on the handler
         ///  class declaration.
         /// </summary>
@@ -72,7 +72,7 @@ namespace Dolstagis.Web
         }
 
         /// <summary>
-        ///  Registers a <see cref="Handler"/> in this module with a specified route.
+        ///  Registers a <see cref="Handler"/> in this feature with a specified route.
         /// </summary>
         /// <typeparam name="T">
         ///  The type of this handler.
@@ -87,7 +87,7 @@ namespace Dolstagis.Web
         }
 
         /// <summary>
-        ///  Registers a <see cref="Handler"/> in this module with a specified route
+        ///  Registers a <see cref="Handler"/> in this feature with a specified route
         ///  and precondition.
         /// </summary>
         /// <typeparam name="T">
