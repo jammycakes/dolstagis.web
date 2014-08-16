@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Dolstagis.Web.Http;
+using Dolstagis.Web.Owin;
 
 namespace Dolstagis.Web
 {
@@ -123,6 +124,20 @@ namespace Dolstagis.Web
         public async Task ProcessRequestAsync(IRequest request, IResponse response)
         {
             await _context.Value.ProcessRequestAsync(request, response);
+        }
+
+        /// <summary>
+        ///  Gets the Owin AppFunc for this request.
+        /// </summary>
+        /// <returns></returns>
+
+        public Func<IDictionary<string, object>, Task> GetAppFunc()
+        {
+            return async environment => {
+                var request = new Request(environment);
+                var response = new Response(environment);
+                await ProcessRequestAsync(request, response);
+            };
         }
     }
 }

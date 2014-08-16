@@ -86,6 +86,8 @@
     <Compile Include="ISettings.cs" />
     <Compile Include="Lifecycle\ILoginHandler.cs" />
     <Compile Include="Lifecycle\LoginHandler.cs" />
+    <Compile Include="Owin\Request.cs" />
+    <Compile Include="Owin\Response.cs" />
     <Compile Include="RedirectResult.cs" />
     <Compile Include="Sessions\InMemorySession.cs" />
     <Compile Include="Sessions\InMemorySessionStore.cs" />
