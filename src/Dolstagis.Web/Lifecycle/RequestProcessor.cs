@@ -70,7 +70,7 @@ namespace Dolstagis.Web.Lifecycle
 
         public async Task<object> InvokeRequestWithHomePageFallback(IHttpContext context)
         {
-            if (context.Request.AppRelativePath.Parts.Any()
+            if (context.Request.Path.Parts.Any()
                 || context.Actions.Any())
             {
                 return await InvokeRequest(context);

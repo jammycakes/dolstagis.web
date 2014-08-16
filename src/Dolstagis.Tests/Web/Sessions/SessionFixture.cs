@@ -22,7 +22,7 @@ namespace Dolstagis.Tests.Web.Sessions
         {
             var cookies = new Dictionary<string, Cookie>();
             var mockRequest = new Mock<IRequestContext>();
-            mockRequest.SetupGet(x => x.AppRelativePath).Returns(new VirtualPath("~/"));
+            mockRequest.SetupGet(x => x.Path).Returns(new VirtualPath("~/"));
             mockRequest.SetupGet(x => x.Cookies).Returns(cookies);
             var mockResponse = new Mock<IResponseContext>();
             var store = new InMemorySessionStore();
@@ -46,7 +46,7 @@ namespace Dolstagis.Tests.Web.Sessions
             cookies.Add(Constants.SessionKey, new Cookie(Constants.SessionKey, session.ID));
 
             var mockRequest = new Mock<IRequestContext>();
-            mockRequest.SetupGet(x => x.AppRelativePath).Returns(new VirtualPath("~/"));
+            mockRequest.SetupGet(x => x.Path).Returns(new VirtualPath("~/"));
             mockRequest.SetupGet(x => x.Cookies).Returns(cookies);
             var mockResponse = new Mock<IResponseContext>();
             var hcb = new HttpContextBuilder(new RouteTable(), store, null, () => null);

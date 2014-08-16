@@ -30,7 +30,7 @@ namespace Dolstagis.Web.Lifecycle
 
         public IEnumerable<ActionInvocation> GetActions(IRequest request)
         {
-            return _routes.Lookup(request.AppRelativePath)
+            return _routes.Lookup(request.Path)
                 .Select(route => GetAction(request, route));
         }
 

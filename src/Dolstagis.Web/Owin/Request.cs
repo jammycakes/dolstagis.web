@@ -21,12 +21,12 @@ namespace Dolstagis.Web.Owin
             get { throw new NotImplementedException(); }
         }
 
-        public VirtualPath Path
+        public VirtualPath AbsolutePath
         {
             get { throw new NotImplementedException(); }
         }
 
-        public VirtualPath AppRelativePath
+        public VirtualPath Path
         {
             get { throw new NotImplementedException(); }
         }

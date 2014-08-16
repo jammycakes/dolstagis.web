@@ -24,14 +24,14 @@ namespace Dolstagis.Web.Http
             get { return _innerRequest.Method; }
         }
 
+        public VirtualPath AbsolutePath
+        {
+            get { return _innerRequest.AbsolutePath; }
+        }
+
         public VirtualPath Path
         {
             get { return _innerRequest.Path; }
-        }
-
-        public VirtualPath AppRelativePath
-        {
-            get { return _innerRequest.AppRelativePath; }
         }
 
         public string Protocol
