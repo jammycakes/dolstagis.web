@@ -118,24 +118,9 @@ namespace Dolstagis.Web
             Services.For<ResourceMapping>().Add(ctx => new ResourceMapping(type, vPath, location));
         }
 
-        protected void AddStaticResources(ResourceType type, VirtualPath path)
-        {
-            AddStaticResources(type, path, ctx => new FileResourceLocation
-                (ctx.GetInstance<IApplicationContext>().MapPath(path)));
-        }
-
         protected void AddStaticResources(ResourceType type, VirtualPath path, string physicalPath)
         {
-            if (Path.IsPathRooted(physicalPath))
-            {
-                AddStaticResources(type, path, new FileResourceLocation(physicalPath));
-            }
-            else
-            {
-                var vPhysicalPath = new VirtualPath(physicalPath);
-                AddStaticResources(type, path, ctx => new FileResourceLocation(
-                    ctx.GetInstance<IApplicationContext>().MapPath(vPhysicalPath)));
-            }
+            AddStaticResources(type, path, new FileResourceLocation(physicalPath));
             AddStaticFilesHandler(path);
         }
 
@@ -186,31 +171,6 @@ namespace Dolstagis.Web
         public void AddStaticFiles(string path, IResourceLocation location)
         {
             AddStaticFiles(new VirtualPath(path), location);
-        }
-
-        /// <summary>
-        ///  Registers a directory or file of static files.
-        /// </summary>
-        /// <param name="path">
-        ///  The path to the static file or directory.
-        /// </param>
-
-        public void AddStaticFiles(VirtualPath path)
-        {
-            AddStaticResources(ResourceType.StaticFiles, path);
-            AddStaticFilesHandler(path);
-        }
-
-        /// <summary>
-        ///  Registers a directory or file of static files.
-        /// </summary>
-        /// <param name="path">
-        ///  The path to the static file or directory.
-        /// </param>
-
-        public void AddStaticFiles(string path)
-        {
-            AddStaticFiles(new VirtualPath(path));
         }
 
         /// <summary>
@@ -296,30 +256,6 @@ namespace Dolstagis.Web
             AddViews(new VirtualPath(path), location);
         }
 
-
-        /// <summary>
-        ///  Registers a directory or file of view locations.
-        /// </summary>
-        /// <param name="path">
-        ///  The path to the view template or directory.
-        /// </param>
-
-        public void AddViews(VirtualPath path)
-        {
-            AddStaticResources(ResourceType.Views, path);
-        }
-
-        /// <summary>
-        ///  Registers a directory or file of view locations.
-        /// </summary>
-        /// <param name="path">
-        ///  The path to the view template or directory.
-        /// </param>
-
-        public void AddViews(string path)
-        {
-            AddViews(new VirtualPath(path));
-        }
 
         /// <summary>
         ///  Registers a directory or file of static files at a different mapping from

@@ -1,4 +1,6 @@
-﻿using Dolstagis.Web;
+﻿using System.IO;
+using System.Web;
+using Dolstagis.Web;
 using Dolstagis.Web.Sessions;
 
 namespace WebApp
@@ -9,10 +11,10 @@ namespace WebApp
         {
             Services.For<ISessionStore>().Singleton().Use<InMemorySessionStore>();
 
-            AddStaticFiles("~/content");
-            AddViews("~/views");
+            AddStaticFiles("~/content", Path.Combine(HttpRuntime.AppDomainAppPath, "content"));
+            AddViews("~/views", Path.Combine(HttpRuntime.AppDomainAppPath, "views"));
             // Uncomment the following line to use custom error messages.
-            // AddViews("~/errors");
+            // AddViews("~/errors", Path.Combine(HttpRuntime.AppDomainAppPath, "errors"));
             AddHandler<Index>();
         }
     }
