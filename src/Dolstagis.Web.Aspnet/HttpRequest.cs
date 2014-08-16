@@ -20,9 +20,9 @@ namespace Dolstagis.Web.Aspnet
                 .GetAppRelativePath(this.Path, true);
             this.Protocol = innerRequest.ServerVariables["SERVER_PROTOCOL"];
             this.IsSecure = innerRequest.IsSecureConnection;
-            this.Query = innerRequest.Unvalidated.QueryString;
-            this.Form = innerRequest.Unvalidated.Form;
-            this.Headers = innerRequest.Unvalidated.Headers;
+            this.Query = new NameValueCollectionAdapter(innerRequest.Unvalidated.QueryString);
+            this.Form = new NameValueCollectionAdapter(innerRequest.Unvalidated.Form);
+            this.Headers = new NameValueCollectionAdapter(innerRequest.Unvalidated.Headers);
         }
 
         public string Method { get; private set; }
@@ -37,11 +37,11 @@ namespace Dolstagis.Web.Aspnet
 
         public Uri Url { get; private set; }
 
-        public NameValueCollection Query { get; private set; }
+        public IDictionary<string, string[]> Query { get; private set; }
 
-        public NameValueCollection Form { get; private set; }
+        public IDictionary<string, string[]> Form { get; private set; }
 
 
-        public NameValueCollection Headers { get; private set; }
+        public IDictionary<string, string[]> Headers { get; private set; }
     }
 }

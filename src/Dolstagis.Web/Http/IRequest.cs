@@ -53,17 +53,17 @@ namespace Dolstagis.Web.Http
         ///  Gets the query string components.
         /// </summary>
 
-        NameValueCollection Query { get; }
+        IDictionary<string, string[]> Query { get; }
 
         /// <summary>
         ///  Gets the form values.
         /// </summary>
 
-        NameValueCollection Form { get; }
+        IDictionary<string, string[]> Form { get; }
 
         /// <summary>
         ///  Gets the HTTP headers.
         /// </summary>
-        NameValueCollection Headers { get; }
+        IDictionary<string, string[]> Headers { get; }
     }
 }

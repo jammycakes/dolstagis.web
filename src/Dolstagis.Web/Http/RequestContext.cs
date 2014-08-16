@@ -49,17 +49,17 @@ namespace Dolstagis.Web.Http
             get { return _innerRequest.Url; }
         }
 
-        public System.Collections.Specialized.NameValueCollection Query
+        public IDictionary<string, string[]> Query
         {
             get { return _innerRequest.Query; }
         }
 
-        public System.Collections.Specialized.NameValueCollection Form
+        public IDictionary<string, string[]> Form
         {
             get { return _innerRequest.Form; }
         }
 
-        public System.Collections.Specialized.NameValueCollection Headers
+        public IDictionary<string, string[]> Headers
         {
             get { return _innerRequest.Headers; }
         }
@@ -73,8 +73,8 @@ namespace Dolstagis.Web.Http
             {
                 if (_cookies == null)
                 {
-                    var cookieHeaders = Headers.GetValues("Cookie");
-                    if (cookieHeaders != null)
+                    string[] cookieHeaders;
+                    if (Headers.TryGetValue("Cookie", out cookieHeaders))
                     {
                         var data = from header in cookieHeaders
                                    from str in header.Split(';')

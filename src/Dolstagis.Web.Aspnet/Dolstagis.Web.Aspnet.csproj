@@ -53,6 +53,7 @@
     <Compile Include="HttpRequest.cs" />
     <Compile Include="HttpRequestHandler.cs" />
     <Compile Include="HttpResponse.cs" />
+    <Compile Include="NameValueCollectionAdapter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Settings.cs" />
   </ItemGroup>
