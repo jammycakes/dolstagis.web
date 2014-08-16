@@ -34,6 +34,11 @@ namespace Dolstagis.Web.Http
             get { return _innerRequest.Path; }
         }
 
+        public VirtualPath PathBase
+        {
+            get { return _innerRequest.PathBase; }
+        }
+
         public string Protocol
         {
             get { return _innerRequest.Protocol; }

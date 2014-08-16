@@ -60,5 +60,11 @@ namespace Dolstagis.Web.Owin
         {
             get { throw new NotImplementedException(); }
         }
+
+
+        public VirtualPath PathBase
+        {
+            get { throw new NotImplementedException(); }
+        }
     }
 }

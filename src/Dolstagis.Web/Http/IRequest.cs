@@ -32,6 +32,13 @@ namespace Dolstagis.Web.Http
         VirtualPath Path { get; }
 
         /// <summary>
+        ///  Gets the portion of the request path corresponding to the
+        ///  application root.
+        /// </summary>
+
+        VirtualPath PathBase { get; }
+
+        /// <summary>
         ///  Gets the protocol and version (HTTP/1.0 or HTTP/1.1)
         /// </summary>
 

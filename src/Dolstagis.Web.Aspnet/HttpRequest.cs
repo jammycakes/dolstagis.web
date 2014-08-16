@@ -18,6 +18,7 @@ namespace Dolstagis.Web.Aspnet
             this.AbsolutePath = new VirtualPath(Url.AbsolutePath);
             this.Path = new VirtualPath(innerRequest.ApplicationPath)
                 .GetAppRelativePath(this.AbsolutePath, true);
+            this.PathBase = new VirtualPath(innerRequest.ApplicationPath);
             this.Protocol = innerRequest.ServerVariables["SERVER_PROTOCOL"];
             this.IsSecure = innerRequest.IsSecureConnection;
             this.Query = new NameValueCollectionAdapter(innerRequest.Unvalidated.QueryString);
@@ -31,6 +32,8 @@ namespace Dolstagis.Web.Aspnet
 
         public VirtualPath Path { get; private set; }
 
+        public VirtualPath PathBase { get; private set; }
+
         public string Protocol { get; private set; }
 
         public bool IsSecure { get; private set; }
@@ -43,5 +46,6 @@ namespace Dolstagis.Web.Aspnet
 
 
         public IDictionary<string, string[]> Headers { get; private set; }
+
     }
 }
