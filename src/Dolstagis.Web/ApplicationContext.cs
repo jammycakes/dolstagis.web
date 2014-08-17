@@ -21,21 +21,12 @@ namespace Dolstagis.Web
         private IContainer _container;
 
         /// <summary>
-        ///  Gets the root virtual path of the application. Does not include leading
-        ///  or trailing slashes.
-        /// </summary>
-
-        public VirtualPath VirtualPath { get; private set; }
-
-        /// <summary>
         ///  Called by the application container (an HTTP application, for example)
         ///  to perform any setup tasks before requests can be processed.
         /// </summary>
 
         public ApplicationContext(Application application, IEnumerable<Feature> features)
         {
-            this.VirtualPath = new VirtualPath(application.VirtualPath);
-
             _container = new Container();
             _container.Configure(x =>
             {
