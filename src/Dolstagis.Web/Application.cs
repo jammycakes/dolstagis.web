@@ -16,15 +16,15 @@ namespace Dolstagis.Web
         private ISet<Assembly> _loadedAssemblies = new HashSet<Assembly>();
 
         public string VirtualPath { get; private set; }
-        public string PhysicalPath { get; private set; }
+
         public ISettings Settings { get; private set; }
+
         public IDictionary<string, object> Items { get; private set; }
 
-        public Application(string virtualPath, string physicalPath, ISettings settings)
+        public Application(string virtualPath, ISettings settings)
         {
             _context = new Lazy<ApplicationContext>(CreateContext);
             VirtualPath = virtualPath;
-            PhysicalPath = physicalPath;
             Settings = settings;
             Items = new Dictionary<string, object>();
             AddAllFeaturesInAssembly(this.GetType().Assembly);

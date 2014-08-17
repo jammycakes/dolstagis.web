@@ -54,7 +54,7 @@ namespace Dolstagis.Web.Aspnet
         {
             if (_application != null) return;
             _application = new Application
-                (HostingEnvironment.ApplicationVirtualPath, HostingEnvironment.ApplicationPhysicalPath, new Settings());
+                (HostingEnvironment.ApplicationVirtualPath, new Settings());
 
             var assemblies =
                 from assembly in BuildManager.GetReferencedAssemblies().Cast<Assembly>()

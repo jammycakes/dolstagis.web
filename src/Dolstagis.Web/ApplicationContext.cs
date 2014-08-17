@@ -28,12 +28,6 @@ namespace Dolstagis.Web
         public VirtualPath VirtualPath { get; private set; }
 
         /// <summary>
-        ///  Gets the root physical path of the application.
-        /// </summary>
-
-        public string PhysicalPath { get; private set; }
-
-        /// <summary>
         ///  Called by the application container (an HTTP application, for example)
         ///  to perform any setup tasks before requests can be processed.
         /// </summary>
@@ -41,7 +35,6 @@ namespace Dolstagis.Web
         public ApplicationContext(Application application, IEnumerable<Feature> features)
         {
             this.VirtualPath = new VirtualPath(application.VirtualPath);
-            this.PhysicalPath = application.PhysicalPath;
 
             _container = new Container();
             _container.Configure(x =>
