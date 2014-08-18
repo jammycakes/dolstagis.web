@@ -85,6 +85,8 @@
     <Compile Include="Web\Lifecycle\AmbiguousRouteFeatures\SecondFeature.cs" />
     <Compile Include="Web\Lifecycle\AmbiguousRoutesFixture.cs" />
     <Compile Include="Web\Lifecycle\RequestProcessorFixture.cs" />
+    <Compile Include="Web\Owin\OwinFixtureBase.cs" />
+    <Compile Include="Web\Owin\RequestFixture.cs" />
     <Compile Include="Web\Routing\RouteTableExtensions.cs" />
     <Compile Include="Web\Routing\RouteTableFixture.cs" />
     <Compile Include="Web\Sessions\SessionFixture.cs" />
@@ -113,7 +115,9 @@
     <None Include="Dolstagis.Tests.nunit" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
+  </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Web\Static\EmbeddedResource.txt" />
   </ItemGroup>
