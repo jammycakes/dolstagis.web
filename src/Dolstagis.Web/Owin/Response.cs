@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,27 +15,48 @@ namespace Dolstagis.Web.Owin
         public Response(IDictionary<string, object> environment)
         {
             this.environment = environment;
+
+            this.Body = environment["owin.ResponseBody"] as Stream;
+            this.Headers = new ResponseHeaders
+                (environment["owin.ResponseHeaders"] as IDictionary<string, string[]>);
         }
 
         public void AddHeader(string name, string value)
         {
-            throw new NotImplementedException();
+            string[] values;
+            if (Headers.TryGetValue(name, out values))
+            {
+                Headers[name] = values.Concat(new string[] { value }).ToArray();
+            }
+            else
+            {
+                Headers[name] = new string[] { value };
+            }
         }
 
-        public System.IO.Stream Body
-        {
-            get { throw new NotImplementedException(); }
-        }
+        public Stream Body { get; private set; }
+
+        public ResponseHeaders Headers { get; private set; }
 
         public Status Status
         {
             get
             {
-                throw new NotImplementedException();
+                object obj;
+                if (this.environment.TryGetValue("owin.ResponseStatusCode", out obj))
+                {
+                    return Status.ByCode((int)obj);
+                }
+                else
+                {
+                    return Status.OK;
+                }
             }
             set
             {
-                throw new NotImplementedException();
+                var status = value ?? Status.OK;
+                this.environment["owin.ResponseStatusCode"] = status.Code;
+                this.environment["owin.ResponseReasonPhrase"] = status.Description;
             }
         }
     }

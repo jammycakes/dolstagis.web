@@ -83,6 +83,7 @@
     <Compile Include="Http\RequestExtensions.cs" />
     <Compile Include="Http\HttpDictionary.cs" />
     <Compile Include="Http\RequestHeaders.cs" />
+    <Compile Include="Http\ResponseHeaders.cs" />
     <Compile Include="ISettings.cs" />
     <Compile Include="Lifecycle\ILoginHandler.cs" />
     <Compile Include="Lifecycle\LoginHandler.cs" />
