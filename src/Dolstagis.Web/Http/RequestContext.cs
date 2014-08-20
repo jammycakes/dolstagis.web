@@ -64,7 +64,7 @@ namespace Dolstagis.Web.Http
             get { return _innerRequest.Form; }
         }
 
-        public IDictionary<string, string[]> Headers
+        public RequestHeaders Headers
         {
             get { return _innerRequest.Headers; }
         }

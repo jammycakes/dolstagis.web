@@ -16,7 +16,8 @@ namespace Dolstagis.Web.Owin
             /* From the OWIN 1.0 specification section 3.2.1 */
 
             // TODO: owin.RequestBody
-            this.Headers = environment["owin.RequestHeaders"] as IDictionary<string, string[]>;
+            this.Headers = new RequestHeaders
+                (environment["owin.RequestHeaders"] as IDictionary<string, string[]>);
             this.Method = environment["owin.RequestMethod"] as string;
             string pathBase = environment["owin.RequestPathBase"] as string;
             if (String.IsNullOrEmpty(pathBase)) pathBase = "/";
@@ -53,7 +54,7 @@ namespace Dolstagis.Web.Owin
 
         public IDictionary<string, object> Environment { get; private set; }
 
-        public IDictionary<string, string[]> Headers { get; private set; }
+        public RequestHeaders Headers { get; private set; }
 
         public string Method { get; private set; }
 

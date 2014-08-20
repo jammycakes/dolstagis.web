@@ -71,6 +71,6 @@ namespace Dolstagis.Web.Http
         /// <summary>
         ///  Gets the HTTP headers.
         /// </summary>
-        IDictionary<string, string[]> Headers { get; }
+        RequestHeaders Headers { get; }
     }
 }

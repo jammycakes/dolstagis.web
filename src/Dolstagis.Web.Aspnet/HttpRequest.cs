@@ -23,7 +23,8 @@ namespace Dolstagis.Web.Aspnet
             this.IsSecure = innerRequest.IsSecureConnection;
             this.Query = new NameValueCollectionAdapter(innerRequest.Unvalidated.QueryString);
             this.Form = new NameValueCollectionAdapter(innerRequest.Unvalidated.Form);
-            this.Headers = new NameValueCollectionAdapter(innerRequest.Unvalidated.Headers);
+            this.Headers = new RequestHeaders
+                (new NameValueCollectionAdapter(innerRequest.Unvalidated.Headers));
         }
 
         public string Method { get; private set; }
@@ -44,8 +45,7 @@ namespace Dolstagis.Web.Aspnet
 
         public IDictionary<string, string[]> Form { get; private set; }
 
-
-        public IDictionary<string, string[]> Headers { get; private set; }
+        public RequestHeaders Headers { get; private set; }
 
     }
 }
