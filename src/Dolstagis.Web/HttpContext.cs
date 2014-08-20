@@ -16,7 +16,7 @@ namespace Dolstagis.Web
         private IAuthenticator _authenticator;
         private IUser _user;
 
-        public HttpContext(IRequestContext request, IResponseContext response,
+        public HttpContext(IRequest request, IResponseContext response,
             ISession session,
             IAuthenticator authenticator,
             IEnumerable<ActionInvocation> actions)
@@ -28,7 +28,7 @@ namespace Dolstagis.Web
             Actions = actions.ToList();
         }
 
-        public IRequestContext Request { get; private set; }
+        public IRequest Request { get; private set; }
 
         public IResponseContext Response { get; private set; }
 

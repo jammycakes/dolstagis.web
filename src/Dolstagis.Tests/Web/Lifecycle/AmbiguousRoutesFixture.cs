@@ -35,7 +35,7 @@ namespace Dolstagis.Tests.Web.Lifecycle
             var request = new Mock<IRequest>();
             request.SetupGet(x => x.Path).Returns(new VirtualPath(path));
             request.SetupGet(x => x.Method).Returns(method);
-            var context = builder.CreateContext(new RequestContext(request.Object), null);
+            var context = builder.CreateContext(request.Object, null);
             var task = processor.InvokeRequest(context);
             task.Wait();
             return task.Result;
