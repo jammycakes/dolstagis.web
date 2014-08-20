@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,7 +16,7 @@ namespace Dolstagis.Web.Owin
 
             /* From the OWIN 1.0 specification section 3.2.1 */
 
-            // TODO: owin.RequestBody
+            this.Body = environment["owin.RequestBody"] as Stream;
             this.Headers = new RequestHeaders
                 (environment["owin.RequestHeaders"] as IDictionary<string, string[]>);
             this.Method = environment["owin.RequestMethod"] as string;
@@ -51,6 +52,9 @@ namespace Dolstagis.Web.Owin
             }
             return result;
         }
+
+
+        public Stream Body { get; private set; }
 
         public IDictionary<string, object> Environment { get; private set; }
 
