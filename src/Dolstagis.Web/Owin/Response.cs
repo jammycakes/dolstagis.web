@@ -21,7 +21,7 @@ namespace Dolstagis.Web.Owin
             throw new NotImplementedException();
         }
 
-        public System.IO.Stream ResponseStream
+        public System.IO.Stream Body
         {
             get { throw new NotImplementedException(); }
         }

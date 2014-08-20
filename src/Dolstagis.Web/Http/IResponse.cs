@@ -28,7 +28,7 @@ namespace Dolstagis.Web.Http
         ///  Gets the response stream.
         /// </summary>
 
-        Stream ResponseStream { get; }
+        Stream Body { get; }
 
         /// <summary>
         ///  Gets or sets the response status.

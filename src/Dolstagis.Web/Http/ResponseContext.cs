@@ -20,9 +20,9 @@ namespace Dolstagis.Web.Http
             _innerResponse.AddHeader(name, value);
         }
 
-        public System.IO.Stream ResponseStream
+        public System.IO.Stream Body
         {
-            get { return _innerResponse.ResponseStream; }
+            get { return _innerResponse.Body; }
         }
 
         public Status Status

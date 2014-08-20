@@ -54,7 +54,7 @@ namespace Dolstagis.Web.Lifecycle
                 .Replace("{{description}}", HttpUtility.HtmlEncode(ex.Status.Message))
                 .Replace("{{debug}}", _settings.Debug ? RenderDebugInfo(context, ex) : "");
 
-            using (var writer = new StreamWriter(context.Response.ResponseStream, Encoding.UTF8))
+            using (var writer = new StreamWriter(context.Response.Body, Encoding.UTF8))
             {
                 await writer.WriteAsync(html);
             }
@@ -86,7 +86,7 @@ namespace Dolstagis.Web.Lifecycle
                     context.Response.Status = ex.Status;
                     context.Response.AddHeader("Content-Type", "text/html");
                     context.Response.AddHeader("Content-Encoding", "utf-8");
-                    await view.Render(context.Response.ResponseStream, new ViewResult(vPath.ToString(), ex));
+                    await view.Render(context.Response.Body, new ViewResult(vPath.ToString(), ex));
                     return;
                 }
                 catch (Exception exRendering)

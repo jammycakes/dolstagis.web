@@ -14,7 +14,7 @@ namespace Dolstagis.Web
         {
             if (!String.IsNullOrEmpty(data.Content))
             {
-                using (var writer = new StreamWriter(context.Response.ResponseStream, data.Encoding))
+                using (var writer = new StreamWriter(context.Response.Body, data.Encoding))
                 {
                     await writer.WriteAsync(data.Content);
                 }

@@ -22,7 +22,7 @@ namespace Dolstagis.Web.Aspnet
             _innerResponse.AppendHeader(name, value);
         }
 
-        public System.IO.Stream ResponseStream
+        public System.IO.Stream Body
         {
             get { return _innerResponse.OutputStream; }
         }

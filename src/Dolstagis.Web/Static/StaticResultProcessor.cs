@@ -29,7 +29,7 @@ namespace Dolstagis.Web.Static
                 context.Response.AddHeader("Content-Length", resource.Length.Value.ToString());
             }
             using (var stream = resource.Open()) {
-                await stream.CopyToAsync(context.Response.ResponseStream);
+                await stream.CopyToAsync(context.Response.Body);
             }
         }
     }
