@@ -41,5 +41,23 @@ namespace Dolstagis.Web.Http
         {
             _innerResponse.AddHeader("Set-Cookie", cookie.ToHeaderString());
         }
+
+
+        public ResponseHeaders Headers
+        {
+            get { return _innerResponse.Headers; }
+        }
+
+        public string Protocol
+        {
+            get
+            {
+                return _innerResponse.Protocol;
+            }
+            set
+            {
+                _innerResponse.Protocol = value;
+            }
+        }
     }
 }

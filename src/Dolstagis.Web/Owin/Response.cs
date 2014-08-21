@@ -23,15 +23,7 @@ namespace Dolstagis.Web.Owin
 
         public void AddHeader(string name, string value)
         {
-            string[] values;
-            if (Headers.TryGetValue(name, out values))
-            {
-                Headers[name] = values.Concat(new string[] { value }).ToArray();
-            }
-            else
-            {
-                Headers[name] = new string[] { value };
-            }
+            this.Headers.AddHeader(name, value);
         }
 
         public Stream Body { get; private set; }
@@ -57,6 +49,26 @@ namespace Dolstagis.Web.Owin
                 var status = value ?? Status.OK;
                 this.environment["owin.ResponseStatusCode"] = status.Code;
                 this.environment["owin.ResponseReasonPhrase"] = status.Description;
+            }
+        }
+
+        public string Protocol
+        {
+            get
+            {
+                object result;
+                if (this.environment.TryGetValue("owin.ResponseProtocol", out result))
+                {
+                    return result as string;
+                }
+                else
+                {
+                    return this.environment["owin.RequestProtocol"] as string;
+                }
+            }
+            set
+            {
+                this.environment["owin.ResponseProtocol"] = value;
             }
         }
     }
