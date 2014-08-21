@@ -21,10 +21,11 @@ namespace Dolstagis.Tests.Web.Sessions
         public void CanGetNewSession()
         {
             var cookies = new Dictionary<string, Cookie>();
-            var mockRequest = new Mock<IRequestContext>();
-            mockRequest.SetupGet(x => x.AppRelativePath).Returns(new VirtualPath("~/"));
-            mockRequest.SetupGet(x => x.Cookies).Returns(cookies);
-            var mockResponse = new Mock<IResponseContext>();
+            var mockRequest = new Mock<IRequest>();
+            var headers = new RequestHeaders(new Dictionary<string, string[]>());
+            mockRequest.SetupGet(x => x.Path).Returns(new VirtualPath("~/"));
+            mockRequest.SetupGet(x => x.Headers).Returns(headers);
+            var mockResponse = new Mock<IResponse>();
             var store = new InMemorySessionStore();
             var hcb = new HttpContextBuilder(new RouteTable(), store, null, () => null);
 
@@ -42,13 +43,16 @@ namespace Dolstagis.Tests.Web.Sessions
         {
             var store = new InMemorySessionStore();
             var session = store.GetSession(null);
-            var cookies = new Dictionary<string, Cookie>();
-            cookies.Add(Constants.SessionKey, new Cookie(Constants.SessionKey, session.ID));
 
-            var mockRequest = new Mock<IRequestContext>();
-            mockRequest.SetupGet(x => x.AppRelativePath).Returns(new VirtualPath("~/"));
-            mockRequest.SetupGet(x => x.Cookies).Returns(cookies);
-            var mockResponse = new Mock<IResponseContext>();
+            var cookie = new Cookie(Constants.SessionKey, session.ID);
+
+            var headers = new RequestHeaders(new Dictionary<string, string[]>());
+            headers["Cookie"] = new string[] { cookie.ToHeaderString() };
+
+            var mockRequest = new Mock<IRequest>();
+            mockRequest.SetupGet(x => x.Path).Returns(new VirtualPath("~/"));
+            mockRequest.SetupGet(x => x.Headers).Returns(headers);
+            var mockResponse = new Mock<IResponse>();
             var hcb = new HttpContextBuilder(new RouteTable(), store, null, () => null);
 
             var ctx = hcb.CreateContext(mockRequest.Object, mockResponse.Object);

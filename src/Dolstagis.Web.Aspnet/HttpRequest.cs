@@ -15,21 +15,25 @@ namespace Dolstagis.Web.Aspnet
         {
             this.Url = innerRequest.Unvalidated.Url;
             this.Method = innerRequest.HttpMethod;
-            this.Path = new VirtualPath(Url.AbsolutePath);
-            this.AppRelativePath = new VirtualPath(innerRequest.ApplicationPath)
-                .GetAppRelativePath(this.Path, true);
+            this.AbsolutePath = new VirtualPath(Url.AbsolutePath);
+            this.Path = new VirtualPath(innerRequest.ApplicationPath)
+                .GetAppRelativePath(this.AbsolutePath, true);
+            this.PathBase = new VirtualPath(innerRequest.ApplicationPath);
             this.Protocol = innerRequest.ServerVariables["SERVER_PROTOCOL"];
             this.IsSecure = innerRequest.IsSecureConnection;
-            this.Query = innerRequest.Unvalidated.QueryString;
-            this.Form = innerRequest.Unvalidated.Form;
-            this.Headers = innerRequest.Unvalidated.Headers;
+            this.Query = new NameValueCollectionAdapter(innerRequest.Unvalidated.QueryString);
+            this.Form = new NameValueCollectionAdapter(innerRequest.Unvalidated.Form);
+            this.Headers = new RequestHeaders
+                (new NameValueCollectionAdapter(innerRequest.Unvalidated.Headers));
         }
 
         public string Method { get; private set; }
 
+        public VirtualPath AbsolutePath { get; private set; }
+
         public VirtualPath Path { get; private set; }
 
-        public VirtualPath AppRelativePath { get; private set; }
+        public VirtualPath PathBase { get; private set; }
 
         public string Protocol { get; private set; }
 
@@ -37,11 +41,11 @@ namespace Dolstagis.Web.Aspnet
 
         public Uri Url { get; private set; }
 
-        public NameValueCollection Query { get; private set; }
+        public IDictionary<string, string[]> Query { get; private set; }
 
-        public NameValueCollection Form { get; private set; }
+        public IDictionary<string, string[]> Form { get; private set; }
 
+        public RequestHeaders Headers { get; private set; }
 
-        public NameValueCollection Headers { get; private set; }
     }
 }

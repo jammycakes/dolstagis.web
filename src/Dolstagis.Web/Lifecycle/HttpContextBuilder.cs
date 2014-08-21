@@ -30,7 +30,7 @@ namespace Dolstagis.Web.Lifecycle
 
         public IEnumerable<ActionInvocation> GetActions(IRequest request)
         {
-            return _routes.Lookup(request.AppRelativePath)
+            return _routes.Lookup(request.Path)
                 .Select(route => GetAction(request, route));
         }
 
@@ -65,20 +65,20 @@ namespace Dolstagis.Web.Lifecycle
             return action;
         }
 
-        public IHttpContext CreateContext(IRequestContext request, IResponseContext response)
+        public IHttpContext CreateContext(IRequest request, IResponse response)
         {
             var actions = GetActions(request);
             var session = GetSession(request);
             return new HttpContext(request, response, session, _authenticator, actions);
         }
 
-        private ISession GetSession(IRequestContext request)
+        private ISession GetSession(IRequest request)
         {
             if (_sessionStore == null) return null;
 
             Cookie sessionCookie;
             string sessionID =
-                request.Cookies.TryGetValue(Constants.SessionKey, out sessionCookie)
+                request.Headers.Cookies.TryGetValue(Constants.SessionKey, out sessionCookie)
                 ? sessionCookie.Value
                 : null;
 

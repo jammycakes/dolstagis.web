@@ -9,13 +9,13 @@ namespace Dolstagis.Web.Routing
 {
     public class RouteTable
     {
-        private IRouteRegistry[] _modules;
+        private IRouteRegistry[] _features;
 
         public RouteTableEntry Root { get; private set; }
 
-        public RouteTable(params IRouteRegistry[] modules)
+        public RouteTable(params IRouteRegistry[] features)
         {
-            _modules = modules;
+            _features = features;
         }
 
 
@@ -41,8 +41,8 @@ namespace Dolstagis.Web.Routing
         {
             try {
                 Root = new RouteTableEntry(String.Empty);
-                foreach (var module in _modules) {
-                    foreach (var route in module.Routes) {
+                foreach (var feature in _features) {
+                    foreach (var route in feature.Routes) {
                         AddRouteToTable(route);
                     }
                 }
@@ -123,7 +123,7 @@ namespace Dolstagis.Web.Routing
             return
                 from candidate in candidates
                 from routeInfo in GetRouteInfo(candidate, parts)
-                where routeInfo.Definition != null && routeInfo.Definition.Module.Enabled
+                where routeInfo.Definition != null && routeInfo.Definition.Feature.Enabled
                 select routeInfo;
         }
     }

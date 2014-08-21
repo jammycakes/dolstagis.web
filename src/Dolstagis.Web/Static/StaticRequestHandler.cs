@@ -10,7 +10,7 @@ namespace Dolstagis.Web.Static
     {
         public object Get(string path = "")
         {
-            return new StaticResult(Context.Request.AppRelativePath);
+            return new StaticResult(Context.Request.Path);
         }
     }
 }

@@ -53,8 +53,7 @@ namespace Dolstagis.Web.Aspnet
         private void EnsureInit()
         {
             if (_application != null) return;
-            _application = new Application
-                (HostingEnvironment.ApplicationVirtualPath, HostingEnvironment.ApplicationPhysicalPath, new Settings());
+            _application = new Application(new Settings());
 
             var assemblies =
                 from assembly in BuildManager.GetReferencedAssemblies().Cast<Assembly>()
@@ -68,7 +67,7 @@ namespace Dolstagis.Web.Aspnet
                 select assembly;
 
             foreach (var assembly in assemblies) {
-                _application.AddAllModulesInAssembly(assembly);
+                _application.AddAllFeaturesInAssembly(assembly);
             }
         }
     }

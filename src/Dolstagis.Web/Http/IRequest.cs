@@ -22,14 +22,21 @@ namespace Dolstagis.Web.Http
         ///  Gets the full path passed in the request.
         /// </summary>
 
-        VirtualPath Path { get; }
+        VirtualPath AbsolutePath { get; }
 
         /// <summary>
         ///  Gets the path relative to the application root.
         ///  This MUST NOT start with a slash.
         /// </summary>
 
-        VirtualPath AppRelativePath { get; }
+        VirtualPath Path { get; }
+
+        /// <summary>
+        ///  Gets the portion of the request path corresponding to the
+        ///  application root.
+        /// </summary>
+
+        VirtualPath PathBase { get; }
 
         /// <summary>
         ///  Gets the protocol and version (HTTP/1.0 or HTTP/1.1)
@@ -53,17 +60,17 @@ namespace Dolstagis.Web.Http
         ///  Gets the query string components.
         /// </summary>
 
-        NameValueCollection Query { get; }
+        IDictionary<string, string[]> Query { get; }
 
         /// <summary>
         ///  Gets the form values.
         /// </summary>
 
-        NameValueCollection Form { get; }
+        IDictionary<string, string[]> Form { get; }
 
         /// <summary>
         ///  Gets the HTTP headers.
         /// </summary>
-        NameValueCollection Headers { get; }
+        RequestHeaders Headers { get; }
     }
 }

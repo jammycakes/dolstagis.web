@@ -70,7 +70,7 @@ namespace Dolstagis.Web.Lifecycle
 
         public async Task<object> InvokeRequestWithHomePageFallback(IHttpContext context)
         {
-            if (context.Request.AppRelativePath.Parts.Any()
+            if (context.Request.Path.Parts.Any()
                 || context.Actions.Any())
             {
                 return await InvokeRequest(context);
@@ -102,13 +102,13 @@ namespace Dolstagis.Web.Lifecycle
                         HttpOnly = true,
                         Secure = context.Request.IsSecure
                     };
-                    context.Response.AddCookie(cookie);
+                    context.Response.Headers.AddCookie(cookie);
                 }
             }
             await processor.Process(result, context);
         }
 
-        public async Task ProcessRequest(RequestContext request, ResponseContext response)
+        public async Task ProcessRequest(IRequest request, IResponse response)
         {
             var context = _contextBuilder.CreateContext(request, response);
             Exception fault = null;

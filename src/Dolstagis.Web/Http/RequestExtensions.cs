@@ -15,7 +15,7 @@ namespace Dolstagis.Web.Http
                 case VirtualPathType.Absolute:
                     return new Uri(request.Url, "/" + path.Path);
                 case VirtualPathType.AppRelative:
-                    return new Uri(request.Url, "/" + request.AppRelativePath.Append(path).Path);
+                    return new Uri(request.Url, "/" + request.Path.Append(path).Path);
                 case VirtualPathType.RequestRelative:
                     return new Uri(request.Url, path.Path);
                 default:

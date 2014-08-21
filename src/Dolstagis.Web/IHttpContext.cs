@@ -12,9 +12,9 @@ namespace Dolstagis.Web
 {
     public interface IHttpContext
     {
-        IRequestContext Request { get; }
+        IRequest Request { get; }
 
-        IResponseContext Response { get; }
+        IResponse Response { get; }
 
         ISession Session { get; }
 

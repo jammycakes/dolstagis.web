@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Dolstagis.Tests.Web.TestModules;
-using Dolstagis.Tests.Web.TestModules.Handlers;
+using Dolstagis.Tests.Web.TestFeatures;
+using Dolstagis.Tests.Web.TestFeatures.Handlers;
 using Dolstagis.Web;
 using Dolstagis.Web.Http;
 using Dolstagis.Web.Lifecycle;
@@ -24,7 +24,7 @@ namespace Dolstagis.Tests.Web.Lifecycle
         [TestFixtureSetUp]
         public void CreateRouteTable()
         {
-            _routeTable = new RouteTable(new FirstModule());
+            _routeTable = new RouteTable(new FirstFeature());
             _routeTable.RebuildRouteTable();
             var mock = new Mock<IContainer>();
             mock.Setup(x => x.GetInstance(It.IsAny<Type>())).Returns(new RootHandler());
@@ -37,9 +37,9 @@ namespace Dolstagis.Tests.Web.Lifecycle
             var builder = new HttpContextBuilder(_routeTable, null, null, () => new ActionInvocation(_mockContainer));
             var processor = new RequestProcessor(null, null, builder);
             var request = new Mock<IRequest>();
-            request.SetupGet(x => x.AppRelativePath).Returns(new VirtualPath(path));
+            request.SetupGet(x => x.Path).Returns(new VirtualPath(path));
             request.SetupGet(x => x.Method).Returns(method);
-            var context = builder.CreateContext(new RequestContext(request.Object), null);
+            var context = builder.CreateContext(request.Object, null);
             var task = processor.InvokeRequest(context);
             task.Wait();
             return task.Result;

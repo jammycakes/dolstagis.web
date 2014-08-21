@@ -16,49 +16,32 @@ namespace Dolstagis.Web
     ///  application which marshals services and manages request lifecycles.
     /// </summary>
 
-    public class ApplicationContext : IDisposable, IApplicationContext
+    public class ApplicationContext : IDisposable
     {
         private IContainer _container;
-
-        /// <summary>
-        ///  Gets the root virtual path of the application. Does not include leading
-        ///  or trailing slashes.
-        /// </summary>
-
-        public VirtualPath VirtualPath { get; private set; }
-
-        /// <summary>
-        ///  Gets the root physical path of the application.
-        /// </summary>
-
-        public string PhysicalPath { get; private set; }
 
         /// <summary>
         ///  Called by the application container (an HTTP application, for example)
         ///  to perform any setup tasks before requests can be processed.
         /// </summary>
 
-        public ApplicationContext(Application application, IEnumerable<Module> modules)
+        public ApplicationContext(Application application, IEnumerable<Feature> features)
         {
-            this.VirtualPath = new VirtualPath(application.VirtualPath);
-            this.PhysicalPath = application.PhysicalPath;
-
             _container = new Container();
             _container.Configure(x =>
             {
                 x.For<ISettings>().Singleton().Use(application.Settings);
                 x.For<ApplicationContext>().Singleton().Use(this);
-                x.For<IApplicationContext>().Singleton().Use(this);
                 x.AddRegistry<CoreServices>();
             });
 
-            foreach (var module in modules)
+            foreach (var feature in features)
             {
                 _container.Configure(x =>
                 {
-                    x.AddRegistry(module.Services);
-                    x.For<Module>().Singleton().Add(module);
-                    x.For<IRouteRegistry>().Singleton().Add(module);
+                    x.AddRegistry(feature.Services);
+                    x.For<Feature>().Singleton().Add(feature);
+                    x.For<IRouteRegistry>().Singleton().Add(feature);
                 });
             }
         }
@@ -76,18 +59,13 @@ namespace Dolstagis.Web
 
         public async Task ProcessRequestAsync(IRequest request, IResponse response)
         {
-            var requestWrapper = new RequestContext(request);
-            var responseWrapper = new ResponseContext(response);
-
             using (var childContainer = _container.GetNestedContainer()) {
                 childContainer.Configure(x => {
-                    x.For<IRequest>().Use(requestWrapper);
-                    x.For<IResponse>().Use(responseWrapper);
-                    x.For<RequestContext>().Use(requestWrapper);
-                    x.For<ResponseContext>().Use(responseWrapper);
+                    x.For<IRequest>().Use(request);
+                    x.For<IResponse>().Use(response);
                 });
                 await childContainer.GetInstance<IRequestProcessor>()
-                    .ProcessRequest(requestWrapper, responseWrapper);
+                    .ProcessRequest(request, response);
             }
         }
 

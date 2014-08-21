@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Dolstagis.Tests.Web.TestModules.Handlers;
+using Dolstagis.Tests.Web.TestFeatures.Handlers;
 using Dolstagis.Web;
 
-namespace Dolstagis.Tests.Web.TestModules
+namespace Dolstagis.Tests.Web.TestFeatures
 {
-    public class DisabledModule : Module
+    public class DisabledFeature : Feature
     {
-        public DisabledModule()
+        public DisabledFeature()
         {
             this.Enabled = false;
             this.AddHandler<ChildHandler>("/foo/bar");

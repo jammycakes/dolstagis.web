@@ -5,72 +5,70 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Dolstagis.Web.Http;
+using Dolstagis.Web.Owin;
 
 namespace Dolstagis.Web
 {
     public class Application
     {
-        private IList<Module> _modules = new List<Module>();
+        private IList<Feature> _features = new List<Feature>();
         private Lazy<ApplicationContext> _context;
         private ISet<Assembly> _loadedAssemblies = new HashSet<Assembly>();
 
-        public string VirtualPath { get; private set; }
-        public string PhysicalPath { get; private set; }
         public ISettings Settings { get; private set; }
+
         public IDictionary<string, object> Items { get; private set; }
 
-        public Application(string virtualPath, string physicalPath, ISettings settings)
+        public Application(ISettings settings)
         {
             _context = new Lazy<ApplicationContext>(CreateContext);
-            VirtualPath = virtualPath;
-            PhysicalPath = physicalPath;
             Settings = settings;
             Items = new Dictionary<string, object>();
-            AddAllModulesInAssembly(this.GetType().Assembly);
+            AddAllFeaturesInAssembly(this.GetType().Assembly);
         }
 
         private ApplicationContext CreateContext()
         {
-            return new ApplicationContext(this, _modules.Where(x => x.Enabled));
+            return new ApplicationContext(this, _features.Where(x => x.Enabled));
         }
 
 
         /// <summary>
-        ///  Registers a module with the application by type.
+        ///  Registers a feature with the application by type.
         /// </summary>
         /// <typeparam name="T">
-        ///  They type of module to register.
+        ///  They type of feature to register.
         /// </typeparam>
 
-        public void AddModule<T>() where T : Module, new()
+        public void AddFeature<T>() where T : Feature, new()
         {
-            AddModule(new T());
+            AddFeature(new T());
         }
 
         /// <summary>
-        ///  Registers a module with the application by instance.
+        ///  Registers a feature with the application by instance.
         /// </summary>
-        /// <param name="module">
-        ///  The module to register.
+        /// <param name="feature">
+        ///  The feature to register.
         /// </param>
 
-        public void AddModule(Module module)
+        public void AddFeature(Feature feature)
         {
-            _modules.Add(module);
+            _features.Add(feature);
         }
 
         /// <summary>
-        ///  Scan an assembly for modules to add.
+        ///  Scan an assembly for features to add.
         /// </summary>
         /// <param name="assembly">
         ///  The assembly.
         /// </param>
         /// <remarks>
-        ///  Only modules with a public default constructor will be instantiated.
+        ///  Only features with a public default constructor will be instantiated.
         ///  The order in which they are added is non-deterministic.
         /// </remarks>
 
-        public void AddAllModulesInAssembly(Assembly assembly)
+        public void AddAllFeaturesInAssembly(Assembly assembly)
         {
             if (_loadedAssemblies.Contains(assembly)) return;
             _loadedAssemblies.Add(assembly);
@@ -86,13 +84,13 @@ namespace Dolstagis.Web
                 types = ex.Types;
             }
 
-            foreach (var type in types.Where(t => typeof(Module).IsAssignableFrom(t)))
+            foreach (var type in types.Where(t => typeof(Feature).IsAssignableFrom(t)))
             {
                 var constructor = type.GetConstructor(Type.EmptyTypes);
                 if (constructor != null)
                 {
-                    var module = constructor.Invoke(null) as Module;
-                    AddModule(module);
+                    var feature = constructor.Invoke(null) as Feature;
+                    AddFeature(feature);
                 }
             }
         }
@@ -123,6 +121,20 @@ namespace Dolstagis.Web
         public async Task ProcessRequestAsync(IRequest request, IResponse response)
         {
             await _context.Value.ProcessRequestAsync(request, response);
+        }
+
+        /// <summary>
+        ///  Gets the Owin AppFunc for this request.
+        /// </summary>
+        /// <returns></returns>
+
+        public Func<IDictionary<string, object>, Task> GetAppFunc()
+        {
+            return async environment => {
+                var request = new Request(environment);
+                var response = new Response(environment);
+                await ProcessRequestAsync(request, response);
+            };
         }
     }
 }
