@@ -17,7 +17,7 @@ namespace Dolstagis.Tests.Web.Owin
         {
             string queryString = "?one=two&three=four&five=six&one=seven";
             var environment = BuildDefaultOwinEnvironment();
-            environment["owin.RequestQueryString"] = queryString;
+            environment[EnvironmentKeys.RequestQueryString] = queryString;
             var request = new Request(environment);
             Assert.AreEqual(3, request.Query.Count);
             CollectionAssert.AreEquivalent(new string[] { "two", "seven" }, request.Query["one"]);

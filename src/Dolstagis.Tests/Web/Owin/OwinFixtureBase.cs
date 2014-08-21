@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Dolstagis.Web.Owin;
 
 namespace Dolstagis.Tests.Web.Owin
 {
@@ -23,30 +24,30 @@ namespace Dolstagis.Tests.Web.Owin
         /// </remarks>
         /// <returns></returns>
 
-        public IDictionary<string, object> BuildDefaultOwinEnvironment()
+        protected IDictionary<string, object> BuildDefaultOwinEnvironment()
         {
             return new Dictionary<string, object>() {
-                { "owin.RequestBody", Stream.Null },
-                { "owin.RequestHeaders",
+                { EnvironmentKeys.RequestBody, Stream.Null },
+                { EnvironmentKeys.RequestBody,
                     new Dictionary<string, string[]> {
                         { "Host", new string[] { "localhost" } }
                     }
                 },
-                { "owin.RequestMethod", "GET" },
-                { "owin.RequestPath", "/" },
-                { "owin.RequestPathBase", String.Empty },
-                { "owin.RequestProtocol", "HTTP/1.1" },
-                { "owin.RequestQueryString", String.Empty },
-                { "owin.RequestScheme", "http" },
+                { EnvironmentKeys.RequestMethod, "GET" },
+                { EnvironmentKeys.RequestPath, "/" },
+                { EnvironmentKeys.RequestPathBase, String.Empty },
+                { EnvironmentKeys.RequestProtocol, "HTTP/1.1" },
+                { EnvironmentKeys.RequestQueryString, String.Empty },
+                { EnvironmentKeys.RequestScheme, "http" },
 
-                { "owin.ResponseBody", Stream.Null },
-                { "owin.ResponseHeaders", new Dictionary<string, string[]>() },
-                { "owin.ResponseStatusCode", 200 },
-                { "owin.ResponseReasonPhrase", "OK" },
-                { "owin.ResponseProtocol", "HTTP/1.1" },
+                { EnvironmentKeys.ResponseBody, Stream.Null },
+                { EnvironmentKeys.ResponseHeaders, new Dictionary<string, string[]>() },
+                { EnvironmentKeys.ResponseStatusCode, 200 },
+                { EnvironmentKeys.ResponseReasonPhrase, "OK" },
+                { EnvironmentKeys.ResponseProtocol, "HTTP/1.1" },
 
-                { "owin.CallCancelled", new CancellationToken() },
-                { "owin.Version", "1.0" }
+                { EnvironmentKeys.CallCancelled, new CancellationToken() },
+                { EnvironmentKeys.OwinVersion, "1.0" }
             };
         }
     }

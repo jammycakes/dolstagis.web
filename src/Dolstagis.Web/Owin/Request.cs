@@ -16,20 +16,20 @@ namespace Dolstagis.Web.Owin
 
             /* From the OWIN 1.0 specification section 3.2.1 */
 
-            this.Body = environment["owin.RequestBody"] as Stream;
+            this.Body = environment[EnvironmentKeys.RequestBody] as Stream;
             this.Headers = new RequestHeaders
-                (environment["owin.RequestHeaders"] as IDictionary<string, string[]>);
-            this.Method = environment["owin.RequestMethod"] as string;
-            string pathBase = environment["owin.RequestPathBase"] as string;
+                (environment[EnvironmentKeys.RequestHeaders] as IDictionary<string, string[]>);
+            this.Method = environment[EnvironmentKeys.RequestMethod] as string;
+            string pathBase = environment[EnvironmentKeys.RequestPathBase] as string;
             if (String.IsNullOrEmpty(pathBase)) pathBase = "/";
             this.PathBase = new VirtualPath(pathBase);
-            string path = (environment["owin.RequestPath"] as string).TrimStart('/');
+            string path = (environment[EnvironmentKeys.RequestPath] as string).TrimStart('/');
             this.Path = new VirtualPath(path);
             this.AbsolutePath = this.PathBase.Append(this.Path);
-            this.Protocol = environment["owin.RequestProtocol"] as string;
-            string queryString = environment["owin.RequestQueryString"] as string;
+            this.Protocol = environment[EnvironmentKeys.RequestProtocol] as string;
+            string queryString = environment[EnvironmentKeys.RequestQueryString] as string;
             this.Query = ParseQueryString(queryString);
-            this.Scheme = environment["owin.RequestScheme"] as string;
+            this.Scheme = environment[EnvironmentKeys.RequestScheme] as string;
 
             /* Computed */
 

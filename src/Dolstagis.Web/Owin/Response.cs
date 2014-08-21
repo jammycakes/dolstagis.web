@@ -16,9 +16,9 @@ namespace Dolstagis.Web.Owin
         {
             this.environment = environment;
 
-            this.Body = environment["owin.ResponseBody"] as Stream;
+            this.Body = environment[EnvironmentKeys.ResponseBody] as Stream;
             this.Headers = new ResponseHeaders
-                (environment["owin.ResponseHeaders"] as IDictionary<string, string[]>);
+                (environment[EnvironmentKeys.ResponseHeaders] as IDictionary<string, string[]>);
         }
 
         public void AddHeader(string name, string value)
@@ -35,7 +35,7 @@ namespace Dolstagis.Web.Owin
             get
             {
                 object obj;
-                if (this.environment.TryGetValue("owin.ResponseStatusCode", out obj))
+                if (this.environment.TryGetValue(EnvironmentKeys.ResponseStatusCode, out obj))
                 {
                     return Status.ByCode((int)obj);
                 }
@@ -47,8 +47,8 @@ namespace Dolstagis.Web.Owin
             set
             {
                 var status = value ?? Status.OK;
-                this.environment["owin.ResponseStatusCode"] = status.Code;
-                this.environment["owin.ResponseReasonPhrase"] = status.Description;
+                this.environment[EnvironmentKeys.ResponseStatusCode] = status.Code;
+                this.environment[EnvironmentKeys.ResponseReasonPhrase] = status.Description;
             }
         }
 
@@ -57,18 +57,18 @@ namespace Dolstagis.Web.Owin
             get
             {
                 object result;
-                if (this.environment.TryGetValue("owin.ResponseProtocol", out result))
+                if (this.environment.TryGetValue(EnvironmentKeys.ResponseProtocol, out result))
                 {
                     return result as string;
                 }
                 else
                 {
-                    return this.environment["owin.RequestProtocol"] as string;
+                    return this.environment[EnvironmentKeys.RequestProtocol] as string;
                 }
             }
             set
             {
-                this.environment["owin.ResponseProtocol"] = value;
+                this.environment[EnvironmentKeys.ResponseProtocol] = value;
             }
         }
     }
