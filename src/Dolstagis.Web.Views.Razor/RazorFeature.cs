@@ -7,9 +7,9 @@ using System.Web.Razor;
 
 namespace Dolstagis.Web.Views.Razor
 {
-    public class RazorModule : Module
+    public class RazorFeature : Feature
     {
-        public RazorModule()
+        public RazorFeature()
         {
             this.Services.For<IViewEngine>().Singleton().Add<RazorViewEngine>()
                 .Ctor<string>("extension").Is("cshtml")

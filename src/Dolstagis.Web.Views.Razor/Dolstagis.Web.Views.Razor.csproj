@@ -59,7 +59,7 @@
     <Compile Include="..\.version\VersionInfo.cs" Condition="Exists('..\.version\VersionInfo.cs')">
       <Link>Properties\VersionInfo.cs</Link>
     </Compile>
-    <Compile Include="RazorModule.cs" />
+    <Compile Include="RazorFeature.cs" />
     <Compile Include="RazorView.cs" />
     <Compile Include="RazorViewEngine.cs" />
     <Compile Include="TemplateBase.cs" />
