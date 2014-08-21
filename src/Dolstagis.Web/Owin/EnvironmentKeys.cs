@@ -33,5 +33,30 @@ namespace Dolstagis.Web.Owin
 
         public const string CallCancelled = "owin.CallCancelled";
         public const string OwinVersion = "owin.Version";
+
+
+        /* ====== Extensions defined in Owin Common Keys ====== */
+
+        public static class Ssl
+        {
+            public const string ClientCertificate = "ssl.ClientCertificate";
+        }
+
+        public static class Server
+        {
+            public const string RemoteIpAddress = "server.RemoteIpAddress";
+            public const string RemotePort = "server.RemotePort";
+            public const string LocalIpAddress = "server.LocalIpAddress";
+            public const string LocalPort = "server.LocalPort";
+            public const string IsLocal = "server.IsLocal";
+            public const string Capabilities = "server.Capabilities";
+            public const string OnSendingHeaders = "server.OnSendingHeaders";
+        }
+
+        public static class Host
+        {
+            public const string TraceOutput = "host.TraceOutput";
+            public const string Addresses = "host.Addresses";
+        }
     }
 }
