@@ -14,7 +14,7 @@ namespace Dolstagis.Web
     {
         IRequest Request { get; }
 
-        IResponseContext Response { get; }
+        IResponse Response { get; }
 
         ISession Session { get; }
 

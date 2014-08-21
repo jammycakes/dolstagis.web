@@ -102,13 +102,13 @@ namespace Dolstagis.Web.Lifecycle
                         HttpOnly = true,
                         Secure = context.Request.IsSecure
                     };
-                    context.Response.AddCookie(cookie);
+                    context.Response.Headers.AddCookie(cookie);
                 }
             }
             await processor.Process(result, context);
         }
 
-        public async Task ProcessRequest(IRequest request, ResponseContext response)
+        public async Task ProcessRequest(IRequest request, IResponse response)
         {
             var context = _contextBuilder.CreateContext(request, response);
             Exception fault = null;

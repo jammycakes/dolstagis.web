@@ -9,6 +9,6 @@ namespace Dolstagis.Web.Lifecycle
 {
     public interface IHttpContextBuilder
     {
-        IHttpContext CreateContext(IRequest request, IResponseContext response);
+        IHttpContext CreateContext(IRequest request, IResponse response);
     }
 }

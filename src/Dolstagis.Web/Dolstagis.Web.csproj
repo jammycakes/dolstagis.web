@@ -79,7 +79,6 @@
     <Compile Include="Http\Cookie.cs" />
     <Compile Include="Http\HttpEncoder.cs" />
     <Compile Include="Http\HttpUtility.cs" />
-    <Compile Include="Http\IResponseContext.cs" />
     <Compile Include="Http\RequestExtensions.cs" />
     <Compile Include="Http\HttpDictionary.cs" />
     <Compile Include="Http\RequestHeaders.cs" />
@@ -93,7 +92,6 @@
     <Compile Include="Sessions\InMemorySession.cs" />
     <Compile Include="Sessions\InMemorySessionStore.cs" />
     <Compile Include="Sessions\ISession.cs" />
-    <Compile Include="Http\ResponseContext.cs" />
     <Compile Include="Sessions\ISessionStore.cs" />
     <Compile Include="IHttpContext.cs" />
     <Compile Include="Http\IRequest.cs" />

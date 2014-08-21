@@ -24,5 +24,11 @@ namespace Dolstagis.Web.Http
                 this[name] = new string[] { value };
             }
         }
+
+
+        public void AddCookie(Cookie cookie)
+        {
+            this.AddHeader("Set-Cookie", cookie.ToHeaderString());
+        }
     }
 }
