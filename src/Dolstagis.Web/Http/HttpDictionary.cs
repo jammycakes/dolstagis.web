@@ -16,6 +16,8 @@ namespace Dolstagis.Web.Http
             this.inner = inner;
         }
 
+        #region /* ====== IDictionary<string, string[]> implementation ====== */
+
         public void Add(string key, string[] value)
         {
             inner.Add(key, value);
@@ -95,6 +97,31 @@ namespace Dolstagis.Web.Http
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
         {
             return ((IEnumerable)inner).GetEnumerator();
+        }
+
+        #endregion
+
+        /* ====== Additional methods ====== */
+
+        /// <summary>
+        ///  Gets the first instance of a header, or null of none.
+        /// </summary>
+        /// <param name="key">
+        ///  The key to query.
+        /// </param>
+        /// <returns>
+        ///  The first value represented by the key, or null if not found.
+        /// </returns>
+
+        protected string GetValue(string key)
+        {
+            string[] results;
+            return this.TryGetValue(key, out results) ? results.FirstOrDefault() : null;
+        }
+
+        protected void SetValue(string key, string value)
+        {
+            this["key"] = new string[] { value };
         }
     }
 }
