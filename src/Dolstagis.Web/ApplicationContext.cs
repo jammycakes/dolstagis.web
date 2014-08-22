@@ -51,7 +51,7 @@ namespace Dolstagis.Web
         ///  Processes a request asynchronously.
         /// </summary>
         /// <param name="context">
-        ///  The <see cref="IHttpContext"/> containing request and response objects.
+        ///  The <see cref="IRequestContext"/> containing request and response objects.
         /// </param>
         /// <returns>
         ///  A <see cref="Task"/> instance.

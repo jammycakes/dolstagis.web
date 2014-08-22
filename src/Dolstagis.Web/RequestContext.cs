@@ -11,12 +11,12 @@ using Dolstagis.Web.Sessions;
 
 namespace Dolstagis.Web
 {
-    public class HttpContext : IHttpContext
+    public class RequestContext : IRequestContext
     {
         private IAuthenticator _authenticator;
         private IUser _user;
 
-        public HttpContext(IRequest request, IResponse response,
+        public RequestContext(IRequest request, IResponse response,
             ISession session,
             IAuthenticator authenticator,
             IEnumerable<ActionInvocation> actions)

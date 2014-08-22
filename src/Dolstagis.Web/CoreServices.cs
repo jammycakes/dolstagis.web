@@ -21,7 +21,7 @@ namespace Dolstagis.Web
             For<RouteTable>().Singleton().Use<RouteTable>();
             For<IMimeTypes>().Singleton().Use<MimeTypes>();
 
-            For<IHttpContextBuilder>().Use<HttpContextBuilder>();
+            For<IRequestContextBuilder>().Use<RequestContextBuilder>();
             For<IRequestProcessor>().Use<RequestProcessor>();
             For<IExceptionHandler>().Use<ExceptionHandler>();
             For<ISessionStore>().Singleton().Use<InMemorySessionStore>();

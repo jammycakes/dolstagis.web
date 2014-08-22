@@ -15,14 +15,14 @@ namespace Dolstagis.Web.Auth
             this.SessionKey = "{C3F5F70A-8703-43FA-8947-5E519D7791D6}";
         }
 
-        public IUser GetUser(IHttpContext context)
+        public IUser GetUser(IRequestContext context)
         {
             if (context.Session == null) return null;
             object result;
             return context.Session.Items.TryGetValue(SessionKey, out result) ? result as IUser : null;
         }
 
-        public void SetUser(IHttpContext context, IUser user)
+        public void SetUser(IRequestContext context, IUser user)
         {
             if (user != null)
             {

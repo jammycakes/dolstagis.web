@@ -94,7 +94,7 @@
     <Compile Include="Sessions\InMemorySessionStore.cs" />
     <Compile Include="Sessions\ISession.cs" />
     <Compile Include="Sessions\ISessionStore.cs" />
-    <Compile Include="IHttpContext.cs" />
+    <Compile Include="IRequestContext.cs" />
     <Compile Include="Http\IRequest.cs" />
     <Compile Include="Http\IResponse.cs" />
     <Compile Include="JsonResult.cs" />
@@ -102,10 +102,10 @@
     <Compile Include="Lifecycle\ExceptionHandler.cs" />
     <Compile Include="Lifecycle\ActionInvocation.cs" />
     <Compile Include="Lifecycle\IExceptionHandler.cs" />
-    <Compile Include="Lifecycle\IHttpContextBuilder.cs" />
+    <Compile Include="Lifecycle\IRequestContextBuilder.cs" />
     <Compile Include="Lifecycle\IRequestProcessor.cs" />
     <Compile Include="Lifecycle\IResultProcessor.cs" />
-    <Compile Include="Lifecycle\HttpContextBuilder.cs" />
+    <Compile Include="Lifecycle\RequestContextBuilder.cs" />
     <Compile Include="Lifecycle\ResultProcessor.cs" />
     <Compile Include="ResultBase.cs" />
     <Compile Include="Static\AssemblyResource.cs" />
@@ -121,7 +121,7 @@
     <Compile Include="Static\StaticResultProcessor.cs" />
     <Compile Include="Views\ViewResultProcessor.cs" />
     <Compile Include="VirtualPath.cs" />
-    <Compile Include="HttpContext.cs" />
+    <Compile Include="RequestContext.cs" />
     <Compile Include="Static\FileResource.cs" />
     <Compile Include="Static\IMimeTypes.cs" />
     <Compile Include="Static\IResource.cs" />

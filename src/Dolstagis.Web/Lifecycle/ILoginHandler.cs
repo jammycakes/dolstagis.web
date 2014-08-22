@@ -8,6 +8,6 @@ namespace Dolstagis.Web.Lifecycle
 {
     public interface ILoginHandler
     {
-        object GetLogin(IHttpContext context);
+        object GetLogin(IRequestContext context);
     }
 }

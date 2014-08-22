@@ -26,10 +26,10 @@ namespace Dolstagis.Web.Lifecycle
         ///  The data to be processed.
         /// </param>
         /// <param name="context">
-        ///  The <see cref="IHttpContext"/> instance.
+        ///  The <see cref="IRequestContext"/> instance.
         /// </param>
         /// <returns>A <see cref="Task"/> instance.</returns>
 
-        Task Process(object data, IHttpContext context);
+        Task Process(object data, IRequestContext context);
     }
 }

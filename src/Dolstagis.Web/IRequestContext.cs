@@ -10,7 +10,7 @@ using Dolstagis.Web.Sessions;
 
 namespace Dolstagis.Web
 {
-    public interface IHttpContext
+    public interface IRequestContext
     {
         IRequest Request { get; }
 

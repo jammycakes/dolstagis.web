@@ -10,8 +10,8 @@ namespace Dolstagis.Web.Auth
 {
     public interface IAuthenticator
     {
-        IUser GetUser(IHttpContext context);
+        IUser GetUser(IRequestContext context);
 
-        void SetUser(IHttpContext context, IUser user);
+        void SetUser(IRequestContext context, IUser user);
     }
 }
