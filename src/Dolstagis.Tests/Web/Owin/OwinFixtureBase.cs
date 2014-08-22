@@ -28,7 +28,7 @@ namespace Dolstagis.Tests.Web.Owin
         {
             return new Dictionary<string, object>() {
                 { EnvironmentKeys.RequestBody, Stream.Null },
-                { EnvironmentKeys.RequestBody,
+                { EnvironmentKeys.RequestHeaders,
                     new Dictionary<string, string[]> {
                         { "Host", new string[] { "localhost" } }
                     }
