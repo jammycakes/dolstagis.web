@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Dolstagis.Web.Http;
 using Dolstagis.Web.Owin;
+using Dolstagis.Web.Util;
 
 namespace Dolstagis.Web
 {
@@ -73,26 +74,9 @@ namespace Dolstagis.Web
             if (_loadedAssemblies.Contains(assembly)) return;
             _loadedAssemblies.Add(assembly);
 
-            Type[] types;
-
-            try
-            {
-                types = assembly.GetTypes();
-            }
-            catch (ReflectionTypeLoadException ex)
-            {
-                types = ex.Types;
-            }
-
-            foreach (var type in types.Where(t => typeof(Feature).IsAssignableFrom(t)))
-            {
-                var constructor = type.GetConstructor(Type.EmptyTypes);
-                if (constructor != null)
-                {
-                    var feature = constructor.Invoke(null) as Feature;
-                    AddFeature(feature);
-                }
-            }
+            var features = assembly.SafeGetInstances<Feature>();
+            foreach (var feature in features)
+                AddFeature(feature);
         }
 
 
