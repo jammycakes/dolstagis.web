@@ -59,10 +59,6 @@
     <Compile Include="..\.version\VersionInfo.cs" Condition="Exists('..\.version\VersionInfo.cs')">
       <Link>Properties\VersionInfo.cs</Link>
     </Compile>
-    <Compile Include="HttpRequest.cs" />
-    <Compile Include="HttpRequestHandler.cs" />
-    <Compile Include="HttpResponse.cs" />
-    <Compile Include="NameValueCollectionAdapter.cs" />
     <Compile Include="ApplicationExtensions.cs" />
     <Compile Include="IConfigurator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
