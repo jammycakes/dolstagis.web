@@ -39,7 +39,7 @@ namespace Dolstagis.Web.Owin
             this.Url = new Uri(url);
             this.IsSecure = String.Compare("https", this.Scheme, true) == 0;
 
-            // TODO: Form
+            /* Form */
 
             this.Form = ParseForm(this.Body, this.Headers.ContentType, Encoding.UTF8);
         }
