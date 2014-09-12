@@ -91,7 +91,6 @@
     <Compile Include="Web\Sessions\SessionFixture.cs" />
     <Compile Include="Web\Static\AssemblyResourceLocationFixture.cs" />
     <Compile Include="Web\TestFeatures\CustomRouteFeature.cs" />
-    <Compile Include="Web\TestFeatures\DisabledFeature.cs" />
     <Compile Include="Web\TestFeatures\EmptyNamedFeature.cs" />
     <Compile Include="Web\TestFeatures\FirstFeature.cs" />
     <Compile Include="Web\TestFeatures\Handlers\ChildHandler.cs" />

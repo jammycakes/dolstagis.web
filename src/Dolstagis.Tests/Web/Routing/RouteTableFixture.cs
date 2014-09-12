@@ -73,13 +73,6 @@ namespace Dolstagis.Tests.Web.Routing
         }
 
         [Test]
-        public void DoesNotGetRouteFromDisabledFeature()
-        {
-            var routeTable = new RouteTable(new FirstFeature(), new DisabledFeature());
-            Assert.IsNull(routeTable.Lookup("/foo/bar"));
-        }
-
-        [Test]
         public void CanGetRouteThatEndsWithParameter()
         {
             var routeTable = new RouteTable(new FirstFeature());

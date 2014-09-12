@@ -30,7 +30,7 @@ namespace Dolstagis.Web
 
         private ApplicationContext CreateContext()
         {
-            return new ApplicationContext(this, _features.Where(x => x.Enabled));
+            return new ApplicationContext(this, _features);
         }
 
 

@@ -123,7 +123,7 @@ namespace Dolstagis.Web.Routing
             return
                 from candidate in candidates
                 from routeInfo in GetRouteInfo(candidate, parts)
-                where routeInfo.Definition != null && routeInfo.Definition.Feature.Enabled
+                where routeInfo.Definition != null
                 select routeInfo;
         }
     }
