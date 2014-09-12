@@ -75,6 +75,7 @@
       <Link>Properties\VersionInfo.cs</Link>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Web\FeatureSetFixture.cs" />
     <Compile Include="Web\Lifecycle\AmbiguousRouteFeatures\ArgHandler.cs" />
     <Compile Include="Web\Lifecycle\AmbiguousRouteFeatures\FirstFeature.cs" />
     <Compile Include="Web\Lifecycle\AmbiguousRouteFeatures\FirstHandler.cs" />
@@ -91,6 +92,7 @@
     <Compile Include="Web\Static\AssemblyResourceLocationFixture.cs" />
     <Compile Include="Web\TestFeatures\CustomRouteFeature.cs" />
     <Compile Include="Web\TestFeatures\DisabledFeature.cs" />
+    <Compile Include="Web\TestFeatures\EmptyNamedFeature.cs" />
     <Compile Include="Web\TestFeatures\FirstFeature.cs" />
     <Compile Include="Web\TestFeatures\Handlers\ChildHandler.cs" />
     <Compile Include="Web\TestFeatures\Handlers\LanguageHandler.cs" />
