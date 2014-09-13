@@ -8,6 +8,6 @@ namespace Dolstagis.Web.Routing
 {
     public interface IRouteRegistry
     {
-        IList<IRouteDefinition> Routes { get; }
+        IList<IRouteDefinition> LegacyRoutes { get; }
     }
 }

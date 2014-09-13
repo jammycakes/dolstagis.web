@@ -42,7 +42,7 @@ namespace Dolstagis.Web.Routing
             try {
                 Root = new RouteTableEntry(String.Empty);
                 foreach (var feature in _features) {
-                    foreach (var route in feature.Routes) {
+                    foreach (var route in feature.LegacyRoutes) {
                         AddRouteToTable(route);
                     }
                 }

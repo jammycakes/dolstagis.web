@@ -20,6 +20,10 @@ namespace Dolstagis.Web
 
     public class Feature : IRouteRegistry
     {
+        /// <summary>
+        ///  Gets the StructureMap Registry for services defined by this feature
+        /// </summary>
+
         public Registry Services { get; private set; }
 
         /// <summary>
@@ -28,9 +32,12 @@ namespace Dolstagis.Web
 
         public virtual string Description { get { return this.GetType().FullName; } }
 
+
+
+
         #region /* ====== Implementation of IRouteRegistry ====== */
 
-        public IList<IRouteDefinition> Routes { get; private set; }
+        public IList<IRouteDefinition> LegacyRoutes { get; private set; }
 
         #endregion
 
@@ -40,7 +47,7 @@ namespace Dolstagis.Web
 
         public Feature()
         {
-            this.Routes = new List<IRouteDefinition>();
+            this.LegacyRoutes = new List<IRouteDefinition>();
             this.Services = new Registry();
         }
 
@@ -95,7 +102,7 @@ namespace Dolstagis.Web
 
         public void AddHandler<T>(string route, Func<RouteInfo, bool> precondition) where T: Handler
         {
-            this.Routes.Add(new RouteDefinition(typeof(T), route, this, precondition));
+            this.LegacyRoutes.Add(new RouteDefinition(typeof(T), route, this, precondition));
         }
 
         /* ====== AddStaticFiles and AddViews helper methods ====== */
