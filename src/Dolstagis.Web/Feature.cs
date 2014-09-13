@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Dolstagis.Web.Routing;
 using Dolstagis.Web.Views;
 using StructureMap.Configuration.DSL;
 using Dolstagis.Web.Static;
@@ -26,6 +25,7 @@ namespace Dolstagis.Web
 
         public Registry Services { get; private set; }
 
+
         /// <summary>
         ///  Gets the text description of the feature.
         /// </summary>
@@ -37,7 +37,7 @@ namespace Dolstagis.Web
 
         #region /* ====== Implementation of IRouteRegistry ====== */
 
-        public IList<IRouteDefinition> LegacyRoutes { get; private set; }
+        public IList<Dolstagis.Web.Routing.IRouteDefinition> LegacyRoutes { get; private set; }
 
         #endregion
 
@@ -47,7 +47,7 @@ namespace Dolstagis.Web
 
         public Feature()
         {
-            this.LegacyRoutes = new List<IRouteDefinition>();
+            this.LegacyRoutes = new List<Dolstagis.Web.Routing.IRouteDefinition>();
             this.Services = new Registry();
         }
 
@@ -100,9 +100,9 @@ namespace Dolstagis.Web
         ///  A function giving a precondition whether this route is valid or not.
         /// </param>
 
-        public void AddHandler<T>(string route, Func<RouteInfo, bool> precondition) where T: Handler
+        public void AddHandler<T>(string route, Func<Dolstagis.Web.Routing.RouteInfo, bool> precondition) where T : Handler
         {
-            this.LegacyRoutes.Add(new RouteDefinition(typeof(T), route, this, precondition));
+            this.LegacyRoutes.Add(new Dolstagis.Web.Routing.RouteDefinition(typeof(T), route, this, precondition));
         }
 
         /* ====== AddStaticFiles and AddViews helper methods ====== */
