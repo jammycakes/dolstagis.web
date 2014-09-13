@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Dolstagis.Web.Views;
-using StructureMap.Configuration.DSL;
+using Dolstagis.Web.Routes;
 using Dolstagis.Web.Static;
-using System.IO;
 using StructureMap;
+using StructureMap.Configuration.DSL;
 
 namespace Dolstagis.Web
 {
@@ -33,6 +30,11 @@ namespace Dolstagis.Web
         public virtual string Description { get { return this.GetType().FullName; } }
 
 
+        /// <summary>
+        ///  Gets or sets the table of routes defined by this feature.
+        /// </summary>
+
+        public IRouteTable Routes { get; set; }
 
 
         #region /* ====== Implementation of IRouteRegistry ====== */
@@ -47,6 +49,7 @@ namespace Dolstagis.Web
 
         public Feature()
         {
+            this.Routes = new RouteTable();
             this.LegacyRoutes = new List<Dolstagis.Web.Routing.IRouteDefinition>();
             this.Services = new Registry();
         }
@@ -83,6 +86,7 @@ namespace Dolstagis.Web
 
         public void AddHandler<T>(string route) where T: Handler
         {
+            this.Routes.Add(route, new RouteTarget(typeof(T)));
             this.LegacyRoutes.Add(new Dolstagis.Web.Routing.RouteDefinition(typeof(T), route, this, x => true));
         }
 

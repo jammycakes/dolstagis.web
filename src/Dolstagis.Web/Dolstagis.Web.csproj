@@ -96,6 +96,7 @@
     <Compile Include="Routes\Parameter.cs" />
     <Compile Include="Routes\RouteInvocation.cs" />
     <Compile Include="Routes\RouteTable.cs" />
+    <Compile Include="Routes\RouteTarget.cs" />
     <Compile Include="Sessions\InMemorySession.cs" />
     <Compile Include="Sessions\InMemorySessionStore.cs" />
     <Compile Include="Sessions\ISession.cs" />
