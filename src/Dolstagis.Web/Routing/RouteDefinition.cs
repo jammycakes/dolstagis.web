@@ -8,7 +8,7 @@ namespace Dolstagis.Web.Routing
 {
     public class RouteDefinition : IRouteDefinition
     {
-        public RouteDefinition(Type handlerType, string route, IRouteRegistry feature, Func<RouteInfo, bool> precondition)
+        public RouteDefinition(Type handlerType, string route, Feature feature, Func<RouteInfo, bool> precondition)
         {
             this.HandlerType = handlerType;
             this.Route = route;
@@ -19,6 +19,6 @@ namespace Dolstagis.Web.Routing
 
         public string Route { get; private set; }
 
-        public IRouteRegistry Feature { get; private set; }
+        public Feature Feature { get; private set; }
     }
 }

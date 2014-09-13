@@ -53,7 +53,6 @@ namespace Dolstagis.Web
                     {
                         x.AddRegistry(feature.Services);
                         x.For<Feature>().Add(feature);
-                        x.For<IRouteRegistry>().Add(feature);
                     }
                 });
             }

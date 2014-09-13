@@ -9,11 +9,11 @@ namespace Dolstagis.Web.Routing
 {
     public class RouteTable
     {
-        private IRouteRegistry[] _features;
+        private Feature[] _features;
 
         public RouteTableEntry Root { get; private set; }
 
-        public RouteTable(params IRouteRegistry[] features)
+        public RouteTable(params Feature[] features)
         {
             _features = features;
         }

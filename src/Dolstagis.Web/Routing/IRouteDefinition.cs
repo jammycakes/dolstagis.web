@@ -22,7 +22,7 @@ namespace Dolstagis.Web.Routing
         ///  Gets the feature in which this route was declared.
         /// </summary>
 
-        IRouteRegistry Feature { get; }
+        Feature Feature { get; }
 
         /// <summary>
         ///  Gets the string representation of the route.

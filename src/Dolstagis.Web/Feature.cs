@@ -18,7 +18,7 @@ namespace Dolstagis.Web
     ///  of the application lifecycle.
     /// </summary>
 
-    public class Feature : IRouteRegistry
+    public class Feature
     {
         /// <summary>
         ///  Gets the StructureMap Registry for services defined by this feature
