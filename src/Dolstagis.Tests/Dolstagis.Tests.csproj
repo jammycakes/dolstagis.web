@@ -86,6 +86,7 @@
     <Compile Include="Web\Lifecycle\RequestProcessorFixture.cs" />
     <Compile Include="Web\Owin\OwinFixtureBase.cs" />
     <Compile Include="Web\Owin\RequestFixture.cs" />
+    <Compile Include="Web\Routes\RouteTableFixture.cs" />
     <Compile Include="Web\Routing\RouteTableExtensions.cs" />
     <Compile Include="Web\Routing\RouteTableFixture.cs" />
     <Compile Include="Web\Sessions\SessionFixture.cs" />

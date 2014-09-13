@@ -83,6 +83,8 @@
     <Compile Include="Http\RequestHeaders.cs" />
     <Compile Include="Http\ResponseHeaders.cs" />
     <Compile Include="IFeatureSwitch.cs" />
+    <Compile Include="Routes\IRouteTable.cs" />
+    <Compile Include="Routes\IRouteTarget.cs" />
     <Compile Include="ISettings.cs" />
     <Compile Include="Lifecycle\ILoginHandler.cs" />
     <Compile Include="Lifecycle\LoginHandler.cs" />
@@ -90,6 +92,10 @@
     <Compile Include="Owin\Request.cs" />
     <Compile Include="Owin\Response.cs" />
     <Compile Include="RedirectResult.cs" />
+    <Compile Include="Routes\Node.cs" />
+    <Compile Include="Routes\Parameter.cs" />
+    <Compile Include="Routes\RouteInvocation.cs" />
+    <Compile Include="Routes\RouteTable.cs" />
     <Compile Include="Sessions\InMemorySession.cs" />
     <Compile Include="Sessions\InMemorySessionStore.cs" />
     <Compile Include="Sessions\ISession.cs" />
