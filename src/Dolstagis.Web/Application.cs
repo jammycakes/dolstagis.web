@@ -7,30 +7,40 @@ using System.Threading.Tasks;
 using Dolstagis.Web.Http;
 using Dolstagis.Web.Owin;
 using Dolstagis.Web.Util;
+using StructureMap;
 
 namespace Dolstagis.Web
 {
     public class Application
     {
-        private IList<Feature> _features = new List<Feature>();
-        private Lazy<ApplicationContext> _context;
-        private ISet<Assembly> _loadedAssemblies = new HashSet<Assembly>();
+        /// <summary>
+        ///  Gets the application-level IOC container.
+        /// </summary>
+
+        public IContainer Container { get; private set; }
+
+        /// <summary>
+        ///  Gets the features which are available to the application.
+        /// </summary>
+
+        public FeatureSwitchboard Features { get; private set; }
 
         public ISettings Settings { get; private set; }
-
-        public IDictionary<string, object> Items { get; private set; }
+        
+        private ISet<Assembly> _loadedAssemblies = new HashSet<Assembly>();
 
         public Application(ISettings settings)
         {
-            _context = new Lazy<ApplicationContext>(CreateContext);
+            Features = new FeatureSwitchboard(this);
             Settings = settings;
-            Items = new Dictionary<string, object>();
-            AddAllFeaturesInAssembly(this.GetType().Assembly);
-        }
+            Container = new Container();
+            Container.Configure(x => {
+                x.For<ISettings>().Use(settings);
+                x.For<Application>().Use(this);
+                x.AddRegistry<CoreServices>();
+            });
 
-        private ApplicationContext CreateContext()
-        {
-            return new ApplicationContext(this, _features);
+            AddAllFeaturesInAssembly(this.GetType().Assembly);
         }
 
 
@@ -55,7 +65,7 @@ namespace Dolstagis.Web
 
         public void AddFeature(Feature feature)
         {
-            _features.Add(feature);
+            Features.Add(feature);
         }
 
         /// <summary>
@@ -92,7 +102,8 @@ namespace Dolstagis.Web
 
         public async Task ProcessRequestAsync(IRequest request, IResponse response)
         {
-            await _context.Value.ProcessRequestAsync(request, response);
+            var featureSet = await Features.GetFeatureSet(request);
+            await featureSet.ProcessRequestAsync(request, response);
         }
 
         /// <summary>

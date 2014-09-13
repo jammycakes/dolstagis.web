@@ -61,7 +61,8 @@ namespace Dolstagis.Tests.Web
             nonLocalRequest = mockNonLocalRequest.Object;
 
 
-            switchboard = new FeatureSwitchboard(new IFeatureSwitch[] {
+            switchboard = new FeatureSwitchboard(null);
+            switchboard.Add(new IFeatureSwitch[] {
                 this.alwaysEnabledSwitch,
                 this.alwaysDisabledSwitch,
                 this.localhostOnlySwitch

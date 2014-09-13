@@ -17,15 +17,25 @@ namespace Dolstagis.Web
 
         private Dictionary<ulong, FeatureSet> featureSets = new Dictionary<ulong, FeatureSet>();
 
-        public FeatureSwitchboard(IEnumerable<IFeatureSwitch> switches)
+
+        public Application Application { get; private set; }
+
+        public FeatureSwitchboard(Application application)
         {
-            this.switches.AddRange(switches);
+            this.Application = application;
         }
 
         public FeatureSwitchboard Add(params IFeatureSwitch[] switches)
         {
             this.switches.AddRange(switches);
             this.featureSets.Clear();
+            return this;
+        }
+
+
+        public FeatureSwitchboard Add(params Feature[] features)
+        {
+            this.switches.AddRange(features.Select(f => new AlwaysEnabledFeatureSwitch(f)));
             return this;
         }
 
@@ -57,7 +67,7 @@ namespace Dolstagis.Web
                 }
             }
 
-            return new FeatureSet(features);
+            return new FeatureSet(Application, features);
         }
 
         public async Task<FeatureSet> GetFeatureSet(IRequest request)
@@ -69,6 +79,23 @@ namespace Dolstagis.Web
                 featureSets.Add(key, result);
             }
             return result;
+        }
+
+        private class AlwaysEnabledFeatureSwitch : IFeatureSwitch
+        {
+            public AlwaysEnabledFeatureSwitch(Feature feature)
+            {
+                this.Feature = feature;
+            }
+
+            public async Task<bool> IsEnabledForRequest(IRequest request)
+            {
+                return true;
+            }
+
+            public Feature Feature { get; private set; }
+
+            public bool DependentOnRequest { get { return false; } }
         }
     }
 }
