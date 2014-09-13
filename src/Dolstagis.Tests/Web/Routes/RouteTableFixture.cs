@@ -27,15 +27,15 @@ namespace Dolstagis.Tests.Web.Routes
         [TestFixtureSetUp]
         public void CreateRouteTable()
         {
-            routes.Add(String.Empty, rootTarget, req => true);
+            routes.Add(String.Empty, rootTarget);
 
-            routes.Add("one/two", oneTwo, req => true);
-            routes.Add("one/three", oneThree, req => true);
-            routes.Add("one/two/three/{id}", withId, req => true);
-            routes.Add("one/two/greedy/{id+}", withGreedyId, req => true);
-            routes.Add("one/two/optional/{id?}", withOptionalId, req => true);
-            routes.Add("one/two/optgreedy/{id*}", withOptGreedyId, req => true);
-            routes.Add("{id}/one/two", withLanguage, req => true);
+            routes.Add("one/two", oneTwo);
+            routes.Add("one/three", oneThree);
+            routes.Add("one/two/three/{id}", withId);
+            routes.Add("one/two/greedy/{id+}", withGreedyId);
+            routes.Add("one/two/optional/{id?}", withOptionalId);
+            routes.Add("one/two/optgreedy/{id*}", withOptGreedyId);
+            routes.Add("{id}/one/two", withLanguage);
         }
 
 
