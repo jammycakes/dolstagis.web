@@ -67,7 +67,7 @@ namespace Dolstagis.Web
             }
 
             foreach (RouteAttribute attr in attributes) {
-                AddHandler<T>(attr.Route, x => true);
+                AddHandler<T>(attr.Route);
             }
         }
 
@@ -83,26 +83,7 @@ namespace Dolstagis.Web
 
         public void AddHandler<T>(string route) where T: Handler
         {
-            AddHandler<T>(route, x => true);
-        }
-
-        /// <summary>
-        ///  Registers a <see cref="Handler"/> in this feature with a specified route
-        ///  and precondition.
-        /// </summary>
-        /// <typeparam name="T">
-        ///  The type of this handler.
-        /// </typeparam>
-        /// <param name="route">
-        ///  The route definition for this handler.
-        /// </param>
-        /// <param name="precondition">
-        ///  A function giving a precondition whether this route is valid or not.
-        /// </param>
-
-        public void AddHandler<T>(string route, Func<Dolstagis.Web.Routing.RouteInfo, bool> precondition) where T : Handler
-        {
-            this.LegacyRoutes.Add(new Dolstagis.Web.Routing.RouteDefinition(typeof(T), route, this, precondition));
+            this.LegacyRoutes.Add(new Dolstagis.Web.Routing.RouteDefinition(typeof(T), route, this, x => true));
         }
 
         /* ====== AddStaticFiles and AddViews helper methods ====== */
