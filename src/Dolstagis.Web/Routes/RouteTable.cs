@@ -96,6 +96,7 @@ namespace Dolstagis.Web.Routes
                 select new { candidate = candidate, target = target };
 
             var ct = cts.LastOrDefault();
+            if (ct == null) return null;
             return new RouteInvocation(ct.target, GetRouteArguments(ct.candidate, parts));
         }
 

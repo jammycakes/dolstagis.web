@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Dolstagis.Web.Http;
 using Dolstagis.Web.Lifecycle;
-using Dolstagis.Web.Routing;
+using Dolstagis.Web.Routes;
 using StructureMap;
 
 namespace Dolstagis.Web
@@ -49,6 +49,7 @@ namespace Dolstagis.Web
                 this.Container = application.Container.GetNestedContainer();
                 this.Container.Configure(x =>
                 {
+                    x.For<FeatureSet>().Use(this);
                     foreach (var feature in this.Features)
                     {
                         x.AddRegistry(feature.Services);
@@ -70,6 +71,17 @@ namespace Dolstagis.Web
                 await childContainer.GetInstance<IRequestProcessor>()
                     .ProcessRequest(request, response);
             }
+        }
+
+
+        public RouteInvocation GetRouteInvocation(IRequest request)
+        {
+            var result =
+                from feature in Features
+                let invocation = feature.Routes.GetRouteInvocation(request.Path)
+                where invocation != null && invocation.Target != null
+                select invocation;
+            return result.LastOrDefault();
         }
     }
 }

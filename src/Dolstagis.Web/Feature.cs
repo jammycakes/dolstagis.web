@@ -37,12 +37,6 @@ namespace Dolstagis.Web
         public IRouteTable Routes { get; set; }
 
 
-        #region /* ====== Implementation of IRouteRegistry ====== */
-
-        public IList<Dolstagis.Web.Routing.IRouteDefinition> LegacyRoutes { get; private set; }
-
-        #endregion
-
         /// <summary>
         ///  Creates a new instance of this feature.
         /// </summary>
@@ -50,7 +44,6 @@ namespace Dolstagis.Web
         public Feature()
         {
             this.Routes = new RouteTable();
-            this.LegacyRoutes = new List<Dolstagis.Web.Routing.IRouteDefinition>();
             this.Services = new Registry();
         }
 
@@ -87,7 +80,6 @@ namespace Dolstagis.Web
         public void AddHandler<T>(string route) where T: Handler
         {
             this.Routes.Add(route, new RouteTarget(typeof(T)));
-            this.LegacyRoutes.Add(new Dolstagis.Web.Routing.RouteDefinition(typeof(T), route, this, x => true));
         }
 
         /* ====== AddStaticFiles and AddViews helper methods ====== */

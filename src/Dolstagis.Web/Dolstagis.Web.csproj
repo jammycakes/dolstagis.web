@@ -146,12 +146,6 @@
     </Compile>
     <Compile Include="Lifecycle\RequestProcessor.cs" />
     <Compile Include="RouteAttribute.cs" />
-    <Compile Include="Routing\IRouteDefinition.cs" />
-    <Compile Include="Routing\ParameterEntry.cs" />
-    <Compile Include="Routing\RouteTableEntry.cs" />
-    <Compile Include="Routing\RouteDefinition.cs" />
-    <Compile Include="Routing\RouteInfo.cs" />
-    <Compile Include="Routing\RouteTable.cs" />
     <Compile Include="Status.cs" />
     <Compile Include="Views\ViewResult.cs" />
     <Compile Include="Views\IView.cs" />

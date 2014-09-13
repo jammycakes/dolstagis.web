@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using Dolstagis.Web.Auth;
 using Dolstagis.Web.Http;
 using Dolstagis.Web.Lifecycle;
-using Dolstagis.Web.Routing;
 using Dolstagis.Web.Sessions;
 using Dolstagis.Web.Static;
 using Dolstagis.Web.Views;
@@ -18,7 +17,6 @@ namespace Dolstagis.Web
     {
         public CoreServices()
         {
-            For<RouteTable>().Singleton().Use<RouteTable>();
             For<IMimeTypes>().Singleton().Use<MimeTypes>();
 
             For<IRequestContextBuilder>().Use<RequestContextBuilder>();

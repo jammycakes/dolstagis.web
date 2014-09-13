@@ -8,7 +8,6 @@ using Dolstagis.Tests.Web.TestFeatures.Handlers;
 using Dolstagis.Web;
 using Dolstagis.Web.Http;
 using Dolstagis.Web.Lifecycle;
-using Dolstagis.Web.Routing;
 using Moq;
 using NUnit.Framework;
 using StructureMap;
@@ -18,14 +17,11 @@ namespace Dolstagis.Tests.Web.Lifecycle
     [TestFixture]
     public class RequestProcessorFixture
     {
-        private RouteTable _routeTable;
         private IContainer _mockContainer;
 
         [TestFixtureSetUp]
         public void CreateRouteTable()
         {
-            _routeTable = new RouteTable(new FirstFeature());
-            _routeTable.RebuildRouteTable();
             var mock = new Mock<IContainer>();
             mock.Setup(x => x.GetInstance(It.IsAny<Type>())).Returns(new RootHandler());
             _mockContainer = mock.Object;
@@ -34,7 +30,8 @@ namespace Dolstagis.Tests.Web.Lifecycle
 
         private object Execute(string method, string path)
         {
-            var builder = new RequestContextBuilder(_routeTable, null, null, () => new ActionInvocation(_mockContainer));
+            var featureSet = new FeatureSet(null, new Feature[] { new FirstFeature() });
+            var builder = new RequestContextBuilder(null, null, featureSet, () => new ActionInvocation(_mockContainer));
             var processor = new RequestProcessor(null, null, builder);
             var request = new Mock<IRequest>();
             request.SetupGet(x => x.Path).Returns(new VirtualPath(path));

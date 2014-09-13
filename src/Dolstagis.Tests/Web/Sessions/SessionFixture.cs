@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using Dolstagis.Web;
 using Dolstagis.Web.Http;
 using Dolstagis.Web.Lifecycle;
-using Dolstagis.Web.Routing;
 using Dolstagis.Web.Sessions;
 using Moq;
 using NUnit.Framework;
@@ -27,7 +26,8 @@ namespace Dolstagis.Tests.Web.Sessions
             mockRequest.SetupGet(x => x.Headers).Returns(headers);
             var mockResponse = new Mock<IResponse>();
             var store = new InMemorySessionStore();
-            var hcb = new RequestContextBuilder(new RouteTable(), store, null, () => null);
+            var hcb = new RequestContextBuilder
+                (store, null, new FeatureSet(null, new Feature[0]), () => null);
 
             var ctx = hcb.CreateContext(mockRequest.Object, mockResponse.Object);
             Assert.IsNotNull(ctx.Session);
@@ -53,7 +53,8 @@ namespace Dolstagis.Tests.Web.Sessions
             mockRequest.SetupGet(x => x.Path).Returns(new VirtualPath("~/"));
             mockRequest.SetupGet(x => x.Headers).Returns(headers);
             var mockResponse = new Mock<IResponse>();
-            var hcb = new RequestContextBuilder(new RouteTable(), store, null, () => null);
+            var hcb = new RequestContextBuilder
+                (store, null, new FeatureSet(null, new Feature[0]), () => null);
 
             var ctx = hcb.CreateContext(mockRequest.Object, mockResponse.Object);
             Assert.IsNotNull(ctx.Session);

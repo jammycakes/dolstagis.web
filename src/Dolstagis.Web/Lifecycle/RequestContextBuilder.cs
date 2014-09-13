@@ -6,38 +6,42 @@ using System.Text;
 using System.Threading.Tasks;
 using Dolstagis.Web.Auth;
 using Dolstagis.Web.Http;
-using Dolstagis.Web.Routing;
+using Dolstagis.Web.Routes;
 using Dolstagis.Web.Sessions;
 
 namespace Dolstagis.Web.Lifecycle
 {
     public class RequestContextBuilder : IRequestContextBuilder
     {
-        private RouteTable _routes;
         private ISessionStore _sessionStore;
         private Func<ActionInvocation> _createAction;
         private IAuthenticator _authenticator;
+        private FeatureSet _features;
 
-        public RequestContextBuilder(RouteTable routes, ISessionStore sessionStore,
+        public RequestContextBuilder(ISessionStore sessionStore,
             IAuthenticator authenticator,
+            FeatureSet features,
             Func<ActionInvocation> createAction)
         {
-            _routes = routes;
             _sessionStore = sessionStore;
             _createAction = createAction;
             _authenticator = authenticator;
+            _features = features;
         }
 
         public IEnumerable<ActionInvocation> GetActions(IRequest request)
         {
-            return _routes.Lookup(request.Path)
-                .Select(route => GetAction(request, route));
+            var routeInvocation = _features.GetRouteInvocation(request);
+            if (routeInvocation != null) {
+                var action = GetAction(request, routeInvocation);
+                yield return action;
+            }
         }
 
-        private ActionInvocation GetAction(IRequest request, RouteInfo route)
+        private ActionInvocation GetAction(IRequest request, RouteInvocation route)
         {
             var action = _createAction();
-            action.HandlerType = route.Definition.HandlerType;
+            action.HandlerType = route.Target.HandlerType;
             var method = action.HandlerType.GetMethod(request.Method,
                 BindingFlags.Instance | BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.DeclaredOnly);
             if (method == null) return action;
@@ -45,8 +49,8 @@ namespace Dolstagis.Web.Lifecycle
             var args = new List<object>();
             foreach (var parameter in method.GetParameters())
             {
-                string arg;
-                if (route.Arguments.TryGetValue(parameter.Name, out arg))
+                object arg;
+                if (route.RouteData.TryGetValue(parameter.Name, out arg))
                 {
                     args.Add(arg);
                 }
