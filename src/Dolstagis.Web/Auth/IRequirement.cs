@@ -8,6 +8,6 @@ namespace Dolstagis.Web.Auth
 {
     public interface IRequirement
     {
-        bool IsDenied(IHttpContext context);
+        bool IsDenied(IRequestContext context);
     }
 }

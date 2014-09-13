@@ -38,5 +38,11 @@ namespace Dolstagis.Web.Http
             }
             return cookies;
         }
+
+        public string ContentType
+        {
+            get { return this.GetValue("Content-Type"); }
+            set { this.SetValue("Content-Type", value); }
+        }
     }
 }

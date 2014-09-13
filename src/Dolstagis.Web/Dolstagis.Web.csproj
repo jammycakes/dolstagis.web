@@ -44,14 +44,11 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Application.cs" />
-    <Compile Include="ApplicationContext.cs" />
     <Compile Include="Auth\IAuthenticator.cs" />
     <Compile Include="Auth\IRequirement.cs" />
     <Compile Include="Auth\IUser.cs" />
@@ -71,6 +68,8 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>StatusMessages.resx</DependentUpon>
     </Compile>
+    <Compile Include="FeatureSet.cs" />
+    <Compile Include="FeatureSwitchboard.cs" />
     <Compile Include="Handler.cs" />
     <Compile Include="HeadResult.cs" />
     <Compile Include="HeadResultProcessor.cs" />
@@ -85,6 +84,7 @@
     <Compile Include="Http\HttpDictionary.cs" />
     <Compile Include="Http\RequestHeaders.cs" />
     <Compile Include="Http\ResponseHeaders.cs" />
+    <Compile Include="IFeatureSwitch.cs" />
     <Compile Include="ISettings.cs" />
     <Compile Include="Lifecycle\ILoginHandler.cs" />
     <Compile Include="Lifecycle\LoginHandler.cs" />
@@ -96,7 +96,7 @@
     <Compile Include="Sessions\InMemorySessionStore.cs" />
     <Compile Include="Sessions\ISession.cs" />
     <Compile Include="Sessions\ISessionStore.cs" />
-    <Compile Include="IHttpContext.cs" />
+    <Compile Include="IRequestContext.cs" />
     <Compile Include="Http\IRequest.cs" />
     <Compile Include="Http\IResponse.cs" />
     <Compile Include="JsonResult.cs" />
@@ -104,10 +104,10 @@
     <Compile Include="Lifecycle\ExceptionHandler.cs" />
     <Compile Include="Lifecycle\ActionInvocation.cs" />
     <Compile Include="Lifecycle\IExceptionHandler.cs" />
-    <Compile Include="Lifecycle\IHttpContextBuilder.cs" />
+    <Compile Include="Lifecycle\IRequestContextBuilder.cs" />
     <Compile Include="Lifecycle\IRequestProcessor.cs" />
     <Compile Include="Lifecycle\IResultProcessor.cs" />
-    <Compile Include="Lifecycle\HttpContextBuilder.cs" />
+    <Compile Include="Lifecycle\RequestContextBuilder.cs" />
     <Compile Include="Lifecycle\ResultProcessor.cs" />
     <Compile Include="ResultBase.cs" />
     <Compile Include="Static\AssemblyResource.cs" />
@@ -121,9 +121,10 @@
     <Compile Include="Static\StaticRequestHandler.cs" />
     <Compile Include="Static\StaticResult.cs" />
     <Compile Include="Static\StaticResultProcessor.cs" />
+    <Compile Include="Util\AssemblyExtensions.cs" />
     <Compile Include="Views\ViewResultProcessor.cs" />
     <Compile Include="VirtualPath.cs" />
-    <Compile Include="HttpContext.cs" />
+    <Compile Include="RequestContext.cs" />
     <Compile Include="Static\FileResource.cs" />
     <Compile Include="Static\IMimeTypes.cs" />
     <Compile Include="Static\IResource.cs" />

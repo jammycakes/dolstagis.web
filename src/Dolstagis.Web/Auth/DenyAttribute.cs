@@ -19,7 +19,7 @@ namespace Dolstagis.Web.Auth
             _requiredRoles = requiredRoles;
         }
 
-        public bool IsDenied(IHttpContext context)
+        public bool IsDenied(IRequestContext context)
         {
             return context.User != null &&
                 _requiredRoles.Any(x => context.User.IsInRole(x));

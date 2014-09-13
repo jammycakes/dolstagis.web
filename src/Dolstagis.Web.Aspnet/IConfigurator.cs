@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Dolstagis.Web.Lifecycle
+namespace Dolstagis.Web.Aspnet
 {
-    public interface ILoginHandler
+    public interface IConfigurator
     {
-        object GetLogin(IRequestContext context);
+        void Configure(Application application);
     }
 }

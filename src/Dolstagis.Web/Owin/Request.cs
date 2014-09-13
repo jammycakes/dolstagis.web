@@ -39,9 +39,30 @@ namespace Dolstagis.Web.Owin
             this.Url = new Uri(url);
             this.IsSecure = String.Compare("https", this.Scheme, true) == 0;
 
-            // TODO: Form
+            /* Form */
+
+            this.Form = ParseForm(this.Body, this.Headers.ContentType, Encoding.UTF8);
         }
 
+
+        private static IDictionary<string, string[]> ParseForm
+            (Stream stream, string contentType, Encoding encoding)
+        {
+            if (String.IsNullOrEmpty(contentType))
+            {
+                return new Dictionary<string, string[]>();
+            }
+
+            var mimeType = contentType.Split(';').First();
+            if (mimeType.Equals("application/x-www-form-urlencoded", StringComparison.OrdinalIgnoreCase))
+            {
+                var reader = new StreamReader(stream);
+                string form = reader.ReadToEnd();
+                return ParseQueryString(form);
+            }
+
+            return new Dictionary<string, string[]>();
+        }
 
         private static IDictionary<string, string[]> ParseQueryString(string query)
         {

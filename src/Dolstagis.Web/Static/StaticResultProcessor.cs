@@ -18,7 +18,7 @@ namespace Dolstagis.Web.Static
             _mimeTypes = mimeTypes;
         }
 
-        public override async Task Process(StaticResult data, IHttpContext context)
+        public override async Task Process(StaticResult data, IRequestContext context)
         {
             var resource = _resolver.GetResource(data.Path);
             if (resource == null) Status.NotFound.Throw();

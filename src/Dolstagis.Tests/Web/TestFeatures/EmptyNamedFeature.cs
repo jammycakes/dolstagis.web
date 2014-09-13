@@ -3,17 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Dolstagis.Tests.Web.TestFeatures.Handlers;
 using Dolstagis.Web;
 
 namespace Dolstagis.Tests.Web.TestFeatures
 {
-    public class DisabledFeature : Feature
+    public class EmptyNamedFeature : Feature
     {
-        public DisabledFeature()
+        public string Name { get; private set; }
+
+        public EmptyNamedFeature(string name)
         {
-            this.Enabled = false;
-            this.AddHandler<ChildHandler>("/foo/bar");
+            this.Name = name;
         }
     }
 }

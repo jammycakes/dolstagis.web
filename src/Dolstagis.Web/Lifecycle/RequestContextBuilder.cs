@@ -11,14 +11,14 @@ using Dolstagis.Web.Sessions;
 
 namespace Dolstagis.Web.Lifecycle
 {
-    public class HttpContextBuilder : IHttpContextBuilder
+    public class RequestContextBuilder : IRequestContextBuilder
     {
         private RouteTable _routes;
         private ISessionStore _sessionStore;
         private Func<ActionInvocation> _createAction;
         private IAuthenticator _authenticator;
 
-        public HttpContextBuilder(RouteTable routes, ISessionStore sessionStore,
+        public RequestContextBuilder(RouteTable routes, ISessionStore sessionStore,
             IAuthenticator authenticator,
             Func<ActionInvocation> createAction)
         {
@@ -65,11 +65,11 @@ namespace Dolstagis.Web.Lifecycle
             return action;
         }
 
-        public IHttpContext CreateContext(IRequest request, IResponse response)
+        public IRequestContext CreateContext(IRequest request, IResponse response)
         {
             var actions = GetActions(request);
             var session = GetSession(request);
-            return new HttpContext(request, response, session, _authenticator, actions);
+            return new RequestContext(request, response, session, _authenticator, actions);
         }
 
         private ISession GetSession(IRequest request)

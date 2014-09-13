@@ -19,14 +19,6 @@ namespace Dolstagis.Web.Routing
         Type HandlerType { get; }
 
         /// <summary>
-        ///  Verifies that the preconditions for this route have been met.
-        /// </summary>
-        /// <param name="routeInfo"></param>
-        /// <returns></returns>
-
-        bool IsPreconditionMet(RouteInfo routeInfo);
-
-        /// <summary>
         ///  Gets the feature in which this route was declared.
         /// </summary>
 

@@ -2,37 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Compilation;
-using System.Web.Hosting;
 
 namespace Dolstagis.Web.Aspnet
 {
-    public class HttpRequestHandler : HttpTaskAsyncHandler
+    public static class ApplicationExtensions
     {
-        private static Application _application;
-
-        public override bool IsReusable
-        {
-            get
-            {
-                return true;
-            }
-        }
-
-        public override async Task ProcessRequestAsync(System.Web.HttpContext context)
-        {
-            EnsureInit();
-            var abstractContext = new HttpContextWrapper(context);
-
-            var request = new Dolstagis.Web.Aspnet.HttpRequest(abstractContext.Request);
-            var response = new Dolstagis.Web.Aspnet.HttpResponse(abstractContext.Response);
-            await _application.ProcessRequestAsync(request, response);
-        }
-
         static readonly string[] _ignores = new string[] {
             "Microsoft.",
             "mscorlib,",
@@ -49,12 +26,8 @@ namespace Dolstagis.Web.Aspnet
             "Dolstagis.Web,"
         };
 
-        [MethodImpl(MethodImplOptions.Synchronized)]
-        private void EnsureInit()
+        internal static IEnumerable<Assembly> FindAssemblies(this Application application)
         {
-            if (_application != null) return;
-            _application = new Application(new Settings());
-
             var assemblies =
                 from assembly in BuildManager.GetReferencedAssemblies().Cast<Assembly>()
                 where !assembly.IsDynamic
@@ -65,9 +38,14 @@ namespace Dolstagis.Web.Aspnet
                     2
                 orderby order
                 select assembly;
+            return assemblies;
+        }
 
-            foreach (var assembly in assemblies) {
-                _application.AddAllFeaturesInAssembly(assembly);
+
+        public static void ScanForFeatures(this Application application)
+        {
+            foreach (var assembly in FindAssemblies(application)) {
+                application.AddAllFeaturesInAssembly(assembly);
             }
         }
     }

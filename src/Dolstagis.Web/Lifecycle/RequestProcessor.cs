@@ -14,12 +14,12 @@ namespace Dolstagis.Web.Lifecycle
     {
         private IList<IResultProcessor> _resultProcessors;
         private IEnumerable<IExceptionHandler> _exceptionHandlers;
-        private IHttpContextBuilder _contextBuilder;
+        private IRequestContextBuilder _contextBuilder;
 
         public RequestProcessor(
             IEnumerable<IResultProcessor> resultProcessors,
             IEnumerable<IExceptionHandler> exceptionHandlers,
-            IHttpContextBuilder contextBuilder
+            IRequestContextBuilder contextBuilder
         )
         {
             _resultProcessors = (resultProcessors ?? Enumerable.Empty<IResultProcessor>()).ToList();
@@ -28,21 +28,21 @@ namespace Dolstagis.Web.Lifecycle
         }
 
 
-        protected virtual bool IsLoginRequired(IHttpContext context, ActionInvocation action)
+        protected virtual bool IsLoginRequired(IRequestContext context, ActionInvocation action)
         {
             var attributes = action.Method.GetCustomAttributes(true).OfType<IRequirement>()
                 .Concat(action.HandlerType.GetCustomAttributes(true).OfType<IRequirement>());
             return attributes.Any(x => x.IsDenied(context));
         }
 
-        protected virtual Task<object> GetLoginResult(IHttpContext context)
+        protected virtual Task<object> GetLoginResult(IRequestContext context)
         {
             var result = new RedirectResult("/login", Status.SeeOther);
             return Task.FromResult<object>(result);
         }
 
 
-        public async Task<object> InvokeRequest(IHttpContext context)
+        public async Task<object> InvokeRequest(IRequestContext context)
         {
             if (context == null) Status.NotFound.Throw();
 
@@ -68,7 +68,7 @@ namespace Dolstagis.Web.Lifecycle
             throw new HttpStatusException(Status.NotFound);
         }
 
-        public async Task<object> InvokeRequestWithHomePageFallback(IHttpContext context)
+        public async Task<object> InvokeRequestWithHomePageFallback(IRequestContext context)
         {
             if (context.Request.Path.Parts.Any()
                 || context.Actions.Any())
@@ -81,7 +81,7 @@ namespace Dolstagis.Web.Lifecycle
             }
         }
 
-        public async Task ProcessRequest(IHttpContext context)
+        public async Task ProcessRequest(IRequestContext context)
         {
             object result;
             IResultProcessor processor;
@@ -133,7 +133,7 @@ namespace Dolstagis.Web.Lifecycle
             if (context.Session != null) await context.Session.Persist();
         }
 
-        public virtual async Task HandleException(IHttpContext context, Exception fault)
+        public virtual async Task HandleException(IRequestContext context, Exception fault)
         {
             foreach (var handler in _exceptionHandlers)
             {

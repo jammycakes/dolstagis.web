@@ -9,7 +9,5 @@ namespace Dolstagis.Web.Routing
     public interface IRouteRegistry
     {
         IList<IRouteDefinition> Routes { get; }
-
-        bool Enabled { get; }
     }
 }

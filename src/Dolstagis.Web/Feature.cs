@@ -28,12 +28,6 @@ namespace Dolstagis.Web
 
         public virtual string Description { get { return this.GetType().FullName; } }
 
-        /// <summary>
-        ///  Gets or sets a value indicating whether the feature is enabled.
-        /// </summary>
-
-        public bool Enabled { get; set; }
-
         #region /* ====== Implementation of IRouteRegistry ====== */
 
         public IList<IRouteDefinition> Routes { get; private set; }
@@ -46,7 +40,6 @@ namespace Dolstagis.Web
 
         public Feature()
         {
-            this.Enabled = true;
             this.Routes = new List<IRouteDefinition>();
             this.Services = new Registry();
         }
