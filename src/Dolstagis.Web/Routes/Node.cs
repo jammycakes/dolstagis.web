@@ -13,7 +13,7 @@ namespace Dolstagis.Web.Routes
 
         private IList<Parameter> _parameterChildren = new List<Parameter>();
 
-        public IRouteTarget Target { get; set; }
+        public IList<IRouteTarget> Targets { get; set; }
 
         public string Name { get; private set; }
 
@@ -22,6 +22,7 @@ namespace Dolstagis.Web.Routes
         public Node(string name)
         {
             this.Name = name;
+            this.Targets = new List<IRouteTarget>();
         }
 
         public virtual Node GetOrCreateChild(string name)

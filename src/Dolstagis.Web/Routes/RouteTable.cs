@@ -44,7 +44,7 @@ namespace Dolstagis.Web.Routes
                 node = node.GetOrCreateChild(name);
             }
 
-            node.Target = target;
+            node.Targets.Add(target);
 
             // When an optional parameter is missing, the route invocation will
             // land on the parent node, which will not otherwise be assigned to
@@ -55,7 +55,7 @@ namespace Dolstagis.Web.Routes
                 && node.Parent != null)
             {
                 node = node.Parent;
-                node.Target = target;
+                node.Targets.Add(target);
             }
         }
 
@@ -90,11 +90,13 @@ namespace Dolstagis.Web.Routes
             var parts = path.Parts.ToArray();
             var candidates = GetCandidates(Root, parts, 0);
 
-            var candidate = candidates.LastOrDefault(x => x.Target != null);
-            if (candidate == null) return null;
-            var target = candidate.Target;
-            var args = GetRouteArguments(candidate, parts);
-            return new RouteInvocation(candidate.Target, args);
+            var cts =
+                from candidate in candidates
+                from target in candidate.Targets
+                select new { candidate = candidate, target = target };
+
+            var ct = cts.LastOrDefault();
+            return new RouteInvocation(ct.target, GetRouteArguments(ct.candidate, parts));
         }
 
         private IDictionary<string, object> GetRouteArguments(Node candidate, string[] parts)
