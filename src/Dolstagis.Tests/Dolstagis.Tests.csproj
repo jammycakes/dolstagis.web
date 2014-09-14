@@ -76,18 +76,10 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Web\FeatureSetFixture.cs" />
-    <Compile Include="Web\Lifecycle\AmbiguousRouteFeatures\ArgHandler.cs" />
-    <Compile Include="Web\Lifecycle\AmbiguousRouteFeatures\FirstFeature.cs" />
-    <Compile Include="Web\Lifecycle\AmbiguousRouteFeatures\FirstHandler.cs" />
-    <Compile Include="Web\Lifecycle\AmbiguousRouteFeatures\NullHandler.cs" />
-    <Compile Include="Web\Lifecycle\AmbiguousRouteFeatures\SecondHandler.cs" />
-    <Compile Include="Web\Lifecycle\AmbiguousRouteFeatures\SecondFeature.cs" />
-    <Compile Include="Web\Lifecycle\AmbiguousRoutesFixture.cs" />
     <Compile Include="Web\Lifecycle\RequestProcessorFixture.cs" />
     <Compile Include="Web\Owin\OwinFixtureBase.cs" />
     <Compile Include="Web\Owin\RequestFixture.cs" />
-    <Compile Include="Web\Routing\RouteTableExtensions.cs" />
-    <Compile Include="Web\Routing\RouteTableFixture.cs" />
+    <Compile Include="Web\Routes\RouteTableFixture.cs" />
     <Compile Include="Web\Sessions\SessionFixture.cs" />
     <Compile Include="Web\Static\AssemblyResourceLocationFixture.cs" />
     <Compile Include="Web\TestFeatures\CustomRouteFeature.cs" />

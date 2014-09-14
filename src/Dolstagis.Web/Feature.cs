@@ -1,14 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Dolstagis.Web.Routing;
-using Dolstagis.Web.Views;
-using StructureMap.Configuration.DSL;
+using Dolstagis.Web.Routes;
 using Dolstagis.Web.Static;
-using System.IO;
 using StructureMap;
+using StructureMap.Configuration.DSL;
 
 namespace Dolstagis.Web
 {
@@ -18,9 +14,14 @@ namespace Dolstagis.Web
     ///  of the application lifecycle.
     /// </summary>
 
-    public class Feature : IRouteRegistry
+    public class Feature
     {
+        /// <summary>
+        ///  Gets the StructureMap Registry for services defined by this feature
+        /// </summary>
+
         public Registry Services { get; private set; }
+
 
         /// <summary>
         ///  Gets the text description of the feature.
@@ -28,11 +29,13 @@ namespace Dolstagis.Web
 
         public virtual string Description { get { return this.GetType().FullName; } }
 
-        #region /* ====== Implementation of IRouteRegistry ====== */
 
-        public IList<IRouteDefinition> Routes { get; private set; }
+        /// <summary>
+        ///  Gets or sets the table of routes defined by this feature.
+        /// </summary>
 
-        #endregion
+        public IRouteTable Routes { get; set; }
+
 
         /// <summary>
         ///  Creates a new instance of this feature.
@@ -40,7 +43,7 @@ namespace Dolstagis.Web
 
         public Feature()
         {
-            this.Routes = new List<IRouteDefinition>();
+            this.Routes = new RouteTable();
             this.Services = new Registry();
         }
 
@@ -60,7 +63,7 @@ namespace Dolstagis.Web
             }
 
             foreach (RouteAttribute attr in attributes) {
-                AddHandler<T>(attr.Route, x => true);
+                AddHandler<T>(attr.Route);
             }
         }
 
@@ -76,26 +79,7 @@ namespace Dolstagis.Web
 
         public void AddHandler<T>(string route) where T: Handler
         {
-            AddHandler<T>(route, x => true);
-        }
-
-        /// <summary>
-        ///  Registers a <see cref="Handler"/> in this feature with a specified route
-        ///  and precondition.
-        /// </summary>
-        /// <typeparam name="T">
-        ///  The type of this handler.
-        /// </typeparam>
-        /// <param name="route">
-        ///  The route definition for this handler.
-        /// </param>
-        /// <param name="precondition">
-        ///  A function giving a precondition whether this route is valid or not.
-        /// </param>
-
-        public void AddHandler<T>(string route, Func<RouteInfo, bool> precondition) where T: Handler
-        {
-            this.Routes.Add(new RouteDefinition(typeof(T), route, this, precondition));
+            this.Routes.Add(route, new RouteTarget(typeof(T)));
         }
 
         /* ====== AddStaticFiles and AddViews helper methods ====== */

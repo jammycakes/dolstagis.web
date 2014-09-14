@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Dolstagis.Web.Routing
+namespace Dolstagis.Web.Routes
 {
-    public interface IRouteRegistry
+    public interface IRouteTarget
     {
-        IList<IRouteDefinition> Routes { get; }
+        Type HandlerType { get; }
     }
 }

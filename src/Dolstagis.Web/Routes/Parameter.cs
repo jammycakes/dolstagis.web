@@ -5,12 +5,11 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace Dolstagis.Web.Routing
+namespace Dolstagis.Web.Routes
 {
-    public class ParameterEntry : RouteTableEntry
+    public class Parameter : Node
     {
-        public ParameterEntry(string name)
-            : base(name)
+        public Parameter(string name) : base(name)
         {
             if (!name.StartsWith("{") || !name.EndsWith("}")) {
                 throw new ArgumentException("Parameter names must be enclosed in braces", "name");
@@ -25,14 +24,16 @@ namespace Dolstagis.Web.Routing
             ParameterName = s;
         }
 
-        public override RouteTableEntry GetOrCreateChild(string name)
+        public override Node GetOrCreateChild(string name)
         {
             if (this.Greedy) {
-                throw new InvalidOperationException("Greedy or greedy-optional parameters must come last.");
+                throw new InvalidOperationException
+                    ("Greedy or greedy-optional parameters must come last.");
             }
 
             if (this.Optional && !Regex.IsMatch(name, @"^\{.*[\?\*]\}$")) {
-                throw new InvalidOperationException("Optional parameters can only be followed by other optional parameters.");
+                throw new InvalidOperationException
+                    ("Optional parameters can only be followed by other optional parameters.");
             }
             return base.GetOrCreateChild(name);
         }

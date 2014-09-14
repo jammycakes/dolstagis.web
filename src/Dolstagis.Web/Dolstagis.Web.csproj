@@ -85,6 +85,8 @@
     <Compile Include="Http\RequestHeaders.cs" />
     <Compile Include="Http\ResponseHeaders.cs" />
     <Compile Include="IFeatureSwitch.cs" />
+    <Compile Include="Routes\IRouteTable.cs" />
+    <Compile Include="Routes\IRouteTarget.cs" />
     <Compile Include="ISettings.cs" />
     <Compile Include="Lifecycle\ILoginHandler.cs" />
     <Compile Include="Lifecycle\LoginHandler.cs" />
@@ -92,6 +94,11 @@
     <Compile Include="Owin\Request.cs" />
     <Compile Include="Owin\Response.cs" />
     <Compile Include="RedirectResult.cs" />
+    <Compile Include="Routes\Node.cs" />
+    <Compile Include="Routes\Parameter.cs" />
+    <Compile Include="Routes\RouteInvocation.cs" />
+    <Compile Include="Routes\RouteTable.cs" />
+    <Compile Include="Routes\RouteTarget.cs" />
     <Compile Include="Sessions\InMemorySession.cs" />
     <Compile Include="Sessions\InMemorySessionStore.cs" />
     <Compile Include="Sessions\ISession.cs" />
@@ -141,13 +148,6 @@
     </Compile>
     <Compile Include="Lifecycle\RequestProcessor.cs" />
     <Compile Include="RouteAttribute.cs" />
-    <Compile Include="Routing\IRouteDefinition.cs" />
-    <Compile Include="Routing\IRouteRegistry.cs" />
-    <Compile Include="Routing\ParameterEntry.cs" />
-    <Compile Include="Routing\RouteTableEntry.cs" />
-    <Compile Include="Routing\RouteDefinition.cs" />
-    <Compile Include="Routing\RouteInfo.cs" />
-    <Compile Include="Routing\RouteTable.cs" />
     <Compile Include="Status.cs" />
     <Compile Include="Views\ViewResult.cs" />
     <Compile Include="Views\IView.cs" />
