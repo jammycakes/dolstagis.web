@@ -90,7 +90,7 @@ namespace Dolstagis.Web
 
             public async Task<bool> IsEnabledForRequest(IRequest request)
             {
-                return true;
+                return await Task.FromResult(true);
             }
 
             public Feature Feature { get; private set; }
