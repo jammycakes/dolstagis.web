@@ -27,8 +27,15 @@ namespace Dolstagis.Web
 
         private IFeatureSwitch GetFeatureSwitch(Feature feature)
         {
-            var fs = feature.GetType().GetCustomAttributes(true).OfType<IFeatureSwitch>();
-            return fs.FirstOrDefault() ?? new AlwaysEnabledFeatureSwitch();
+            var switches =
+                from attr in feature.GetType().GetCustomAttributes(true)
+                let factory = attr as IFeatureSwitchFactory
+                let @switch = factory != null
+                    ? factory.CreateSwitch(feature)
+                    : attr as IFeatureSwitch
+                where @switch != null
+                select @switch;
+            return switches.FirstOrDefault() ?? new AlwaysEnabledFeatureSwitch();
         }
 
 

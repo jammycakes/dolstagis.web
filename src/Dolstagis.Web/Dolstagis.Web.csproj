@@ -92,6 +92,7 @@
     <Compile Include="Http\RequestHeaders.cs" />
     <Compile Include="Http\ResponseHeaders.cs" />
     <Compile Include="IFeatureSwitch.cs" />
+    <Compile Include="IFeatureSwitchFactory.cs" />
     <Compile Include="Routes\IRouteTable.cs" />
     <Compile Include="Routes\IRouteTarget.cs" />
     <Compile Include="ISettings.cs" />
