@@ -47,6 +47,7 @@
       <HintPath>..\packages\structuremap.3.1.1.134\lib\net40\StructureMap.Net4.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="Microsoft.CSharp" />
@@ -75,6 +76,7 @@
     </Compile>
     <Compile Include="FeatureSet.cs" />
     <Compile Include="FeatureSwitchboard.cs" />
+    <Compile Include="FeatureSwitches\AppSettingsFeatureSwitch.cs" />
     <Compile Include="Handler.cs" />
     <Compile Include="HeadResult.cs" />
     <Compile Include="HeadResultProcessor.cs" />
