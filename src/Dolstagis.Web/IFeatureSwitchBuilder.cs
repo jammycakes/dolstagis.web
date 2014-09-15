@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using StructureMap;
 
 namespace Dolstagis.Web
 {
-    public interface IFeatureSwitchFactory
+    public interface IFeatureSwitchBuilder
     {
-        IFeatureSwitch CreateSwitch(Feature feature);
+        IFeatureSwitch CreateSwitch(Feature feature, IContainer container);
     }
 }
