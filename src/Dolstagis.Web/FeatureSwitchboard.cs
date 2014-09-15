@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Dolstagis.Web.FeatureSwitches;
 using Dolstagis.Web.Http;
 
 namespace Dolstagis.Web
@@ -35,7 +36,7 @@ namespace Dolstagis.Web
                     : attr as IFeatureSwitch
                 where @switch != null
                 select @switch;
-            return switches.FirstOrDefault() ?? new AlwaysEnabledFeatureSwitch();
+            return switches.FirstOrDefault() ?? new BasicSwitch(true);
         }
 
 
@@ -112,19 +113,6 @@ namespace Dolstagis.Web
                 this.Switch = @switch;
                 this.Feature = feature;
             }
-        }
-
-
-        private class AlwaysEnabledFeatureSwitch : IFeatureSwitch
-        {
-            public async Task<bool> IsEnabledForRequest(IRequest request)
-            {
-                return await Task.FromResult(true);
-            }
-
-            public Feature Feature { get; private set; }
-
-            public bool DependentOnRequest { get { return false; } }
         }
     }
 }
