@@ -76,7 +76,8 @@
     </Compile>
     <Compile Include="FeatureSet.cs" />
     <Compile Include="FeatureSwitchboard.cs" />
-    <Compile Include="FeatureSwitches\AppSettingsFeatureSwitch.cs" />
+    <Compile Include="FeatureSwitches\AppSettingsSwitchableAttribute.cs" />
+    <Compile Include="FeatureSwitches\BasicSwitch.cs" />
     <Compile Include="FeatureSwitches\DateTimeFeatureSwitch.cs" />
     <Compile Include="FeatureSwitches\DateTimeFeatureSwitchType.cs" />
     <Compile Include="Handler.cs" />
