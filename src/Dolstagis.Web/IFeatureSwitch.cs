@@ -31,11 +31,7 @@ namespace Dolstagis.Web
 
         Task<bool> IsEnabledForRequest(IRequest request);
 
-        /// <summary>
-        ///  Gets the feature which is controlled by this switch.
-        /// </summary>
 
-        Feature Feature { get; }
 
         /// <summary>
         ///  Gets a value indicating whether this feature switch is dependent

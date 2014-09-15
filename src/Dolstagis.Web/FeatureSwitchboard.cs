@@ -13,10 +13,9 @@ namespace Dolstagis.Web
 
     public class FeatureSwitchboard
     {
-        private List<IFeatureSwitch> switches = new List<IFeatureSwitch>();
+        private List<FeatureSwitchLink> switches = new List<FeatureSwitchLink>();
 
         private Dictionary<ulong, FeatureSet> featureSets = new Dictionary<ulong, FeatureSet>();
-
 
         public Application Application { get; private set; }
 
@@ -25,31 +24,44 @@ namespace Dolstagis.Web
             this.Application = application;
         }
 
-        public FeatureSwitchboard Add(params IFeatureSwitch[] switches)
+
+        private IFeatureSwitch GetFeatureSwitch(Feature feature)
         {
-            this.switches.AddRange(switches);
-            this.featureSets.Clear();
-            return this;
+            var fs = feature.GetType().GetCustomAttributes(true).OfType<IFeatureSwitch>();
+            return fs.FirstOrDefault() ?? new AlwaysEnabledFeatureSwitch();
         }
 
 
         public FeatureSwitchboard Add(params Feature[] features)
         {
-            this.switches.AddRange(features.Select(f => new AlwaysEnabledFeatureSwitch(f)));
+            var links =
+                from feature in features
+                let @switch = GetFeatureSwitch(feature)
+                select new FeatureSwitchLink(@switch, feature);
+
+            this.switches.AddRange(links);
             return this;
         }
+
+
+        public FeatureSwitchboard Add(IFeatureSwitch @switch, Feature feature)
+        {
+            this.switches.Add(new FeatureSwitchLink(@switch, feature));
+            return this;
+        }
+
 
         private async Task<ulong> GetKey(IRequest request)
         {
             ulong key = 0;
             foreach (var sw in switches)
             {
-                if (sw.DependentOnRequest)
+                if (sw.Switch.DependentOnRequest)
                 {
                     checked { 
                         key = key << 1;
                     }
-                    if (await sw.IsEnabledForRequest(request))
+                    if (await sw.Switch.IsEnabledForRequest(request))
                     {
                         key++;
                     }
@@ -62,7 +74,7 @@ namespace Dolstagis.Web
         {
             var features = new List<Feature>();
             foreach (var sw in switches) {
-                if (await sw.IsEnabledForRequest(request)) {
+                if (await sw.Switch.IsEnabledForRequest(request)) {
                     features.Add(sw.Feature);
                 }
             }
@@ -81,13 +93,23 @@ namespace Dolstagis.Web
             return result;
         }
 
-        private class AlwaysEnabledFeatureSwitch : IFeatureSwitch
+
+        private class FeatureSwitchLink
         {
-            public AlwaysEnabledFeatureSwitch(Feature feature)
+            public IFeatureSwitch Switch { get; private set; }
+
+            public Feature Feature { get; private set; }
+
+            public FeatureSwitchLink(IFeatureSwitch @switch, Feature feature)
             {
+                this.Switch = @switch;
                 this.Feature = feature;
             }
+        }
 
+
+        private class AlwaysEnabledFeatureSwitch : IFeatureSwitch
+        {
             public async Task<bool> IsEnabledForRequest(IRequest request)
             {
                 return await Task.FromResult(true);

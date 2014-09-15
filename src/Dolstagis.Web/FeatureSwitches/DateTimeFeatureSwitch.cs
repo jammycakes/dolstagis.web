@@ -44,10 +44,9 @@ namespace Dolstagis.Web.FeatureSwitches
         ///  The type of switch: whether the feature is to be switched on or off.
         /// </param>
 
-        public DateTimeFeatureSwitch(Feature feature, DateTime switchingTime,
+        public DateTimeFeatureSwitch(DateTime switchingTime,
             DateTimeFeatureSwitchType type = DateTimeFeatureSwitchType.Activate)
         {
-            if (feature == null) throw new ArgumentNullException("feature");
             this.SwitchingTime = switchingTime;
             this.Type = type;
         }

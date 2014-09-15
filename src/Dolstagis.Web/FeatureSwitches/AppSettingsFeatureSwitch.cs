@@ -16,9 +16,6 @@ namespace Dolstagis.Web.FeatureSwitches
     {
         private readonly bool _enabled;
 
-        public Feature Feature { get; private set; }
-
-
         public bool DependentOnRequest { get { return false; } }
 
         public Task<bool> IsEnabledForRequest(Http.IRequest request)
@@ -41,11 +38,8 @@ namespace Dolstagis.Web.FeatureSwitches
         /// </param>
 
         public AppSettingsFeatureSwitch
-            (Feature feature, string appSettingName = null, bool defaultValue = true)
+            (string appSettingName = null, bool defaultValue = true)
         {
-            if (feature == null) throw new ArgumentNullException("feature");
-            Feature = feature;
-            appSettingName = appSettingName ?? feature.GetType().FullName;
             string appSetting = ConfigurationManager.AppSettings[appSettingName];
             if (!bool.TryParse(appSetting, out _enabled)) _enabled = defaultValue;
         }
