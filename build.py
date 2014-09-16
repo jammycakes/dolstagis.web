@@ -26,6 +26,10 @@ project.nunit('src/Dolstagis.Tests/Dolstagis.Tests.nunit')
 
 project.make_nuget('Dolstagis.Web')
 project.make_nuget('Dolstagis.Web.Aspnet',
-    content = ['web.config.transform']
+    content = [
+        'Configuration.cs.pp',
+        'Index.cs.pp',
+        'MainFeature.cs.pp'
+    ]
 )
 project.make_nuget('Dolstagis.Web.Views.Nustache')
