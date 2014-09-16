@@ -78,8 +78,8 @@
     <Compile Include="FeatureSwitchboard.cs" />
     <Compile Include="FeatureSwitches\AppSettingsSwitchableAttribute.cs" />
     <Compile Include="FeatureSwitches\BasicSwitch.cs" />
-    <Compile Include="FeatureSwitches\DateTimeFeatureSwitch.cs" />
-    <Compile Include="FeatureSwitches\DateTimeFeatureSwitchType.cs" />
+    <Compile Include="FeatureSwitches\DateTimeSwitchableAttribute.cs" />
+    <Compile Include="FeatureSwitches\DateTimeSwitchType.cs" />
     <Compile Include="Handler.cs" />
     <Compile Include="HeadResult.cs" />
     <Compile Include="HeadResultProcessor.cs" />

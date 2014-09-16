@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Dolstagis.Web.FeatureSwitches
 {
-    public enum DateTimeFeatureSwitchType
+    public enum DateTimeSwitchType
     {
         /// <summary>
         ///  The feature switch will be turned on at the specified date.

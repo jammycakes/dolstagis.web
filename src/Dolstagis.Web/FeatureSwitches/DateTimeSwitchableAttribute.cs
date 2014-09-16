@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,16 +12,17 @@ namespace Dolstagis.Web.FeatureSwitches
     ///  given date and time.
     /// </summary>
 
-    public class DateTimeFeatureSwitch : IFeatureSwitch
+    [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = false)]
+    public class DateTimeSwitchableAttribute : Attribute, IFeatureSwitch
     {
-        public DateTimeFeatureSwitchType Type { get; private set; }
+        public DateTimeSwitchType Type { get; private set; }
 
         public DateTime SwitchingTime { get; private set; }
 
         public Task<bool> IsEnabledForRequest(Http.IRequest request)
         {
             bool isPassed = DateTime.UtcNow >= SwitchingTime;
-            bool isEnabled = isPassed ^ (Type == DateTimeFeatureSwitchType.Deactivate);
+            bool isEnabled = isPassed ^ (Type == DateTimeSwitchType.Deactivate);
             return Task.FromResult(isEnabled);
         }
 
@@ -28,7 +30,7 @@ namespace Dolstagis.Web.FeatureSwitches
 
 
         /// <summary>
-        ///  Creates a new instance of the <see cref="DateTimeFeatureSwitch" />
+        ///  Creates a new instance of the <see cref="DateTimeSwitchableAttribute" />
         ///  instance.
         /// </summary>
         /// <param name="feature">
@@ -42,11 +44,28 @@ namespace Dolstagis.Web.FeatureSwitches
         ///  The type of switch: whether the feature is to be switched on or off.
         /// </param>
 
-        public DateTimeFeatureSwitch(DateTime switchingTime,
-            DateTimeFeatureSwitchType type = DateTimeFeatureSwitchType.Activate)
+        public DateTimeSwitchableAttribute(DateTime switchingTime,
+            DateTimeSwitchType type = DateTimeSwitchType.Activate)
         {
             this.SwitchingTime = switchingTime;
             this.Type = type;
         }
+
+        public DateTimeSwitchableAttribute(string switchingTime,
+            DateTimeSwitchType type = DateTimeSwitchType.Activate)
+        {
+            this.SwitchingTime = ParseDateTime(switchingTime);
+            this.Type = type;
+        }
+
+        private static DateTime ParseDateTime(string dateString)
+        {
+            return DateTime.ParseExact(dateString,
+                new string[] { "o", "r", "s", "u" },
+                System.Globalization.CultureInfo.InvariantCulture,
+                DateTimeStyles.AllowWhiteSpaces | DateTimeStyles.AssumeUniversal
+            );
+        }
+
     }
 }
