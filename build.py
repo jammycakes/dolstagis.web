@@ -5,7 +5,7 @@ import sys
 
 argparser = argparse.ArgumentParser(description = 'Build Dolstagis.Web')
 argparser.add_argument('configuration', default = 'Debug', nargs = '?')
-argparser.add_argument('-v', '--version', default = '0.1.0')
+argparser.add_argument('-v', '--version', default = '0.2.0')
 argparser.add_argument('-i', '--versioninfo', default = 'alpha')
 argparser.add_argument('-n', '--build', default=0, type=int)
 args = argparser.parse_args(sys.argv[1:])
