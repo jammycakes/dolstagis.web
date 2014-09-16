@@ -26,8 +26,6 @@ namespace Dolstagis.Web.FeatureSwitches
 
         public Feature Feature { get; private set; }
 
-        public bool DependentOnRequest { get { return false; } }
-
 
         /// <summary>
         ///  Creates a new instance of the <see cref="DateTimeFeatureSwitch" />

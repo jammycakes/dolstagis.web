@@ -30,19 +30,16 @@ namespace Dolstagis.Tests.Web
         public void CreateFeatures()
         {
             var mockAlwaysEnabled = new Mock<IFeatureSwitch>();
-            mockAlwaysEnabled.SetupGet(x => x.DependentOnRequest).Returns(false);
             mockAlwaysEnabled.Setup(x => x.IsEnabledForRequest(It.IsAny<IRequest>()))
                 .Returns(Task.FromResult(true));
             alwaysEnabledSwitch = mockAlwaysEnabled.Object;
 
             var mockAlwaysDisabled = new Mock<IFeatureSwitch>();
-            mockAlwaysDisabled.SetupGet(x => x.DependentOnRequest).Returns(false);
             mockAlwaysDisabled.Setup(x => x.IsEnabledForRequest(It.IsAny<IRequest>()))
                 .Returns(Task.FromResult(false));
             alwaysDisabledSwitch = mockAlwaysDisabled.Object;
 
             var mockLocalhostOnly = new Mock<IFeatureSwitch>();
-            mockLocalhostOnly.SetupGet(x => x.DependentOnRequest).Returns(true);
             mockLocalhostOnly.Setup(x => x.IsEnabledForRequest(It.IsAny<IRequest>()))
                 .Returns(Task.FromResult(false));
             mockLocalhostOnly.Setup(x => x.IsEnabledForRequest(It.Is<IRequest>(req => req.Url.IsLoopback)))

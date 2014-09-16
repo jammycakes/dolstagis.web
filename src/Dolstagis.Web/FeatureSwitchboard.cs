@@ -62,17 +62,12 @@ namespace Dolstagis.Web
         private async Task<ulong> GetKey(IRequest request)
         {
             ulong key = 0;
-            foreach (var sw in switches)
-            {
-                if (sw.Switch.DependentOnRequest)
-                {
-                    checked { 
-                        key = key << 1;
-                    }
-                    if (await sw.Switch.IsEnabledForRequest(request))
-                    {
-                        key++;
-                    }
+            foreach (var sw in switches) {
+                checked {
+                    key = key << 1;
+                }
+                if (await sw.Switch.IsEnabledForRequest(request)) {
+                    key++;
                 }
             }
             return key;

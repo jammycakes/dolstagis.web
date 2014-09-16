@@ -15,8 +15,6 @@ namespace Dolstagis.Web.FeatureSwitches
             return Task.FromResult(_enabled);
         }
 
-        public bool DependentOnRequest { get { return false;} }
-
         public BasicSwitch(bool enabled)
         {
             _enabled = enabled;
