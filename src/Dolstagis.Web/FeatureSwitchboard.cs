@@ -32,7 +32,7 @@ namespace Dolstagis.Web
                 from attr in feature.GetType().GetCustomAttributes(true)
                 let factory = attr as IFeatureSwitchBuilder
                 let @switch = factory != null
-                    ? factory.CreateSwitch(feature, this.Application.Container)
+                    ? factory.CreateSwitch(feature, this.Application)
                     : attr as IFeatureSwitch
                 where @switch != null
                 select @switch;

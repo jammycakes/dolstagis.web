@@ -9,6 +9,6 @@ namespace Dolstagis.Web
 {
     public interface IFeatureSwitchBuilder
     {
-        IFeatureSwitch CreateSwitch(Feature feature, IContainer container);
+        IFeatureSwitch CreateSwitch(Feature feature, Application application);
     }
 }

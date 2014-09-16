@@ -4,7 +4,6 @@ using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using StructureMap;
 
 namespace Dolstagis.Web.FeatureSwitches
 {
@@ -42,7 +41,7 @@ namespace Dolstagis.Web.FeatureSwitches
             this.EnableByDefault = enableByDefault;
         }
 
-        public IFeatureSwitch CreateSwitch(Feature feature, IContainer container)
+        public IFeatureSwitch CreateSwitch(Feature feature, Application application)
         {
             string key = AppSettingName ?? feature.GetType().FullName;
             string appSetting = ConfigurationManager.AppSettings[key];
