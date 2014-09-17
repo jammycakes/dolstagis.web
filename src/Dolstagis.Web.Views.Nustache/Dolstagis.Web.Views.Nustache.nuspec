@@ -15,7 +15,7 @@
     <copyright>Copyright 2013 James McKay</copyright>
     <tags>web alt.mvc</tags>
     <dependencies>
-      <dependency id="Dolstagis.Web" version="0.2" />
+      <dependency id="Dolstagis.Web" version="0.2-alpha" />
       <dependency id="Nustache" version="1.13" />
       <dependency id="structuremap" version="3.0" />
     </dependencies>
