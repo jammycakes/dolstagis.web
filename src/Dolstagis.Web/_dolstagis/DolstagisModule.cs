@@ -7,10 +7,10 @@ using Dolstagis.Web.Static;
 
 namespace Dolstagis.Web._dolstagis
 {
-    internal class DolstagisModule : Module
+    internal class DolstagisFeature : Feature
     {
 
-        public DolstagisModule()
+        public DolstagisFeature()
         {
             string ns = this.GetType().Namespace;
             this.AddStaticFiles("~/_dolstagis/content",

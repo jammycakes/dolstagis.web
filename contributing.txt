@@ -1,0 +1,29 @@
+Contributing
+============
+
+As of version 0.1.0-alpha, I am using git-flow for branch management, with one
+difference: mainline development takes place on master and the production
+branch is called 'production'. This is intended to make things easier for
+contributors who are not familiar with git-flow.
+
+Building
+--------
+The build scripts are written in Python and developed against Python 3.3;
+earlier versions are untested. The project is built against .NET 4.5 on
+Visual Studio 2012/2013.
+
+Supported frameworks and browsers
+---------------------------------
+Dolstagis.Web requires .NET 4.5 or later; earlier versions are not supported.
+Client-side functionality included out of the box (admin and report pages,
+default error pages, etc) only supports IE9 or later; users who require
+support for older browsers are expected to supply their own templates. New
+code SHOULD include hooks or options to allow them to do so if necessary.
+
+Coding conventions
+------------------
+Use the Visual Studio out of the box default formatting rules.
+Line lengths SHOULD be kept to 120 characters or less.
+Throw an exception if a method can't do what its name says that it does.
+Return null to indicate that something was not found or does not exist.
+Methods that return collections or enumerables MUST NOT return null.

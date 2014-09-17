@@ -16,3 +16,5 @@ using System.Runtime.InteropServices;
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
 [assembly: Guid("ac950519-a372-4ebe-bf60-9ed709bea6b7")]
+
+[assembly: InternalsVisibleTo("Dolstagis.Tests")]

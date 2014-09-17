@@ -32,27 +32,37 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.5.0.6\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.6.0.5\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="Nustache.Core">
-      <HintPath>..\packages\Nustache.1.13.8.22\lib\net20\Nustache.Core.dll</HintPath>
+    <Reference Include="StructureMap, Version=3.1.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\structuremap.3.1.1.134\lib\net40\StructureMap.dll</HintPath>
     </Reference>
-    <Reference Include="StructureMap">
-      <HintPath>..\packages\structuremap.2.6.4.1\lib\net40\StructureMap.dll</HintPath>
+    <Reference Include="StructureMap.Net4">
+      <HintPath>..\packages\structuremap.3.1.1.134\lib\net40\StructureMap.Net4.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Application.cs" />
-    <Compile Include="ApplicationContext.cs" />
-    <Compile Include="ApplicationContextExtensions.cs" />
+    <Compile Include="Auth\IAuthenticator.cs" />
+    <Compile Include="Auth\IRequirement.cs" />
+    <Compile Include="Auth\IUser.cs" />
+    <Compile Include="Auth\PrincipalAuthenticator.cs" />
+    <Compile Include="Auth\PrincipalUser.cs" />
+    <Compile Include="Auth\DenyAttribute.cs" />
+    <Compile Include="Auth\RequireAnonymousAttribute.cs" />
+    <Compile Include="Auth\RequireAllAttribute.cs" />
+    <Compile Include="Auth\RequireAnyAttribute.cs" />
+    <Compile Include="Auth\RequireLoginAttribute.cs" />
+    <Compile Include="Auth\SessionAuthenticator.cs" />
     <Compile Include="ContentResult.cs" />
     <Compile Include="ContentResultProcessor.cs" />
     <Compile Include="CoreServices.cs" />
@@ -61,6 +71,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>StatusMessages.resx</DependentUpon>
     </Compile>
+    <Compile Include="FeatureSet.cs" />
+    <Compile Include="FeatureSwitchboard.cs" />
+    <Compile Include="FeatureSwitches\AppSettingsSwitchableAttribute.cs" />
+    <Compile Include="FeatureSwitches\BasicSwitch.cs" />
+    <Compile Include="FeatureSwitches\DateTimeSwitchableAttribute.cs" />
+    <Compile Include="FeatureSwitches\DateTimeSwitchType.cs" />
     <Compile Include="Handler.cs" />
     <Compile Include="HeadResult.cs" />
     <Compile Include="HeadResultProcessor.cs" />
@@ -69,13 +85,30 @@
     <Compile Include="Http\Cookie.cs" />
     <Compile Include="Http\HttpEncoder.cs" />
     <Compile Include="Http\HttpUtility.cs" />
+    <Compile Include="Http\RequestExtensions.cs" />
+    <Compile Include="Http\HttpDictionary.cs" />
+    <Compile Include="Http\RequestHeaders.cs" />
+    <Compile Include="Http\ResponseHeaders.cs" />
+    <Compile Include="IFeatureSwitch.cs" />
+    <Compile Include="IFeatureSwitchBuilder.cs" />
+    <Compile Include="Routes\IRouteTable.cs" />
+    <Compile Include="Routes\IRouteTarget.cs" />
     <Compile Include="ISettings.cs" />
+    <Compile Include="Lifecycle\ILoginHandler.cs" />
+    <Compile Include="Lifecycle\LoginHandler.cs" />
+    <Compile Include="Owin\EnvironmentKeys.cs" />
+    <Compile Include="Owin\Request.cs" />
+    <Compile Include="Owin\Response.cs" />
     <Compile Include="RedirectResult.cs" />
-    <Compile Include="Sessions\ISessionCookieBuilder.cs" />
-    <Compile Include="Http\Request.cs" />
-    <Compile Include="Http\Response.cs" />
-    <Compile Include="Sessions\SessionCookieBuilder.cs" />
-    <Compile Include="IApplicationContext.cs" />
+    <Compile Include="Routes\Node.cs" />
+    <Compile Include="Routes\Parameter.cs" />
+    <Compile Include="Routes\RouteInvocation.cs" />
+    <Compile Include="Routes\RouteTable.cs" />
+    <Compile Include="Routes\RouteTarget.cs" />
+    <Compile Include="Sessions\InMemorySession.cs" />
+    <Compile Include="Sessions\InMemorySessionStore.cs" />
+    <Compile Include="Sessions\ISession.cs" />
+    <Compile Include="Sessions\ISessionStore.cs" />
     <Compile Include="IRequestContext.cs" />
     <Compile Include="Http\IRequest.cs" />
     <Compile Include="Http\IResponse.cs" />
@@ -101,13 +134,14 @@
     <Compile Include="Static\StaticRequestHandler.cs" />
     <Compile Include="Static\StaticResult.cs" />
     <Compile Include="Static\StaticResultProcessor.cs" />
+    <Compile Include="Util\AssemblyExtensions.cs" />
     <Compile Include="Views\ViewResultProcessor.cs" />
     <Compile Include="VirtualPath.cs" />
     <Compile Include="RequestContext.cs" />
     <Compile Include="Static\FileResource.cs" />
     <Compile Include="Static\IMimeTypes.cs" />
     <Compile Include="Static\IResource.cs" />
-    <Compile Include="Module.cs" />
+    <Compile Include="Feature.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="..\.version\DefaultVersionInfo.cs" Condition="!Exists('..\.version\VersionInfo.cs')">
       <Link>Properties\DefaultVersionInfo.cs</Link>
@@ -120,13 +154,6 @@
     </Compile>
     <Compile Include="Lifecycle\RequestProcessor.cs" />
     <Compile Include="RouteAttribute.cs" />
-    <Compile Include="Routing\IRouteDefinition.cs" />
-    <Compile Include="Routing\IRouteRegistry.cs" />
-    <Compile Include="Routing\ParameterEntry.cs" />
-    <Compile Include="Routing\RouteTableEntry.cs" />
-    <Compile Include="Routing\RouteDefinition.cs" />
-    <Compile Include="Routing\RouteInfo.cs" />
-    <Compile Include="Routing\RouteTable.cs" />
     <Compile Include="Status.cs" />
     <Compile Include="Views\ViewResult.cs" />
     <Compile Include="Views\IView.cs" />

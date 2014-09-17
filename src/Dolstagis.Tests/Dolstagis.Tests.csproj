@@ -36,32 +36,38 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Moq">
-      <HintPath>..\packages\Moq.4.0.10827\lib\NET40\Moq.dll</HintPath>
-    </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.5.0.6\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="nunit.framework, Version=2.6.2.12296, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
+    <Reference Include="Moq, Version=4.2.1408.717, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\NUnit.2.6.2\lib\nunit.framework.dll</HintPath>
+      <HintPath>..\packages\Moq.4.2.1408.0717\lib\net40\Moq.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.6.0.5\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.framework, Version=2.6.3.13283, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\NUnit.2.6.3\lib\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="Nustache.Core">
       <HintPath>..\packages\Nustache.1.13.8.22\lib\net20\Nustache.Core.dll</HintPath>
     </Reference>
-    <Reference Include="StructureMap, Version=2.6.4.0, Culture=neutral, PublicKeyToken=e60ad81abae3c223, processorArchitecture=MSIL">
+    <Reference Include="StructureMap, Version=3.1.1.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\structuremap.2.6.4.1\lib\net40\StructureMap.dll</HintPath>
+      <HintPath>..\packages\structuremap.3.1.1.134\lib\net40\StructureMap.dll</HintPath>
+    </Reference>
+    <Reference Include="StructureMap.Net4">
+      <HintPath>..\packages\structuremap.3.1.1.134\lib\net40\StructureMap.Net4.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="TechTalk.SpecFlow">
+      <HintPath>..\packages\SpecFlow.1.9.0\lib\net35\TechTalk.SpecFlow.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\.version\DefaultVersionInfo.cs" Condition="!Exists('..\.version\VersionInfo.cs')">
@@ -74,23 +80,20 @@
       <Link>Properties\VersionInfo.cs</Link>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Web\Lifecycle\AmbiguousRouteModules\ArgHandler.cs" />
-    <Compile Include="Web\Lifecycle\AmbiguousRouteModules\FirstModule.cs" />
-    <Compile Include="Web\Lifecycle\AmbiguousRouteModules\FirstHandler.cs" />
-    <Compile Include="Web\Lifecycle\AmbiguousRouteModules\NullHandler.cs" />
-    <Compile Include="Web\Lifecycle\AmbiguousRouteModules\SecondHandler.cs" />
-    <Compile Include="Web\Lifecycle\AmbiguousRouteModules\SecondModule.cs" />
-    <Compile Include="Web\Lifecycle\AmbiguousRoutesFixture.cs" />
+    <Compile Include="Web\FeatureSetFixture.cs" />
+    <Compile Include="Web\FeatureSwitches\FeatureSwitchFixture.cs" />
     <Compile Include="Web\Lifecycle\RequestProcessorFixture.cs" />
-    <Compile Include="Web\Routing\RouteTableExtensions.cs" />
-    <Compile Include="Web\Routing\RouteTableFixture.cs" />
+    <Compile Include="Web\Owin\OwinFixtureBase.cs" />
+    <Compile Include="Web\Owin\RequestFixture.cs" />
+    <Compile Include="Web\Routes\RouteTableFixture.cs" />
+    <Compile Include="Web\Sessions\SessionFixture.cs" />
     <Compile Include="Web\Static\AssemblyResourceLocationFixture.cs" />
-    <Compile Include="Web\TestModules\CustomRouteModule.cs" />
-    <Compile Include="Web\TestModules\DisabledModule.cs" />
-    <Compile Include="Web\TestModules\FirstModule.cs" />
-    <Compile Include="Web\TestModules\Handlers\ChildHandler.cs" />
-    <Compile Include="Web\TestModules\Handlers\LanguageHandler.cs" />
-    <Compile Include="Web\TestModules\Handlers\RootHandler.cs" />
+    <Compile Include="Web\TestFeatures\CustomRouteFeature.cs" />
+    <Compile Include="Web\TestFeatures\EmptyNamedFeature.cs" />
+    <Compile Include="Web\TestFeatures\FirstFeature.cs" />
+    <Compile Include="Web\TestFeatures\Handlers\ChildHandler.cs" />
+    <Compile Include="Web\TestFeatures\Handlers\LanguageHandler.cs" />
+    <Compile Include="Web\TestFeatures\Handlers\RootHandler.cs" />
     <Compile Include="Web\Views\ViewRegistryFixture.cs" />
     <Compile Include="Web\VirtualPathFixture.cs" />
   </ItemGroup>
@@ -98,10 +101,6 @@
     <ProjectReference Include="..\Dolstagis.Web.Aspnet\Dolstagis.Web.Aspnet.csproj">
       <Project>{25892703-ecbf-410c-b47a-7ee2aa2ee259}</Project>
       <Name>Dolstagis.Web.Aspnet</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Dolstagis.Web.Owin\Dolstagis.Web.Owin.csproj">
-      <Project>{6cb9e818-d80f-4df9-a6a3-c0e4dfeb42de}</Project>
-      <Name>Dolstagis.Web.Owin</Name>
     </ProjectReference>
     <ProjectReference Include="..\Dolstagis.Web\Dolstagis.Web.csproj">
       <Project>{e0e930ff-37b5-4495-8a73-3f69073e4629}</Project>
@@ -113,7 +112,9 @@
     <None Include="Dolstagis.Tests.nunit" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
+  </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Web\Static\EmbeddedResource.txt" />
   </ItemGroup>

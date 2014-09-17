@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Dolstagis.Web.Routing;
 using Dolstagis.Web.Static;
 
 namespace Dolstagis.Web.Views
@@ -12,11 +11,22 @@ namespace Dolstagis.Web.Views
     {
         private IDictionary<string, IView> _cache
             = new Dictionary<string, IView>(StringComparer.OrdinalIgnoreCase);
+        private ISettings _settings;
+
+        protected ViewEngineBase(ISettings settings)
+        {
+            _settings = settings;
+        }
 
         public abstract IEnumerable<string> Extensions { get; }
 
         public IView GetView(VirtualPath pathToView, IResourceResolver resolver)
         {
+            if (_settings.Debug)
+            {
+                return CreateView(pathToView, resolver);
+            }
+
             IView result = null;
             string key = pathToView.Path;
             if (!_cache.TryGetValue(key, out result)) {

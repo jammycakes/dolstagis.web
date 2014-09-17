@@ -38,7 +38,7 @@ class Project:
         else:
             self.informational_version = self.file_version
             self.nuget_version = self.file_version
-        
+
         print ('Building version: ' + self.informational_version)
 
     # ====== clean ====== #
@@ -51,6 +51,17 @@ class Project:
             shutil.rmtree(self.build_dir)
         os.makedirs(self.build_dir)
 
+    # ====== restore_packages ====== #
+
+    """
+    Restores all NuGet packages
+    """
+    def restore_packages(self):
+        nuget_exe = self._abspath('src/.nuget/NuGet.exe')
+        packages_config = self._abspath('src/.nuget/packages.config')
+        packages_folder = self._abspath('src/packages')
+
+        self.run(nuget_exe, ['install', packages_config, '-OutputDirectory', packages_folder])
 
     # ====== write_version ====== #
 
@@ -124,7 +135,7 @@ using System.Runtime.InteropServices;
             built_lib, nuget_lib,
             ignore = lambda d, x: [a for a in x if
                                    (not a.lower().startswith(project.lower() + '.'))
-                                   or a.lower().endswith('.pdb')
+                                   or (a.lower().endswith('.pdb') and self.configuration.lower() == 'release')
                                    ]
         )
         shutil.copy2(nuspec, nuget_project)

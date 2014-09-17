@@ -28,12 +28,24 @@ namespace Dolstagis.Web.Http
         ///  Gets the response stream.
         /// </summary>
 
-        Stream ResponseStream { get; }
+        Stream Body { get; }
+
+        /// <summary>
+        ///  Gets the response headers.
+        /// </summary>
+
+        ResponseHeaders Headers { get; }
 
         /// <summary>
         ///  Gets or sets the response status.
         /// </summary>
 
         Status Status { get; set; }
+
+        /// <summary>
+        ///  Gets or sets the HTTP protocol used for the response.
+        /// </summary>
+
+        string Protocol { get; set; }
     }
 }
