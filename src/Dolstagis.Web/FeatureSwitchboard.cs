@@ -95,7 +95,7 @@ namespace Dolstagis.Web
 
 
 
-        private class Key
+        internal class Key
         {
             // I'd much rather use BitArray for this, but it doesn't override
             // Equals() and GetHashCode() so it's no good as a key for hashtables.
