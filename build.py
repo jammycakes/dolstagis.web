@@ -5,9 +5,9 @@ import sys
 
 argparser = argparse.ArgumentParser(description = 'Build Dolstagis.Web')
 argparser.add_argument('configuration', default = 'Debug', nargs = '?')
-argparser.add_argument('-v', '--version', default = '0.1.0')
+argparser.add_argument('-v', '--version', default = '0.2.0')
 argparser.add_argument('-i', '--versioninfo', default = 'alpha')
-argparser.add_argument('-n', '--build', default=0, type=int)
+argparser.add_argument('-n', '--build', default=1, type=int)
 args = argparser.parse_args(sys.argv[1:])
 
 project = Project(__file__, 'build')
@@ -26,6 +26,10 @@ project.nunit('src/Dolstagis.Tests/Dolstagis.Tests.nunit')
 
 project.make_nuget('Dolstagis.Web')
 project.make_nuget('Dolstagis.Web.Aspnet',
-    content = ['web.config.transform']
+    content = [
+        'Configuration.cs.pp',
+        'Index.cs.pp',
+        'MainFeature.cs.pp'
+    ]
 )
 project.make_nuget('Dolstagis.Web.Views.Nustache')

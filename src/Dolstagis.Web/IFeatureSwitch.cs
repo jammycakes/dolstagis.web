@@ -24,34 +24,7 @@ namespace Dolstagis.Web
         /// <returns>
         ///  true if the feature is enabled for this request, otherwise false.
         /// </returns>
-        /// <remarks>
-        ///  If <see cref="DependentOnRequest"/> returns false, this method
-        ///  MUST ignore the value of request and all its properties.
-        /// </remarks>
 
         Task<bool> IsEnabledForRequest(IRequest request);
-
-        /// <summary>
-        ///  Gets the feature which is controlled by this switch.
-        /// </summary>
-
-        Feature Feature { get; }
-
-        /// <summary>
-        ///  Gets a value indicating whether this feature switch is dependent
-        ///  on the request.
-        /// </summary>
-        /// <remarks>
-        ///  This property MUST be set to true if <see cref="IsEnabledForRequest"/>
-        ///  returns a value which is dependent on the request. It SHOULD be set
-        ///  to false otherwise.
-        ///  
-        ///  Each application is limited to a maximum of sixty-four request
-        ///  dependent features. The number of features SHOULD be kept
-        ///  mucg lower than that anyway otherwise the application may run out
-        ///  of memory.
-        /// </remarks>
-
-        bool DependentOnRequest { get; }
     }
 }

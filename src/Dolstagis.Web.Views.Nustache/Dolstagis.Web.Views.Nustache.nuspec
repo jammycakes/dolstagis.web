@@ -2,7 +2,7 @@
 <package>
   <metadata>
     <id>Dolstagis.Web.Views.Nustache</id>
-    <version>0.1.0.0</version>
+    <version>0.2.0.0</version>
     <title>Dolstagis.Web.Views.Nustache</title>
     <authors>James McKay</authors>
     <owners>James McKay</owners>
@@ -15,9 +15,9 @@
     <copyright>Copyright 2013 James McKay</copyright>
     <tags>web alt.mvc</tags>
     <dependencies>
-      <dependency id="Dolstagis.Web" />
-      <dependency id="Nustache" />
-      <dependency id="structuremap" />
+      <dependency id="Dolstagis.Web" version="0.2-alpha" />
+      <dependency id="Nustache" version="1.13" />
+      <dependency id="structuremap" version="3.0" />
     </dependencies>
   </metadata>
 </package>

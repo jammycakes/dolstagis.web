@@ -2,7 +2,7 @@
 <package>
   <metadata>
     <id>Dolstagis.Web.Aspnet</id>
-    <version>0.1.0.0</version>
+    <version>0.2.0.0</version>
     <title>Dolstagis.Web.Aspnet</title>
     <authors>James McKay</authors>
     <owners>James McKay</owners>
@@ -15,7 +15,10 @@
     <copyright>Copyright 2013 James McKay</copyright>
     <tags>web alt.mvc</tags>
     <dependencies>
-      <dependency id="Dolstagis.Web" />
+      <dependency id="Dolstagis.Web" version="0.2-alpha" />
+      <dependency id="Owin" version="1.0" />
+      <dependency id="Microsoft.Owin" version="3.0" />
+      <dependency id="Microsoft.Owin.Host.SystemWeb" version="3.0" />
     </dependencies>
   </metadata>
 </package>

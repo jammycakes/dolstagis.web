@@ -32,16 +32,20 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.5.0.6\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.6.0.5\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="Nustache.Core">
-      <HintPath>..\packages\Nustache.1.13.8.22\lib\net20\Nustache.Core.dll</HintPath>
+    <Reference Include="StructureMap, Version=3.1.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\structuremap.3.1.2.138\lib\net40\StructureMap.dll</HintPath>
     </Reference>
-    <Reference Include="StructureMap">
-      <HintPath>..\packages\structuremap.2.6.4.1\lib\net40\StructureMap.dll</HintPath>
+    <Reference Include="StructureMap.Net4, Version=3.1.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\structuremap.3.1.2.138\lib\net40\StructureMap.Net4.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="Microsoft.CSharp" />
@@ -70,6 +74,10 @@
     </Compile>
     <Compile Include="FeatureSet.cs" />
     <Compile Include="FeatureSwitchboard.cs" />
+    <Compile Include="FeatureSwitches\AppSettingsSwitchableAttribute.cs" />
+    <Compile Include="FeatureSwitches\BasicSwitch.cs" />
+    <Compile Include="FeatureSwitches\DateTimeSwitchableAttribute.cs" />
+    <Compile Include="FeatureSwitches\DateTimeSwitchType.cs" />
     <Compile Include="Handler.cs" />
     <Compile Include="HeadResult.cs" />
     <Compile Include="HeadResultProcessor.cs" />
@@ -85,6 +93,7 @@
     <Compile Include="Http\RequestHeaders.cs" />
     <Compile Include="Http\ResponseHeaders.cs" />
     <Compile Include="IFeatureSwitch.cs" />
+    <Compile Include="IFeatureSwitchBuilder.cs" />
     <Compile Include="Routes\IRouteTable.cs" />
     <Compile Include="Routes\IRouteTarget.cs" />
     <Compile Include="ISettings.cs" />
