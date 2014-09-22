@@ -93,7 +93,16 @@
     <Compile Include="IFeatureSwitch.cs" />
     <Compile Include="IFeatureSwitchBuilder.cs" />
     <Compile Include="IModelBinder.cs" />
+    <Compile Include="ModelBinding\GuidConverter.cs" />
+    <Compile Include="ModelBinding\DateTimeConverter.cs" />
     <Compile Include="ModelBinding\DefaultModelBinder.cs" />
+    <Compile Include="ModelBinding\IConverter.cs" />
+    <Compile Include="ModelBinding\BoolConverter.cs" />
+    <Compile Include="ModelBinding\LongConverter.cs" />
+    <Compile Include="ModelBinding\IntConverter.cs" />
+    <Compile Include="ModelBinding\ObjectConverter.cs" />
+    <Compile Include="ModelBinding\SimpleConverter.cs" />
+    <Compile Include="ModelBinding\StringConverter.cs" />
     <Compile Include="Routes\IRouteTable.cs" />
     <Compile Include="Routes\IRouteTarget.cs" />
     <Compile Include="ISettings.cs" />

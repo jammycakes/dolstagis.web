@@ -1,10 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Reflection;
+using Dolstagis.Web;
 using Dolstagis.Web.Http;
 using Dolstagis.Web.ModelBinding;
 using Dolstagis.Web.Routes;
 using Moq;
 using NUnit.Framework;
+using StructureMap;
 
 namespace Dolstagis.Tests.Web.ModelBinding
 {
@@ -16,11 +19,24 @@ namespace Dolstagis.Tests.Web.ModelBinding
             return null;
         }
 
+        private object methodWithTypedParameters(int one, bool two, Guid three)
+        {
+            return null;
+        }
+
+        private IModelBinder binder;
+
+        [TestFixtureSetUp]
+        public void CreateModelBinder()
+        {
+            var container = new Container();
+            container.Configure(x => x.AddRegistry<CoreServices>());
+            binder = container.GetInstance<DefaultModelBinder>();
+        }
 
         [Test]
         public void CanBindRouteData()
-        {
-            var binder = new DefaultModelBinder();
+        {   
             var data = new Dictionary<string, string>() {
                 { "one", "foo" },
                 { "two", "bar" }
@@ -42,7 +58,6 @@ namespace Dolstagis.Tests.Web.ModelBinding
         [Test]
         public void CanBindRouteDataWithHttpGet()
         {
-            var binder = new DefaultModelBinder();
             var data = new Dictionary<string, string>() {
                 { "one", "foo" },
                 { "two", "bar" }
@@ -68,7 +83,6 @@ namespace Dolstagis.Tests.Web.ModelBinding
         [Test]
         public void CanBindRouteDataWithHttpPost()
         {
-            var binder = new DefaultModelBinder();
             var data = new Dictionary<string, string>() {
                 { "one", "foo" },
                 { "two", "bar" }
@@ -89,6 +103,27 @@ namespace Dolstagis.Tests.Web.ModelBinding
             var result = binder.GetArguments(route, request.Object, method);
 
             CollectionAssert.AreEqual(new object[] { "foo", "glarch", "wibble" }, result);
+        }
+
+        [Test]
+        public void CanBindRouteDataWithConversions()
+        {
+            var data = new Dictionary<string, string>() {
+                { "one", "1" },
+                { "two", "true" },
+                { "three", "deadbeef-face-baba-da1e-cafec0deface" }
+            };
+
+            var route = new RouteInvocation(null, data);
+            var request = new Mock<IRequest>();
+
+            var method = this.GetType().GetMethod("methodWithTypedParameters",
+                BindingFlags.NonPublic | BindingFlags.Instance);
+
+            var result = binder.GetArguments(route, request.Object, method);
+
+            CollectionAssert.AreEqual(new object[] { 1, true,
+                new Guid ("deadbeef-face-baba-da1e-cafec0deface") }, result);
         }
     }
 }

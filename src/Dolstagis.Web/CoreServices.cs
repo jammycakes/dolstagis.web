@@ -35,6 +35,13 @@ namespace Dolstagis.Web
                 .Ctor<IResourceResolver>().Is(ctx => new ResourceResolver
                     (ResourceType.Views, ctx.GetAllInstances<ResourceMapping>())
                 );
+
+            this.Scan(x =>
+            {
+                x.AddAllTypesOf<IConverter>();
+                x.AssemblyContainingType<IConverter>();
+                x.ExcludeType<ObjectConverter>();
+            });
         }
     }
 }

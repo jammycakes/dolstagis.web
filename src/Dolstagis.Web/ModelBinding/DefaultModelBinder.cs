@@ -12,6 +12,13 @@ namespace Dolstagis.Web.ModelBinding
 {
     public class DefaultModelBinder : IModelBinder
     {
+        private IConverter[] _converters;
+        
+        public DefaultModelBinder(IConverter[] converters)
+        {
+            _converters = converters;
+        }
+
         public object[] GetArguments(RouteInvocation route, IRequest request, MethodInfo method)
         {
             var foundArgs = new Dictionary<string, string[]>();
@@ -22,14 +29,21 @@ namespace Dolstagis.Web.ModelBinding
             var args = new List<object>();
             foreach (var parameter in method.GetParameters())
             {
-                string[] arg;
-                if (foundArgs.TryGetValue(parameter.Name, out arg))
-                {
-                    args.Add(arg.LastOrDefault());
+                object arg = null;
+                var converter = _converters.FirstOrDefault
+                    (x => x.CanConvert(parameter.ParameterType));
+                if (converter != null) {
+                    arg = converter.Convert(parameter.ParameterType, parameter.Name, foundArgs);
                 }
-                else if (parameter.IsOptional)
+                if ((converter == null || arg == null) && parameter.IsOptional)
                 {
-                    args.Add(parameter.HasDefaultValue ? parameter.DefaultValue : null);
+                    arg = (parameter.HasDefaultValue ? parameter.DefaultValue : null);
+                }
+                    
+
+                if (arg != null)
+                {
+                    args.Add(arg);
                 }
                 else
                 {
