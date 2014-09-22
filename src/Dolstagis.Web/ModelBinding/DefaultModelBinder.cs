@@ -16,7 +16,7 @@ namespace Dolstagis.Web.ModelBinding
         
         public DefaultModelBinder(IConverter[] converters)
         {
-            _converters = converters;
+            _converters = converters.OrderBy(x => x.Priority).ToArray();
         }
 
         public object[] GetArguments(RouteInvocation route, IRequest request, MethodInfo method)

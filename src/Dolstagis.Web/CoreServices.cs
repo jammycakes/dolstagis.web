@@ -1,10 +1,14 @@
-﻿using Dolstagis.Web.Auth;
+﻿using System;
+using System.Linq;
+using Dolstagis.Web.Auth;
 using Dolstagis.Web.Lifecycle;
 using Dolstagis.Web.ModelBinding;
 using Dolstagis.Web.Sessions;
 using Dolstagis.Web.Static;
 using Dolstagis.Web.Views;
 using StructureMap.Configuration.DSL;
+using StructureMap.Graph;
+using StructureMap.TypeRules;
 
 namespace Dolstagis.Web
 {
@@ -38,10 +42,21 @@ namespace Dolstagis.Web
 
             this.Scan(x =>
             {
-                x.AddAllTypesOf<IConverter>();
                 x.AssemblyContainingType<IConverter>();
-                x.ExcludeType<ObjectConverter>();
+                x.With(new SingletonConvention<IConverter>());
+                x.AddAllTypesOf<IConverter>();
             });
+        }
+
+        private class SingletonConvention<TPluginFamily> : IRegistrationConvention
+        {
+            public void Process(Type type, Registry registry)
+            {
+                if (!type.IsConcrete() || !type.CanBeCreated() ||
+                    !type.AllInterfaces().Contains(typeof(TPluginFamily))) return;
+
+                registry.For(typeof(TPluginFamily)).Singleton().Use(type);
+            }
         }
     }
 }

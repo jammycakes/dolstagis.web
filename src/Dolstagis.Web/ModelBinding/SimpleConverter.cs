@@ -23,5 +23,11 @@ namespace Dolstagis.Web.ModelBinding
             if (!data.TryGetValue(name, out values)) return null;
             return type.IsArray ? values.Select(Parse).OfType<T>().ToArray() : Parse(values.Last());
         }
+
+
+        public int Priority
+        {
+            get { return 0; }
+        }
     }
 }

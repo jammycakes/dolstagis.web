@@ -12,5 +12,7 @@ namespace Dolstagis.Web.ModelBinding
         bool CanConvert(Type type);
 
         object Convert(Type type, string name, IDictionary<string, string[]> data);
+
+        int Priority { get; }
     }
 }
