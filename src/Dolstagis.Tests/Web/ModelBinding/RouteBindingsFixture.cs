@@ -24,6 +24,11 @@ namespace Dolstagis.Tests.Web.ModelBinding
             return null;
         }
 
+        private object methodWithArrayParameters(int[] one)
+        {
+            return null;
+        }
+
         private IModelBinder binder;
 
         [TestFixtureSetUp]
@@ -124,6 +129,27 @@ namespace Dolstagis.Tests.Web.ModelBinding
 
             CollectionAssert.AreEqual(new object[] { 1, true,
                 new Guid ("deadbeef-face-baba-da1e-cafec0deface") }, result);
+        }
+
+        [Test]
+        public void CanBindRouteDataWithArrayConversions()
+        {
+            var data = new Dictionary<string, string[]> {
+                { "one", new string[] { "1", "2", "3" } }
+            };
+
+            var route = new RouteInvocation(null, new Dictionary<string, string>());
+            var request = new Mock<IRequest>();
+            request.SetupGet(x => x.Query).Returns(data);
+
+            var method = this.GetType().GetMethod("methodWithArrayParameters",
+                BindingFlags.NonPublic | BindingFlags.Instance);
+
+            var result = binder.GetArguments(route, request.Object, method);
+
+            var arr1 = result[0] as int[];
+
+            CollectionAssert.AreEqual(new int[] { 1, 2, 3 }, arr1);
         }
     }
 }

@@ -13,7 +13,7 @@ namespace Dolstagis.Web.ModelBinding
 
         public bool CanConvert(Type type)
         {
-            return typeof(T).IsAssignableFrom(type);
+            return typeof(T).IsAssignableFrom(type) || typeof(T[]).IsAssignableFrom(type);
         }
 
 
@@ -21,7 +21,7 @@ namespace Dolstagis.Web.ModelBinding
         {
             string[] values;
             if (!data.TryGetValue(name, out values)) return null;
-            return Parse(values.Last());
+            return type.IsArray ? values.Select(Parse).OfType<T>().ToArray() : Parse(values.Last());
         }
     }
 }
