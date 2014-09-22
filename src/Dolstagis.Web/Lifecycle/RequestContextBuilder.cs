@@ -52,7 +52,7 @@ namespace Dolstagis.Web.Lifecycle
 
             var args = _modelBinder.GetArguments(route, request, method);
 
-            action.Parameters = args;
+            action.Arguments = args;
             return action;
         }
 
