@@ -37,5 +37,58 @@ namespace Dolstagis.Tests.Web.ModelBinding
 
             CollectionAssert.AreEqual(new object[] { "foo", "bar", "baz" }, result);
         }
+
+
+        [Test]
+        public void CanBindRouteDataWithHttpGet()
+        {
+            var binder = new DefaultModelBinder();
+            var data = new Dictionary<string, string>() {
+                { "one", "foo" },
+                { "two", "bar" }
+            };
+
+            var getData = new Dictionary<string, string[]> {
+                { "two", new string[] { "glarch" } },
+                { "three", new string[] { "wibble" } }
+            };
+
+            var route = new RouteInvocation(null, data);
+            var request = new Mock<IRequest>();
+            request.SetupGet(x => x.Query).Returns(getData);
+
+            var method = this.GetType().GetMethod("methodWithOptionalParameters",
+                BindingFlags.NonPublic | BindingFlags.Instance);
+
+            var result = binder.GetArguments(route, request.Object, method);
+
+            CollectionAssert.AreEqual(new object[] { "foo", "glarch", "wibble" }, result);
+        }
+
+        [Test]
+        public void CanBindRouteDataWithHttpPost()
+        {
+            var binder = new DefaultModelBinder();
+            var data = new Dictionary<string, string>() {
+                { "one", "foo" },
+                { "two", "bar" }
+            };
+
+            var postData = new Dictionary<string, string[]> {
+                { "two", new string[] { "glarch" } },
+                { "three", new string[] { "wibble" } }
+            };
+
+            var route = new RouteInvocation(null, data);
+            var request = new Mock<IRequest>();
+            request.SetupGet(x => x.Form).Returns(postData);
+
+            var method = this.GetType().GetMethod("methodWithOptionalParameters",
+                BindingFlags.NonPublic | BindingFlags.Instance);
+
+            var result = binder.GetArguments(route, request.Object, method);
+
+            CollectionAssert.AreEqual(new object[] { "foo", "glarch", "wibble" }, result);
+        }
     }
 }

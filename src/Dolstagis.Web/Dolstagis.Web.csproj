@@ -138,6 +138,7 @@
     <Compile Include="Static\StaticResult.cs" />
     <Compile Include="Static\StaticResultProcessor.cs" />
     <Compile Include="Util\AssemblyExtensions.cs" />
+    <Compile Include="Util\DictionaryExtensions.cs" />
     <Compile Include="Views\ViewResultProcessor.cs" />
     <Compile Include="VirtualPath.cs" />
     <Compile Include="RequestContext.cs" />

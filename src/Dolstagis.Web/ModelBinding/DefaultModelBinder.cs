@@ -1,5 +1,6 @@
 ﻿using Dolstagis.Web.Http;
 using Dolstagis.Web.Routes;
+using Dolstagis.Web.Util;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,13 +14,18 @@ namespace Dolstagis.Web.ModelBinding
     {
         public object[] GetArguments(RouteInvocation route, IRequest request, MethodInfo method)
         {
+            var foundArgs = new Dictionary<string, string[]>();
+            foundArgs.Concat(route.RouteData);
+            foundArgs.Concat(request.Query);
+            foundArgs.Concat(request.Form);
+
             var args = new List<object>();
             foreach (var parameter in method.GetParameters())
             {
-                string arg;
-                if (route.RouteData.TryGetValue(parameter.Name, out arg))
+                string[] arg;
+                if (foundArgs.TryGetValue(parameter.Name, out arg))
                 {
-                    args.Add(arg);
+                    args.Add(arg.LastOrDefault());
                 }
                 else if (parameter.IsOptional)
                 {
