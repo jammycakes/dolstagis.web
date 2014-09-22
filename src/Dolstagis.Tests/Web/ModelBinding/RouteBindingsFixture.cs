@@ -21,7 +21,7 @@ namespace Dolstagis.Tests.Web.ModelBinding
         public void CanBindRouteData()
         {
             var binder = new DefaultModelBinder();
-            var data = new Dictionary<string, object>() {
+            var data = new Dictionary<string, string>() {
                 { "one", "foo" },
                 { "two", "bar" }
             };

@@ -16,7 +16,7 @@ namespace Dolstagis.Web.ModelBinding
             var args = new List<object>();
             foreach (var parameter in method.GetParameters())
             {
-                object arg;
+                string arg;
                 if (route.RouteData.TryGetValue(parameter.Name, out arg))
                 {
                     args.Add(arg);
