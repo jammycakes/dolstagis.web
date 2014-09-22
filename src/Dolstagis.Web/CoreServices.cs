@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Dolstagis.Web.Auth;
-using Dolstagis.Web.Http;
+﻿using Dolstagis.Web.Auth;
 using Dolstagis.Web.Lifecycle;
+using Dolstagis.Web.ModelBinding;
 using Dolstagis.Web.Sessions;
 using Dolstagis.Web.Static;
 using Dolstagis.Web.Views;
@@ -25,6 +20,7 @@ namespace Dolstagis.Web
             For<ISessionStore>().Singleton().Use<InMemorySessionStore>();
             For<IAuthenticator>().Singleton().Use<SessionAuthenticator>();
             For<ILoginHandler>().Use<LoginHandler>();
+            For<IModelBinder>().Singleton().Use<DefaultModelBinder>();
 
             For<IResultProcessor>().Singleton().Add<StaticResultProcessor>()
                 .Ctor<IResourceResolver>().Is(ctx => new ResourceResolver

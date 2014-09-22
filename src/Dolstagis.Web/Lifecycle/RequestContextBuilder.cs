@@ -17,16 +17,19 @@ namespace Dolstagis.Web.Lifecycle
         private Func<ActionInvocation> _createAction;
         private IAuthenticator _authenticator;
         private FeatureSet _features;
+        private IModelBinder _modelBinder;
 
         public RequestContextBuilder(ISessionStore sessionStore,
             IAuthenticator authenticator,
             FeatureSet features,
-            Func<ActionInvocation> createAction)
+            Func<ActionInvocation> createAction,
+            IModelBinder modelBinder)
         {
             _sessionStore = sessionStore;
             _createAction = createAction;
             _authenticator = authenticator;
             _features = features;
+            _modelBinder = modelBinder;
         }
 
         public IEnumerable<ActionInvocation> GetActions(IRequest request)
@@ -46,26 +49,10 @@ namespace Dolstagis.Web.Lifecycle
                 BindingFlags.Instance | BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.DeclaredOnly);
             if (method == null) return action;
             action.Method = method;
-            var args = new List<object>();
-            foreach (var parameter in method.GetParameters())
-            {
-                object arg;
-                if (route.RouteData.TryGetValue(parameter.Name, out arg))
-                {
-                    args.Add(arg);
-                }
-                else if (parameter.IsOptional)
-                {
-                    args.Add(parameter.HasDefaultValue ? parameter.DefaultValue : null);
-                }
-                else
-                {
-                    throw new InvalidOperationException(String.Format(
-                        "Required argument {0} was not supplied to method {1} on handler {2}",
-                        parameter.Name, method.Name, action.HandlerType));
-                }
-            }
-            action.Parameters = args.ToArray();
+
+            var args = _modelBinder.GetArguments(route, request, method);
+
+            action.Parameters = args;
             return action;
         }
 
