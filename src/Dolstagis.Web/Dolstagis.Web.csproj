@@ -94,6 +94,17 @@
     <Compile Include="Http\ResponseHeaders.cs" />
     <Compile Include="IFeatureSwitch.cs" />
     <Compile Include="IFeatureSwitchBuilder.cs" />
+    <Compile Include="IModelBinder.cs" />
+    <Compile Include="ModelBinding\GuidConverter.cs" />
+    <Compile Include="ModelBinding\DateTimeConverter.cs" />
+    <Compile Include="ModelBinding\DefaultModelBinder.cs" />
+    <Compile Include="ModelBinding\IConverter.cs" />
+    <Compile Include="ModelBinding\BoolConverter.cs" />
+    <Compile Include="ModelBinding\LongConverter.cs" />
+    <Compile Include="ModelBinding\IntConverter.cs" />
+    <Compile Include="ModelBinding\ObjectConverter.cs" />
+    <Compile Include="ModelBinding\SimpleConverter.cs" />
+    <Compile Include="ModelBinding\StringConverter.cs" />
     <Compile Include="Routes\IRouteTable.cs" />
     <Compile Include="Routes\IRouteTarget.cs" />
     <Compile Include="ISettings.cs" />
@@ -138,6 +149,7 @@
     <Compile Include="Static\StaticResult.cs" />
     <Compile Include="Static\StaticResultProcessor.cs" />
     <Compile Include="Util\AssemblyExtensions.cs" />
+    <Compile Include="Util\DictionaryExtensions.cs" />
     <Compile Include="Views\ViewResultProcessor.cs" />
     <Compile Include="VirtualPath.cs" />
     <Compile Include="RequestContext.cs" />
@@ -182,6 +194,7 @@
   <ItemGroup>
     <EmbeddedResource Include="Errors\DefaultErrorPage.html" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

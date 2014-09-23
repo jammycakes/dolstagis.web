@@ -60,7 +60,7 @@ namespace Dolstagis.Tests.Web.Routes
         public void CanGetMatchingRouteData(string path, string expectedId)
         {
             var invocation = routes.GetRouteInvocation(new VirtualPath(path));
-            object id;
+            string id;
             if (!invocation.RouteData.TryGetValue("id", out id)) id = null;
             Assert.AreEqual(expectedId, id);
         }
