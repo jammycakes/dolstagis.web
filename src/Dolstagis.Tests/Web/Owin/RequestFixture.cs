@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Dolstagis.Web;
 using Dolstagis.Web.Owin;
 using NUnit.Framework;
 
@@ -12,6 +13,14 @@ namespace Dolstagis.Tests.Web.Owin
     [TestFixture]
     public class RequestFixture : OwinFixtureBase
     {
+        [Test]
+        public void PathMustBeAppRelative()
+        {
+            var environment = BuildDefaultOwinEnvironment();
+            var request = new Request(environment);
+            Assert.AreEqual(VirtualPathType.AppRelative, request.Path.Type);
+        }
+
 
         [Test]
         public void CanParseQueryString()

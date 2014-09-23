@@ -24,7 +24,7 @@ namespace Dolstagis.Web.Owin
             if (String.IsNullOrEmpty(pathBase)) pathBase = "/";
             this.PathBase = new VirtualPath(pathBase);
             string path = (environment[EnvironmentKeys.RequestPath] as string).TrimStart('/');
-            this.Path = new VirtualPath(path);
+            this.Path = new VirtualPath("~/" + path);
             this.AbsolutePath = this.PathBase.Append(this.Path);
             this.Protocol = environment[EnvironmentKeys.RequestProtocol] as string;
             string queryString = environment[EnvironmentKeys.RequestQueryString] as string;
