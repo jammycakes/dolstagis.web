@@ -13,15 +13,18 @@ namespace Dolstagis.Web.ModelBinding
     public class DefaultModelBinder : IModelBinder
     {
         private IConverter[] _converters;
-        
+
+        private StringComparer ParameterComparer { get; set; }
+
         public DefaultModelBinder(IConverter[] converters)
         {
             _converters = converters.OrderBy(x => x.Priority).ToArray();
+            ParameterComparer = StringComparer.OrdinalIgnoreCase;
         }
 
         public object[] GetArguments(RouteInvocation route, IRequest request, MethodInfo method)
         {
-            var foundArgs = new Dictionary<string, string[]>();
+            var foundArgs = new Dictionary<string, string[]>(ParameterComparer);
             foundArgs.Concat(route.RouteData);
             foundArgs.Concat(request.Query);
             foundArgs.Concat(request.Form);

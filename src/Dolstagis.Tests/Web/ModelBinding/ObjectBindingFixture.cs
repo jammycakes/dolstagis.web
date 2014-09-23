@@ -46,9 +46,9 @@ namespace Dolstagis.Tests.Web.ModelBinding
         public void CanBindCompleteTestObject()
         {
             var data = new Dictionary<string, string>() {
-                { "IntValue", "1" },
-                { "StringValue", "bar" },
-                { "DateTimeValue", "2014-01-01" }
+                { "intvalue", "1" },
+                { "stringvalue", "bar" },
+                { "datetimevalue", "2014-01-01" }
             };
 
             var route = new RouteInvocation(null, data);
