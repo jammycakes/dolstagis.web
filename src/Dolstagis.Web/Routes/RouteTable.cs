@@ -100,7 +100,7 @@ namespace Dolstagis.Web.Routes
             return new RouteInvocation(ct.target, GetRouteArguments(ct.candidate, parts));
         }
 
-        private IDictionary<string, object> GetRouteArguments(Node candidate, string[] parts)
+        private IDictionary<string, string> GetRouteArguments(Node candidate, string[] parts)
         {
             // First get the candidate's ancestry, oldest first.
             var node = candidate;
@@ -112,7 +112,7 @@ namespace Dolstagis.Web.Routes
                 node = node.Parent;
             }
 
-            var arguments = new Dictionary<string, object>();
+            var arguments = new Dictionary<string, string>();
 
             int index = 0;
             while (stack.Count > 0 && index < parts.Length)

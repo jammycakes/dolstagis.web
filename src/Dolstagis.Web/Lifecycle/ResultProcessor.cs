@@ -18,7 +18,7 @@ namespace Dolstagis.Web.Lifecycle
         {
             var typedData = (T)data;
             ProcessHeaders(typedData, context);
-            return Process(typedData, context);
+            return ProcessBody(typedData, context);
         }
 
         protected virtual void ProcessHeaders(T typedData, IRequestContext context)
@@ -56,6 +56,6 @@ namespace Dolstagis.Web.Lifecycle
             }
         }
 
-        public abstract Task Process(T data, IRequestContext context);
+        public abstract Task ProcessBody(T data, IRequestContext context);
     }
 }

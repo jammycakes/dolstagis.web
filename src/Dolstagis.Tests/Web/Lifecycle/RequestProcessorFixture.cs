@@ -8,6 +8,7 @@ using Dolstagis.Tests.Web.TestFeatures.Handlers;
 using Dolstagis.Web;
 using Dolstagis.Web.Http;
 using Dolstagis.Web.Lifecycle;
+using Dolstagis.Web.ModelBinding;
 using Moq;
 using NUnit.Framework;
 using StructureMap;
@@ -31,7 +32,13 @@ namespace Dolstagis.Tests.Web.Lifecycle
         private object Execute(string method, string path)
         {
             var featureSet = new FeatureSet(null, new Feature[] { new FirstFeature() });
-            var builder = new RequestContextBuilder(null, null, featureSet, () => new ActionInvocation(_mockContainer));
+            var builder = new RequestContextBuilder(
+                null, 
+                null, 
+                featureSet,
+                () => new ActionInvocation(_mockContainer),
+                new DefaultModelBinder(new IConverter[0])
+            );
             var processor = new RequestProcessor(null, null, builder);
             var request = new Mock<IRequest>();
             request.SetupGet(x => x.Path).Returns(new VirtualPath(path));

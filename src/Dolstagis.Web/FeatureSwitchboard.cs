@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,7 +17,7 @@ namespace Dolstagis.Web
     {
         private List<FeatureSwitchLink> switches = new List<FeatureSwitchLink>();
 
-        private Dictionary<ulong, FeatureSet> featureSets = new Dictionary<ulong, FeatureSet>();
+        private Dictionary<Key, FeatureSet> featureSets = new Dictionary<Key, FeatureSet>();
 
         public Application Application { get; private set; }
 
@@ -59,18 +60,14 @@ namespace Dolstagis.Web
         }
 
 
-        private async Task<ulong> GetKey(IRequest request)
+        private async Task<Key> GetKey(IRequest request)
         {
-            ulong key = 0;
+            var state = new List<bool>();
             foreach (var sw in switches) {
-                checked {
-                    key = key << 1;
-                }
-                if (await sw.Switch.IsEnabledForRequest(request)) {
-                    key++;
-                }
+                state.Add(await sw.Switch.IsEnabledForRequest(request));
             }
-            return key;
+
+            return new Key(state);
         }
 
         private async Task<FeatureSet> CreateFeatureSet(IRequest request)
@@ -87,13 +84,59 @@ namespace Dolstagis.Web
 
         public async Task<FeatureSet> GetFeatureSet(IRequest request)
         {
-            ulong key = await GetKey(request);
+            var key = await GetKey(request);
             FeatureSet result;
             if (!featureSets.TryGetValue(key, out result)) {
                 result = await CreateFeatureSet(request);
                 featureSets.Add(key, result);
             }
             return result;
+        }
+
+
+
+        internal class Key
+        {
+            // I'd much rather use BitArray for this, but it doesn't override
+            // Equals() and GetHashCode() so it's no good as a key for hashtables.
+
+            private uint[] state;
+
+            public Key(IEnumerable<bool> featureStates)
+            {
+                var state = new List<uint>();
+                const int chunkSize = sizeof(uint);
+                uint current = 0;
+                int ix = 0;
+                foreach (var fs in featureStates) {
+                    current <<= 1;
+                    if (fs) current++;
+                    if (++ix == chunkSize) {
+                        state.Add(current);
+                        current = 0;
+                        ix = 0;
+                    }
+                }
+                if (ix > 0) state.Add(current);
+                this.state = state.ToArray();
+            }
+
+
+            public override bool Equals(object obj)
+            {
+                if (obj is Key) {
+                    return StructuralComparisons.StructuralEqualityComparer.Equals
+                        (this.state, ((Key)obj).state);
+                }
+                else {
+                    return false;
+                }
+            }
+
+            public override int GetHashCode()
+            {
+                return (int)state.FirstOrDefault();
+            }
         }
 
 

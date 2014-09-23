@@ -89,7 +89,14 @@ namespace Dolstagis.Web.Lifecycle
             try
             {
                 result = await InvokeRequestWithHomePageFallback(context);
-                processor = _resultProcessors.LastOrDefault(x => x.CanProcess(result));
+                if (context.Request.Method.Equals("head", StringComparison.OrdinalIgnoreCase))
+                {
+                    processor = new HeadResultProcessor();
+                }
+                else
+                {
+                    processor = _resultProcessors.LastOrDefault(x => x.CanProcess(result));
+                }
                 if (processor == null) Status.NotFound.Throw();
             }
             finally
