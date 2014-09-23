@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using System.Reflection;
 using Dolstagis.Web.Util;
 using Microsoft.Owin;
+using Microsoft.Owin.Extensions;
 using Owin;
 
 [assembly: OwinStartup(typeof(Dolstagis.Web.Aspnet.Startup))]
@@ -41,6 +42,7 @@ namespace Dolstagis.Web.Aspnet
 
             MidFunc middleware = next => application.GetAppFunc();
             app.Use(middleware);
+            app.UseStageMarker(PipelineStage.MapHandler);
         }
     }
 }
