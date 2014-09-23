@@ -3,11 +3,16 @@ from buildlib import *
 import argparse
 import sys
 
+VERSION = '0.3.0'
+VERSIONINFO = 'alpha'
+BUILD = 0
+CONFIGURATION = 'Debug'
+
 argparser = argparse.ArgumentParser(description = 'Build Dolstagis.Web')
-argparser.add_argument('configuration', default = 'Debug', nargs = '?')
-argparser.add_argument('-v', '--version', default = '0.2.0')
-argparser.add_argument('-i', '--versioninfo', default = 'alpha')
-argparser.add_argument('-n', '--build', default=1, type=int)
+argparser.add_argument('configuration', default = CONFIGURATION, nargs = '?')
+argparser.add_argument('-v', '--version', default = VERSION)
+argparser.add_argument('-i', '--versioninfo', default = VERSIONINFO)
+argparser.add_argument('-n', '--build', default=BUILD, type=int)
 args = argparser.parse_args(sys.argv[1:])
 
 project = Project(__file__, 'build')
