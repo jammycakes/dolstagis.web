@@ -26,14 +26,14 @@ namespace Dolstagis.Web
             For<ILoginHandler>().Use<LoginHandler>();
             For<IModelBinder>().Singleton().Use<DefaultModelBinder>();
 
-            For<IResultProcessor>().Singleton().Add<StaticResultProcessor>()
+            For<IResultProcessor>().AlwaysUnique().Add<StaticResultProcessor>()
                 .Ctor<IResourceResolver>().Is(ctx => new ResourceResolver
                     (ResourceType.StaticFiles, ctx.GetAllInstances<ResourceMapping>())
                 );
-            For<IResultProcessor>().Singleton().Add<ViewResultProcessor>();
-            For<IResultProcessor>().Singleton().Add<JsonResultProcessor>();
-            For<IResultProcessor>().Singleton().Add<ContentResultProcessor>();
-            For<IResultProcessor>().Singleton().Add<HeadResultProcessor>();
+            For<IResultProcessor>().AlwaysUnique().Add<ViewResultProcessor>();
+            For<IResultProcessor>().AlwaysUnique().Add<JsonResultProcessor>();
+            For<IResultProcessor>().AlwaysUnique().Add<ContentResultProcessor>();
+            For<IResultProcessor>().AlwaysUnique().Add<HeadResultProcessor>();
 
             For<ViewRegistry>().Singleton().Use<ViewRegistry>()
                 .Ctor<IResourceResolver>().Is(ctx => new ResourceResolver
