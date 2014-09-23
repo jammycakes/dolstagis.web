@@ -111,7 +111,8 @@ namespace Dolstagis.Web
 
         public VirtualPath Append(VirtualPath other)
         {
-            if (other.Type != VirtualPathType.RequestRelative) {
+            if (other.Type == VirtualPathType.Absolute || 
+                (other.Type == VirtualPathType.AppRelative && this.Type != VirtualPathType.Absolute)) {
                 return other;
             }
             else {

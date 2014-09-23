@@ -32,6 +32,7 @@ namespace Dolstagis.Tests.Web
         [TestCase("one/two", "/three/four", VirtualPathType.Absolute, "three/four")]
         [TestCase("one/two", "../../../three/four", VirtualPathType.RequestRelative, "../three/four")]
         [TestCase("/one/two", "../../../three/four", VirtualPathType.Absolute, "three/four")]
+        [TestCase("/one/two", "~/three/four", VirtualPathType.Absolute, "one/two/three/four")]
         public void CanAppend(string first, string second, VirtualPathType expectedType, string expectedPath)
         {
             var v1 = new VirtualPath(first);
