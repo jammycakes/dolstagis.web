@@ -46,8 +46,26 @@ namespace Dolstagis.Web.Lifecycle
             var action = _createAction();
             action.HandlerType = route.Target.HandlerType;
             var method = action.HandlerType.GetMethod(request.Method,
-                BindingFlags.Instance | BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.DeclaredOnly);
-            if (method == null) return action;
+                BindingFlags.Instance | BindingFlags.IgnoreCase |
+                BindingFlags.Public | BindingFlags.DeclaredOnly);
+            if (method == null)
+            {
+                if (request.Method.Equals("head", StringComparison.OrdinalIgnoreCase))
+                {
+                    method = action.HandlerType.GetMethod("get",
+                        BindingFlags.Instance | BindingFlags.IgnoreCase |
+                        BindingFlags.Public | BindingFlags.DeclaredOnly);
+                    if (method == null)
+                    {
+                        return action;
+                    }
+                }
+                else
+                {
+                    return action;
+                }
+            }
+                
             action.Method = method;
 
             var args = _modelBinder.GetArguments(route, request, method);
