@@ -2,7 +2,7 @@ from functools import reduce
 import os.path
 import shutil
 from subprocess import check_call
-
+import xml.dom.minidom
 
 class Project:
 
@@ -126,10 +126,12 @@ using System.Runtime.InteropServices;
         nuspec = self._abspath('src/' + project + '/' + project + '.nuspec')
         if not os.path.isfile(nuspec):
             return
+
         nuget_base = os.path.join(self.build_dir, '.nuget')
         nuget_project = os.path.join(nuget_base, project)
         nuget_lib = os.path.join(nuget_project, 'lib')
         nuget_content = os.path.join(nuget_project, 'content')
+        nuspec_target = os.path.join(nuget_project, project + '.nuspec')
         built_lib = self._abspath('src/' + project + '/bin/' + self.configuration)
         shutil.copytree(
             built_lib, nuget_lib,
@@ -138,7 +140,25 @@ using System.Runtime.InteropServices;
                                    or (a.lower().endswith('.pdb') and self.configuration.lower() == 'release')
                                    ]
         )
-        shutil.copy2(nuspec, nuget_project)
+
+        document = xml.dom.minidom.parse(nuspec)
+        els = document.documentElement.getElementsByTagName('metadata')
+        if els.length:
+            el = els[0].getElementsByTagName('version')
+            if el.length:
+                el = el[0]
+                el.childNodes.clear()
+                el.childNodes.append(document.createTextNode(self.nuget_version))
+            els = els[0].getElementsByTagName('dependencies')
+            if els.length:
+                els = els[0].getElementsByTagName('dependency')
+                for el in els:
+                    id = el.attributes['id'].value
+                    if id.startswith('Dolstagis.Web'):
+                        el.setAttribute('version', '[' + self.nuget_version + ']')
+        with open(nuspec_target, 'w') as f:
+            document.writexml(f)
+
         for folder in folders:
             destdir = os.path.join(nuget_project, folder)
             os.makedirs(destdir)
