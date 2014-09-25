@@ -5,7 +5,7 @@ import sys
 
 VERSION = '0.3.0'
 VERSIONINFO = 'alpha'
-BUILD = 0
+BUILD = 1
 CONFIGURATION = 'Debug'
 
 argparser = argparse.ArgumentParser(description = 'Build Dolstagis.Web')

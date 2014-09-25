@@ -35,7 +35,7 @@ namespace Dolstagis.Web
             For<IResultProcessor>().AlwaysUnique().Add<ContentResultProcessor>();
             For<IResultProcessor>().AlwaysUnique().Add<HeadResultProcessor>();
 
-            For<ViewRegistry>().Singleton().Use<ViewRegistry>()
+            For<ViewRegistry>().Use<ViewRegistry>()
                 .Ctor<IResourceResolver>().Is(ctx => new ResourceResolver
                     (ResourceType.Views, ctx.GetAllInstances<ResourceMapping>())
                 );
