@@ -22,6 +22,8 @@ namespace Dolstagis.Web.Logging
 
         static NLogLoggingProvider()
         {
+            if (!IsAvailable) return;
+
             var method = logManagerType.GetMethod("GetLogger", new[] { typeof(string) });
             ParameterExpression resultValue;
             ParameterExpression keyParam = Expression.Parameter(typeof(string));
