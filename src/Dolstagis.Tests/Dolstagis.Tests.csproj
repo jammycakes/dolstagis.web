@@ -85,6 +85,7 @@
     <Compile Include="Web\FeatureSetFixture.cs" />
     <Compile Include="Web\FeatureSwitches\FeatureSwitchFixture.cs" />
     <Compile Include="Web\Lifecycle\RequestProcessorFixture.cs" />
+    <Compile Include="Web\Logging\LoggerFixture.cs" />
     <Compile Include="Web\ModelBinding\ObjectBindingFixture.cs" />
     <Compile Include="Web\ModelBinding\RouteBindingsFixture.cs" />
     <Compile Include="Web\Owin\OwinFixtureBase.cs" />
