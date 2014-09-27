@@ -30,7 +30,10 @@ namespace Dolstagis.Web.Logging
 
         static Logger()
         {
-            Provider = new NullLoggingProvider();
+            if (NLogLoggingProvider.IsAvailable)
+                Provider = new NLogLoggingProvider();
+            else
+                Provider = new NullLoggingProvider();
         }
 
 

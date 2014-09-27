@@ -96,6 +96,8 @@
     <Compile Include="Logging\ILoggingProvider.cs" />
     <Compile Include="Logging\LogEntry.cs" />
     <Compile Include="Logging\Logger.cs" />
+    <Compile Include="Logging\NLogLogger.cs" />
+    <Compile Include="Logging\NLogLoggingProvider.cs" />
     <Compile Include="Logging\NullLogger.cs" />
     <Compile Include="Logging\NullLoggingProvider.cs" />
     <Compile Include="ModelBinding\GuidConverter.cs" />
