@@ -32,6 +32,8 @@ namespace Dolstagis.Web.Logging
         {
             if (NLogLoggingProvider.IsAvailable)
                 Provider = new NLogLoggingProvider();
+            else if (Log4netLoggingProvider.IsAvailable)
+                Provider = new Log4netLoggingProvider();
             else
                 Provider = new NullLoggingProvider();
         }
