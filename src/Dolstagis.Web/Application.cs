@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Dolstagis.Web.Http;
+using Dolstagis.Web.Logging;
 using Dolstagis.Web.Owin;
 using Dolstagis.Web.Util;
 using StructureMap;
@@ -13,6 +14,8 @@ namespace Dolstagis.Web
 {
     public class Application
     {
+        private static readonly Logger log = Logger.ForThisClass();
+
         /// <summary>
         ///  Gets the application-level IOC container.
         /// </summary>
@@ -31,6 +34,9 @@ namespace Dolstagis.Web
 
         public Application(ISettings settings)
         {
+            log.Debug("Starting up Dolstagis.Web");
+            log.Trace(() => "Settings: " + Newtonsoft.Json.JsonConvert.SerializeObject(settings));
+
             Features = new FeatureSwitchboard(this);
             Settings = settings;
             Container = new Container();
@@ -65,6 +71,7 @@ namespace Dolstagis.Web
 
         public void AddFeature(Feature feature)
         {
+            log.Debug(() => "Found feature: " + feature.GetType().FullName);
             Features.Add(feature);
         }
 
@@ -102,6 +109,9 @@ namespace Dolstagis.Web
 
         public async Task ProcessRequestAsync(IRequest request, IResponse response)
         {
+            log.Debug(() =>
+                request.Protocol + " " + request.Method + " " + request.AbsolutePath.ToString()
+            );
             var featureSet = await Features.GetFeatureSet(request);
             await featureSet.ProcessRequestAsync(request, response);
         }

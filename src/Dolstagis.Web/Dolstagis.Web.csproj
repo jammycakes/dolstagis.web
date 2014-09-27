@@ -95,6 +95,15 @@
     <Compile Include="IFeatureSwitch.cs" />
     <Compile Include="IFeatureSwitchBuilder.cs" />
     <Compile Include="IModelBinder.cs" />
+    <Compile Include="Logging\ILoggingProvider.cs" />
+    <Compile Include="Logging\LogEntry.cs" />
+    <Compile Include="Logging\Logger.cs" />
+    <Compile Include="Logging\Log4netLogger.cs" />
+    <Compile Include="Logging\NLogLogger.cs" />
+    <Compile Include="Logging\Log4netLoggingProvider.cs" />
+    <Compile Include="Logging\NLogLoggingProvider.cs" />
+    <Compile Include="Logging\NullLogger.cs" />
+    <Compile Include="Logging\NullLoggingProvider.cs" />
     <Compile Include="ModelBinding\GuidConverter.cs" />
     <Compile Include="ModelBinding\DateTimeConverter.cs" />
     <Compile Include="ModelBinding\DefaultModelBinder.cs" />
