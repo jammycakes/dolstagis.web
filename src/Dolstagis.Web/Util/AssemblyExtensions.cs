@@ -48,6 +48,7 @@ namespace Dolstagis.Web.Util
         {
             return
                 from type in assembly.SafeGetTypes<T>()
+                where !type.IsAbstract
                 let constructor = type.GetConstructor(Type.EmptyTypes)
                 where constructor != null
                 select (T)constructor.Invoke(null);

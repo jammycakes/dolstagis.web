@@ -14,7 +14,7 @@ namespace Dolstagis.Web
     ///  of the application lifecycle.
     /// </summary>
 
-    public class Feature
+    public abstract class Feature
     {
         /// <summary>
         ///  Gets the StructureMap Registry for services defined by this feature
@@ -41,7 +41,7 @@ namespace Dolstagis.Web
         ///  Creates a new instance of this feature.
         /// </summary>
 
-        public Feature()
+        protected Feature()
         {
             this.Routes = new RouteTable();
             this.Services = new Registry();
