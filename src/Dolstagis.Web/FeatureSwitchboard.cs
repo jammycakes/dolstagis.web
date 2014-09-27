@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Dolstagis.Web.FeatureSwitches;
 using Dolstagis.Web.Http;
+using Dolstagis.Web.Logging;
 
 namespace Dolstagis.Web
 {
@@ -15,6 +16,8 @@ namespace Dolstagis.Web
 
     public class FeatureSwitchboard
     {
+        private static readonly Logger log = Logger.ForThisClass();
+
         private List<FeatureSwitchLink> switches = new List<FeatureSwitchLink>();
 
         private Dictionary<Key, FeatureSet> featureSets = new Dictionary<Key, FeatureSet>();
@@ -75,7 +78,11 @@ namespace Dolstagis.Web
             var features = new List<Feature>();
             foreach (var sw in switches) {
                 if (await sw.Switch.IsEnabledForRequest(request)) {
+                    log.Trace(() => "Feature " + sw.Feature.GetType().FullName + " enabled - adding");
                     features.Add(sw.Feature);
+                }
+                else {
+                    log.Trace(() => "Feature " + sw.Feature.GetType().FullName + " disabled");
                 }
             }
 
@@ -87,8 +94,13 @@ namespace Dolstagis.Web
             var key = await GetKey(request);
             FeatureSet result;
             if (!featureSets.TryGetValue(key, out result)) {
+                log.Debug(() => "Requesting feature set with key: " + key.ToString());
                 result = await CreateFeatureSet(request);
                 featureSets.Add(key, result);
+            }
+            else
+            {
+                log.Debug(() => "Using existing feature set with key: " + key.ToString());
             }
             return result;
         }
@@ -136,6 +148,11 @@ namespace Dolstagis.Web
             public override int GetHashCode()
             {
                 return (int)state.FirstOrDefault();
+            }
+
+            public override string ToString()
+            {
+                return String.Concat(this.state.Select(x => x.ToString("X8")));
             }
         }
 
