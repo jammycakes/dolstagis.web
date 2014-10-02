@@ -16,8 +16,6 @@ namespace Dolstagis.Web
     {
         public CoreServices()
         {
-            For<IMimeTypes>().Singleton().Use<MimeTypes>();
-
             For<IRequestContextBuilder>().Use<RequestContextBuilder>();
             For<IRequestProcessor>().Use<RequestProcessor>();
             For<IExceptionHandler>().Use<ExceptionHandler>();

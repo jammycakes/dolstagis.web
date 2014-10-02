@@ -160,7 +160,6 @@
     <Compile Include="VirtualPath.cs" />
     <Compile Include="RequestContext.cs" />
     <Compile Include="Static\FileResource.cs" />
-    <Compile Include="Static\IMimeTypes.cs" />
     <Compile Include="Static\IResource.cs" />
     <Compile Include="Feature.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

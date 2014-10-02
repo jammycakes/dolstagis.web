@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Dolstagis.Web.Static
 {
-    public class MimeTypes : Dolstagis.Web.Static.IMimeTypes
+    public static class MimeTypes
     {
         // Taken from http://stackoverflow.com/questions/1029740/get-mime-type-from-filename-extension/3393525#3393525
         // Note: we're not using System.Web.MimeMapping for two reasons.
@@ -583,7 +583,7 @@ namespace Dolstagis.Web.Static
         private static Regex reGetExtension = new Regex(@"\.[^\.]+$");
         private static string DefaultMimeType = "application/octet-stream";
 
-        public string GetMimeType(string filename)
+        public static string GetMimeType(string filename)
         {
             var extension = reGetExtension.Match(filename);
 

@@ -10,14 +10,12 @@ namespace Dolstagis.Web.Static
     public class StaticResultProcessor : ResultProcessor<StaticResult>
     {
         private ResourceResolver _resolver;
-        private IMimeTypes _mimeTypes;
 
         private IResource _resource;
 
-        public StaticResultProcessor(ResourceMapping[] mappings, IMimeTypes mimeTypes)
+        public StaticResultProcessor(ResourceMapping[] mappings)
         {
             _resolver = new ResourceResolver(ResourceType.StaticFiles, mappings);
-            _mimeTypes = mimeTypes;
         }
 
         protected override void ProcessHeaders(StaticResult typedData, IRequestContext context)
@@ -26,7 +24,7 @@ namespace Dolstagis.Web.Static
             _resource = _resolver.GetResource(typedData.Path);
             if (_resource == null) Status.NotFound.Throw();
             context.Response.Status = Status.OK;
-            context.Response.AddHeader("Content-Type", _mimeTypes.GetMimeType(_resource.Name));
+            context.Response.AddHeader("Content-Type", MimeTypes.GetMimeType(_resource.Name));
             context.Response.AddHeader("Last-Modified", _resource.LastModified.ToString("R"));
             if (_resource.Length.HasValue)
             {
