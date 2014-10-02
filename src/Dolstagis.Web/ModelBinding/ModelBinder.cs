@@ -22,6 +22,13 @@ namespace Dolstagis.Web.ModelBinding
             new ObjectConverter(() => defaultConverters)
         };
 
+        public static ModelBinder Default { get; private set; }
+
+        static ModelBinder()
+        {
+            Default = new ModelBinder();
+        }
+
         public IConverter[] Converters { get; set; }
 
         private StringComparer ParameterComparer { get; set; }
