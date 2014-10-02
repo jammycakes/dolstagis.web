@@ -13,7 +13,7 @@ namespace Dolstagis.Tests.Web.Routes
     [TestFixture]
     public class RouteTableFixture
     {
-        private RouteTable routes = new RouteTable();
+        private RouteTable routes = new RouteTable(null);
         private IRouteTarget rootTarget = Mock.Of<IRouteTarget>();
         private IRouteTarget oneTwo = Mock.Of<IRouteTarget>();
         private IRouteTarget oneThree = Mock.Of<IRouteTarget>();

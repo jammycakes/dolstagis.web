@@ -43,7 +43,7 @@ namespace Dolstagis.Web
 
         protected Feature()
         {
-            this.Routes = new RouteTable();
+            this.Routes = new RouteTable(this);
             this.Services = new Registry();
         }
 

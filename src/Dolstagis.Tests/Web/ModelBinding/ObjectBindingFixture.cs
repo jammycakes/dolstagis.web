@@ -51,7 +51,7 @@ namespace Dolstagis.Tests.Web.ModelBinding
                 { "datetimevalue", "2014-01-01" }
             };
 
-            var route = new RouteInvocation(null, data);
+            var route = new RouteInvocation(null, null, data);
             var request = new Mock<IRequest>();
             request.SetupGet(x => x.Query).Returns(new Dictionary<string, string[]>());
 

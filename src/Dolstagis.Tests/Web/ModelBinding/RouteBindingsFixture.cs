@@ -47,7 +47,7 @@ namespace Dolstagis.Tests.Web.ModelBinding
                 { "two", "bar" }
             };
 
-            var route = new RouteInvocation(null, data);
+            var route = new RouteInvocation(null, null, data);
             var request = new Mock<IRequest>();
             request.SetupGet(x => x.Query).Returns(new Dictionary<string, string[]>());
 
@@ -73,7 +73,7 @@ namespace Dolstagis.Tests.Web.ModelBinding
                 { "three", new string[] { "wibble" } }
             };
 
-            var route = new RouteInvocation(null, data);
+            var route = new RouteInvocation(null, null, data);
             var request = new Mock<IRequest>();
             request.SetupGet(x => x.Query).Returns(getData);
 
@@ -98,7 +98,7 @@ namespace Dolstagis.Tests.Web.ModelBinding
                 { "three", new string[] { "wibble" } }
             };
 
-            var route = new RouteInvocation(null, data);
+            var route = new RouteInvocation(null, null, data);
             var request = new Mock<IRequest>();
             request.SetupGet(x => x.Form).Returns(postData);
 
@@ -119,7 +119,7 @@ namespace Dolstagis.Tests.Web.ModelBinding
                 { "three", "deadbeef-face-baba-da1e-cafec0deface" }
             };
 
-            var route = new RouteInvocation(null, data);
+            var route = new RouteInvocation(null, null, data);
             var request = new Mock<IRequest>();
 
             var method = this.GetType().GetMethod("methodWithTypedParameters",
@@ -138,7 +138,7 @@ namespace Dolstagis.Tests.Web.ModelBinding
                 { "one", new string[] { "1", "2", "3" } }
             };
 
-            var route = new RouteInvocation(null, new Dictionary<string, string>());
+            var route = new RouteInvocation(null, null, new Dictionary<string, string>());
             var request = new Mock<IRequest>();
             request.SetupGet(x => x.Query).Returns(data);
 
