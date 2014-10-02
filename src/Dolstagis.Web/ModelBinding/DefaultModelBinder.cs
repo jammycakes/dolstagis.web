@@ -12,13 +12,23 @@ namespace Dolstagis.Web.ModelBinding
 {
     public class DefaultModelBinder : IModelBinder
     {
-        private IConverter[] _converters;
+        private static readonly IConverter[] defaultConverters = new IConverter[] {
+            new BoolConverter(),
+            new DateTimeConverter(),
+            new GuidConverter(),
+            new IntConverter(),
+            new LongConverter(),
+            new StringConverter(),
+            new ObjectConverter(() => defaultConverters)
+        };
+
+        public IConverter[] Converters { get; set; }
 
         private StringComparer ParameterComparer { get; set; }
 
-        public DefaultModelBinder(IConverter[] converters)
+        public DefaultModelBinder()
         {
-            _converters = converters.OrderBy(x => x.Priority).ToArray();
+            Converters = defaultConverters;
             ParameterComparer = StringComparer.OrdinalIgnoreCase;
         }
 
@@ -33,7 +43,7 @@ namespace Dolstagis.Web.ModelBinding
             foreach (var parameter in method.GetParameters())
             {
                 object arg = null;
-                var converter = _converters.FirstOrDefault
+                var converter = Converters.FirstOrDefault
                     (x => x.CanConvert(parameter.ParameterType));
                 if (converter != null) {
                     arg = converter.Convert(parameter.ParameterType, parameter.Name, foundArgs);

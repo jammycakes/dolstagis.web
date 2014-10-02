@@ -33,24 +33,6 @@ namespace Dolstagis.Web
             For<IResultProcessor>().AlwaysUnique().Add<HeadResultProcessor>();
 
             For<ViewRegistry>().Use<ViewRegistry>();
-
-            this.Scan(x =>
-            {
-                x.AssemblyContainingType<IConverter>();
-                x.With(new SingletonConvention<IConverter>());
-                x.AddAllTypesOf<IConverter>();
-            });
-        }
-
-        private class SingletonConvention<TPluginFamily> : IRegistrationConvention
-        {
-            public void Process(Type type, Registry registry)
-            {
-                if (!type.IsConcrete() || !type.CanBeCreated() ||
-                    !type.AllInterfaces().Contains(typeof(TPluginFamily))) return;
-
-                registry.For(typeof(TPluginFamily)).Singleton().Use(type);
-            }
         }
     }
 }
