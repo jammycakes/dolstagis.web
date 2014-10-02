@@ -44,7 +44,7 @@ namespace Dolstagis.Tests.Web.Views
             engine.SetupGet(x => x.Extensions).Returns(new[] { "nustache" });
             var registry = new ViewRegistry(new ResourceMapping[0], new[] { engine.Object });
             var view = Mock.Of<IView>();
-            engine.Setup(x => x.GetView(new VirtualPath("~/test.nustache"), It.IsAny<IResourceResolver>()))
+            engine.Setup(x => x.GetView(new VirtualPath("~/test.nustache"), It.IsAny<ResourceResolver>()))
                 .Returns(view);
             var gotView = registry.GetView(new VirtualPath(path));
             if (isExpected)

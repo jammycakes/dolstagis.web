@@ -9,7 +9,7 @@ namespace Dolstagis.Web.Static
 {
     public class StaticResultProcessor : ResultProcessor<StaticResult>
     {
-        private IResourceResolver _resolver;
+        private ResourceResolver _resolver;
         private IMimeTypes _mimeTypes;
 
         private IResource _resource;

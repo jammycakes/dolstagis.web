@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Dolstagis.Web.Static
 {
-    public class ResourceResolver : IResourceResolver
+    public class ResourceResolver
     {
         private IEnumerable<ResourceMapping> _mappings;
 
