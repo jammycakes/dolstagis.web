@@ -36,7 +36,7 @@ namespace Dolstagis.Tests.Web.ModelBinding
         {
             var container = new Container();
             container.Configure(x => x.AddRegistry<CoreServices>());
-            binder = container.GetInstance<DefaultModelBinder>();
+            binder = container.GetInstance<ModelBinder>();
         }
 
         [Test]

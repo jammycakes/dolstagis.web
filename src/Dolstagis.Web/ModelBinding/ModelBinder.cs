@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Dolstagis.Web.ModelBinding
 {
-    public class DefaultModelBinder : IModelBinder
+    public class ModelBinder : IModelBinder
     {
         private static readonly IConverter[] defaultConverters = new IConverter[] {
             new BoolConverter(),
@@ -26,7 +26,7 @@ namespace Dolstagis.Web.ModelBinding
 
         private StringComparer ParameterComparer { get; set; }
 
-        public DefaultModelBinder()
+        public ModelBinder()
         {
             Converters = defaultConverters;
             ParameterComparer = StringComparer.OrdinalIgnoreCase;

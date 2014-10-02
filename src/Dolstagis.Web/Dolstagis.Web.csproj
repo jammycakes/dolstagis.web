@@ -104,7 +104,7 @@
     <Compile Include="Logging\NullLoggingProvider.cs" />
     <Compile Include="ModelBinding\GuidConverter.cs" />
     <Compile Include="ModelBinding\DateTimeConverter.cs" />
-    <Compile Include="ModelBinding\DefaultModelBinder.cs" />
+    <Compile Include="ModelBinding\ModelBinder.cs" />
     <Compile Include="ModelBinding\IConverter.cs" />
     <Compile Include="ModelBinding\BoolConverter.cs" />
     <Compile Include="ModelBinding\LongConverter.cs" />
