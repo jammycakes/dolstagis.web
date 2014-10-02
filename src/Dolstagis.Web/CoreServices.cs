@@ -22,7 +22,6 @@ namespace Dolstagis.Web
             For<ISessionStore>().Singleton().Use<InMemorySessionStore>();
             For<IAuthenticator>().Singleton().Use<SessionAuthenticator>();
             For<ILoginHandler>().Use<LoginHandler>();
-            For<IModelBinder>().Singleton().Use<ModelBinder>();
 
             For<IResultProcessor>().AlwaysUnique().Add<StaticResultProcessor>();
             For<IResultProcessor>().AlwaysUnique().Add<ViewResultProcessor>();

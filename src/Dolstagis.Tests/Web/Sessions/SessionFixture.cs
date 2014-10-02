@@ -27,7 +27,7 @@ namespace Dolstagis.Tests.Web.Sessions
             var mockResponse = new Mock<IResponse>();
             var store = new InMemorySessionStore();
             var hcb = new RequestContextBuilder
-                (store, null, new FeatureSet(null, new Feature[0]), () => null, null);
+                (store, null, new FeatureSet(null, new Feature[0]), () => null);
 
             var ctx = hcb.CreateContext(mockRequest.Object, mockResponse.Object);
             Assert.IsNotNull(ctx.Session);
@@ -54,7 +54,7 @@ namespace Dolstagis.Tests.Web.Sessions
             mockRequest.SetupGet(x => x.Headers).Returns(headers);
             var mockResponse = new Mock<IResponse>();
             var hcb = new RequestContextBuilder
-                (store, null, new FeatureSet(null, new Feature[0]), () => null, null);
+                (store, null, new FeatureSet(null, new Feature[0]), () => null);
 
             var ctx = hcb.CreateContext(mockRequest.Object, mockResponse.Object);
             Assert.IsNotNull(ctx.Session);

@@ -17,19 +17,16 @@ namespace Dolstagis.Web.Lifecycle
         private Func<ActionInvocation> _createAction;
         private IAuthenticator _authenticator;
         private FeatureSet _features;
-        private IModelBinder _modelBinder;
 
         public RequestContextBuilder(ISessionStore sessionStore,
             IAuthenticator authenticator,
             FeatureSet features,
-            Func<ActionInvocation> createAction,
-            IModelBinder modelBinder)
+            Func<ActionInvocation> createAction)
         {
             _sessionStore = sessionStore;
             _createAction = createAction;
             _authenticator = authenticator;
             _features = features;
-            _modelBinder = modelBinder;
         }
 
         public IEnumerable<ActionInvocation> GetActions(IRequest request)
@@ -67,10 +64,7 @@ namespace Dolstagis.Web.Lifecycle
             }
                 
             action.Method = method;
-
-            var args = _modelBinder.GetArguments(route, request, method);
-
-            action.Arguments = args;
+            action.Arguments = route.Feature.ModelBinder.GetArguments(route, request, method);
             return action;
         }
 

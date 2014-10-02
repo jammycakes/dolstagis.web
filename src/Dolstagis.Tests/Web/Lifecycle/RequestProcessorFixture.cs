@@ -36,8 +36,7 @@ namespace Dolstagis.Tests.Web.Lifecycle
                 null, 
                 null, 
                 featureSet,
-                () => new ActionInvocation(_mockContainer),
-                new ModelBinder()
+                () => new ActionInvocation(_mockContainer)
             );
             var processor = new RequestProcessor(null, null, builder);
             var request = new Mock<IRequest>();

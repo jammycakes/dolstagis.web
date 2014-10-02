@@ -17,6 +17,13 @@ namespace Dolstagis.Web
     public abstract class Feature
     {
         /// <summary>
+        ///  Gets or sets the <see cref="IModelBinder"/> instance used to invoke
+        ///  actions provided by this feature.
+        /// </summary>
+
+        public IModelBinder ModelBinder { get; set; }
+
+        /// <summary>
         ///  Gets the StructureMap Registry for services defined by this feature
         /// </summary>
 
@@ -45,6 +52,7 @@ namespace Dolstagis.Web
         {
             this.Routes = new RouteTable(this);
             this.Services = new Registry();
+            this.ModelBinder = Dolstagis.Web.ModelBinding.ModelBinder.Default;
         }
 
 
