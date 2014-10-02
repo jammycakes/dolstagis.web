@@ -14,9 +14,9 @@ namespace Dolstagis.Web.Static
 
         private IResource _resource;
 
-        public StaticResultProcessor(IResourceResolver resolver, IMimeTypes mimeTypes)
+        public StaticResultProcessor(ResourceMapping[] mappings, IMimeTypes mimeTypes)
         {
-            _resolver = resolver;
+            _resolver = new ResourceResolver(ResourceType.StaticFiles, mappings);
             _mimeTypes = mimeTypes;
         }
 

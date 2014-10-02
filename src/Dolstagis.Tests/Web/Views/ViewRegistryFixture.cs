@@ -19,8 +19,7 @@ namespace Dolstagis.Tests.Web.Views
         {
             var engine = new Mock<IViewEngine>();
             engine.SetupGet(x => x.Extensions).Returns(new[] { "nustache" });
-            var resolver = new Mock<IResourceResolver>();
-            var registry = new ViewRegistry(resolver.Object, new[] { engine.Object });
+            var registry = new ViewRegistry(new ResourceMapping[0], new[] { engine.Object });
 
             var gotEngine = registry.GetViewEngine(new VirtualPath("~/test.nustache"));
 
@@ -32,8 +31,7 @@ namespace Dolstagis.Tests.Web.Views
         {
             var engine = new Mock<IViewEngine>();
             engine.SetupGet(x => x.Extensions).Returns(new[] { "nustache" });
-            var resolver = new Mock<IResourceResolver>();
-            var registry = new ViewRegistry(resolver.Object, new[] { engine.Object });
+            var registry = new ViewRegistry(new ResourceMapping[0], new[] { engine.Object });
             Assert.IsNull(registry.GetViewEngine(new VirtualPath("~/test.cshtml")));
         }
 
@@ -44,8 +42,7 @@ namespace Dolstagis.Tests.Web.Views
         {
             var engine = new Mock<IViewEngine>();
             engine.SetupGet(x => x.Extensions).Returns(new[] { "nustache" });
-            var resolver = new Mock<IResourceResolver>();
-            var registry = new ViewRegistry(resolver.Object, new[] { engine.Object });
+            var registry = new ViewRegistry(new ResourceMapping[0], new[] { engine.Object });
             var view = Mock.Of<IView>();
             engine.Setup(x => x.GetView(new VirtualPath("~/test.nustache"), It.IsAny<IResourceResolver>()))
                 .Returns(view);
