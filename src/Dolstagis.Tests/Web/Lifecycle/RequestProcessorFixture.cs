@@ -32,17 +32,14 @@ namespace Dolstagis.Tests.Web.Lifecycle
         private object Execute(string method, string path)
         {
             var featureSet = new FeatureSet(null, new Feature[] { new FirstFeature() });
-            var builder = new RequestContextBuilder(
-                null, 
-                null, 
-                featureSet,
+            var processor = new RequestProcessor(null, null, null, null,
+                featureSet, 
                 () => new ActionInvocation(_mockContainer)
             );
-            var processor = new RequestProcessor(null, null, builder);
             var request = new Mock<IRequest>();
             request.SetupGet(x => x.Path).Returns(new VirtualPath(path));
             request.SetupGet(x => x.Method).Returns(method);
-            var context = builder.CreateContext(request.Object, null);
+            var context = processor.CreateContext(request.Object, null);
             var task = processor.InvokeRequest(context);
             task.Wait();
             return task.Result;

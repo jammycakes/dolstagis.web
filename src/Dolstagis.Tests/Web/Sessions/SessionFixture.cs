@@ -26,10 +26,11 @@ namespace Dolstagis.Tests.Web.Sessions
             mockRequest.SetupGet(x => x.Headers).Returns(headers);
             var mockResponse = new Mock<IResponse>();
             var store = new InMemorySessionStore();
-            var hcb = new RequestContextBuilder
-                (store, null, new FeatureSet(null, new Feature[0]), () => null);
 
-            var ctx = hcb.CreateContext(mockRequest.Object, mockResponse.Object);
+            var processor = new RequestProcessor
+                (null, null, store, null, new FeatureSet(null, new Feature[0]), () => null);
+
+            var ctx = processor.CreateContext(mockRequest.Object, mockResponse.Object);
             Assert.IsNotNull(ctx.Session);
 
             var session = store.GetSession(ctx.Session.ID);
@@ -53,10 +54,10 @@ namespace Dolstagis.Tests.Web.Sessions
             mockRequest.SetupGet(x => x.Path).Returns(new VirtualPath("~/"));
             mockRequest.SetupGet(x => x.Headers).Returns(headers);
             var mockResponse = new Mock<IResponse>();
-            var hcb = new RequestContextBuilder
-                (store, null, new FeatureSet(null, new Feature[0]), () => null);
+            var processor = new RequestProcessor
+                (null, null, store, null, new FeatureSet(null, new Feature[0]), () => null);
 
-            var ctx = hcb.CreateContext(mockRequest.Object, mockResponse.Object);
+            var ctx = processor.CreateContext(mockRequest.Object, mockResponse.Object);
             Assert.IsNotNull(ctx.Session);
 
             Assert.AreSame(session, ctx.Session);

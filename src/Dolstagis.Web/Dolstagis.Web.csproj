@@ -138,10 +138,8 @@
     <Compile Include="Lifecycle\ExceptionHandler.cs" />
     <Compile Include="Lifecycle\ActionInvocation.cs" />
     <Compile Include="Lifecycle\IExceptionHandler.cs" />
-    <Compile Include="Lifecycle\IRequestContextBuilder.cs" />
     <Compile Include="Lifecycle\IRequestProcessor.cs" />
     <Compile Include="Lifecycle\IResultProcessor.cs" />
-    <Compile Include="Lifecycle\RequestContextBuilder.cs" />
     <Compile Include="Lifecycle\ResultProcessor.cs" />
     <Compile Include="ResultBase.cs" />
     <Compile Include="Static\AssemblyResource.cs" />
