@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Dolstagis.Web.Http;
 
-namespace Dolstagis.Web.Lifecycle
+namespace Dolstagis.Web
 {
     public interface IResultProcessor
     {
