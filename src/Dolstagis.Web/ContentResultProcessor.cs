@@ -15,7 +15,7 @@ namespace Dolstagis.Web
         private ContentResultProcessor()
         { }
 
-        public override async Task ProcessBody(ContentResult data, IRequestContext context)
+        public override async Task ProcessBody(ContentResult data, RequestContext context)
         {
             if (!String.IsNullOrEmpty(data.Content))
             {

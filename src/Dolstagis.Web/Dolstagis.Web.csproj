@@ -130,7 +130,6 @@
     <Compile Include="Sessions\InMemorySessionStore.cs" />
     <Compile Include="Sessions\ISession.cs" />
     <Compile Include="Sessions\ISessionStore.cs" />
-    <Compile Include="IRequestContext.cs" />
     <Compile Include="Http\IRequest.cs" />
     <Compile Include="Http\IResponse.cs" />
     <Compile Include="JsonResult.cs" />

@@ -14,7 +14,7 @@ namespace Dolstagis.Web
         private HeadResultProcessor()
         { }
 
-        public override async Task ProcessBody(HeadResult data, IRequestContext context)
+        public override async Task ProcessBody(HeadResult data, RequestContext context)
         {
             await Task.Yield();
         }

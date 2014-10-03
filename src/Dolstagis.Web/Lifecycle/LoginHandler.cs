@@ -15,7 +15,7 @@ namespace Dolstagis.Web.Lifecycle
             LoginUrl = "~/login";
         }
 
-        public object GetLogin(IRequestContext context)
+        public object GetLogin(RequestContext context)
         {
             return new RedirectResult(LoginUrl, Status.SeeOther);
         }

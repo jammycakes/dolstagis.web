@@ -23,7 +23,7 @@ namespace Dolstagis.Web.Lifecycle
 
         public object[] Arguments { get; set; }
 
-        public object Invoke(IRequestContext context)
+        public object Invoke(RequestContext context)
         {
             var instance = _container.GetInstance(HandlerType) as Handler;
             instance.Context = context;

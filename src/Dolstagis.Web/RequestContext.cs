@@ -11,7 +11,7 @@ using Dolstagis.Web.Sessions;
 
 namespace Dolstagis.Web
 {
-    public class RequestContext : IRequestContext
+    public class RequestContext
     {
         private IAuthenticator _authenticator;
         private IUser _user;
