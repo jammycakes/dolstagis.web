@@ -12,7 +12,7 @@ using Dolstagis.Web.Static;
 
 namespace Dolstagis.Web.Lifecycle
 {
-    public class RequestProcessor : IRequestProcessor
+    public class RequestProcessor
     {
         private IList<IResultProcessor> _resultProcessors;
         private IEnumerable<IExceptionHandler> _exceptionHandlers;

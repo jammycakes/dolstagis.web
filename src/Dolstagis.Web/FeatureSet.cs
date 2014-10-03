@@ -68,7 +68,7 @@ namespace Dolstagis.Web
                     x.For<IRequest>().Use(request);
                     x.For<IResponse>().Use(response);
                 });
-                await childContainer.GetInstance<IRequestProcessor>()
+                await childContainer.GetInstance<RequestProcessor>()
                     .ProcessRequest(request, response);
             }
         }
