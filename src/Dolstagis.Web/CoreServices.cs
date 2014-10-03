@@ -24,9 +24,9 @@ namespace Dolstagis.Web
 
             For<IResultProcessor>().AlwaysUnique().Add<StaticResultProcessor>();
             For<IResultProcessor>().AlwaysUnique().Add<ViewResultProcessor>();
-            For<IResultProcessor>().AlwaysUnique().Add<JsonResultProcessor>();
-            For<IResultProcessor>().AlwaysUnique().Add<ContentResultProcessor>();
-            For<IResultProcessor>().AlwaysUnique().Add<HeadResultProcessor>();
+            For<IResultProcessor>().Add(JsonResultProcessor.Instance);
+            For<IResultProcessor>().Add(ContentResultProcessor.Instance);
+            For<IResultProcessor>().Add(HeadResultProcessor.Instance);
 
             For<ViewRegistry>().Use<ViewRegistry>();
         }

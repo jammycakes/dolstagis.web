@@ -10,6 +10,11 @@ namespace Dolstagis.Web
 {
     public class ContentResultProcessor : ResultProcessor<ContentResult>
     {
+        public static readonly ContentResultProcessor Instance = new ContentResultProcessor();
+
+        private ContentResultProcessor()
+        { }
+
         public override async Task ProcessBody(ContentResult data, IRequestContext context)
         {
             if (!String.IsNullOrEmpty(data.Content))

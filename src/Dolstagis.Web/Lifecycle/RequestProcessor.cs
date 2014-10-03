@@ -102,7 +102,7 @@ namespace Dolstagis.Web.Lifecycle
                 result = await InvokeRequestWithHomePageFallback(context);
                 if (context.Request.Method.Equals("head", StringComparison.OrdinalIgnoreCase))
                 {
-                    processor = new HeadResultProcessor();
+                    processor = HeadResultProcessor.Instance;
                 }
                 else
                 {
