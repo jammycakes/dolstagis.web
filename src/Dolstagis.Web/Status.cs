@@ -12,7 +12,7 @@ namespace Dolstagis.Web
     /// </summary>
 
     [Serializable]
-    public sealed class Status
+    public class Status
     {
         private static IDictionary<int, Status> _statuses = new Dictionary<int, Status>();
 
@@ -22,7 +22,7 @@ namespace Dolstagis.Web
 
         public string Message { get; set; }
 
-        private Status(int code, string description, string message)
+        internal Status(int code, string description, string message)
         {
             this.Code = code;
             this.Description = description;
@@ -30,18 +30,9 @@ namespace Dolstagis.Web
             _statuses.Add(this.Code, this);
         }
 
-        private Status(int code, string description)
+        internal Status(int code, string description)
             : this(code, description, description)
         {
-        }
-
-        /// <summary>
-        ///  Throws an exception with this status code.
-        /// </summary>
-
-        public void Throw()
-        {
-            throw new HttpStatusException(this);
         }
 
         /// <summary>
@@ -100,79 +91,79 @@ namespace Dolstagis.Web
         public static readonly Status TemporaryRedirect = new Status(307, "Temporary Redirect");
         public static readonly Status ResumeIncomplete = new Status(308, "Resume Incomplete");
 
-        public static readonly Status BadRequest = new Status
+        public static readonly ErrorStatus BadRequest = new ErrorStatus
             (400, "Bad Request", StatusMessages.Message400BadRequest);
-        public static readonly Status Unauthorized = new Status
+        public static readonly ErrorStatus Unauthorized = new ErrorStatus
             (401, "Unauthorized", StatusMessages.Message401Unauthorized);
-        public static readonly Status PaymentRequired = new Status
+        public static readonly ErrorStatus PaymentRequired = new ErrorStatus
             (402, "Payment Required");
-        public static readonly Status Forbidden = new Status
+        public static readonly ErrorStatus Forbidden = new ErrorStatus
             (403, "Forbidden", StatusMessages.Message403Forbidden);
-        public static readonly Status NotFound = new Status
+        public static readonly ErrorStatus NotFound = new ErrorStatus
             (404, "Not Found", StatusMessages.Message404NotFound);
-        public static readonly Status MethodNotAllowed = new Status
+        public static readonly ErrorStatus MethodNotAllowed = new ErrorStatus
             (405, "Method Not Allowed", StatusMessages.Message405MethodNotAllowed);
-        public static readonly Status NotAcceptable = new Status
+        public static readonly ErrorStatus NotAcceptable = new ErrorStatus
             (406, "Not Acceptable", StatusMessages.Message406NotAcceptable);
-        public static readonly Status ProxyAuthenticationRequired = new Status
+        public static readonly ErrorStatus ProxyAuthenticationRequired = new ErrorStatus
             (407, "Proxy Authentication Required", StatusMessages.Message407ProxyAuthenticationRequired);
-        public static readonly Status RequestTimeout = new Status
+        public static readonly ErrorStatus RequestTimeout = new ErrorStatus
             (408, "Request Timeout", StatusMessages.Message408RequestTimeout);
-        public static readonly Status Conflict = new Status(409, "Conflict");
-        public static readonly Status Gone = new Status
+        public static readonly ErrorStatus Conflict = new ErrorStatus(409, "Conflict");
+        public static readonly ErrorStatus Gone = new ErrorStatus
             (410, "Gone", StatusMessages.Message410Gone);
-        public static readonly Status LengthRequired = new Status
+        public static readonly ErrorStatus LengthRequired = new ErrorStatus
             (411, "Length Required", StatusMessages.Message411LengthRequired);
-        public static readonly Status PreconditionFailed = new Status
+        public static readonly ErrorStatus PreconditionFailed = new ErrorStatus
             (412, "Precondition Failed", StatusMessages.Message412PreconditionFailed);
-        public static readonly Status RequestEntityTooLarge = new Status
+        public static readonly ErrorStatus RequestEntityTooLarge = new ErrorStatus
             (413, "Request Entity Too Large", StatusMessages.Message413RequestEntityTooLarge);
-        public static readonly Status RequestUriTooLong = new Status
+        public static readonly ErrorStatus RequestUriTooLong = new ErrorStatus
             (414, "Request Uri Too Long", StatusMessages.Message414RequestUriTooLong);
-        public static readonly Status UnsupportedMediaType = new Status
+        public static readonly ErrorStatus UnsupportedMediaType = new ErrorStatus
             (415, "Unsupported Media Type", StatusMessages.Message415UnsupportedMediaType);
-        public static readonly Status RequestedRangeNotSatisfiable = new Status
+        public static readonly ErrorStatus RequestedRangeNotSatisfiable = new ErrorStatus
             (416, "Requested Range Not Satisfiable", StatusMessages.Message416RequestedRangeNotSatisfiable);
-        public static readonly Status ExpectationFailed = new Status
+        public static readonly ErrorStatus ExpectationFailed = new ErrorStatus
             (417, "Expectation Failed", StatusMessages.Message417ExpectationFailed);
-        public static readonly Status ImATeapot = new Status
+        public static readonly ErrorStatus ImATeapot = new ErrorStatus
             (418, "Im ATeapot", StatusMessages.Message418ImATeapot);
-        public static readonly Status EnhanceYourCalm = new Status
+        public static readonly ErrorStatus EnhanceYourCalm = new ErrorStatus
             (420, "Enhance Your Calm", StatusMessages.Message420EnhanceYourCalm);
-        public static readonly Status UnprocessableEntity = new Status
+        public static readonly ErrorStatus UnprocessableEntity = new ErrorStatus
             (422, "Unprocessable Entity", StatusMessages.Message422UnprocessableEntity);
-        public static readonly Status Locked = new Status
+        public static readonly ErrorStatus Locked = new ErrorStatus
             (423, "Locked", StatusMessages.Message423Locked);
-        public static readonly Status FailedDependency = new Status
+        public static readonly ErrorStatus FailedDependency = new ErrorStatus
             (424, "Failed Dependency", StatusMessages.Message424FailedDependency);
-        public static readonly Status UnorderedCollection = new Status
+        public static readonly ErrorStatus UnorderedCollection = new ErrorStatus
             (425, "Unordered Collection");
-        public static readonly Status UpgradeRequired = new Status
+        public static readonly ErrorStatus UpgradeRequired = new ErrorStatus
             (426, "Upgrade Required", StatusMessages.Message426UpgradeRequired);
-        public static readonly Status TooManyRequests = new Status
+        public static readonly ErrorStatus TooManyRequests = new ErrorStatus
             (429, "Too Many Requests", StatusMessages.Message429TooManyRequests);
-        public static readonly Status NoResponse = new Status(444, "No Response");
-        public static readonly Status RetryWith = new Status(449, "Retry With");
-        public static readonly Status BlockedByWindowsParentalControls = new Status(450, "Blocked By Windows Parental Controls");
-        public static readonly Status ClientClosedRequest = new Status(499, "Client Closed Request");
+        public static readonly ErrorStatus NoResponse = new ErrorStatus(444, "No Response");
+        public static readonly ErrorStatus RetryWith = new ErrorStatus(449, "Retry With");
+        public static readonly ErrorStatus BlockedByWindowsParentalControls = new ErrorStatus(450, "Blocked By Windows Parental Controls");
+        public static readonly ErrorStatus ClientClosedRequest = new ErrorStatus(499, "Client Closed Request");
 
-        public static readonly Status InternalServerError = new Status
+        public static readonly ErrorStatus InternalServerError = new ErrorStatus
             (500, "Internal Server Error", StatusMessages.Message500InternalServerError);
-        public static readonly Status NotImplemented = new Status
+        public static readonly ErrorStatus NotImplemented = new ErrorStatus
             (501, "Not Implemented", StatusMessages.Message501NotImplemented);
-        public static readonly Status BadGateway = new Status
+        public static readonly ErrorStatus BadGateway = new ErrorStatus
             (502, "Bad Gateway", StatusMessages.Message502BadGateway);
-        public static readonly Status ServiceUnavailable = new Status
+        public static readonly ErrorStatus ServiceUnavailable = new ErrorStatus
             (503, "Service Unavailable", StatusMessages.Message503ServiceUnavailable);
-        public static readonly Status GatewayTimeout = new Status
+        public static readonly ErrorStatus GatewayTimeout = new ErrorStatus
             (504, "Gateway Timeout", StatusMessages.Message504GatewayTimeout);
-        public static readonly Status HttpVersionNotSupported = new Status(505, "Http Version Not Supported");
-        public static readonly Status VariantAlsoNegotiates = new Status
+        public static readonly ErrorStatus HttpVersionNotSupported = new ErrorStatus(505, "Http Version Not Supported");
+        public static readonly ErrorStatus VariantAlsoNegotiates = new ErrorStatus
             (506, "Variant Also Negotiates", StatusMessages.Message506VariantAlsoNegotiates);
-        public static readonly Status InsufficientStorage = new Status
+        public static readonly ErrorStatus InsufficientStorage = new ErrorStatus
             (507, "Insufficient Storage", StatusMessages.Message507InsufficientStorage);
-        public static readonly Status BandwidthLimitExceeded = new Status(509, "Bandwidth Limit Exceeded");
-        public static readonly Status NotExtended = new Status
+        public static readonly ErrorStatus BandwidthLimitExceeded = new ErrorStatus(509, "Bandwidth Limit Exceeded");
+        public static readonly ErrorStatus NotExtended = new ErrorStatus
             (510, "Not Extended", StatusMessages.Message510NotExtended);
     }
 }

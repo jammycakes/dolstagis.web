@@ -10,24 +10,24 @@ namespace Dolstagis.Web
     [Serializable]
     public class HttpStatusException : Exception
     {
-        public Status Status { get; private set; }
+        public ErrorStatus Status { get; private set; }
 
         public HttpStatusException() : base() { }
 
-        public HttpStatusException(Status status)
+        public HttpStatusException(ErrorStatus status)
             : base(status.ToString())
         {
             this.Status = status;
         }
 
-        public HttpStatusException(Status status, Exception innerException)
+        public HttpStatusException(ErrorStatus status, Exception innerException)
             : base(status.ToString(), innerException)
         {
             this.Status = status;
         }
 
         public HttpStatusException(Exception innerException)
-            : this(Status.InternalServerError, innerException)
+            : this(Dolstagis.Web.Status.InternalServerError, innerException)
         { }
 
         protected HttpStatusException(SerializationInfo info, StreamingContext context)
