@@ -4,11 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Dolstagis.Web.Http;
-using Dolstagis.Web.Lifecycle;
 using Dolstagis.Web.Routes;
 using StructureMap;
 
-namespace Dolstagis.Web
+namespace Dolstagis.Web.Lifecycle
 {
     /// <summary>
     ///  A container for the group of features which are enabled for a

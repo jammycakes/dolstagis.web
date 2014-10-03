@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Dolstagis.Tests.Web.TestFeatures;
 using Dolstagis.Web;
 using Dolstagis.Web.Http;
+using Dolstagis.Web.Lifecycle;
 using Moq;
 using NUnit.Framework;
 

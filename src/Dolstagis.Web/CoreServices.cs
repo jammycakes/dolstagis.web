@@ -16,7 +16,6 @@ namespace Dolstagis.Web
     {
         public CoreServices()
         {
-            For<RequestProcessor>().Use<RequestProcessor>();
             For<IExceptionHandler>().Use<ExceptionHandler>();
             For<ISessionStore>().Singleton().Use<InMemorySessionStore>();
             For<IAuthenticator>().Singleton().Use<SessionAuthenticator>();

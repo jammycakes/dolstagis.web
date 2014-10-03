@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Dolstagis.Web.Http;
+using Dolstagis.Web.Lifecycle;
 using Dolstagis.Web.Logging;
 using Dolstagis.Web.Owin;
 using Dolstagis.Web.Util;

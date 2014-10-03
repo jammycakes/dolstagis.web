@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Dolstagis.Web;
+using Dolstagis.Web.Lifecycle;
 using NUnit.Framework;
 
 namespace Dolstagis.Tests.Internals.FeatureSwitches

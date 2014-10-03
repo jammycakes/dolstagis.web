@@ -8,7 +8,7 @@ using Dolstagis.Web.FeatureSwitches;
 using Dolstagis.Web.Http;
 using Dolstagis.Web.Logging;
 
-namespace Dolstagis.Web
+namespace Dolstagis.Web.Lifecycle
 {
     /// <summary>
     ///  Provides a mechanism to fetch the appropriate feature set for a request.
