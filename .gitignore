@@ -168,3 +168,4 @@ __pycache__/
 *.swp
 *.orig
 src/.vs/config/applicationhost.config
+notes/
