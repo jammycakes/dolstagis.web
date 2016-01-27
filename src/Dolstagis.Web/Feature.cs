@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using Dolstagis.Web.Routes;
 using Dolstagis.Web.Static;
 using StructureMap;
-using StructureMap.Configuration.DSL;
 
 namespace Dolstagis.Web
 {

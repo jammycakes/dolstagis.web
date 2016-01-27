@@ -1,14 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Dolstagis.Tests.Web.TestFeatures;
 using Dolstagis.Tests.Web.TestFeatures.Handlers;
 using Dolstagis.Web;
 using Dolstagis.Web.Http;
 using Dolstagis.Web.Lifecycle;
-using Dolstagis.Web.ModelBinding;
 using Moq;
 using NUnit.Framework;
 using StructureMap;

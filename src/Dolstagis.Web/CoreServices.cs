@@ -1,15 +1,9 @@
-﻿using System;
-using System.Linq;
-using Dolstagis.Web.Auth;
+﻿using Dolstagis.Web.Auth;
 using Dolstagis.Web.Lifecycle;
-using Dolstagis.Web.ModelBinding;
 using Dolstagis.Web.Sessions;
 using Dolstagis.Web.Static;
 using Dolstagis.Web.Views;
 using StructureMap;
-using StructureMap.Configuration.DSL;
-using StructureMap.Graph;
-using StructureMap.TypeRules;
 
 namespace Dolstagis.Web
 {

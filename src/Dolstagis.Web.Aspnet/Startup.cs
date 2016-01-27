@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using System.Reflection;
 using Dolstagis.Web.Util;
 using Microsoft.Owin;
 using Microsoft.Owin.Extensions;
@@ -11,7 +10,6 @@ using Owin;
 
 namespace Dolstagis.Web.Aspnet
 {
-    using AppFunc = Func<IDictionary<string, object>, Task>;
     using MidFunc = Func<
             Func<IDictionary<string, object>, Task>,
             Func<IDictionary<string, object>, Task>
