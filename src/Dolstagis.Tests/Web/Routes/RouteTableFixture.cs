@@ -20,7 +20,7 @@ namespace Dolstagis.Tests.Web.Routes
         private IRouteTarget withLanguage = Mock.Of<IRouteTarget>();
 
 
-        [TestFixtureSetUp]
+        [OneTimeSetUp]
         public void CreateRouteTable()
         {
             routes.Add(String.Empty, rootTarget);

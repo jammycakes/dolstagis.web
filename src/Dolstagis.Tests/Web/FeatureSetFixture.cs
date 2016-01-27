@@ -25,7 +25,7 @@ namespace Dolstagis.Tests.Web
 
         private FeatureSwitchboard switchboard;
 
-        [TestFixtureSetUp]
+        [OneTimeSetUp]
         public void CreateFeatures()
         {
             var mockAlwaysEnabled = new Mock<IFeatureSwitch>();

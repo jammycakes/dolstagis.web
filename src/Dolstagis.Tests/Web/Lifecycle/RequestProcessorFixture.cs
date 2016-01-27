@@ -15,7 +15,7 @@ namespace Dolstagis.Tests.Web.Lifecycle
     {
         private IContainer _mockContainer;
 
-        [TestFixtureSetUp]
+        [OneTimeSetUp]
         public void CreateRouteTable()
         {
             var mock = new Mock<IContainer>();

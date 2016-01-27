@@ -31,7 +31,7 @@ namespace Dolstagis.Tests.Web.ModelBinding
 
         private IModelBinder binder;
 
-        [TestFixtureSetUp]
+        [OneTimeSetUp]
         public void CreateModelBinder()
         {
             var container = new Container();
