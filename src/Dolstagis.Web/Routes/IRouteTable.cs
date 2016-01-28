@@ -1,4 +1,6 @@
-﻿namespace Dolstagis.Web.Routes
+﻿using Dolstagis.Web.Features;
+
+namespace Dolstagis.Web.Routes
 {
     public interface IRouteTable
     {
@@ -28,6 +30,6 @@
         ///  The route target.
         /// </returns>
 
-        RouteInvocation GetRouteInvocation(VirtualPath path);
+        RouteInvocation GetRouteInvocation(VirtualPath path, IFeature feature);
     }
 }

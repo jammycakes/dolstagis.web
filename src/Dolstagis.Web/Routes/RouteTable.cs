@@ -11,15 +11,12 @@ namespace Dolstagis.Web.Routes
 
     public class RouteTable : IRouteTable
     {
-        public IFeature Feature { get; private set; }
-
         public Node Root { get; private set; }
 
 
-        public RouteTable(IFeature feature)
+        public RouteTable()
         {
             this.Root = new Node(String.Empty);
-            this.Feature = feature;
         }
 
         /// <summary>
@@ -86,7 +83,7 @@ namespace Dolstagis.Web.Routes
         /// <param name="path"></param>
         /// <returns></returns>
 
-        public RouteInvocation GetRouteInvocation(VirtualPath path)
+        public RouteInvocation GetRouteInvocation(VirtualPath path, IFeature feature)
         {
             var parts = path.Parts.ToArray();
             var candidates = GetCandidates(Root, parts, 0);
@@ -98,7 +95,7 @@ namespace Dolstagis.Web.Routes
 
             var ct = cts.LastOrDefault();
             if (ct == null) return null;
-            return new RouteInvocation(Feature, ct.target, GetRouteArguments(ct.candidate, parts));
+            return new RouteInvocation(feature, ct.target, GetRouteArguments(ct.candidate, parts));
         }
 
         private IDictionary<string, string> GetRouteArguments(Node candidate, string[] parts)

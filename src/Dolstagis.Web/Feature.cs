@@ -134,7 +134,7 @@ namespace Dolstagis.Web
 
         protected Feature()
         {
-            this.Routes = new RouteTable(this);
+            this.Routes = new RouteTable();
             this.Services = new Registry();
             this.ModelBinder = Dolstagis.Web.ModelBinding.ModelBinder.Default;
         }
