@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Dolstagis.Web.Lifecycle;
+using Dolstagis.Web.Features.Impl;
 using NUnit.Framework;
 
 namespace Dolstagis.Tests.Internals.FeatureSwitches

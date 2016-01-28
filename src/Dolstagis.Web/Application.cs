@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Reflection;
 using System.Threading.Tasks;
+using Dolstagis.Web.Features.Impl;
 using Dolstagis.Web.Http;
-using Dolstagis.Web.Lifecycle;
 using Dolstagis.Web.Logging;
 using Dolstagis.Web.Owin;
 using Dolstagis.Web.Util;

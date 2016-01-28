@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Dolstagis.Web;
+using Dolstagis.Web.Features.Impl;
 using Dolstagis.Web.Http;
 using Dolstagis.Web.Lifecycle;
 using Dolstagis.Web.Sessions;

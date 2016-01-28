@@ -1,6 +1,6 @@
 ﻿using Dolstagis.Web.Http;
 
-namespace Dolstagis.Web
+namespace Dolstagis.Web.Features
 {
     /// <summary>
     ///  Indicates whether a feature is enabled or disabled for a particular

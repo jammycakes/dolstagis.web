@@ -2,11 +2,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Dolstagis.Web.Features;
 using Dolstagis.Web.Http;
 using Dolstagis.Web.Logging;
 
-namespace Dolstagis.Web.Lifecycle
+namespace Dolstagis.Web.Features.Impl
 {
     /// <summary>
     ///  Provides a mechanism to fetch the appropriate feature set for a request.

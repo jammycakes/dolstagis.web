@@ -76,8 +76,8 @@
     <Compile Include="Features\IFeature.cs" />
     <Compile Include="Features\Impl\FeatureSwitch.cs" />
     <Compile Include="Features\ISwitchExpression.cs" />
-    <Compile Include="Lifecycle\FeatureSet.cs" />
-    <Compile Include="Lifecycle\FeatureSwitchboard.cs" />
+    <Compile Include="Features\Impl\FeatureSet.cs" />
+    <Compile Include="Features\Impl\FeatureSwitchboard.cs" />
     <Compile Include="Handler.cs" />
     <Compile Include="HeadResult.cs" />
     <Compile Include="HeadResultProcessor.cs" />
@@ -90,7 +90,7 @@
     <Compile Include="Http\HttpDictionary.cs" />
     <Compile Include="Http\RequestHeaders.cs" />
     <Compile Include="Http\ResponseHeaders.cs" />
-    <Compile Include="IFeatureSwitch.cs" />
+    <Compile Include="Features\IFeatureSwitch.cs" />
     <Compile Include="IModelBinder.cs" />
     <Compile Include="Logging\ILoggingProvider.cs" />
     <Compile Include="Logging\LogEntry.cs" />

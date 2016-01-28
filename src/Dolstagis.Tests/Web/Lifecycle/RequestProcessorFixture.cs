@@ -2,6 +2,7 @@
 using Dolstagis.Tests.Web.TestFeatures;
 using Dolstagis.Tests.Web.TestFeatures.Handlers;
 using Dolstagis.Web;
+using Dolstagis.Web.Features.Impl;
 using Dolstagis.Web.Http;
 using Dolstagis.Web.Lifecycle;
 using Moq;
