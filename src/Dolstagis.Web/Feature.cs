@@ -22,6 +22,7 @@ namespace Dolstagis.Web
         private bool _constructed = false;
         private readonly FeatureSwitch _switch = new FeatureSwitch();
         private string _description = null;
+        private RouteTable _routes = new RouteTable();
 
         private void AssertConstructing()
         {
@@ -125,7 +126,9 @@ namespace Dolstagis.Web
         ///  Gets or sets the table of routes defined by this feature.
         /// </summary>
 
-        public IRouteTable Routes { get; set; }
+        public IRouteTable Routes {
+            get { return _routes; }
+        }
 
 
         /// <summary>
@@ -134,7 +137,6 @@ namespace Dolstagis.Web
 
         protected Feature()
         {
-            this.Routes = new RouteTable();
             this.Services = new Registry();
             this.ModelBinder = Dolstagis.Web.ModelBinding.ModelBinder.Default;
         }
