@@ -111,7 +111,7 @@ namespace Dolstagis.Web
             log.Debug(() =>
                 request.Protocol + " " + request.Method + " " + request.AbsolutePath.ToString()
             );
-            var featureSet = await Features.GetFeatureSet(request);
+            var featureSet = Features.GetFeatureSet(request);
             await featureSet.ProcessRequestAsync(request, response);
         }
 

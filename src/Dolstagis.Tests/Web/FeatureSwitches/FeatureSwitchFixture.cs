@@ -11,11 +11,11 @@ namespace Dolstagis.Tests.Web.FeatureSwitches
         [TestCase(1, DateTimeSwitchType.Activate, false)]
         [TestCase(-1, DateTimeSwitchType.Deactivate, false)]
         [TestCase(1, DateTimeSwitchType.Deactivate, true)]
-        public async void CanSetDateTimeSwitch(int timeOffset, DateTimeSwitchType type, bool expected)
+        public void CanSetDateTimeSwitch(int timeOffset, DateTimeSwitchType type, bool expected)
         {
             var dt = DateTime.UtcNow.AddMinutes(timeOffset);
             var @switch = new DateTimeSwitchableAttribute(dt, type);
-            var isOn = await @switch.IsEnabledForRequest(null);
+            var isOn = @switch.IsEnabledForRequest(null);
             Assert.AreEqual(expected, isOn);
         }
     }

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Globalization;
-using System.Threading.Tasks;
 
 namespace Dolstagis.Web.FeatureSwitches
 {
@@ -16,11 +15,10 @@ namespace Dolstagis.Web.FeatureSwitches
 
         public DateTime SwitchingTime { get; private set; }
 
-        public Task<bool> IsEnabledForRequest(Http.IRequest request)
+        public bool IsEnabledForRequest(Http.IRequest request)
         {
             bool isPassed = DateTime.UtcNow >= SwitchingTime;
-            bool isEnabled = isPassed ^ (Type == DateTimeSwitchType.Deactivate);
-            return Task.FromResult(isEnabled);
+            return isPassed ^ (Type == DateTimeSwitchType.Deactivate);
         }
 
         public Feature Feature { get; private set; }

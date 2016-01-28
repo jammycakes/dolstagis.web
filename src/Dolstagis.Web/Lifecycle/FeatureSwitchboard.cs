@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Dolstagis.Web.FeatureSwitches;
 using Dolstagis.Web.Http;
 using Dolstagis.Web.Logging;
@@ -62,21 +61,21 @@ namespace Dolstagis.Web.Lifecycle
         }
 
 
-        private async Task<Key> GetKey(IRequest request)
+        private Key GetKey(IRequest request)
         {
             var state = new List<bool>();
             foreach (var sw in switches) {
-                state.Add(await sw.Switch.IsEnabledForRequest(request));
+                state.Add(sw.Switch.IsEnabledForRequest(request));
             }
 
             return new Key(state);
         }
 
-        private async Task<FeatureSet> CreateFeatureSet(IRequest request)
+        private FeatureSet CreateFeatureSet(IRequest request)
         {
             var features = new List<Feature>();
             foreach (var sw in switches) {
-                if (await sw.Switch.IsEnabledForRequest(request)) {
+                if (sw.Switch.IsEnabledForRequest(request)) {
                     log.Trace(() => "Feature " + sw.Feature.GetType().FullName + " enabled - adding");
                     features.Add(sw.Feature);
                 }
@@ -88,13 +87,13 @@ namespace Dolstagis.Web.Lifecycle
             return new FeatureSet(Application, features);
         }
 
-        public async Task<FeatureSet> GetFeatureSet(IRequest request)
+        public FeatureSet GetFeatureSet(IRequest request)
         {
-            var key = await GetKey(request);
+            var key = GetKey(request);
             FeatureSet result;
             if (!featureSets.TryGetValue(key, out result)) {
                 log.Debug(() => "Requesting feature set with key: " + key.ToString());
-                result = await CreateFeatureSet(request);
+                result = CreateFeatureSet(request);
                 featureSets.Add(key, result);
             }
             else

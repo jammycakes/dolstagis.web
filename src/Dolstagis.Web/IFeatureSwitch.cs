@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using Dolstagis.Web.Http;
+﻿using Dolstagis.Web.Http;
 
 namespace Dolstagis.Web
 {
@@ -21,6 +20,6 @@ namespace Dolstagis.Web
         ///  true if the feature is enabled for this request, otherwise false.
         /// </returns>
 
-        Task<bool> IsEnabledForRequest(IRequest request);
+        bool IsEnabledForRequest(IRequest request);
     }
 }

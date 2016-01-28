@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using System.Threading.Tasks;
 using Dolstagis.Tests.Web.TestFeatures;
 using Dolstagis.Web;
 using Dolstagis.Web.Http;
@@ -30,19 +29,19 @@ namespace Dolstagis.Tests.Web
         {
             var mockAlwaysEnabled = new Mock<IFeatureSwitch>();
             mockAlwaysEnabled.Setup(x => x.IsEnabledForRequest(It.IsAny<IRequest>()))
-                .Returns(Task.FromResult(true));
+                .Returns(true);
             alwaysEnabledSwitch = mockAlwaysEnabled.Object;
 
             var mockAlwaysDisabled = new Mock<IFeatureSwitch>();
             mockAlwaysDisabled.Setup(x => x.IsEnabledForRequest(It.IsAny<IRequest>()))
-                .Returns(Task.FromResult(false));
+                .Returns(false);
             alwaysDisabledSwitch = mockAlwaysDisabled.Object;
 
             var mockLocalhostOnly = new Mock<IFeatureSwitch>();
             mockLocalhostOnly.Setup(x => x.IsEnabledForRequest(It.IsAny<IRequest>()))
-                .Returns(Task.FromResult(false));
+                .Returns(false);
             mockLocalhostOnly.Setup(x => x.IsEnabledForRequest(It.Is<IRequest>(req => req.Url.IsLoopback)))
-                .Returns(Task.FromResult(true));
+                .Returns(true);
             localhostOnlySwitch = mockLocalhostOnly.Object;
 
             var mockLocalRequest = new Mock<IRequest>();
@@ -68,26 +67,26 @@ namespace Dolstagis.Tests.Web
         }
 
         [Test]
-        public async Task LocalRequestShouldHaveTwoFeatures()
+        public void LocalRequestShouldHaveTwoFeatures()
         {
-            var localFeatureSet = await switchboard.GetFeatureSet(localRequest);
+            var localFeatureSet = switchboard.GetFeatureSet(localRequest);
             Assert.AreEqual(2, localFeatureSet.Features.Count);
             Assert.AreSame(this.alwaysEnabled, localFeatureSet.Features.First(), "First feature is wrong");
             Assert.AreSame(this.localhostOnly, localFeatureSet.Features.Last(), "Second feature is wrong");
         }
 
         [Test]
-        public async Task NonlocalRequestShouldHaveOneFeature()
+        public void NonlocalRequestShouldHaveOneFeature()
         {
-            var nonLocalFeatureSet = await switchboard.GetFeatureSet(nonLocalRequest);
+            var nonLocalFeatureSet = switchboard.GetFeatureSet(nonLocalRequest);
             Assert.AreSame(this.alwaysEnabled, nonLocalFeatureSet.Features.Single());
         }
 
         [Test]
-        public async Task DuplicateRequestsShouldReturnSameFeatureSet()
+        public void DuplicateRequestsShouldReturnSameFeatureSet()
         {
-            var set1 = await switchboard.GetFeatureSet(localRequest);
-            var set2 = await switchboard.GetFeatureSet(localRequest);
+            var set1 = switchboard.GetFeatureSet(localRequest);
+            var set2 = switchboard.GetFeatureSet(localRequest);
             Assert.AreSame(set1, set2);
         }
     }
