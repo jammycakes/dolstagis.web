@@ -3,7 +3,7 @@ from buildlib import *
 import argparse
 import sys
 
-VERSION = '0.3.0'
+VERSION = '0.4.0'
 VERSIONINFO = 'alpha'
 BUILD = 1
 CONFIGURATION = 'Debug'
