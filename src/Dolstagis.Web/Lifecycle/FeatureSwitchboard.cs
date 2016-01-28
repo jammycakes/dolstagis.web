@@ -16,11 +16,11 @@ namespace Dolstagis.Web.Lifecycle
     {
         private static readonly Logger log = Logger.ForThisClass();
 
-        private List<FeatureSwitchLink> switches = new List<FeatureSwitchLink>();
-
+        private List<Feature> _features = new List<Feature>();
         private Dictionary<Key, FeatureSet> featureSets = new Dictionary<Key, FeatureSet>();
 
         public Application Application { get; private set; }
+
 
         public FeatureSwitchboard(Application application)
         {
@@ -36,12 +36,7 @@ namespace Dolstagis.Web.Lifecycle
 
         public FeatureSwitchboard Add(params Feature[] features)
         {
-            var links =
-                from feature in features
-                let @switch = GetFeatureSwitch(feature)
-                select new FeatureSwitchLink(@switch, feature);
-
-            this.switches.AddRange(links);
+            this._features.AddRange(features);
             return this;
         }
 
@@ -49,7 +44,7 @@ namespace Dolstagis.Web.Lifecycle
         private Key GetKey(IRequest request)
         {
             var state = new List<bool>();
-            foreach (var sw in switches) {
+            foreach (var sw in _features) {
                 state.Add(sw.Switch.IsEnabledForRequest(request));
             }
 
@@ -59,13 +54,13 @@ namespace Dolstagis.Web.Lifecycle
         private FeatureSet CreateFeatureSet(IRequest request)
         {
             var features = new List<Feature>();
-            foreach (var sw in switches) {
+            foreach (var sw in _features) {
                 if (sw.Switch.IsEnabledForRequest(request)) {
-                    log.Trace(() => "Feature " + sw.Feature.GetType().FullName + " enabled - adding");
-                    features.Add(sw.Feature);
+                    log.Trace(() => "Feature " + sw.GetType().FullName + " enabled - adding");
+                    features.Add(sw);
                 }
                 else {
-                    log.Trace(() => "Feature " + sw.Feature.GetType().FullName + " disabled");
+                    log.Trace(() => "Feature " + sw.GetType().FullName + " disabled");
                 }
             }
 
@@ -87,7 +82,6 @@ namespace Dolstagis.Web.Lifecycle
             }
             return result;
         }
-
 
 
         internal class Key
@@ -136,20 +130,6 @@ namespace Dolstagis.Web.Lifecycle
             public override string ToString()
             {
                 return String.Concat(this.state.Select(x => x.ToString("X8")));
-            }
-        }
-
-
-        private class FeatureSwitchLink
-        {
-            public IFeatureSwitch Switch { get; private set; }
-
-            public Feature Feature { get; private set; }
-
-            public FeatureSwitchLink(IFeatureSwitch @switch, Feature feature)
-            {
-                this.Switch = @switch;
-                this.Feature = feature;
             }
         }
     }
