@@ -9,6 +9,9 @@ namespace WebApp
     {
         public HomeFeature()
         {
+            Description("The home page and static content.");
+            Active.When(req => true);
+
             Services.For<ISessionStore>().Singleton().Use<InMemorySessionStore>();
 
             AddStaticFiles("~/content", Path.Combine(HttpRuntime.AppDomainAppPath, "content"));

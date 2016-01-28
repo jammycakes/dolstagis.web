@@ -21,7 +21,8 @@ namespace Dolstagis.Web
 
         /* ====== New fluent configuration API ====== */
 
-        private FeatureSwitch _switch = new FeatureSwitch();
+        private readonly FeatureSwitch _switch = new FeatureSwitch();
+        private string _description = null;
 
         /// <summary>
         ///  Defines the condition under which the feature is active.
@@ -35,10 +36,33 @@ namespace Dolstagis.Web
         }
 
 
+        /// <summary>
+        ///  Sets the feature's description.
+        /// </summary>
+        /// <param name="description"></param>
+
+        protected void Description(string description)
+        {
+            _description = description;
+        }
+
+
         /* ====== Implementation of IFeature ====== */
+
+        /// <summary>
+        ///  Gets the feature switch which controls this feature.
+        /// </summary>
 
         IFeatureSwitch IFeature.Switch { get { return _switch; } }
 
+
+        /// <summary>
+        ///  Gets the text description of the feature.
+        /// </summary>
+
+        string IFeature.Description {
+            get { return _description ?? this.GetType().FullName; }
+        }
 
         #region /* ====== Old API, being replaced with the new fluent API ====== */
 
@@ -55,13 +79,6 @@ namespace Dolstagis.Web
         /// </summary>
 
         public Registry Services { get; private set; }
-
-
-        /// <summary>
-        ///  Gets the text description of the feature.
-        /// </summary>
-
-        public virtual string Description { get { return this.GetType().FullName; } }
 
 
         /// <summary>

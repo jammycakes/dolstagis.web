@@ -7,7 +7,6 @@ namespace Dolstagis.Web.Features
 {
     public interface ILegacyFeature
     {
-        string Description { get; }
         IModelBinder ModelBinder { get; set; }
         IRouteTable Routes { get; set; }
         Registry Services { get; }

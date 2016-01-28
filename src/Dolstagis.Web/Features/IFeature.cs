@@ -3,5 +3,6 @@
     public interface IFeature : ILegacyFeature
     {
         IFeatureSwitch Switch { get; }
+        string Description { get; }
     }
 }
