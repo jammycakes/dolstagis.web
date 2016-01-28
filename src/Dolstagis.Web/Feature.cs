@@ -19,10 +19,28 @@ namespace Dolstagis.Web
     {
         private static readonly Logger log = Logger.ForThisClass();
 
-        /* ====== New fluent configuration API ====== */
-
+        private bool _constructed = false;
         private readonly FeatureSwitch _switch = new FeatureSwitch();
         private string _description = null;
+
+        private void AssertConstructing()
+        {
+            if (_constructed)
+                throw new InvalidOperationException("Features can only be configured in the constructor.");
+        }
+
+
+        /* ====== Fluent API ====== */
+
+        /*
+         * Features are intended to be immutable once constructed.
+         *
+         * The fluent configuration is intended to be accessible only from the
+         * feature's constructors. Therefore, the fluent configuration methods
+         * must be declared as protected. THey must also call AssertConstructing()
+         * to ensure that they are only called from the constructor.
+         */
+
 
         /// <summary>
         ///  Defines the condition under which the feature is active.
@@ -31,6 +49,7 @@ namespace Dolstagis.Web
         protected ISwitchExpression Active
         {
             get {
+                AssertConstructing();
                 return _switch;
             }
         }
@@ -43,17 +62,35 @@ namespace Dolstagis.Web
 
         protected void Description(string description)
         {
+            AssertConstructing();
             _description = description;
         }
 
 
-        /* ====== Implementation of IFeature ====== */
+        /* ====== Public properties and methods ====== */
+
+        /*
+         * The feature's state is only intended to be accessible from external
+         * classes, specifically, the rest of the framework.
+         * 
+         * To avoid polluting IntelliSense with irrelevancies, these must be
+         * declared as members of tie IFeature interface, which must be
+         * implemented explicitly as shown below.
+         *
+         * They must also set _constructed = true to ensure that they signal
+         * that the feature has been initialised.
+         */
 
         /// <summary>
         ///  Gets the feature switch which controls this feature.
         /// </summary>
 
-        IFeatureSwitch IFeature.Switch { get { return _switch; } }
+        IFeatureSwitch IFeature.Switch {
+            get {
+                _constructed = true;
+                return _switch;
+            }
+        }
 
 
         /// <summary>
@@ -61,7 +98,10 @@ namespace Dolstagis.Web
         /// </summary>
 
         string IFeature.Description {
-            get { return _description ?? this.GetType().FullName; }
+            get {
+                _constructed = true;
+                return _description ?? this.GetType().FullName;
+            }
         }
 
         #region /* ====== Old API, being replaced with the new fluent API ====== */
