@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Dolstagis.Web.Features;
 
 namespace Dolstagis.Web.Routes
 {
@@ -10,12 +11,12 @@ namespace Dolstagis.Web.Routes
 
     public class RouteTable : IRouteTable
     {
-        public Feature Feature { get; private set; }
+        public IFeature Feature { get; private set; }
 
         public Node Root { get; private set; }
 
 
-        public RouteTable(Feature feature)
+        public RouteTable(IFeature feature)
         {
             this.Root = new Node(String.Empty);
             this.Feature = feature;

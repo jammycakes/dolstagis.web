@@ -2,6 +2,7 @@
 using Dolstagis.Tests.Web.TestFeatures;
 using Dolstagis.Tests.Web.TestFeatures.Handlers;
 using Dolstagis.Web;
+using Dolstagis.Web.Features;
 using Dolstagis.Web.Features.Impl;
 using Dolstagis.Web.Http;
 using Dolstagis.Web.Lifecycle;
@@ -27,7 +28,7 @@ namespace Dolstagis.Tests.Web.Lifecycle
 
         private object Execute(string method, string path)
         {
-            var featureSet = new FeatureSet(null, new Feature[] { new FirstFeature() });
+            var featureSet = new FeatureSet(null, new IFeature[] { new FirstFeature() });
             var processor = new RequestProcessor(null, null, null, null,
                 featureSet, 
                 () => new ActionInvocation(_mockContainer)

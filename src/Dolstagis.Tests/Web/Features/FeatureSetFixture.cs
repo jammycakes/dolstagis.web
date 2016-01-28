@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Dolstagis.Tests.Web.TestFeatures;
-using Dolstagis.Web;
+using Dolstagis.Web.Features;
 using Dolstagis.Web.Features.Impl;
 using Dolstagis.Web.Http;
 using Moq;
@@ -12,9 +12,9 @@ namespace Dolstagis.Tests.Web.Features
     [TestFixture]
     public class FeatureSetFixture
     {
-        private Feature alwaysEnabled = new EmptyNamedFeature("alwaysEnabled");
-        private Feature alwaysDisabled = new EmptyNamedFeature("alwaysDisabled", req => false);
-        private Feature localhostOnly = new EmptyNamedFeature("localhostOnly", req => req.Url.IsLoopback);
+        private IFeature alwaysEnabled = new EmptyNamedFeature("alwaysEnabled");
+        private IFeature alwaysDisabled = new EmptyNamedFeature("alwaysDisabled", req => false);
+        private IFeature localhostOnly = new EmptyNamedFeature("localhostOnly", req => req.Url.IsLoopback);
 
         private IRequest localRequest;
         private IRequest nonLocalRequest;

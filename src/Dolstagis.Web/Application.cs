@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 using System.Threading.Tasks;
+using Dolstagis.Web.Features;
 using Dolstagis.Web.Features.Impl;
 using Dolstagis.Web.Http;
 using Dolstagis.Web.Logging;
@@ -56,7 +57,7 @@ namespace Dolstagis.Web
         ///  They type of feature to register.
         /// </typeparam>
 
-        public void AddFeature<T>() where T : Feature, new()
+        public void AddFeature<T>() where T : IFeature, new()
         {
             AddFeature(new T());
         }
@@ -68,7 +69,7 @@ namespace Dolstagis.Web
         ///  The feature to register.
         /// </param>
 
-        public void AddFeature(Feature feature)
+        public void AddFeature(IFeature feature)
         {
             log.Debug(() => "Found feature: " + feature.GetType().FullName);
             Features.Add(feature);
@@ -90,7 +91,7 @@ namespace Dolstagis.Web
             if (_loadedAssemblies.Contains(assembly)) return;
             _loadedAssemblies.Add(assembly);
 
-            var features = assembly.SafeGetInstances<Feature>();
+            var features = assembly.SafeGetInstances<IFeature>();
             foreach (var feature in features)
                 AddFeature(feature);
         }

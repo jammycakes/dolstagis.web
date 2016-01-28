@@ -1,6 +1,6 @@
 ﻿namespace Dolstagis.Web.Features
 {
-    public interface IFeature
+    public interface IFeature : ILegacyFeature
     {
         IFeatureSwitch Switch { get; }
     }

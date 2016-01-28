@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Dolstagis.Web;
+using Dolstagis.Web.Features;
 using Dolstagis.Web.Features.Impl;
 using Dolstagis.Web.Http;
 using Dolstagis.Web.Lifecycle;
@@ -26,7 +27,7 @@ namespace Dolstagis.Tests.Web.Sessions
             var store = new InMemorySessionStore();
 
             var processor = new RequestProcessor
-                (null, null, store, null, new FeatureSet(null, new Feature[0]), () => null);
+                (null, null, store, null, new FeatureSet(null, new IFeature[0]), () => null);
 
             var ctx = processor.CreateContext(mockRequest.Object, mockResponse.Object);
             Assert.IsNotNull(ctx.Session);
@@ -53,7 +54,7 @@ namespace Dolstagis.Tests.Web.Sessions
             mockRequest.SetupGet(x => x.Headers).Returns(headers);
             var mockResponse = new Mock<IResponse>();
             var processor = new RequestProcessor
-                (null, null, store, null, new FeatureSet(null, new Feature[0]), () => null);
+                (null, null, store, null, new FeatureSet(null, new IFeature[0]), () => null);
 
             var ctx = processor.CreateContext(mockRequest.Object, mockResponse.Object);
             Assert.IsNotNull(ctx.Session);

@@ -27,7 +27,7 @@ namespace Dolstagis.Web
         ///  Defines the condition under which the feature is active.
         /// </summary>
 
-        public ISwitchExpression Active
+        protected ISwitchExpression Active
         {
             get {
                 return _switch;
@@ -37,7 +37,7 @@ namespace Dolstagis.Web
 
         /* ====== Implementation of IFeature ====== */
 
-        public IFeatureSwitch Switch { get { return _switch; } }
+        IFeatureSwitch IFeature.Switch { get { return _switch; } }
 
 
         #region /* ====== Old API, being replaced with the new fluent API ====== */

@@ -15,7 +15,7 @@ namespace Dolstagis.Web.Features.Impl
     {
         private static readonly Logger log = Logger.ForThisClass();
 
-        private List<Feature> _features = new List<Feature>();
+        private List<IFeature> _features = new List<IFeature>();
         private Dictionary<Key, FeatureSet> featureSets = new Dictionary<Key, FeatureSet>();
 
         public Application Application { get; private set; }
@@ -33,7 +33,7 @@ namespace Dolstagis.Web.Features.Impl
         }
 
 
-        public FeatureSwitchboard Add(params Feature[] features)
+        public FeatureSwitchboard Add(params IFeature[] features)
         {
             this._features.AddRange(features);
             return this;
@@ -52,7 +52,7 @@ namespace Dolstagis.Web.Features.Impl
 
         private FeatureSet CreateFeatureSet(IRequest request)
         {
-            var features = new List<Feature>();
+            var features = new List<IFeature>();
             foreach (var sw in _features) {
                 if (sw.Switch.IsEnabledForRequest(request)) {
                     log.Trace(() => "Feature " + sw.GetType().FullName + " enabled - adding");

@@ -1,4 +1,5 @@
 ﻿using System.Web.Hosting;
+using Dolstagis.Web.Features;
 
 namespace Dolstagis.Web.Aspnet
 {
@@ -15,7 +16,7 @@ namespace Dolstagis.Web.Aspnet
         ///  The virtual path to the file or directory to be registered.
         /// </param>
 
-        public static void AddStaticFiles(this Feature feature, VirtualPath path)
+        public static void AddStaticFiles(this IFeature feature, VirtualPath path)
         {
             feature.AddStaticFiles(path, HostingEnvironment.MapPath(path.ToString()));
         }
@@ -32,7 +33,7 @@ namespace Dolstagis.Web.Aspnet
         ///  The virtual path to the file or directory to be registered.
         /// </param>
 
-        public static void AddStaticFiles(this Feature feature, string path)
+        public static void AddStaticFiles(this IFeature feature, string path)
         {
             feature.AddStaticFiles(path, HostingEnvironment.MapPath(path));
         }
@@ -49,7 +50,7 @@ namespace Dolstagis.Web.Aspnet
         ///  The virtual path to the view(s) to be registered.
         /// </param>
 
-        public static void AddViews(this Feature feature, VirtualPath path)
+        public static void AddViews(this IFeature feature, VirtualPath path)
         {
             feature.AddViews(path, HostingEnvironment.MapPath(path.ToString()));
         }
@@ -66,7 +67,7 @@ namespace Dolstagis.Web.Aspnet
         ///  The virtual path to the view(s) to be registered.
         /// </param>
 
-        public static void AddViews(this Feature feature, string path)
+        public static void AddViews(this IFeature feature, string path)
         {
             feature.AddViews(path, HostingEnvironment.MapPath(path));
         }

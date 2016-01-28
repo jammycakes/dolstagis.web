@@ -36,9 +36,9 @@ namespace Dolstagis.Web.Features.Impl
         ///  Gets the features in this feature set.
         /// </summary>
 
-        public IReadOnlyCollection<Feature> Features { get; private set; }
+        public IReadOnlyCollection<IFeature> Features { get; private set; }
 
-        public FeatureSet(Application application, IEnumerable<Feature> features)
+        public FeatureSet(Application application, IEnumerable<IFeature> features)
         {
             this.Application = application;
             this.Features = features.ToList().AsReadOnly();
@@ -51,7 +51,7 @@ namespace Dolstagis.Web.Features.Impl
                     foreach (var feature in this.Features)
                     {
                         x.AddRegistry(feature.Services);
-                        x.For<Feature>().Add(feature);
+                        x.For<IFeature>().Add(feature);
                     }
                 });
             }
