@@ -7,7 +7,7 @@ using Dolstagis.Web.Lifecycle;
 using Moq;
 using NUnit.Framework;
 
-namespace Dolstagis.Tests.Web
+namespace Dolstagis.Tests.Web.Features
 {
     [TestFixture]
     public class FeatureSetFixture
