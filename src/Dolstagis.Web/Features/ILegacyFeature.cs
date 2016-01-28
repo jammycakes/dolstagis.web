@@ -8,7 +8,6 @@ namespace Dolstagis.Web.Features
     public interface ILegacyFeature
     {
         IModelBinder ModelBinder { get; set; }
-        IRouteTable Routes { get; }
         Registry Services { get; }
 
         void AddHandler<T>() where T : Handler;

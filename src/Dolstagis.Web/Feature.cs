@@ -105,6 +105,18 @@ namespace Dolstagis.Web
             }
         }
 
+
+        /// <summary>
+        ///  Gets the route invocation for a given path.
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
+
+        RouteInvocation IFeature.GetRouteInvocation(VirtualPath path)
+        {
+            return _routes.GetRouteInvocation(path, this);
+        }
+
         #region /* ====== Old API, being replaced with the new fluent API ====== */
 
 
@@ -120,15 +132,6 @@ namespace Dolstagis.Web
         /// </summary>
 
         public Registry Services { get; private set; }
-
-
-        /// <summary>
-        ///  Gets or sets the table of routes defined by this feature.
-        /// </summary>
-
-        public IRouteTable Routes {
-            get { return _routes; }
-        }
 
 
         /// <summary>
@@ -173,7 +176,7 @@ namespace Dolstagis.Web
 
         public void AddHandler<T>(string route) where T: Handler
         {
-            this.Routes.Add(route, new RouteTarget(typeof(T)));
+            this._routes.Add(route, new RouteTarget(typeof(T)));
         }
 
         /* ====== AddStaticFiles and AddViews helper methods ====== */

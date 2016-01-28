@@ -76,7 +76,7 @@ namespace Dolstagis.Web.Features.Impl
         {
             var result =
                 from feature in Features
-                let invocation = feature.Routes.GetRouteInvocation(request.Path, feature)
+                let invocation = feature.GetRouteInvocation(request.Path)
                 where invocation != null && invocation.Target != null
                 select invocation;
             return result.LastOrDefault();
