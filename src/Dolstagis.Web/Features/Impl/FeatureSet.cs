@@ -44,7 +44,7 @@ namespace Dolstagis.Web.Features.Impl
             this.Features = features.ToList().AsReadOnly();
             if (application != null)
             {
-                this.Container = application.Container.GetNestedContainer();
+                this.Container = application.Container.CreateChildContainer();
                 this.Container.Configure(x =>
                 {
                     x.For<FeatureSet>().Use(this);
