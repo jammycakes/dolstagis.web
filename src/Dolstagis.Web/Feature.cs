@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Linq;
+using Dolstagis.Web.Features;
+using Dolstagis.Web.Features.Impl;
+using Dolstagis.Web.Logging;
 using Dolstagis.Web.Routes;
 using Dolstagis.Web.Static;
 using StructureMap;
@@ -12,8 +15,34 @@ namespace Dolstagis.Web
     ///  of the application lifecycle.
     /// </summary>
 
-    public abstract class Feature
+    public abstract class Feature : IFeature
     {
+        private static readonly Logger log = Logger.ForThisClass();
+
+        /* ====== New fluent configuration API ====== */
+
+        private FeatureSwitch _switch = new FeatureSwitch();
+
+        /// <summary>
+        ///  Defines the condition under which the feature is active.
+        /// </summary>
+
+        public ISwitchExpression Active
+        {
+            get {
+                return _switch;
+            }
+        }
+
+
+        /* ====== Implementation of IFeature ====== */
+
+        public IFeatureSwitch Switch { get { return _switch; } }
+
+
+        #region /* ====== Old API, being replaced with the new fluent API ====== */
+
+
         /// <summary>
         ///  Gets or sets the <see cref="IModelBinder"/> instance used to invoke
         ///  actions provided by this feature.
@@ -273,5 +302,7 @@ namespace Dolstagis.Web
         {
             AddViews(new VirtualPath(path), physicalPath);
         }
+
+        #endregion
     }
 }

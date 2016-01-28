@@ -13,11 +13,8 @@ namespace Dolstagis.Tests.Web
     public class FeatureSetFixture
     {
         private Feature alwaysEnabled = new EmptyNamedFeature("alwaysEnabled");
-        private Feature alwaysDisabled = new EmptyNamedFeature("alwaysDisabled");
-        private Feature localhostOnly = new EmptyNamedFeature("localhostOnly");
-        private IFeatureSwitch alwaysEnabledSwitch;
-        private IFeatureSwitch alwaysDisabledSwitch;
-        private IFeatureSwitch localhostOnlySwitch;
+        private Feature alwaysDisabled = new EmptyNamedFeature("alwaysDisabled", req => false);
+        private Feature localhostOnly = new EmptyNamedFeature("localhostOnly", req => req.Url.IsLoopback);
 
         private IRequest localRequest;
         private IRequest nonLocalRequest;
@@ -27,23 +24,6 @@ namespace Dolstagis.Tests.Web
         [OneTimeSetUp]
         public void CreateFeatures()
         {
-            var mockAlwaysEnabled = new Mock<IFeatureSwitch>();
-            mockAlwaysEnabled.Setup(x => x.IsEnabledForRequest(It.IsAny<IRequest>()))
-                .Returns(true);
-            alwaysEnabledSwitch = mockAlwaysEnabled.Object;
-
-            var mockAlwaysDisabled = new Mock<IFeatureSwitch>();
-            mockAlwaysDisabled.Setup(x => x.IsEnabledForRequest(It.IsAny<IRequest>()))
-                .Returns(false);
-            alwaysDisabledSwitch = mockAlwaysDisabled.Object;
-
-            var mockLocalhostOnly = new Mock<IFeatureSwitch>();
-            mockLocalhostOnly.Setup(x => x.IsEnabledForRequest(It.IsAny<IRequest>()))
-                .Returns(false);
-            mockLocalhostOnly.Setup(x => x.IsEnabledForRequest(It.Is<IRequest>(req => req.Url.IsLoopback)))
-                .Returns(true);
-            localhostOnlySwitch = mockLocalhostOnly.Object;
-
             var mockLocalRequest = new Mock<IRequest>();
             mockLocalRequest.SetupGet(x => x.Url).Returns(new Uri("http://localhost/"));
             localRequest = mockLocalRequest.Object;
@@ -52,11 +32,8 @@ namespace Dolstagis.Tests.Web
             mockNonLocalRequest.SetupGet(x => x.Url).Returns(new Uri("http://example.com"));
             nonLocalRequest = mockNonLocalRequest.Object;
 
-
             switchboard = new FeatureSwitchboard(null)
-                .Add(this.alwaysEnabledSwitch, this.alwaysEnabled)
-                .Add(this.alwaysDisabledSwitch, this.alwaysDisabled)
-                .Add(this.localhostOnlySwitch, this.localhostOnly);
+                .Add(alwaysEnabled, alwaysDisabled, localhostOnly);
         }
 
         [Test]

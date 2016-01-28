@@ -73,12 +73,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>StatusMessages.resx</DependentUpon>
     </Compile>
+    <Compile Include="Features\IFeature.cs" />
+    <Compile Include="Features\Impl\FeatureSwitch.cs" />
+    <Compile Include="Features\ISwitchExpression.cs" />
     <Compile Include="Lifecycle\FeatureSet.cs" />
     <Compile Include="Lifecycle\FeatureSwitchboard.cs" />
-    <Compile Include="FeatureSwitches\AppSettingsSwitchableAttribute.cs" />
-    <Compile Include="FeatureSwitches\BasicSwitch.cs" />
-    <Compile Include="FeatureSwitches\DateTimeSwitchableAttribute.cs" />
-    <Compile Include="FeatureSwitches\DateTimeSwitchType.cs" />
     <Compile Include="Handler.cs" />
     <Compile Include="HeadResult.cs" />
     <Compile Include="HeadResultProcessor.cs" />

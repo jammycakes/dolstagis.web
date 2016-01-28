@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Dolstagis.Web.FeatureSwitches;
+using Dolstagis.Web.Features;
 using Dolstagis.Web.Http;
 using Dolstagis.Web.Logging;
 
@@ -28,17 +28,9 @@ namespace Dolstagis.Web.Lifecycle
         }
 
 
-        private IFeatureSwitch GetFeatureSwitch(Feature feature)
+        private IFeatureSwitch GetFeatureSwitch(IFeature feature)
         {
-            var switches =
-                from attr in feature.GetType().GetCustomAttributes(true)
-                let factory = attr as IFeatureSwitchBuilder
-                let @switch = factory != null
-                    ? factory.CreateSwitch(feature, this.Application)
-                    : attr as IFeatureSwitch
-                where @switch != null
-                select @switch;
-            return switches.FirstOrDefault() ?? new BasicSwitch(true);
+            return feature.Switch;
         }
 
 
@@ -50,13 +42,6 @@ namespace Dolstagis.Web.Lifecycle
                 select new FeatureSwitchLink(@switch, feature);
 
             this.switches.AddRange(links);
-            return this;
-        }
-
-
-        public FeatureSwitchboard Add(IFeatureSwitch @switch, Feature feature)
-        {
-            this.switches.Add(new FeatureSwitchLink(@switch, feature));
             return this;
         }
 
