@@ -91,7 +91,6 @@
     <Compile Include="Http\RequestHeaders.cs" />
     <Compile Include="Http\ResponseHeaders.cs" />
     <Compile Include="IFeatureSwitch.cs" />
-    <Compile Include="IFeatureSwitchBuilder.cs" />
     <Compile Include="IModelBinder.cs" />
     <Compile Include="Logging\ILoggingProvider.cs" />
     <Compile Include="Logging\LogEntry.cs" />
