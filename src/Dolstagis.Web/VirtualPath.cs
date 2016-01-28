@@ -202,5 +202,10 @@ namespace Dolstagis.Web
         {
             return this.Path.GetHashCode() ^ this.Type.GetHashCode();
         }
+
+        public static implicit operator VirtualPath (string path)
+        {
+            return new VirtualPath(path);
+        }
     }
 }
