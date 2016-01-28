@@ -74,7 +74,11 @@
       <DependentUpon>StatusMessages.resx</DependentUpon>
     </Compile>
     <Compile Include="Features\IFeature.cs" />
+    <Compile Include="Features\IHandlerExpression.cs" />
     <Compile Include="Features\Impl\FeatureSwitch.cs" />
+    <Compile Include="Features\IRouteDestinationExpression.cs" />
+    <Compile Include="Features\IRouteExpression.cs" />
+    <Compile Include="Features\IStaticFilesExpression.cs" />
     <Compile Include="Features\ISwitchExpression.cs" />
     <Compile Include="Features\Impl\FeatureSet.cs" />
     <Compile Include="Features\Impl\FeatureSwitchboard.cs" />
