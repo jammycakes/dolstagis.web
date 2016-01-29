@@ -1,8 +1,11 @@
-﻿namespace Dolstagis.Web.Features
+﻿using System;
+using System.Linq.Expressions;
+
+namespace Dolstagis.Web.Features
 {
     public interface IRouteDestinationExpression
     {
-        IHandlerExpression Handler<THandler>() where THandler : class, new();
+        IHandlerExpression Handler(Expression<Func<IServiceProvider, object>> handlerFunc);
 
         IStaticFilesExpression StaticFiles { get; }
     }

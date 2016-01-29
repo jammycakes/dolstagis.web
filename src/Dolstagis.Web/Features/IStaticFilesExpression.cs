@@ -6,6 +6,6 @@ namespace Dolstagis.Web.Features
 {
     public interface IStaticFilesExpression
     {
-        void FromStream(Func<VirtualPath, Stream> streamLocator);
+        void FromStream(Func<VirtualPath, IServiceProvider, Stream> streamLocator);
     }
 }

@@ -1,9 +1,10 @@
-﻿namespace Dolstagis.Web.Features
+﻿using System;
+using System.Linq.Expressions;
+
+namespace Dolstagis.Web.Features
 {
     public interface IHandlerExpression
     {
-        void WithModelBinder<TModelBinder>() where TModelBinder : IModelBinder;
-
-        void WithModelBinder(IModelBinder binder);
+        IHandlerExpression WithModelBinder(Expression<Func<IServiceProvider, IModelBinder>> modelBinderFunc);
     }
 }
