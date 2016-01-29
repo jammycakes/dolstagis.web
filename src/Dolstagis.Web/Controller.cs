@@ -3,7 +3,7 @@ using Dolstagis.Web.Views;
 
 namespace Dolstagis.Web
 {
-    public class Handler
+    public class Controller
     {
         public RequestContext Context { get; internal set; }
 

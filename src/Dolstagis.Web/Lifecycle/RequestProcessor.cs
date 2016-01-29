@@ -42,7 +42,7 @@ namespace Dolstagis.Web.Lifecycle
         protected virtual bool IsLoginRequired(RequestContext context, ActionInvocation action)
         {
             var attributes = action.Method.GetCustomAttributes(true).OfType<IRequirement>()
-                .Concat(action.HandlerType.GetCustomAttributes(true).OfType<IRequirement>());
+                .Concat(action.ControllerType.GetCustomAttributes(true).OfType<IRequirement>());
             return attributes.Any(x => x.IsDenied(context));
         }
 
@@ -171,15 +171,15 @@ namespace Dolstagis.Web.Lifecycle
         private ActionInvocation GetAction(IRequest request, RouteInvocation route)
         {
             var action = _createAction();
-            action.HandlerType = route.Target.HandlerType;
-            var method = action.HandlerType.GetMethod(request.Method,
+            action.ControllerType = route.Target.ControllerType;
+            var method = action.ControllerType.GetMethod(request.Method,
                 BindingFlags.Instance | BindingFlags.IgnoreCase |
                 BindingFlags.Public | BindingFlags.DeclaredOnly);
             if (method == null)
             {
                 if (request.Method.Equals("head", StringComparison.OrdinalIgnoreCase))
                 {
-                    method = action.HandlerType.GetMethod("get",
+                    method = action.ControllerType.GetMethod("get",
                         BindingFlags.Instance | BindingFlags.IgnoreCase |
                         BindingFlags.Public | BindingFlags.DeclaredOnly);
                     if (method == null)

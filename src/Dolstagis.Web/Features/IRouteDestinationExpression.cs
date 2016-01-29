@@ -5,7 +5,7 @@ namespace Dolstagis.Web.Features
 {
     public interface IRouteDestinationExpression
     {
-        IHandlerExpression Handler(Expression<Func<IServiceProvider, object>> handlerFunc);
+        IControllerExpression Controller(Expression<Func<IServiceProvider, object>> controllerFunc);
 
         IStaticFilesExpression StaticFiles { get; }
     }

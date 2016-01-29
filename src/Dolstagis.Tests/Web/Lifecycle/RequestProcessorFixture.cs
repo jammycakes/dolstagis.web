@@ -1,6 +1,6 @@
 ﻿using System;
 using Dolstagis.Tests.Web.TestFeatures;
-using Dolstagis.Tests.Web.TestFeatures.Handlers;
+using Dolstagis.Tests.Web.TestFeatures.Controllers;
 using Dolstagis.Web;
 using Dolstagis.Web.Features;
 using Dolstagis.Web.Features.Impl;
@@ -21,7 +21,7 @@ namespace Dolstagis.Tests.Web.Lifecycle
         public void CreateRouteTable()
         {
             var mock = new Mock<IContainer>();
-            mock.Setup(x => x.GetInstance(It.IsAny<Type>())).Returns(new RootHandler());
+            mock.Setup(x => x.GetInstance(It.IsAny<Type>())).Returns(new RootController());
             _mockContainer = mock.Object;
         }
 

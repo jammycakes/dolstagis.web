@@ -4,12 +4,11 @@ namespace Dolstagis.Web.Routes
 {
     public class RouteTarget : IRouteTarget
     {
+        public Type ControllerType { get; set; }
 
-        public Type HandlerType { get; set; }
-
-        public RouteTarget(Type handlerType)
+        public RouteTarget(Type controllerType)
         {
-            this.HandlerType = handlerType;
+            ControllerType = controllerType;
         }
     }
 }

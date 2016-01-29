@@ -18,7 +18,7 @@ namespace WebApp
             AddViews("~/views", Path.Combine(HttpRuntime.AppDomainAppPath, "views"));
             // Uncomment the following line to use custom error messages.
             // AddViews("~/errors", Path.Combine(HttpRuntime.AppDomainAppPath, "errors"));
-            AddHandler<Index>();
+            AddController<Index>();
         }
     }
 }

@@ -81,7 +81,7 @@
             Congratulations! Your new Dolstagis.Web project is ready to go.
         </p>
         <p>
-            To get started, create a feature and one or more handlers:
+            To get started, create a feature and one or more controllers:
         </p>
 <pre><code>using System;
 using Dolstagis.Web;
@@ -90,13 +90,13 @@ public class MyFeature: Feature
 {
     public MyFeature()
     {
-        AddHandler&lt;MyHomePage&gt;();
+        AddController&lt;MyHomePage&gt;();
     }
 }
 
 
 [Route("/")]
-public class MyHomePage: Handler
+public class MyHomePage: Controller
 {
     public object Get()
     {
@@ -112,7 +112,7 @@ public class MyHomePage: Handler
         </p>
 
         <p>
-            This message will disappear when you define a handler for your home page.
+            This message will disappear when you define a controller for your home page.
         </p>
 
     </section>

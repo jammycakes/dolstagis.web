@@ -9,7 +9,7 @@ using Dolstagis.Web.Aspnet;
 namespace $rootnamespace$
 {
     [Route("/")]
-    public class Index : Handler
+    public class Index : Controller
     {
         public object Get()
         {

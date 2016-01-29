@@ -3,8 +3,8 @@ using System.Linq.Expressions;
 
 namespace Dolstagis.Web.Features
 {
-    public interface IHandlerExpression
+    public interface IControllerExpression
     {
-        IHandlerExpression WithModelBinder(Expression<Func<IServiceProvider, IModelBinder>> modelBinderFunc);
+        IControllerExpression WithModelBinder(Expression<Func<IServiceProvider, IModelBinder>> modelBinderFunc);
     }
 }

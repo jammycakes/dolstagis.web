@@ -66,7 +66,7 @@ namespace Dolstagis.Web.ModelBinding
                 else
                 {
                     throw new InvalidOperationException(String.Format(
-                        "Required argument {0} was not supplied to method {1} on handler {2}",
+                        "Required argument {0} was not supplied to method {1} on controller {2}",
                         parameter.Name, method.Name, method.DeclaringType));
                 }
             }

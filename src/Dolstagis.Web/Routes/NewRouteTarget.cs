@@ -10,13 +10,13 @@ using Dolstagis.Web.Features;
 namespace Dolstagis.Web.Routes
 {
     public class NewRouteTarget : IRouteTarget, IRouteExpression,
-        IRouteDestinationExpression, IHandlerExpression, IStaticFilesExpression
+        IRouteDestinationExpression, IControllerExpression, IStaticFilesExpression
     {
-        public Expression<Func<IServiceProvider, object>> GetHandler { get; private set; }
+        public Expression<Func<IServiceProvider, object>> GetController { get; private set; }
 
         public Expression<Func<IServiceProvider, IModelBinder>> GetModelBinder { get; private set; }
 
-        public Type HandlerType { get; private set; }
+        public Type ControllerType { get; private set; }
 
         IRouteDestinationExpression IRouteExpression.To
         {
@@ -28,13 +28,13 @@ namespace Dolstagis.Web.Routes
             get { return this; }
         }
 
-        IHandlerExpression IRouteDestinationExpression.Handler(Expression<Func<IServiceProvider, object>> handlerFunc)
+        IControllerExpression IRouteDestinationExpression.Controller(Expression<Func<IServiceProvider, object>> controllerFunc)
         {
-            GetHandler = handlerFunc;
+            GetController = controllerFunc;
             return this;
         }
 
-        IHandlerExpression IHandlerExpression.WithModelBinder(Expression<Func<IServiceProvider, IModelBinder>> modelBinderFunc)
+        IControllerExpression IControllerExpression.WithModelBinder(Expression<Func<IServiceProvider, IModelBinder>> modelBinderFunc)
         {
             GetModelBinder = modelBinderFunc;
             return this;

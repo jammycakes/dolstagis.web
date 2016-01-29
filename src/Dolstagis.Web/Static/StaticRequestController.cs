@@ -1,6 +1,6 @@
 ﻿namespace Dolstagis.Web.Static
 {
-    public class StaticRequestHandler : Handler
+    public class StaticRequestController : Controller
     {
         public object Get(string path = "")
         {

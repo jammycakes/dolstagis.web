@@ -97,9 +97,9 @@
     <Compile Include="Web\TestFeatures\CustomRouteFeature.cs" />
     <Compile Include="Web\TestFeatures\EmptyNamedFeature.cs" />
     <Compile Include="Web\TestFeatures\FirstFeature.cs" />
-    <Compile Include="Web\TestFeatures\Handlers\ChildHandler.cs" />
-    <Compile Include="Web\TestFeatures\Handlers\LanguageHandler.cs" />
-    <Compile Include="Web\TestFeatures\Handlers\RootHandler.cs" />
+    <Compile Include="Web\TestFeatures\Controllers\ChildController.cs" />
+    <Compile Include="Web\TestFeatures\Controllers\LanguageController.cs" />
+    <Compile Include="Web\TestFeatures\Controllers\RootController.cs" />
     <Compile Include="Web\Views\ViewRegistryFixture.cs" />
     <Compile Include="Web\VirtualPathFixture.cs" />
   </ItemGroup>

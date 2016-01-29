@@ -7,7 +7,7 @@ namespace Dolstagis.Web
         /// <summary>
         ///  Gets a value indicating whether this processor can handle a result of this type.
         /// </summary>
-        /// <param name="data">The data or view returned from the handler.</param>
+        /// <param name="data">The data or view returned from the controller.</param>
         /// <returns>
         ///  true if this processor can handle data of this type, otherwise false.
         /// </returns>
@@ -15,7 +15,7 @@ namespace Dolstagis.Web
         bool CanProcess(object data);
 
         /// <summary>
-        ///  Processes the data returned from the handler and sends the output to the response.
+        ///  Processes the data returned from the controller and sends the output to the response.
         /// </summary>
         /// <param name="data">
         ///  The data to be processed.

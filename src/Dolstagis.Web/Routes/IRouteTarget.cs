@@ -4,6 +4,6 @@ namespace Dolstagis.Web.Routes
 {
     public interface IRouteTarget
     {
-        Type HandlerType { get; }
+        Type ControllerType { get; }
     }
 }

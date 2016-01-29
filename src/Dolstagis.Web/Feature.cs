@@ -159,13 +159,13 @@ namespace Dolstagis.Web
 
 
         /// <summary>
-        ///  Registers a <see cref="Handler"/> in this feature by type,
-        ///  with a route specified in a [Route] attribute on the handler
+        ///  Registers a <see cref="Controller"/> in this feature by type,
+        ///  with a route specified in a [Route] attribute on the controller
         ///  class declaration.
         /// </summary>
         /// <typeparam name="T"></typeparam>
 
-        public void AddHandler<T>() where T: Handler
+        public void AddController<T>() where T: Controller
         {
             var attributes = typeof(T).GetCustomAttributes(typeof(RouteAttribute), true);
             if (!attributes.Any()) {
@@ -173,21 +173,21 @@ namespace Dolstagis.Web
             }
 
             foreach (RouteAttribute attr in attributes) {
-                AddHandler<T>(attr.Route);
+                AddController<T>(attr.Route);
             }
         }
 
         /// <summary>
-        ///  Registers a <see cref="Handler"/> in this feature with a specified route.
+        ///  Registers a <see cref="Controller"/> in this feature with a specified route.
         /// </summary>
         /// <typeparam name="T">
-        ///  The type of this handler.
+        ///  The type of this controller.
         /// </typeparam>
         /// <param name="route">
-        ///  The route definition for this handler.
+        ///  The route definition for this controller.
         /// </param>
 
-        public void AddHandler<T>(VirtualPath route) where T: Handler
+        public void AddController<T>(VirtualPath route) where T: Controller
         {
             this._routes.Add(route, new RouteTarget(typeof(T)));
         }
@@ -208,12 +208,12 @@ namespace Dolstagis.Web
         protected void AddStaticResources(ResourceType type, VirtualPath path, string physicalPath)
         {
             AddStaticResources(type, path, new FileResourceLocation(physicalPath));
-            AddStaticFilesHandler(path);
+            AddStaticFilesController(path);
         }
 
-        private void AddStaticFilesHandler(VirtualPath path)
+        private void AddStaticFilesController(VirtualPath path)
         {
-            AddHandler<StaticRequestHandler>(path.Append("{path*}"));
+            AddController<StaticRequestController>(path.Append("{path*}"));
         }
 
         /* ====== AddStaticFiles methods ====== */
@@ -228,7 +228,7 @@ namespace Dolstagis.Web
         public void AddStaticFiles(VirtualPath path, Func<IContext, IResourceLocation> locationFactory)
         {
             AddStaticResources(ResourceType.StaticFiles, path, locationFactory);
-            AddStaticFilesHandler(path);
+            AddStaticFilesController(path);
         }
 
 
@@ -241,7 +241,7 @@ namespace Dolstagis.Web
         public void AddStaticFiles(VirtualPath path, IResourceLocation location)
         {
             AddStaticResources(ResourceType.StaticFiles, path, location);
-            AddStaticFilesHandler(path);
+            AddStaticFilesController(path);
         }
 
 
@@ -260,7 +260,7 @@ namespace Dolstagis.Web
         public void AddStaticFiles(VirtualPath path, string physicalPath)
         {
             AddStaticResources(ResourceType.StaticFiles, path, physicalPath);
-            AddStaticFilesHandler(path);
+            AddStaticFilesController(path);
         }
 
 

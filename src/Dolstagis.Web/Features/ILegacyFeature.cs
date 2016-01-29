@@ -10,8 +10,8 @@ namespace Dolstagis.Web.Features
         IModelBinder ModelBinder { get; set; }
         Registry Services { get; }
 
-        void AddHandler<T>() where T : Handler;
-        void AddHandler<T>(VirtualPath route) where T : Handler;
+        void AddController<T>() where T : Controller;
+        void AddController<T>(VirtualPath route) where T : Controller;
         void AddStaticFiles(VirtualPath path, IResourceLocation location);
         void AddStaticFiles(VirtualPath path, string physicalPath);
         void AddStaticFiles(VirtualPath path, Func<IContext, IResourceLocation> locationFactory);

@@ -1,4 +1,4 @@
-﻿using Dolstagis.Tests.Web.TestFeatures.Handlers;
+﻿using Dolstagis.Tests.Web.TestFeatures.Controllers;
 using Dolstagis.Web;
 
 namespace Dolstagis.Tests.Web.TestFeatures
@@ -7,14 +7,14 @@ namespace Dolstagis.Tests.Web.TestFeatures
     {
         public FirstFeature()
         {
-            AddHandler<RootHandler>();
-            AddHandler<ChildHandler>("one/two");
-            AddHandler<ChildHandler>("one/three");
-            AddHandler<ChildHandler>("one/two/three/{id}");
-            AddHandler<ChildHandler>("one/two/greedy/{id+}");
-            AddHandler<ChildHandler>("one/two/optional/{id?}");
-            AddHandler<ChildHandler>("one/two/optgreedy/{id*}");
-            AddHandler<LanguageHandler>("{language}/one/two");
+            AddController<RootController>();
+            AddController<ChildController>("one/two");
+            AddController<ChildController>("one/three");
+            AddController<ChildController>("one/two/three/{id}");
+            AddController<ChildController>("one/two/greedy/{id+}");
+            AddController<ChildController>("one/two/optional/{id?}");
+            AddController<ChildController>("one/two/optgreedy/{id*}");
+            AddController<LanguageController>("{language}/one/two");
         }
     }
 }

@@ -14,7 +14,7 @@ namespace Dolstagis.Web.Lifecycle
             _container = container;
         }
 
-        public Type HandlerType { get; set; }
+        public Type ControllerType { get; set; }
 
         public MethodInfo Method { get; set; }
 
@@ -22,7 +22,7 @@ namespace Dolstagis.Web.Lifecycle
 
         public object Invoke(RequestContext context)
         {
-            var instance = _container.GetInstance(HandlerType) as Handler;
+            var instance = _container.GetInstance(ControllerType) as Controller;
             instance.Context = context;
             return Method.Invoke(instance, Arguments.ToArray());
         }

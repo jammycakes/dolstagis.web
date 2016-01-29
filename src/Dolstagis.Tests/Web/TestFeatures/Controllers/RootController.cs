@@ -1,10 +1,10 @@
 ﻿using System.Threading.Tasks;
 using Dolstagis.Web;
 
-namespace Dolstagis.Tests.Web.TestFeatures.Handlers
+namespace Dolstagis.Tests.Web.TestFeatures.Controllers
 {
     [Route("/")]
-    public class RootHandler : Handler
+    public class RootController : Controller
     {
         /// <summary>
         ///  A synchronous action returning a status object 200/OK.

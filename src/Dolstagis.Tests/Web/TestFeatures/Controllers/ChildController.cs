@@ -1,8 +1,8 @@
 ﻿using Dolstagis.Web;
 
-namespace Dolstagis.Tests.Web.TestFeatures.Handlers
+namespace Dolstagis.Tests.Web.TestFeatures.Controllers
 {
-    public class ChildHandler : Handler
+    public class ChildController : Controller
     {
         public object Get()
         {

@@ -1,8 +1,8 @@
 ﻿using Dolstagis.Web;
 
-namespace Dolstagis.Tests.Web.TestFeatures.Handlers
+namespace Dolstagis.Tests.Web.TestFeatures.Controllers
 {
-    public class LanguageHandler : Handler
+    public class LanguageController : Controller
     {
         public object Get(string language)
         {

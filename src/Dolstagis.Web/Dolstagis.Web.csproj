@@ -82,7 +82,7 @@
     <Compile Include="Features\ISwitchExpression.cs" />
     <Compile Include="Features\Impl\FeatureSet.cs" />
     <Compile Include="Features\Impl\FeatureSwitchboard.cs" />
-    <Compile Include="Handler.cs" />
+    <Compile Include="Controller.cs" />
     <Compile Include="HeadResult.cs" />
     <Compile Include="HeadResultProcessor.cs" />
     <Compile Include="HttpStatusException.cs" />
@@ -152,7 +152,7 @@
     <Compile Include="Static\ResourceMapping.cs" />
     <Compile Include="Static\ResourceResolver.cs" />
     <Compile Include="Static\ResourceType.cs" />
-    <Compile Include="Static\StaticRequestHandler.cs" />
+    <Compile Include="Static\StaticRequestController.cs" />
     <Compile Include="Static\StaticResult.cs" />
     <Compile Include="Static\StaticResultProcessor.cs" />
     <Compile Include="Util\AssemblyExtensions.cs" />

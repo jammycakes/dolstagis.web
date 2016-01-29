@@ -3,7 +3,7 @@
 namespace WebApp
 {
     [Route("/")]
-    public class Index : Handler
+    public class Index : Controller
     {
         public object Get()
         {
