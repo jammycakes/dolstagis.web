@@ -73,6 +73,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>StatusMessages.resx</DependentUpon>
     </Compile>
+    <Compile Include="Features\ExpressionExtensions.cs" />
     <Compile Include="Features\IFeature.cs" />
     <Compile Include="Features\IHandlerExpression.cs" />
     <Compile Include="Features\Impl\FeatureSwitch.cs" />
