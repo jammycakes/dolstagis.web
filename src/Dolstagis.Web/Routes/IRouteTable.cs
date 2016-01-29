@@ -18,7 +18,7 @@ namespace Dolstagis.Web.Routes
         ///  A predicate which allows us to add constraints to the route.
         /// </param>
 
-        void Add(string specification, IRouteTarget target);
+        void Add(VirtualPath specification, IRouteTarget target);
 
         /// <summary>
         ///  Gets the route target for the requested path.

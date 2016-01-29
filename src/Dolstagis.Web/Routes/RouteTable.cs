@@ -33,11 +33,10 @@ namespace Dolstagis.Web.Routes
         ///  A predicate which allows us to add constraints to the route.
         /// </param>
 
-        public void Add(string specification, IRouteTarget target)
+        public void Add(VirtualPath specification, IRouteTarget target)
         {
-            var pathParts = specification.Split(new[] { '/' }, StringSplitOptions.RemoveEmptyEntries);
             var node = Root;
-            foreach (var name in pathParts)
+            foreach (var name in specification.Parts)
             {
                 node = node.GetOrCreateChild(name);
             }
