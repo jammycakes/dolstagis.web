@@ -75,7 +75,7 @@
     </Compile>
     <Compile Include="Features\ExpressionExtensions.cs" />
     <Compile Include="Features\IFeature.cs" />
-    <Compile Include="Features\IHandlerExpression.cs" />
+    <Compile Include="Features\IControllerExpression.cs" />
     <Compile Include="Features\Impl\FeatureSwitch.cs" />
     <Compile Include="Features\IRouteDestinationExpression.cs" />
     <Compile Include="Features\IRouteExpression.cs" />
