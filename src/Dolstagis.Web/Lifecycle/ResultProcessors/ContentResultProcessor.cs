@@ -3,7 +3,7 @@ using System.IO;
 using System.Threading.Tasks;
 using Dolstagis.Web.Lifecycle;
 
-namespace Dolstagis.Web
+namespace Dolstagis.Web.Lifecycle.ResultProcessors
 {
     public class ContentResultProcessor : ResultProcessor<ContentResult>
     {

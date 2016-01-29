@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Dolstagis.Web.Lifecycle;
 using Newtonsoft.Json;
 
-namespace Dolstagis.Web
+namespace Dolstagis.Web.Lifecycle.ResultProcessors
 {
     public class JsonResultProcessor : ResultProcessor<JsonResult>
     {

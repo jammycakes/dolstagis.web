@@ -65,7 +65,7 @@
     <Compile Include="Auth\RequireLoginAttribute.cs" />
     <Compile Include="Auth\SessionAuthenticator.cs" />
     <Compile Include="ContentResult.cs" />
-    <Compile Include="ContentResultProcessor.cs" />
+    <Compile Include="Lifecycle\ResultProcessors\ContentResultProcessor.cs" />
     <Compile Include="CoreServices.cs" />
     <Compile Include="ErrorStatus.cs" />
     <Compile Include="Errors\StatusMessages.Designer.cs">
@@ -85,7 +85,7 @@
     <Compile Include="Features\Impl\FeatureSwitchboard.cs" />
     <Compile Include="Controller.cs" />
     <Compile Include="HeadResult.cs" />
-    <Compile Include="HeadResultProcessor.cs" />
+    <Compile Include="Lifecycle\ResultProcessors\HeadResultProcessor.cs" />
     <Compile Include="HttpStatusException.cs" />
     <Compile Include="Http\Constants.cs" />
     <Compile Include="Http\Cookie.cs" />
@@ -139,7 +139,7 @@
     <Compile Include="Http\IRequest.cs" />
     <Compile Include="Http\IResponse.cs" />
     <Compile Include="JsonResult.cs" />
-    <Compile Include="JsonResultProcessor.cs" />
+    <Compile Include="Lifecycle\ResultProcessors\JsonResultProcessor.cs" />
     <Compile Include="Lifecycle\ExceptionHandler.cs" />
     <Compile Include="Lifecycle\ActionInvocation.cs" />
     <Compile Include="Lifecycle\IExceptionHandler.cs" />
