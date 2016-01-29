@@ -1,4 +1,5 @@
 ﻿using System;
+using Dolstagis.Web.Lifecycle;
 
 namespace Dolstagis.Web.Auth
 {

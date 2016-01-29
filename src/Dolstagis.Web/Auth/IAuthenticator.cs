@@ -1,4 +1,6 @@
-﻿namespace Dolstagis.Web.Auth
+﻿using Dolstagis.Web.Lifecycle;
+
+namespace Dolstagis.Web.Auth
 {
     public interface IAuthenticator
     {

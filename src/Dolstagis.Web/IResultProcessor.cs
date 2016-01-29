@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using Dolstagis.Web.Lifecycle;
 
 namespace Dolstagis.Web
 {

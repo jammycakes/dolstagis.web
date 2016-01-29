@@ -2,10 +2,9 @@
 using System.Linq;
 using Dolstagis.Web.Auth;
 using Dolstagis.Web.Http;
-using Dolstagis.Web.Lifecycle;
 using Dolstagis.Web.Sessions;
 
-namespace Dolstagis.Web
+namespace Dolstagis.Web.Lifecycle
 {
     public class RequestContext
     {
