@@ -140,6 +140,7 @@
     <Compile Include="Routes\RouteInvocation.cs" />
     <Compile Include="Routes\RouteTable.cs" />
     <Compile Include="Routes\RouteTarget.cs" />
+    <Compile Include="Scope.cs" />
     <Compile Include="Sessions\InMemorySession.cs" />
     <Compile Include="Sessions\InMemorySessionStore.cs" />
     <Compile Include="Sessions\ISession.cs" />
@@ -166,6 +167,7 @@
     <Compile Include="Static\StaticResultProcessor.cs" />
     <Compile Include="Util\AssemblyExtensions.cs" />
     <Compile Include="Util\DictionaryExtensions.cs" />
+    <Compile Include="IoCExtensions.cs" />
     <Compile Include="Views\ViewResultProcessor.cs" />
     <Compile Include="VirtualPath.cs" />
     <Compile Include="Lifecycle\RequestContext.cs" />
