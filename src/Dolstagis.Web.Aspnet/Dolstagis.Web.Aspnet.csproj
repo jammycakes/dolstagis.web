@@ -60,15 +60,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\.version\DefaultVersionInfo.cs" Condition="!Exists('..\.version\VersionInfo.cs')">
-      <Link>Properties\DefaultVersionInfo.cs</Link>
-    </Compile>
-    <Compile Include="..\.version\ProductInfo.cs">
-      <Link>Properties\ProductInfo.cs</Link>
-    </Compile>
-    <Compile Include="..\.version\VersionInfo.cs" Condition="Exists('..\.version\VersionInfo.cs')">
-      <Link>Properties\VersionInfo.cs</Link>
-    </Compile>
     <Compile Include="ApplicationExtensions.cs" />
     <Compile Include="FeatureExtensions.cs" />
     <Compile Include="IConfigurator.cs" />
@@ -90,6 +81,24 @@
     <None Include="Dolstagis.Web.Aspnet.nuspec" />
     <None Include="packages.config" />
   </ItemGroup>
+
+  <ItemGroup>
+    <!--
+      Versioning items common to all projects in the solution.
+      When adding new projects, copy and paste this item group into the .csproj
+      file.
+    -->
+    <Compile Include="..\.version\DefaultVersionInfo.cs" Condition="!Exists('..\.version\VersionInfo.cs')">
+      <Link>Properties\DefaultVersionInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\.version\ProductInfo.cs">
+      <Link>Properties\ProductInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\.version\VersionInfo.cs" Condition="Exists('..\.version\VersionInfo.cs')">
+      <Link>Properties\VersionInfo.cs</Link>
+    </Compile>
+  </ItemGroup>
+
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

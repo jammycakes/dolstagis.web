@@ -55,15 +55,6 @@
     <Compile Include="NustacheView.cs" />
     <Compile Include="NustacheViewEngine.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="..\.version\DefaultVersionInfo.cs" Condition="!Exists('..\.version\VersionInfo.cs')">
-      <Link>Properties\DefaultVersionInfo.cs</Link>
-    </Compile>
-    <Compile Include="..\.version\ProductInfo.cs">
-      <Link>Properties\ProductInfo.cs</Link>
-    </Compile>
-    <Compile Include="..\.version\VersionInfo.cs" Condition="Exists('..\.version\VersionInfo.cs')">
-      <Link>Properties\VersionInfo.cs</Link>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Dolstagis.Web.Views.Nustache.nuspec" />
@@ -75,6 +66,24 @@
       <Name>Dolstagis.Web</Name>
     </ProjectReference>
   </ItemGroup>
+
+  <ItemGroup>
+    <!--
+      Versioning items common to all projects in the solution.
+      When adding new projects, copy and paste this item group into the .csproj
+      file.
+    -->
+    <Compile Include="..\.version\DefaultVersionInfo.cs" Condition="!Exists('..\.version\VersionInfo.cs')">
+      <Link>Properties\DefaultVersionInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\.version\ProductInfo.cs">
+      <Link>Properties\ProductInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\.version\VersionInfo.cs" Condition="Exists('..\.version\VersionInfo.cs')">
+      <Link>Properties\VersionInfo.cs</Link>
+    </Compile>
+  </ItemGroup>
+
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
