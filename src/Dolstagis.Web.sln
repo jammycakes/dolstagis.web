@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.21005.1
+# Visual Studio 14
+VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dolstagis.Tests", "Dolstagis.Tests\Dolstagis.Tests.csproj", "{A80A09DE-29AD-4403-A1CF-91ADD62AAEF5}"
 EndProject
@@ -26,6 +26,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApp", "WebApp\WebApp.csproj", "{8FA744F9-9112-4BFF-88BC-5F9A8AF88430}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dolstagis.Web.Views.Nustache", "Dolstagis.Web.Views.Nustache\Dolstagis.Web.Views.Nustache.csproj", "{2C298F3A-D57E-4D56-A529-88C47D5D809B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dolstagis.Web.StructureMap", "Dolstagis.Web.StructureMap\Dolstagis.Web.StructureMap.csproj", "{7BA05C38-F6CE-412A-AC78-9DE7BA57FC1A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -53,6 +55,10 @@ Global
 		{2C298F3A-D57E-4D56-A529-88C47D5D809B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2C298F3A-D57E-4D56-A529-88C47D5D809B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2C298F3A-D57E-4D56-A529-88C47D5D809B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7BA05C38-F6CE-412A-AC78-9DE7BA57FC1A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7BA05C38-F6CE-412A-AC78-9DE7BA57FC1A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7BA05C38-F6CE-412A-AC78-9DE7BA57FC1A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7BA05C38-F6CE-412A-AC78-9DE7BA57FC1A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

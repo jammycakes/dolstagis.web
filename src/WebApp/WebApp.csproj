@@ -114,6 +114,10 @@
       <Project>{25892703-ecbf-410c-b47a-7ee2aa2ee259}</Project>
       <Name>Dolstagis.Web.Aspnet</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Dolstagis.Web.StructureMap\Dolstagis.Web.StructureMap.csproj">
+      <Project>{7ba05c38-f6ce-412a-ac78-9de7ba57fc1a}</Project>
+      <Name>Dolstagis.Web.StructureMap</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Dolstagis.Web.Views.Nustache\Dolstagis.Web.Views.Nustache.csproj">
       <Project>{2c298f3a-d57e-4d56-a529-88c47d5d809b}</Project>
       <Name>Dolstagis.Web.Views.Nustache</Name>
