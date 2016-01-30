@@ -1,8 +1,13 @@
-﻿namespace Dolstagis.Web.Features
+﻿using System;
+
+namespace Dolstagis.Web.Features
 {
     public interface IContainerBuilder
     {
-        IIoCContainer GetContainer(IIoCContainer existing);
+        bool HasInstance { get; }
+        IIoCContainer Instance { get; }
+        Type ContainerType { get; }
+        IIoCContainer CreateContainer();
         void SetupApplication(IIoCContainer container);
         void SetupDomain(IIoCContainer container);
         void SetupRequest(IIoCContainer container);

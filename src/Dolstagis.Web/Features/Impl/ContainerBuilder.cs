@@ -10,9 +10,9 @@ namespace Dolstagis.Web.Features.Impl
         IContainerIsExpression<TContainer>,
         IContainerUsingExpression<TContainer>,
         IContainerSetupExpression<TContainer>
-        where TContainer : class, IIoCContainer, new()
+        where TContainer : IIoCContainer
     {
-        private TContainer _instance = null;
+        private TContainer _instance = default(TContainer);
         private Action<TContainer> _setupApplicationFunc = container => { };
         private Action<TContainer> _setupDomainFunc = container => { };
         private Action<TContainer> _setupRequestFunc = container => { };
@@ -20,25 +20,18 @@ namespace Dolstagis.Web.Features.Impl
 
         /* ====== IContainerBuilder implementation ====== */
 
-        private const string configurationError =
-            "Conflicting IOC container configurations detected. " +
-            "Please make sure that the features in your application are all " +
-            "configured to use the same IOC container.";
+        public bool HasInstance { get; private set; }
 
-        public IIoCContainer GetContainer(IIoCContainer existing)
+        public IIoCContainer Instance { get; private set; }
+
+        public Type ContainerType
         {
-            if (existing == null) return _instance ?? new TContainer();
-            if (_instance == null) return existing;
+            get { return typeof(TContainer); }
+        }
 
-            if (!(existing is TContainer)) {
-                throw new InvalidOperationException(configurationError);
-            }
-
-            if (!Object.ReferenceEquals(_instance, existing)) {
-                throw new InvalidOperationException(configurationError);
-            }
-
-            return existing;
+        public IIoCContainer CreateContainer()
+        {
+            return Activator.CreateInstance<TContainer>();
         }
 
 
@@ -64,7 +57,8 @@ namespace Dolstagis.Web.Features.Impl
 
         public IContainerUsingExpression<TContainer> Using(TContainer container)
         {
-            _instance = container;
+            Instance = container;
+            HasInstance = true;
             return this;
         }
 

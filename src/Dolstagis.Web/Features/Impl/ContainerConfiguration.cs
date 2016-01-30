@@ -10,7 +10,8 @@ namespace Dolstagis.Web.Features.Impl
     {
         public IContainerBuilder Builder { get; private set; }
 
-        public IContainerIsExpression<TContainer> Is<TContainer>() where TContainer : class, IIoCContainer, new()
+        public IContainerIsExpression<TContainer> Is<TContainer>()
+            where TContainer : class, IIoCContainer, new()
         {
             var cb = new ContainerBuilder<TContainer>();
             Builder = cb;
