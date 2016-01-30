@@ -8,6 +8,7 @@ namespace Dolstagis.Web.Features
 {
     public interface IContainerExpression
     {
-        IContainerIsExpression<TContainer> Is<TContainer>() where TContainer : IIoCContainer;
+        IContainerIsExpression<TContainer> Is<TContainer>()
+            where TContainer : class, IIoCContainer, new();
     }
 }

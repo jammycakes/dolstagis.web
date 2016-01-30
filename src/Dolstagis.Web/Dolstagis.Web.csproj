@@ -69,6 +69,7 @@
     <Compile Include="Features\IContainerIsExpression.cs" />
     <Compile Include="Features\IContainerSetupExpression.cs" />
     <Compile Include="Features\IContainerUsingExpression.cs" />
+    <Compile Include="Features\IContainerBuilder.cs" />
     <Compile Include="IIoCContainer.cs" />
     <Compile Include="Lifecycle\ResultProcessors\ContentResultProcessor.cs" />
     <Compile Include="CoreServices.cs" />
