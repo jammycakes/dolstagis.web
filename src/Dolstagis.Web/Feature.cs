@@ -23,6 +23,8 @@ namespace Dolstagis.Web
         private readonly FeatureSwitch _switch = new FeatureSwitch();
         private string _description = null;
         private RouteTable _routes = new RouteTable();
+        private readonly ContainerConfiguration _containerConfiguration
+            = new ContainerConfiguration();
 
         private void AssertConstructing()
         {
@@ -52,6 +54,14 @@ namespace Dolstagis.Web
             get {
                 AssertConstructing();
                 return _switch;
+            }
+        }
+
+
+        protected IContainerExpression Container
+        {
+            get {
+                return _containerConfiguration;
             }
         }
 
