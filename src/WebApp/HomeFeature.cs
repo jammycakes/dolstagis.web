@@ -2,6 +2,7 @@
 using System.Web;
 using Dolstagis.Web;
 using Dolstagis.Web.Sessions;
+using Dolstagis.Web.StructureMap;
 
 namespace WebApp
 {
@@ -11,6 +12,11 @@ namespace WebApp
         {
             Description("The home page and static content.");
             Active.When(req => true);
+
+            Container.Is<StructureMapContainer>()
+                .Setup.Application(x => { })
+                .Setup.Domain(x => { })
+                .Setup.Request(x => { });
 
             Services.For<ISessionStore>().Singleton().Use<InMemorySessionStore>();
 
