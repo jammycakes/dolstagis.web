@@ -65,6 +65,11 @@
     <Compile Include="Auth\RequireLoginAttribute.cs" />
     <Compile Include="Auth\SessionAuthenticator.cs" />
     <Compile Include="ContentResult.cs" />
+    <Compile Include="Features\IContainerExpression.cs" />
+    <Compile Include="Features\IContainerIsExpression.cs" />
+    <Compile Include="Features\IContainerSetupExpression.cs" />
+    <Compile Include="Features\IContainerUsingExpression.cs" />
+    <Compile Include="IIoCContainer.cs" />
     <Compile Include="Lifecycle\ResultProcessors\ContentResultProcessor.cs" />
     <Compile Include="CoreServices.cs" />
     <Compile Include="ErrorStatus.cs" />
@@ -192,7 +197,6 @@
   <ItemGroup>
     <EmbeddedResource Include="Errors\DefaultErrorPage.html" />
   </ItemGroup>
-
   <ItemGroup>
     <!--
       Versioning items common to all projects in the solution.
@@ -209,7 +213,6 @@
       <Link>Properties\VersionInfo.cs</Link>
     </Compile>
   </ItemGroup>
-
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
