@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Reflection;
 using Dolstagis.Web;
+using Dolstagis.Web.Features;
 using Dolstagis.Web.Http;
 using Dolstagis.Web.ModelBinding;
 using Dolstagis.Web.Routes;
+using Dolstagis.Web.StructureMap;
 using Moq;
 using NUnit.Framework;
 using StructureMap;
@@ -34,9 +36,10 @@ namespace Dolstagis.Tests.Web.ModelBinding
         [OneTimeSetUp]
         public void CreateModelBinder()
         {
-            var container = new Container();
-            container.Configure(x => x.AddRegistry<CoreServices>());
-            binder = container.GetInstance<ModelBinder>();
+            var container = new StructureMapContainer();
+            IFeature coreServices = new CoreServices();
+            coreServices.ContainerBuilder.SetupApplication(container);
+            binder = container.GetService<ModelBinder>();
         }
 
         [Test]

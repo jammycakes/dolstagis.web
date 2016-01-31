@@ -12,7 +12,6 @@ namespace Dolstagis.Web.Features.Impl
         IContainerSetupExpression<TContainer>
         where TContainer : IIoCContainer
     {
-        private TContainer _instance = default(TContainer);
         private Action<TContainer> _setupApplicationFunc = container => { };
         private Action<TContainer> _setupDomainFunc = container => { };
         private Action<TContainer> _setupRequestFunc = container => { };

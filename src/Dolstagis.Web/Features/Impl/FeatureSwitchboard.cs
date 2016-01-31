@@ -11,7 +11,7 @@ namespace Dolstagis.Web.Features.Impl
     ///  Provides a mechanism to fetch the appropriate feature set for a request.
     /// </summary>
 
-    public class FeatureSwitchboard
+    public class FeatureSwitchboard : IEnumerable<IFeature>
     {
         private static readonly Logger log = Logger.ForThisClass();
 
@@ -82,6 +82,15 @@ namespace Dolstagis.Web.Features.Impl
             return result;
         }
 
+        public IEnumerator<IFeature> GetEnumerator()
+        {
+            return _features.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return _features.GetEnumerator();
+        }
 
         internal class Key
         {

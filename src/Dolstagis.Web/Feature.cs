@@ -5,7 +5,6 @@ using Dolstagis.Web.Features.Impl;
 using Dolstagis.Web.Logging;
 using Dolstagis.Web.Routes;
 using Dolstagis.Web.Static;
-using StructureMap;
 
 namespace Dolstagis.Web
 {
@@ -61,6 +60,7 @@ namespace Dolstagis.Web
         protected IContainerExpression Container
         {
             get {
+                AssertConstructing();
                 return _containerConfiguration;
             }
         }
@@ -140,6 +140,18 @@ namespace Dolstagis.Web
             return _routes.GetRouteInvocation(path, this);
         }
 
+
+        /// <summary>
+        ///  Gets the container builder.
+        /// </summary>
+
+        IContainerBuilder IFeature.ContainerBuilder
+        {
+            get {
+                return _containerConfiguration.Builder;
+            }
+        }
+
         #region /* ====== Old API, being replaced with the new fluent API ====== */
 
 
@@ -150,12 +162,6 @@ namespace Dolstagis.Web
 
         public IModelBinder ModelBinder { get; set; }
 
-        /// <summary>
-        ///  Gets the StructureMap Registry for services defined by this feature
-        /// </summary>
-
-        public Registry Services { get; private set; }
-
 
         /// <summary>
         ///  Creates a new instance of this feature.
@@ -163,7 +169,6 @@ namespace Dolstagis.Web
 
         protected Feature()
         {
-            this.Services = new Registry();
             this.ModelBinder = Dolstagis.Web.ModelBinding.ModelBinder.Default;
         }
 
@@ -204,15 +209,18 @@ namespace Dolstagis.Web
 
         /* ====== AddStaticFiles and AddViews helper methods ====== */
 
-        protected void AddStaticResources(ResourceType type, VirtualPath path, Func<IContext, IResourceLocation> locationFactory)
+        protected void AddStaticResources(ResourceType type, VirtualPath path, Func<IIoCContainer, IResourceLocation> locationFactory)
         {
-            Services.For<ResourceMapping>()
-                .Add(ctx => new ResourceMapping(type, path, locationFactory(ctx)));
-        }
+            Container.Setup.Domain(c => {
+                c.Add<ResourceMapping>(ioc => new ResourceMapping(type, path, locationFactory(ioc)), Scope.Request);
+            });
+       }
 
         protected void AddStaticResources(ResourceType type, VirtualPath path, IResourceLocation location)
         {
-            Services.For<ResourceMapping>().Add(ctx => new ResourceMapping(type, path, location));
+            Container.Setup.Domain(c => {
+                c.Add<ResourceMapping>(new ResourceMapping(type, path, location));
+            });
         }
 
         protected void AddStaticResources(ResourceType type, VirtualPath path, string physicalPath)
@@ -235,7 +243,7 @@ namespace Dolstagis.Web
         /// <param name="path"></param>
         /// <param name="locationFactory"></param>
 
-        public void AddStaticFiles(VirtualPath path, Func<IContext, IResourceLocation> locationFactory)
+        public void AddStaticFiles(VirtualPath path, Func<IIoCContainer, IResourceLocation> locationFactory)
         {
             AddStaticResources(ResourceType.StaticFiles, path, locationFactory);
             AddStaticFilesController(path);
@@ -283,7 +291,7 @@ namespace Dolstagis.Web
         /// <param name="path"></param>
         /// <param name="locationFactory"></param>
 
-        public void AddViews(VirtualPath path, Func<IContext, IResourceLocation> locationFactory)
+        public void AddViews(VirtualPath path, Func<IIoCContainer, IResourceLocation> locationFactory)
         {
             AddStaticResources(ResourceType.Views, path, locationFactory);
         }

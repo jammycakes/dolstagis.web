@@ -14,11 +14,11 @@ namespace WebApp
             Active.When(req => true);
 
             Container.Is<StructureMapContainer>()
-                .Setup.Application(x => { })
+                .Setup.Application(x => {
+                    x.Use<ISessionStore, InMemorySessionStore>(Scope.Application);
+                })
                 .Setup.Domain(x => { })
                 .Setup.Request(x => { });
-
-            Services.For<ISessionStore>().Singleton().Use<InMemorySessionStore>();
 
             AddStaticFiles("~/content", Path.Combine(HttpRuntime.AppDomainAppPath, "content"));
             AddViews("~/views", Path.Combine(HttpRuntime.AppDomainAppPath, "views"));

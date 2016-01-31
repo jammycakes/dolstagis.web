@@ -8,13 +8,31 @@ namespace Dolstagis.Web.Features.Impl
 {
     public class ContainerConfiguration : IContainerExpression
     {
-        public IContainerBuilder Builder { get; private set; }
+        private IContainerBuilder _builder;
+        private IContainerSetupExpression<IIoCContainer> _builderExpression;
 
-        public IContainerIsExpression<TContainer> Is<TContainer>()
-            where TContainer : class, IIoCContainer, new()
+        public ContainerConfiguration()
+        {
+            var cb = new ContainerBuilder<IIoCContainer>();
+            _builder = cb;
+            _builderExpression = cb;
+        }
+
+
+        public IContainerBuilder Builder { get { return _builder; } }
+
+        IContainerSetupExpression<IIoCContainer> IContainerUsingExpression<IIoCContainer>.Setup
+        {
+            get {
+                return _builderExpression;
+            }
+        }
+
+        IContainerIsExpression<TContainer> IContainerExpression.Is<TContainer>()
         {
             var cb = new ContainerBuilder<TContainer>();
-            Builder = cb;
+            _builder = cb;
+            _builderExpression = cb;
             return cb;
         }
     }

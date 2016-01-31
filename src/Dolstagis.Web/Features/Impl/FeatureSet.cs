@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using Dolstagis.Web.Http;
 using Dolstagis.Web.Lifecycle;
 using Dolstagis.Web.Routes;
-using StructureMap;
 
 namespace Dolstagis.Web.Features.Impl
 {
@@ -30,7 +29,7 @@ namespace Dolstagis.Web.Features.Impl
         ///  Gets the IOC container scoped to this feature set.
         /// </summary>
 
-        public IContainer Container { get; private set; }
+        public IIoCContainer Container { get; private set; }
 
         /// <summary>
         ///  Gets the features in this feature set.
@@ -44,29 +43,27 @@ namespace Dolstagis.Web.Features.Impl
             this.Features = features.ToList().AsReadOnly();
             if (application != null)
             {
-                this.Container = application.Container.CreateChildContainer();
-                this.Container.Configure(x =>
-                {
-                    x.For<FeatureSet>().Use(this);
-                    foreach (var feature in this.Features)
-                    {
-                        x.AddRegistry(feature.Services);
-                        x.For<IFeature>().Add(feature);
-                    }
-                });
+                this.Container = application.Container.GetChildContainer();
+                this.Container.Use<FeatureSet>(this);
+                foreach (var feature in Features) {
+                    Container.Add<IFeature>(feature);
+                    feature.ContainerBuilder.SetupDomain(this.Container);
+                }
             }
         }
 
         public async Task ProcessRequestAsync(IRequest request, IResponse response)
         {
-            using (var childContainer = Container.GetNestedContainer())
+            using (var childContainer = Container.GetChildContainer())
             {
-                childContainer.Configure(x =>
-                {
-                    x.For<IRequest>().Use(request);
-                    x.For<IResponse>().Use(response);
-                });
-                await childContainer.GetInstance<RequestProcessor>()
+                childContainer.Use<IRequest>(request);
+                childContainer.Use<IResponse>(response);
+
+                foreach (var feature in Features) {
+                    feature.ContainerBuilder.SetupRequest(childContainer);
+                }
+
+                await childContainer.GetService<RequestProcessor>()
                     .ProcessRequest(request, response);
             }
         }

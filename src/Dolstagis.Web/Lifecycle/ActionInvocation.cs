@@ -1,15 +1,14 @@
 ﻿using System;
 using System.Linq;
 using System.Reflection;
-using StructureMap;
 
 namespace Dolstagis.Web.Lifecycle
 {
     public class ActionInvocation
     {
-        private IContainer _container;
+        private IIoCContainer _container;
 
-        public ActionInvocation(IContainer container)
+        public ActionInvocation(IIoCContainer container)
         {
             _container = container;
         }
@@ -22,7 +21,7 @@ namespace Dolstagis.Web.Lifecycle
 
         public object Invoke(RequestContext context)
         {
-            var instance = _container.GetInstance(ControllerType) as Controller;
+            var instance = _container.GetService(ControllerType) as Controller;
             instance.Context = context;
             return Method.Invoke(instance, Arguments.ToArray());
         }

@@ -15,13 +15,13 @@ namespace Dolstagis.Tests.Web.Lifecycle
     [TestFixture]
     public class RequestProcessorFixture
     {
-        private IContainer _mockContainer;
+        private IIoCContainer _mockContainer;
 
         [OneTimeSetUp]
         public void CreateRouteTable()
         {
-            var mock = new Mock<IContainer>();
-            mock.Setup(x => x.GetInstance(It.IsAny<Type>())).Returns(new RootController());
+            var mock = new Mock<IIoCContainer>();
+            mock.Setup(x => x.GetService(It.IsAny<Type>())).Returns(new RootController());
             _mockContainer = mock.Object;
         }
 

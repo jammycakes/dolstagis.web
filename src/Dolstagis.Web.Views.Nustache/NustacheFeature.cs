@@ -4,7 +4,9 @@
     {
         public NustacheFeature()
         {
-            this.Services.For<IViewEngine>().Singleton().Add<NustacheViewEngine>();
+            Container.Setup.Application(c => {
+                c.Add<IViewEngine, NustacheViewEngine>(Scope.Application);
+            });
         }
     }
 }

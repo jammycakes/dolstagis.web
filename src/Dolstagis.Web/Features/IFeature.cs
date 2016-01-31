@@ -7,5 +7,6 @@ namespace Dolstagis.Web.Features
         IFeatureSwitch Switch { get; }
         string Description { get; }
         RouteInvocation GetRouteInvocation(VirtualPath path);
+        IContainerBuilder ContainerBuilder { get; }
     }
 }

@@ -138,6 +138,11 @@ namespace Dolstagis.Web.StructureMap
             });
         }
 
+        public void Validate()
+        {
+            Container.AssertConfigurationIsValid();
+        }
+
         private class StructureMapDomainContainer : StructureMapContainer
         {
             public StructureMapDomainContainer(IContainer container)

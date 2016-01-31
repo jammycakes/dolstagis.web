@@ -4,7 +4,6 @@ namespace Dolstagis.Web._dolstagis
 {
     internal class DolstagisFeature : Feature
     {
-
         public DolstagisFeature()
         {
             string ns = this.GetType().Namespace;

@@ -4,26 +4,27 @@ using Dolstagis.Web.Lifecycle.ResultProcessors;
 using Dolstagis.Web.Sessions;
 using Dolstagis.Web.Static;
 using Dolstagis.Web.Views;
-using StructureMap;
 
 namespace Dolstagis.Web
 {
-    internal class CoreServices : Registry
+    internal class CoreServices : Feature
     {
         public CoreServices()
         {
-            For<IExceptionHandler>().Use<ExceptionHandler>();
-            For<ISessionStore>().Singleton().Use<InMemorySessionStore>();
-            For<IAuthenticator>().Singleton().Use<SessionAuthenticator>();
-            For<ILoginHandler>().Use<LoginHandler>();
+            Container.Setup.Application(c => {
+                c.Use<IExceptionHandler, ExceptionHandler>(Scope.Request);
+                c.Use<ISessionStore, InMemorySessionStore>(Scope.Application);
+                c.Use<IAuthenticator, SessionAuthenticator>(Scope.Application);
+                c.Use<ILoginHandler, LoginHandler>(Scope.Request);
 
-            For<IResultProcessor>().AlwaysUnique().Add<StaticResultProcessor>();
-            For<IResultProcessor>().AlwaysUnique().Add<ViewResultProcessor>();
-            For<IResultProcessor>().Add(JsonResultProcessor.Instance);
-            For<IResultProcessor>().Add(ContentResultProcessor.Instance);
-            For<IResultProcessor>().Add(HeadResultProcessor.Instance);
+                c.Add<IResultProcessor, StaticResultProcessor>(Scope.Transient);
+                c.Add<IResultProcessor, ViewResultProcessor>(Scope.Transient);
+                c.Add<IResultProcessor>(JsonResultProcessor.Instance);
+                c.Add<IResultProcessor>(ContentResultProcessor.Instance);
+                c.Add<IResultProcessor>(HeadResultProcessor.Instance);
 
-            For<ViewRegistry>().Use<ViewRegistry>();
+                c.Use<ViewRegistry, ViewRegistry>(Scope.Request);
+            });
         }
     }
 }

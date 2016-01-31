@@ -2,7 +2,7 @@
 
 namespace Dolstagis.Web.Features
 {
-    public interface IContainerSetupExpression<TContainer> where TContainer : IIoCContainer
+    public interface IContainerSetupExpression<out TContainer> where TContainer : IIoCContainer
     {
         IContainerUsingExpression<TContainer> Application(Action<TContainer> setupAction);
 
