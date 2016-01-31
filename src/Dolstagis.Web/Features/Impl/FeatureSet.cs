@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Dolstagis.Web.Http;
@@ -19,6 +20,9 @@ namespace Dolstagis.Web.Features.Impl
 
     public class FeatureSet
     {
+        private bool _requestContainerIsChecked = false;
+        private bool _requestContainerIsValid = false;
+
         /// <summary>
         ///  Gets the Application object.
         /// </summary>
@@ -49,6 +53,7 @@ namespace Dolstagis.Web.Features.Impl
                     Container.Add<IFeature>(feature);
                     feature.ContainerBuilder.SetupDomain(this.Container);
                 }
+                this.Container.Validate();
             }
         }
 
@@ -61,6 +66,28 @@ namespace Dolstagis.Web.Features.Impl
 
                 foreach (var feature in Features) {
                     feature.ContainerBuilder.SetupRequest(childContainer);
+                }
+
+                lock(Container) {
+                    // Only validate the request container once.
+                    // But throw every time if it fails.
+                    if (_requestContainerIsChecked) {
+                        if (!_requestContainerIsValid) {
+                            throw new InvalidOperationException(
+                                "The container configuration for requests for this feature set is invalid. "
+                                + "Please refer to previous errors."
+                            );
+                        }
+                    }
+                    else {
+                        try {
+                            childContainer.Validate();
+                            _requestContainerIsValid = true;
+                        }
+                        finally {
+                            _requestContainerIsChecked = true;
+                        }
+                    }
                 }
 
                 await childContainer.GetService<RequestProcessor>()
