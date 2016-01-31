@@ -12,15 +12,16 @@ namespace Dolstagis.Web.StructureMap
         private bool _disposed = false;
 
         public StructureMapContainer()
-        {
-            this._container = new Container();
-            this._container.Configure(x => x.For<IIoCContainer>().Use(this));
-        }
+            : this(new Container())
+        { }
 
         public StructureMapContainer(IContainer container)
         {
             this._container = container;
-            this._container.Configure(x => x.For<IIoCContainer>().Use(this));
+            this._container.Configure(x => {
+                x.For<IIoCContainer>().Use(this);
+                x.For<IServiceProvider>().Use(this);
+            });
         }
 
         public IContainer Container

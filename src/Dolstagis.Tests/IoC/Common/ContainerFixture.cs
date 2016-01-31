@@ -229,5 +229,28 @@ namespace Dolstagis.Tests.IoC.Common
                 }
             }
         }
+
+
+        private void AssertFetchProvider<TProvider>(IServiceProvider provider)
+            where TProvider : IServiceProvider
+        {
+            var gotProvider = provider.GetService<TProvider>();
+            Assert.AreSame(provider, gotProvider);
+        }
+
+        [Test]
+        public void CanRequestTheContainer()
+        {
+            using (var container = CreateContainer()) {
+                using (var child = container.GetChildContainer()) {
+                    using (var grandchild = child.GetChildContainer()) {
+                        foreach (var provider in new[] { container, child, grandchild }) {
+                            AssertFetchProvider<IServiceProvider>(provider);
+                            AssertFetchProvider<IIoCContainer>(provider);
+                        }
+                    }
+                }
+            }
+        }
     }
 }
