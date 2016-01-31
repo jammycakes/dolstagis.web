@@ -1,6 +1,6 @@
-﻿using Dolstagis.Web.Http;
+﻿using System.Reflection;
+using Dolstagis.Web.Http;
 using Dolstagis.Web.Routes;
-using System.Reflection;
 
 namespace Dolstagis.Web
 {

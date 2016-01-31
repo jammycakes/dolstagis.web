@@ -1,6 +1,5 @@
 ﻿using System.IO;
 using System.Threading.Tasks;
-using Dolstagis.Web.Lifecycle;
 using Newtonsoft.Json;
 
 namespace Dolstagis.Web.Lifecycle.ResultProcessors

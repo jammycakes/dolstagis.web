@@ -10,7 +10,6 @@ using Dolstagis.Web.Routes;
 using Dolstagis.Web.StructureMap;
 using Moq;
 using NUnit.Framework;
-using StructureMap;
 
 namespace Dolstagis.Tests.Web.ModelBinding
 {

@@ -8,7 +8,6 @@ using Dolstagis.Web.Http;
 using Dolstagis.Web.Lifecycle;
 using Moq;
 using NUnit.Framework;
-using StructureMap;
 
 namespace Dolstagis.Tests.Web.Lifecycle
 {
