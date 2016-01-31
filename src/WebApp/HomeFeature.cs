@@ -17,7 +17,7 @@ namespace WebApp
                 .Setup.Application(x => {
                     x.Use<ISessionStore, InMemorySessionStore>(Scope.Application);
                 })
-                .Setup.Domain(x => { })
+                .Setup.Feature(x => { })
                 .Setup.Request(x => { });
 
             AddStaticFiles("~/content", Path.Combine(HttpRuntime.AppDomainAppPath, "content"));

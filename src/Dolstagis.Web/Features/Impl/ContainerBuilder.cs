@@ -70,7 +70,7 @@ namespace Dolstagis.Web.Features.Impl
             return this;
         }
 
-        public IContainerUsingExpression<TContainer> Domain(Action<TContainer> setupAction)
+        public IContainerUsingExpression<TContainer> Feature(Action<TContainer> setupAction)
         {
             _setupDomainFunc = setupAction;
             return this;
