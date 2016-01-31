@@ -14,11 +14,13 @@ namespace Dolstagis.Web.StructureMap
         public StructureMapContainer()
         {
             this._container = new Container();
+            this._container.Configure(x => x.For<IIoCContainer>().Use(this));
         }
 
         public StructureMapContainer(IContainer container)
         {
             this._container = container;
+            this._container.Configure(x => x.For<IIoCContainer>().Use(this));
         }
 
         public IContainer Container
@@ -35,6 +37,7 @@ namespace Dolstagis.Web.StructureMap
                 _disposed = true;
             }
         }
+
 
         public virtual IIoCContainer GetChildContainer()
         {
@@ -140,6 +143,19 @@ namespace Dolstagis.Web.StructureMap
             Container.AssertConfigurationIsValid();
         }
 
+
+        /* ====== StructureMap specifics ====== */
+
+        public void AddRegistry(Registry registry)
+        {
+            this.Container.Configure(x => x.AddRegistry(registry));
+        }
+
+        public void AddRegistry<TRegistry>() where TRegistry: Registry, new()
+        {
+            this.Container.Configure(x => x.AddRegistry<TRegistry>());
+        }
+
         private class StructureMapDomainContainer : StructureMapContainer
         {
             public StructureMapDomainContainer(IContainer container)
@@ -148,7 +164,7 @@ namespace Dolstagis.Web.StructureMap
 
             public override IIoCContainer GetChildContainer()
             {
-                return new StructureMapContainer(_container.CreateChildContainer());
+                return new StructureMapContainer(_container.GetNestedContainer());
             }
         }
     }
