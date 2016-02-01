@@ -129,7 +129,7 @@ namespace Dolstagis.Web.Lifecycle
 
         public async Task ProcessRequest(IRequest request, IResponse response)
         {
-            var context = await CreateContext(request, response);
+            var context = CreateContext(request, response);
             Exception fault = null;
             try
             {
@@ -199,24 +199,11 @@ namespace Dolstagis.Web.Lifecycle
             return action;
         }
 
-        public async Task<RequestContext> CreateContext(IRequest request, IResponse response)
+        public RequestContext CreateContext(IRequest request, IResponse response)
         {
-            var actions = GetActions(request);
-            var session = await GetSession(request);
-            return new RequestContext(request, response, session, _authenticator, actions);
-        }
-
-        private async Task<ISession> GetSession(IRequest request)
-        {
-            if (_sessionStore == null) return null;
-
-            Cookie sessionCookie;
-            string sessionID =
-                request.Headers.Cookies.TryGetValue(Constants.SessionKey, out sessionCookie)
-                ? sessionCookie.Value
-                : null;
-
-            return await _sessionStore.GetSession(sessionID);
+            return new RequestContext(request, response, _sessionStore, _authenticator) {
+                Actions = GetActions(request).ToList()
+            };
         }
     }
 }

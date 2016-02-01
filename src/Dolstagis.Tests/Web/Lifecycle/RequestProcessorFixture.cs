@@ -26,7 +26,7 @@ namespace Dolstagis.Tests.Web.Lifecycle
         }
 
 
-        private async Task<object> Execute(string method, string path)
+        private object Execute(string method, string path)
         {
             var featureSet = new FeatureSet(null, new IFeature[] { new FirstFeature() });
             var processor = new RequestProcessor(null, null, null, null,
@@ -36,7 +36,7 @@ namespace Dolstagis.Tests.Web.Lifecycle
             var request = new Mock<IRequest>();
             request.SetupGet(x => x.Path).Returns(new VirtualPath(path));
             request.SetupGet(x => x.Method).Returns(method);
-            var context = await processor.CreateContext(request.Object, null);
+            var context = processor.CreateContext(request.Object, null);
             var task = processor.InvokeRequest(context);
             task.Wait();
             return task.Result;
@@ -44,27 +44,27 @@ namespace Dolstagis.Tests.Web.Lifecycle
 
 
         [Test]
-        public async Task CanExecuteSynchronousTask()
+        public void CanExecuteSynchronousTask()
         {
-            Assert.AreEqual("Hello GET", await Execute("GET", "/"));
+            Assert.AreEqual("Hello GET", Execute("GET", "/"));
         }
 
         [Test]
-        public async Task CanExecuteAsynchronousTaskThatReturnsObject()
+        public void CanExecuteAsynchronousTaskThatReturnsObject()
         {
-            Assert.AreEqual("Hello POST", await Execute("POST", "/"));
+            Assert.AreEqual("Hello POST", Execute("POST", "/"));
         }
 
         [Test]
-        public async Task CanExecuteAsynchronousTaskThatReturnsString()
+        public void CanExecuteAsynchronousTaskThatReturnsString()
         {
-            Assert.AreEqual("Hello PUT", await Execute("PUT", "/"));
+            Assert.AreEqual("Hello PUT", Execute("PUT", "/"));
         }
 
         [Test]
-        public async Task CanExecuteAsynchronousTaskThatReturnsTask()
+        public void CanExecuteAsynchronousTaskThatReturnsTask()
         {
-            Assert.AreEqual("Hello DELETE", await Execute("DELETE", "/"));
+            Assert.AreEqual("Hello DELETE", Execute("DELETE", "/"));
         }
     }
 }
