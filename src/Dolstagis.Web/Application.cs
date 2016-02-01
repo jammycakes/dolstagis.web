@@ -91,6 +91,18 @@ namespace Dolstagis.Web
         }
 
 
+        /// <summary>
+        ///  Add all features in the assembly in which the specified type is
+        ///  declared.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+
+        public void AddAllFeaturesInAssemblyOf<T>()
+        {
+            AddAllFeaturesInAssembly(typeof(T).Assembly);
+        }
+
+
         /* ====== Setup after loading features====== */
 
         [MethodImpl(MethodImplOptions.Synchronized)]

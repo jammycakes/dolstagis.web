@@ -28,15 +28,18 @@ namespace Dolstagis.Web.Aspnet
          */
 
         private static readonly object dummy = typeof(Microsoft.Owin.Host.SystemWeb.OwinHttpHandler);
+        private static Action<Application> _configurer = app => app.ScanForFeatures();
+
+        public static void ConfigureApplication(Action<Application> configurer)
+        {
+            _configurer = configurer;
+        }
+
 
         public void Configuration(IAppBuilder app)
         {
             var application = new Application(new Settings());
-
-            var assemblies = application.FindAssemblies();
-            foreach (var assembly in assemblies)
-                foreach (var conf in assembly.SafeGetInstances<IConfigurator>())
-                    conf.Configure(application);
+            if (_configurer != null) _configurer(application);
 
             MidFunc middleware = next => application.GetAppFunc();
             app.Use(middleware);

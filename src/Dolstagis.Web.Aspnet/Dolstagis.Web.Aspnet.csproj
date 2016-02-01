@@ -54,7 +54,6 @@
   <ItemGroup>
     <Compile Include="ApplicationExtensions.cs" />
     <Compile Include="FeatureExtensions.cs" />
-    <Compile Include="IConfigurator.cs" />
     <None Include="Index.cs.pp" />
     <None Include="MainFeature.cs.pp" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -69,7 +68,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Configuration.cs.pp" />
     <None Include="Dolstagis.Web.Aspnet.nuspec" />
     <None Include="packages.config" />
   </ItemGroup>
