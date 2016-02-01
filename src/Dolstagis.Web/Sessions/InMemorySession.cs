@@ -48,5 +48,23 @@ namespace Dolstagis.Web.Sessions
             // Nothing to see here, move along please.
             await Task.Yield();
         }
+
+        public Task<object> GetItemAsync(string key)
+        {
+            object result;
+            if (!Items.TryGetValue(key, out result)) result = null;
+            return Task.FromResult<object>(result);
+        }
+
+        public async Task SetItemAsync(string key, object value)
+        {
+            if (value == null && Items.ContainsKey(key)) {
+                Items.Remove(key);
+            }
+            else {
+                Items[key] = value;
+            }
+            await Task.Yield();
+        }
     }
 }
