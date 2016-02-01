@@ -2,6 +2,7 @@
 using System.Collections.Concurrent;
 using System.Runtime.CompilerServices;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace Dolstagis.Web.Sessions
 {
@@ -26,24 +27,24 @@ namespace Dolstagis.Web.Sessions
 
 
         [MethodImpl(MethodImplOptions.Synchronized)]
-        public ISession GetSession(string sessionID)
+        public Task<ISession> GetSession(string sessionID)
         {
             InMemorySession session;
             if (sessionID != null && _sessions.TryGetValue(sessionID, out session))
             {
-                return session;
+                return Task.FromResult<ISession>(session);
             }
             else
             {
                 session = new InMemorySession(this);
                 _sessions.TryAdd(session.ID, session);
             }
-            return session;
+            return Task.FromResult<ISession>(session);
         }
 
-        void ISessionStore.Purge()
+        Task ISessionStore.Purge()
         {
-            Purge();
+            return Task.Run(() => Purge());
         }
 
         internal void EndSession(InMemorySession session)

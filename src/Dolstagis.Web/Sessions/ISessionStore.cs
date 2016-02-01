@@ -1,4 +1,6 @@
-﻿namespace Dolstagis.Web.Sessions
+﻿using System.Threading.Tasks;
+
+namespace Dolstagis.Web.Sessions
 {
     /// <summary>
     ///  Encapsulates a session store.
@@ -17,11 +19,11 @@
         ///  instance. Note that in the latter case, the session ID will not be the same
         ///  as the one passed into this method.
         /// </returns>
-        ISession GetSession(string sessionID);
+        Task<ISession> GetSession(string sessionID);
 
         /// <summary>
         ///  Purges expired sessions.
         /// </summary>
-        void Purge();
+        Task Purge();
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Dolstagis.Tests.Web.TestFeatures;
 using Dolstagis.Tests.Web.TestFeatures.Controllers;
 using Dolstagis.Web;
@@ -25,7 +26,7 @@ namespace Dolstagis.Tests.Web.Lifecycle
         }
 
 
-        private object Execute(string method, string path)
+        private async Task<object> Execute(string method, string path)
         {
             var featureSet = new FeatureSet(null, new IFeature[] { new FirstFeature() });
             var processor = new RequestProcessor(null, null, null, null,
@@ -35,7 +36,7 @@ namespace Dolstagis.Tests.Web.Lifecycle
             var request = new Mock<IRequest>();
             request.SetupGet(x => x.Path).Returns(new VirtualPath(path));
             request.SetupGet(x => x.Method).Returns(method);
-            var context = processor.CreateContext(request.Object, null);
+            var context = await processor.CreateContext(request.Object, null);
             var task = processor.InvokeRequest(context);
             task.Wait();
             return task.Result;
@@ -43,27 +44,27 @@ namespace Dolstagis.Tests.Web.Lifecycle
 
 
         [Test]
-        public void CanExecuteSynchronousTask()
+        public async Task CanExecuteSynchronousTask()
         {
-            Assert.AreEqual("Hello GET", Execute("GET", "/"));
+            Assert.AreEqual("Hello GET", await Execute("GET", "/"));
         }
 
         [Test]
-        public void CanExecuteAsynchronousTaskThatReturnsObject()
+        public async Task CanExecuteAsynchronousTaskThatReturnsObject()
         {
-            Assert.AreEqual("Hello POST", Execute("POST", "/"));
+            Assert.AreEqual("Hello POST", await Execute("POST", "/"));
         }
 
         [Test]
-        public void CanExecuteAsynchronousTaskThatReturnsString()
+        public async Task CanExecuteAsynchronousTaskThatReturnsString()
         {
-            Assert.AreEqual("Hello PUT", Execute("PUT", "/"));
+            Assert.AreEqual("Hello PUT", await Execute("PUT", "/"));
         }
 
         [Test]
-        public void CanExecuteAsynchronousTaskThatReturnsTask()
+        public async Task CanExecuteAsynchronousTaskThatReturnsTask()
         {
-            Assert.AreEqual("Hello DELETE", Execute("DELETE", "/"));
+            Assert.AreEqual("Hello DELETE", await Execute("DELETE", "/"));
         }
     }
 }

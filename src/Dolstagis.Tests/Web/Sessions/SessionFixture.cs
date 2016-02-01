@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Dolstagis.Web;
 using Dolstagis.Web.Features;
 using Dolstagis.Web.Features.Impl;
@@ -16,7 +17,7 @@ namespace Dolstagis.Tests.Web.Sessions
     {
 
         [Test]
-        public void CanGetNewSession()
+        public async Task CanGetNewSession()
         {
             var cookies = new Dictionary<string, Cookie>();
             var mockRequest = new Mock<IRequest>();
@@ -29,20 +30,20 @@ namespace Dolstagis.Tests.Web.Sessions
             var processor = new RequestProcessor
                 (null, null, store, null, new FeatureSet(null, new IFeature[0]), () => null);
 
-            var ctx = processor.CreateContext(mockRequest.Object, mockResponse.Object);
+            var ctx = await processor.CreateContext(mockRequest.Object, mockResponse.Object);
             Assert.IsNotNull(ctx.Session);
 
-            var session = store.GetSession(ctx.Session.ID);
+            var session = await store.GetSession(ctx.Session.ID);
             Assert.AreSame(session, ctx.Session);
             Console.WriteLine(ctx.Session.ID);
         }
 
 
         [Test]
-        public void CanGetSessionFromCookie()
+        public async Task CanGetSessionFromCookie()
         {
             var store = new InMemorySessionStore();
-            var session = store.GetSession(null);
+            var session = await store.GetSession(null);
 
             var cookie = new Cookie(Constants.SessionKey, session.ID);
 
@@ -56,7 +57,7 @@ namespace Dolstagis.Tests.Web.Sessions
             var processor = new RequestProcessor
                 (null, null, store, null, new FeatureSet(null, new IFeature[0]), () => null);
 
-            var ctx = processor.CreateContext(mockRequest.Object, mockResponse.Object);
+            var ctx = await processor.CreateContext(mockRequest.Object, mockResponse.Object);
             Assert.IsNotNull(ctx.Session);
 
             Assert.AreSame(session, ctx.Session);
