@@ -40,52 +40,13 @@ namespace Dolstagis.Web.Lifecycle
         }
 
 
-        protected virtual bool IsLoginRequired(RequestContext context, ActionInvocation action)
-        {
-            var attributes = action.Method.GetCustomAttributes(true).OfType<IRequirement>()
-                .Concat(action.ControllerType.GetCustomAttributes(true).OfType<IRequirement>());
-            return attributes.Any(x => x.IsDenied(context));
-        }
-
-        protected virtual Task<object> GetLoginResult(RequestContext context)
-        {
-            var result = new RedirectResult("/login", Status.SeeOther);
-            return Task.FromResult<object>(result);
-        }
-
-
-        public async Task<object> InvokeRequest(RequestContext context)
-        {
-            if (context == null) Status.NotFound.Throw();
-
-            var actions = context.Actions.Where(x => x.Method != null);
-
-            foreach (var action in actions)
-            {
-                if (IsLoginRequired(context, action))
-                {
-                    return await GetLoginResult(context);
-                }
-                var result = action.Invoke(context);
-                if (result is Task)
-                {
-                    await (Task)result;
-                    return ((dynamic)result).Result;
-                }
-                else if (result != null)
-                {
-                    return result;
-                }
-            }
-            throw new HttpStatusException(Status.NotFound);
-        }
 
         public async Task<object> InvokeRequestWithHomePageFallback(RequestContext context)
         {
             if (context.Request.Path.Parts.Any()
                 || context.Actions.Any())
             {
-                return await InvokeRequest(context);
+                return await context.InvokeRequest();
             }
             else
             {

@@ -37,7 +37,7 @@ namespace Dolstagis.Tests.Web.Lifecycle
             request.SetupGet(x => x.Path).Returns(new VirtualPath(path));
             request.SetupGet(x => x.Method).Returns(method);
             var context = processor.CreateContext(request.Object, null);
-            var task = processor.InvokeRequest(context);
+            var task = context.InvokeRequest();
             task.Wait();
             return task.Result;
         }
