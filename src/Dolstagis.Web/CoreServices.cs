@@ -1,4 +1,5 @@
 ﻿using Dolstagis.Web.Auth;
+using Dolstagis.Web.Http;
 using Dolstagis.Web.Lifecycle;
 using Dolstagis.Web.Lifecycle.ResultProcessors;
 using Dolstagis.Web.Sessions;
@@ -24,6 +25,13 @@ namespace Dolstagis.Web
                 c.Add<IResultProcessor>(HeadResultProcessor.Instance);
 
                 c.Use<ViewRegistry, ViewRegistry>(Scope.Request);
+
+                c.Use<IRequest>(ctx => ctx.GetService<IRequestContext>().Request, Scope.Request);
+                c.Use<IResponse>(ctx => ctx.GetService<IRequestContext>().Response, Scope.Request);
+                c.Use<IUser>(ctx => ctx.GetService<IRequestContext>().User, Scope.Request);
+                c.Use<ISession>(ctx => ctx.GetService<IRequestContext>().Session, Scope.Request);
+            })
+            .Setup.Request(c => {
             });
         }
     }
