@@ -8,7 +8,7 @@ using Dolstagis.Web.Sessions;
 
 namespace Dolstagis.Web.Lifecycle
 {
-    public class RequestContext
+    public class RequestContext : IRequestContext
     {
         private ISessionStore _sessionStore;
         private IAuthenticator _authenticator;
