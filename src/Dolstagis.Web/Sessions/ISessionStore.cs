@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
 namespace Dolstagis.Web.Sessions
 {
@@ -23,11 +19,11 @@ namespace Dolstagis.Web.Sessions
         ///  instance. Note that in the latter case, the session ID will not be the same
         ///  as the one passed into this method.
         /// </returns>
-        ISession GetSession(string sessionID);
+        Task<ISession> GetSession(string sessionID);
 
         /// <summary>
         ///  Purges expired sessions.
         /// </summary>
-        void Purge();
+        Task Purge();
     }
 }

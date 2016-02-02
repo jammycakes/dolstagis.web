@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using System.Reflection;
 using Dolstagis.Web.Util;
 using Microsoft.Owin;
 using Microsoft.Owin.Extensions;
@@ -11,7 +10,6 @@ using Owin;
 
 namespace Dolstagis.Web.Aspnet
 {
-    using AppFunc = Func<IDictionary<string, object>, Task>;
     using MidFunc = Func<
             Func<IDictionary<string, object>, Task>,
             Func<IDictionary<string, object>, Task>
@@ -30,15 +28,18 @@ namespace Dolstagis.Web.Aspnet
          */
 
         private static readonly object dummy = typeof(Microsoft.Owin.Host.SystemWeb.OwinHttpHandler);
+        private static Action<Application> _configurer = app => app.ScanForFeatures();
+
+        public static void ConfigureApplication(Action<Application> configurer)
+        {
+            _configurer = configurer;
+        }
+
 
         public void Configuration(IAppBuilder app)
         {
             var application = new Application(new Settings());
-
-            var assemblies = application.FindAssemblies();
-            foreach (var assembly in assemblies)
-                foreach (var conf in assembly.SafeGetInstances<IConfigurator>())
-                    conf.Configure(application);
+            if (_configurer != null) _configurer(application);
 
             MidFunc middleware = next => application.GetAppFunc();
             app.Use(middleware);

@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Dolstagis.Web.Http;
+using Dolstagis.Web.Features;
 
 namespace Dolstagis.Web.Routes
 {
@@ -35,11 +33,10 @@ namespace Dolstagis.Web.Routes
         ///  A predicate which allows us to add constraints to the route.
         /// </param>
 
-        public void Add(string specification, IRouteTarget target)
+        public void Add(VirtualPath specification, IRouteTarget target)
         {
-            var pathParts = specification.Split(new[] { '/' }, StringSplitOptions.RemoveEmptyEntries);
             var node = Root;
-            foreach (var name in pathParts)
+            foreach (var name in specification.Parts)
             {
                 node = node.GetOrCreateChild(name);
             }
@@ -59,6 +56,13 @@ namespace Dolstagis.Web.Routes
             }
         }
 
+
+        public IRouteExpression Add(VirtualPath specification)
+        {
+            var target = new NewRouteTarget();
+            Add(specification, target);
+            return target;
+        }
 
         private IEnumerable<Node> GetCandidates(Node node, string[] path, int index)
         {
@@ -85,7 +89,7 @@ namespace Dolstagis.Web.Routes
         /// <param name="path"></param>
         /// <returns></returns>
 
-        public RouteInvocation GetRouteInvocation(VirtualPath path)
+        public RouteInvocation GetRouteInvocation(VirtualPath path, IFeature feature)
         {
             var parts = path.Parts.ToArray();
             var candidates = GetCandidates(Root, parts, 0);
@@ -97,7 +101,7 @@ namespace Dolstagis.Web.Routes
 
             var ct = cts.LastOrDefault();
             if (ct == null) return null;
-            return new RouteInvocation(ct.target, GetRouteArguments(ct.candidate, parts));
+            return new RouteInvocation(feature, ct.target, GetRouteArguments(ct.candidate, parts));
         }
 
         private IDictionary<string, string> GetRouteArguments(Node candidate, string[] parts)

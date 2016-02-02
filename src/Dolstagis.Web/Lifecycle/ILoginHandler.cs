@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Dolstagis.Web.Lifecycle
+﻿namespace Dolstagis.Web.Lifecycle
 {
     public interface ILoginHandler
     {
-        object GetLogin(IRequestContext context);
+        object GetLogin(RequestContext context);
     }
 }

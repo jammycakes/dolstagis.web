@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Dolstagis.Web.Static;
+﻿using Dolstagis.Web.Static;
 
 namespace Dolstagis.Web._dolstagis
 {
     internal class DolstagisFeature : Feature
     {
-
         public DolstagisFeature()
         {
             string ns = this.GetType().Namespace;

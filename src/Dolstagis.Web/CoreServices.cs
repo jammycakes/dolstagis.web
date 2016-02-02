@@ -1,62 +1,38 @@
-﻿using System;
-using System.Linq;
-using Dolstagis.Web.Auth;
+﻿using Dolstagis.Web.Auth;
+using Dolstagis.Web.Http;
 using Dolstagis.Web.Lifecycle;
-using Dolstagis.Web.ModelBinding;
+using Dolstagis.Web.Lifecycle.ResultProcessors;
 using Dolstagis.Web.Sessions;
 using Dolstagis.Web.Static;
 using Dolstagis.Web.Views;
-using StructureMap.Configuration.DSL;
-using StructureMap.Graph;
-using StructureMap.TypeRules;
 
 namespace Dolstagis.Web
 {
-    internal class CoreServices : Registry
+    internal class CoreServices : Feature
     {
         public CoreServices()
         {
-            For<IMimeTypes>().Singleton().Use<MimeTypes>();
+            Container.Setup.Application(c => {
+                c.Use<IExceptionHandler, ExceptionHandler>(Scope.Request);
+                c.Use<ISessionStore, InMemorySessionStore>(Scope.Application);
+                c.Use<IAuthenticator, SessionAuthenticator>(Scope.Application);
+                c.Use<ILoginHandler, LoginHandler>(Scope.Request);
 
-            For<IRequestContextBuilder>().Use<RequestContextBuilder>();
-            For<IRequestProcessor>().Use<RequestProcessor>();
-            For<IExceptionHandler>().Use<ExceptionHandler>();
-            For<ISessionStore>().Singleton().Use<InMemorySessionStore>();
-            For<IAuthenticator>().Singleton().Use<SessionAuthenticator>();
-            For<ILoginHandler>().Use<LoginHandler>();
-            For<IModelBinder>().Singleton().Use<DefaultModelBinder>();
+                c.Add<IResultProcessor, StaticResultProcessor>(Scope.Transient);
+                c.Add<IResultProcessor, ViewResultProcessor>(Scope.Transient);
+                c.Add<IResultProcessor>(JsonResultProcessor.Instance);
+                c.Add<IResultProcessor>(ContentResultProcessor.Instance);
+                c.Add<IResultProcessor>(HeadResultProcessor.Instance);
 
-            For<IResultProcessor>().AlwaysUnique().Add<StaticResultProcessor>()
-                .Ctor<IResourceResolver>().Is(ctx => new ResourceResolver
-                    (ResourceType.StaticFiles, ctx.GetAllInstances<ResourceMapping>())
-                );
-            For<IResultProcessor>().AlwaysUnique().Add<ViewResultProcessor>();
-            For<IResultProcessor>().AlwaysUnique().Add<JsonResultProcessor>();
-            For<IResultProcessor>().AlwaysUnique().Add<ContentResultProcessor>();
-            For<IResultProcessor>().AlwaysUnique().Add<HeadResultProcessor>();
+                c.Use<ViewRegistry, ViewRegistry>(Scope.Request);
 
-            For<ViewRegistry>().Use<ViewRegistry>()
-                .Ctor<IResourceResolver>().Is(ctx => new ResourceResolver
-                    (ResourceType.Views, ctx.GetAllInstances<ResourceMapping>())
-                );
-
-            this.Scan(x =>
-            {
-                x.AssemblyContainingType<IConverter>();
-                x.With(new SingletonConvention<IConverter>());
-                x.AddAllTypesOf<IConverter>();
+                c.Use<IRequest>(ctx => ctx.GetService<IRequestContext>().Request, Scope.Request);
+                c.Use<IResponse>(ctx => ctx.GetService<IRequestContext>().Response, Scope.Request);
+                c.Use<IUser>(ctx => ctx.GetService<IRequestContext>().User, Scope.Request);
+                c.Use<ISession>(ctx => ctx.GetService<IRequestContext>().Session, Scope.Request);
+            })
+            .Setup.Request(c => {
             });
-        }
-
-        private class SingletonConvention<TPluginFamily> : IRegistrationConvention
-        {
-            public void Process(Type type, Registry registry)
-            {
-                if (!type.IsConcrete() || !type.CanBeCreated() ||
-                    !type.AllInterfaces().Contains(typeof(TPluginFamily))) return;
-
-                registry.For(typeof(TPluginFamily)).Singleton().Use(type);
-            }
         }
     }
 }

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Dolstagis.Web.Static;
 
 namespace Dolstagis.Web.Views
@@ -19,6 +15,6 @@ namespace Dolstagis.Web.Views
         /// <returns>
         ///  The view, if it exists, or null if it doesn't.
         /// </returns>
-        IView GetView(VirtualPath pathToView, IResourceResolver resolver);
+        IView GetView(VirtualPath pathToView, ResourceResolver resolver);
     }
 }

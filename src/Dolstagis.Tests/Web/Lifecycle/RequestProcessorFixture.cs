@@ -1,50 +1,43 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Dolstagis.Tests.Web.TestFeatures;
-using Dolstagis.Tests.Web.TestFeatures.Handlers;
+using Dolstagis.Tests.Web.TestFeatures.Controllers;
 using Dolstagis.Web;
+using Dolstagis.Web.Features;
+using Dolstagis.Web.Features.Impl;
 using Dolstagis.Web.Http;
 using Dolstagis.Web.Lifecycle;
-using Dolstagis.Web.ModelBinding;
 using Moq;
 using NUnit.Framework;
-using StructureMap;
 
 namespace Dolstagis.Tests.Web.Lifecycle
 {
     [TestFixture]
     public class RequestProcessorFixture
     {
-        private IContainer _mockContainer;
+        private IIoCContainer _mockContainer;
 
-        [TestFixtureSetUp]
+        [OneTimeSetUp]
         public void CreateRouteTable()
         {
-            var mock = new Mock<IContainer>();
-            mock.Setup(x => x.GetInstance(It.IsAny<Type>())).Returns(new RootHandler());
+            var mock = new Mock<IIoCContainer>();
+            mock.Setup(x => x.GetService(It.IsAny<Type>())).Returns(new RootController());
+            mock.Setup(x => x.GetChildContainer()).Returns<IIoCContainer>(x => x);
             _mockContainer = mock.Object;
         }
 
 
         private object Execute(string method, string path)
         {
-            var featureSet = new FeatureSet(null, new Feature[] { new FirstFeature() });
-            var builder = new RequestContextBuilder(
-                null, 
-                null, 
+            var featureSet = new FeatureSet(null, new IFeature[] { new FirstFeature() });
+            var processor = new RequestProcessor(null, null, null, null,
                 featureSet,
-                () => new ActionInvocation(_mockContainer),
-                new DefaultModelBinder(new IConverter[0])
+                _mockContainer
             );
-            var processor = new RequestProcessor(null, null, builder);
             var request = new Mock<IRequest>();
             request.SetupGet(x => x.Path).Returns(new VirtualPath(path));
             request.SetupGet(x => x.Method).Returns(method);
-            var context = builder.CreateContext(request.Object, null);
-            var task = processor.InvokeRequest(context);
+            var context = processor.CreateContext(request.Object, null, _mockContainer);
+            var task = context.InvokeRequest();
             task.Wait();
             return task.Result;
         }

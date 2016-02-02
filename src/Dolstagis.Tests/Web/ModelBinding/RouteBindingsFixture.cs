@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using System.Reflection;
 using Dolstagis.Web;
+using Dolstagis.Web.Features;
 using Dolstagis.Web.Http;
 using Dolstagis.Web.ModelBinding;
 using Dolstagis.Web.Routes;
+using Dolstagis.Web.StructureMap;
 using Moq;
 using NUnit.Framework;
-using StructureMap;
 
 namespace Dolstagis.Tests.Web.ModelBinding
 {
@@ -31,12 +32,13 @@ namespace Dolstagis.Tests.Web.ModelBinding
 
         private IModelBinder binder;
 
-        [TestFixtureSetUp]
+        [OneTimeSetUp]
         public void CreateModelBinder()
         {
-            var container = new Container();
-            container.Configure(x => x.AddRegistry<CoreServices>());
-            binder = container.GetInstance<DefaultModelBinder>();
+            var container = new StructureMapContainer();
+            IFeature coreServices = new CoreServices();
+            coreServices.ContainerBuilder.SetupApplication(container);
+            binder = container.GetService<ModelBinder>();
         }
 
         [Test]
@@ -47,7 +49,7 @@ namespace Dolstagis.Tests.Web.ModelBinding
                 { "two", "bar" }
             };
 
-            var route = new RouteInvocation(null, data);
+            var route = new RouteInvocation(null, null, data);
             var request = new Mock<IRequest>();
             request.SetupGet(x => x.Query).Returns(new Dictionary<string, string[]>());
 
@@ -73,7 +75,7 @@ namespace Dolstagis.Tests.Web.ModelBinding
                 { "three", new string[] { "wibble" } }
             };
 
-            var route = new RouteInvocation(null, data);
+            var route = new RouteInvocation(null, null, data);
             var request = new Mock<IRequest>();
             request.SetupGet(x => x.Query).Returns(getData);
 
@@ -98,7 +100,7 @@ namespace Dolstagis.Tests.Web.ModelBinding
                 { "three", new string[] { "wibble" } }
             };
 
-            var route = new RouteInvocation(null, data);
+            var route = new RouteInvocation(null, null, data);
             var request = new Mock<IRequest>();
             request.SetupGet(x => x.Form).Returns(postData);
 
@@ -119,7 +121,7 @@ namespace Dolstagis.Tests.Web.ModelBinding
                 { "three", "deadbeef-face-baba-da1e-cafec0deface" }
             };
 
-            var route = new RouteInvocation(null, data);
+            var route = new RouteInvocation(null, null, data);
             var request = new Mock<IRequest>();
 
             var method = this.GetType().GetMethod("methodWithTypedParameters",
@@ -138,7 +140,7 @@ namespace Dolstagis.Tests.Web.ModelBinding
                 { "one", new string[] { "1", "2", "3" } }
             };
 
-            var route = new RouteInvocation(null, new Dictionary<string, string>());
+            var route = new RouteInvocation(null, null, new Dictionary<string, string>());
             var request = new Mock<IRequest>();
             request.SetupGet(x => x.Query).Returns(data);
 

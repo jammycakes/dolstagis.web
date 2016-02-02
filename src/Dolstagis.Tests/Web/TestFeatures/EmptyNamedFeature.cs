@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Dolstagis.Web;
+using Dolstagis.Web.Http;
 
 namespace Dolstagis.Tests.Web.TestFeatures
 {
@@ -14,6 +11,12 @@ namespace Dolstagis.Tests.Web.TestFeatures
         public EmptyNamedFeature(string name)
         {
             this.Name = name;
+        }
+
+        public EmptyNamedFeature(string name, Predicate<IRequest> condition)
+        {
+            Name = name;
+            Active.When(condition);
         }
     }
 }

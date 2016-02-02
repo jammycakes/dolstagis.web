@@ -12,7 +12,7 @@ namespace $rootnamespace$
     {
         public MainFeature()
         {
-            this.AddHandler<Index>();
+            this.AddController<Index>();
         }
     }
 }

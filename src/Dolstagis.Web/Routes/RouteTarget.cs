@@ -1,19 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Dolstagis.Web.Routes
 {
     public class RouteTarget : IRouteTarget
     {
+        public Type ControllerType { get; set; }
 
-        public Type HandlerType { get; set; }
-
-        public RouteTarget(Type handlerType)
+        public RouteTarget(Type controllerType)
         {
-            this.HandlerType = handlerType;
+            ControllerType = controllerType;
         }
     }
 }

@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Dolstagis.Web.Util
 {
@@ -48,6 +46,7 @@ namespace Dolstagis.Web.Util
         {
             return
                 from type in assembly.SafeGetTypes<T>()
+                where !type.IsAbstract
                 let constructor = type.GetConstructor(Type.EmptyTypes)
                 where constructor != null
                 select (T)constructor.Invoke(null);

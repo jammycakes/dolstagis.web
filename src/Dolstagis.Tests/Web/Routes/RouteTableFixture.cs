@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Dolstagis.Web;
 using Dolstagis.Web.Routes;
 using Moq;
@@ -24,7 +20,7 @@ namespace Dolstagis.Tests.Web.Routes
         private IRouteTarget withLanguage = Mock.Of<IRouteTarget>();
 
 
-        [TestFixtureSetUp]
+        [OneTimeSetUp]
         public void CreateRouteTable()
         {
             routes.Add(String.Empty, rootTarget);
@@ -59,7 +55,7 @@ namespace Dolstagis.Tests.Web.Routes
         [TestCase("~/en-gb/one/two", "en-gb")]
         public void CanGetMatchingRouteData(string path, string expectedId)
         {
-            var invocation = routes.GetRouteInvocation(new VirtualPath(path));
+            var invocation = routes.GetRouteInvocation(new VirtualPath(path), null);
             string id;
             if (!invocation.RouteData.TryGetValue("id", out id)) id = null;
             Assert.AreEqual(expectedId, id);
@@ -82,7 +78,7 @@ namespace Dolstagis.Tests.Web.Routes
         [TestCase("~/en-gb/one/three/")]        // initial parameter but the rest doesn't match
         public void DoesNotGetNonMatchingRouteData(string path)
         {
-            var target = routes.GetRouteInvocation(new VirtualPath(path));
+            var target = routes.GetRouteInvocation(new VirtualPath(path), null);
             Assert.IsNull(target);
         }
 
@@ -96,21 +92,21 @@ namespace Dolstagis.Tests.Web.Routes
         [Test]
         public void CanGetRootTarget()
         {
-            var root = routes.GetRouteInvocation(new VirtualPath("~/"));
+            var root = routes.GetRouteInvocation(new VirtualPath("~/"), null);
             Assert.AreSame(rootTarget, root.Target);
         }
 
         [Test]
         public void CanGetOneTwoTarget()
         {
-            var invocation = routes.GetRouteInvocation(new VirtualPath("~/one/two"));
+            var invocation = routes.GetRouteInvocation(new VirtualPath("~/one/two"), null);
             Assert.AreSame(oneTwo, invocation.Target);
         }
 
         [Test]
         public void CanGetParametrisedTarget()
         {
-            var invocation = routes.GetRouteInvocation(new VirtualPath("~/one/two/three/4"));
+            var invocation = routes.GetRouteInvocation(new VirtualPath("~/one/two/three/4"), null);
             Assert.AreSame(withId, invocation.Target);
         }
     }

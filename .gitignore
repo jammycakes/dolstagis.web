@@ -167,3 +167,5 @@ __pycache__/
 *.py[cdo]
 *.swp
 *.orig
+src/.vs/config/applicationhost.config
+notes/

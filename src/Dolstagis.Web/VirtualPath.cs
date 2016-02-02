@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Dolstagis.Web
 {
@@ -203,6 +201,11 @@ namespace Dolstagis.Web
         public override int GetHashCode()
         {
             return this.Path.GetHashCode() ^ this.Type.GetHashCode();
+        }
+
+        public static implicit operator VirtualPath (string path)
+        {
+            return new VirtualPath(path);
         }
     }
 }

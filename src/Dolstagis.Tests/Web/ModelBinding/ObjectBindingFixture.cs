@@ -2,15 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using Dolstagis.Web;
+using Dolstagis.Web.Features;
 using Dolstagis.Web.Http;
 using Dolstagis.Web.ModelBinding;
 using Dolstagis.Web.Routes;
+using Dolstagis.Web.StructureMap;
 using Moq;
 using NUnit.Framework;
-using StructureMap;
 
 namespace Dolstagis.Tests.Web.ModelBinding
 {
@@ -33,12 +32,13 @@ namespace Dolstagis.Tests.Web.ModelBinding
 
         private IModelBinder binder;
 
-        [TestFixtureSetUp]
+        [OneTimeSetUp]
         public void CreateModelBinder()
         {
-            var container = new Container();
-            container.Configure(x => x.AddRegistry<CoreServices>());
-            binder = container.GetInstance<DefaultModelBinder>();
+            var container = new StructureMapContainer();
+            IFeature coreServices = new CoreServices();
+            coreServices.ContainerBuilder.SetupApplication(container);
+            binder = container.GetService<ModelBinder>();
         }
 
 
@@ -51,7 +51,7 @@ namespace Dolstagis.Tests.Web.ModelBinding
                 { "datetimevalue", "2014-01-01" }
             };
 
-            var route = new RouteInvocation(null, data);
+            var route = new RouteInvocation(null, null, data);
             var request = new Mock<IRequest>();
             request.SetupGet(x => x.Query).Returns(new Dictionary<string, string[]>());
 

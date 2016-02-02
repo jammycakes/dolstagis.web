@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Dolstagis.Web.Http;
+﻿using Dolstagis.Web.Features;
 
 namespace Dolstagis.Web.Routes
 {
@@ -23,7 +18,7 @@ namespace Dolstagis.Web.Routes
         ///  A predicate which allows us to add constraints to the route.
         /// </param>
 
-        void Add(string specification, IRouteTarget target);
+        void Add(VirtualPath specification, IRouteTarget target);
 
         /// <summary>
         ///  Gets the route target for the requested path.
@@ -35,6 +30,6 @@ namespace Dolstagis.Web.Routes
         ///  The route target.
         /// </returns>
 
-        RouteInvocation GetRouteInvocation(VirtualPath path);
+        RouteInvocation GetRouteInvocation(VirtualPath path, IFeature feature);
     }
 }

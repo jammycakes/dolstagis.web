@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Dolstagis.Web.Lifecycle;
 
 namespace Dolstagis.Web.Auth
 {
@@ -19,7 +17,7 @@ namespace Dolstagis.Web.Auth
             _requiredRoles = requiredRoles;
         }
 
-        public bool IsDenied(IRequestContext context)
+        public bool IsDenied(RequestContext context)
         {
             return context.User == null ||
                 !_requiredRoles.Any(x => context.User.IsInRole(x));

@@ -3,7 +3,7 @@ from buildlib import *
 import argparse
 import sys
 
-VERSION = '0.3.0'
+VERSION = '0.4.0'
 VERSIONINFO = 'alpha'
 BUILD = 1
 CONFIGURATION = 'Debug'
@@ -32,7 +32,6 @@ project.nunit('src/Dolstagis.Tests/Dolstagis.Tests.nunit')
 project.make_nuget('Dolstagis.Web')
 project.make_nuget('Dolstagis.Web.Aspnet',
     content = [
-        'Configuration.cs.pp',
         'Index.cs.pp',
         'MainFeature.cs.pp',
         'Web.config.transform'

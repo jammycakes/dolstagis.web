@@ -1,5 +1,4 @@
 using System.Reflection;
-using System.Runtime.InteropServices;
 
 [assembly: AssemblyCompany("James McKay")]
 [assembly: AssemblyProduct("Dolstagis.Web")]

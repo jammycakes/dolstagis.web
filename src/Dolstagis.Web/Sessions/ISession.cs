@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Dolstagis.Web.Sessions
@@ -17,6 +15,21 @@ namespace Dolstagis.Web.Sessions
         ///  Gets the items stored in the session.
         /// </summary>
         IDictionary<string, object> Items { get; }
+
+        /// <summary>
+        ///  Gets the requested item asynchronously.
+        /// </summary>
+        /// <param name="key">The key of the item to fetch.</param>
+        /// <returns>The item to fetch, or null if not found.</returns>
+        Task<object> GetItemAsync(string key);
+
+        /// <summary>
+        ///  Sets the requested item asynchronously.
+        /// </summary>
+        /// <param name="key">The key of the item to set.</param>
+        /// <param name="value">The item to set, or null to clear it.</param>
+        /// <returns>An awaitable.</returns>
+        Task SetItemAsync(string key, object value);
 
         /// <summary>
         ///  Gets the date and time that the session expires.

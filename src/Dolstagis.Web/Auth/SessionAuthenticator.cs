@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using Dolstagis.Web.Lifecycle;
 
 namespace Dolstagis.Web.Auth
 {
@@ -15,14 +12,15 @@ namespace Dolstagis.Web.Auth
             this.SessionKey = "{C3F5F70A-8703-43FA-8947-5E519D7791D6}";
         }
 
-        public IUser GetUser(IRequestContext context)
+        public Task<IUser> GetUser(RequestContext context)
         {
             if (context.Session == null) return null;
             object result;
-            return context.Session.Items.TryGetValue(SessionKey, out result) ? result as IUser : null;
+            return Task.FromResult<IUser>
+                (context.Session.Items.TryGetValue(SessionKey, out result) ? result as IUser : null);
         }
 
-        public void SetUser(IRequestContext context, IUser user)
+        public async Task SetUser(RequestContext context, IUser user)
         {
             if (user != null)
             {
@@ -32,6 +30,7 @@ namespace Dolstagis.Web.Auth
             {
                 context.Session.Items.Remove(SessionKey);
             }
+            await Task.Yield();
         }
     }
 }

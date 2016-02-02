@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Dolstagis.Web.Static;
 
 namespace Dolstagis.Web.Views
@@ -12,11 +10,11 @@ namespace Dolstagis.Web.Views
         private IDictionary<string, IViewEngine> _viewEngines
             = new Dictionary<string, IViewEngine>(StringComparer.OrdinalIgnoreCase);
 
-        private IResourceResolver _resolver;
+        private ResourceResolver _resolver;
 
-        public ViewRegistry(IResourceResolver resolver, IEnumerable<IViewEngine> viewEngines)
+        public ViewRegistry(ResourceMapping[] mappings, IViewEngine[] viewEngines)
         {
-            _resolver = resolver;
+            _resolver = new ResourceResolver(ResourceType.Views, mappings);
             foreach (var engine in viewEngines)
                 foreach (var ext in engine.Extensions)
                     _viewEngines[ext] = engine;

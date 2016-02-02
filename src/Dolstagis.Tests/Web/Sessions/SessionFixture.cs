@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Dolstagis.Web;
+using Dolstagis.Web.Features;
+using Dolstagis.Web.Features.Impl;
 using Dolstagis.Web.Http;
 using Dolstagis.Web.Lifecycle;
 using Dolstagis.Web.Sessions;
@@ -17,7 +17,7 @@ namespace Dolstagis.Tests.Web.Sessions
     {
 
         [Test]
-        public void CanGetNewSession()
+        public async Task CanGetNewSession()
         {
             var cookies = new Dictionary<string, Cookie>();
             var mockRequest = new Mock<IRequest>();
@@ -26,23 +26,24 @@ namespace Dolstagis.Tests.Web.Sessions
             mockRequest.SetupGet(x => x.Headers).Returns(headers);
             var mockResponse = new Mock<IResponse>();
             var store = new InMemorySessionStore();
-            var hcb = new RequestContextBuilder
-                (store, null, new FeatureSet(null, new Feature[0]), () => null, null);
 
-            var ctx = hcb.CreateContext(mockRequest.Object, mockResponse.Object);
+            var processor = new RequestProcessor
+                (null, null, store, null, new FeatureSet(null, new IFeature[0]), null);
+
+            var ctx = processor.CreateContext(mockRequest.Object, mockResponse.Object, null);
             Assert.IsNotNull(ctx.Session);
 
-            var session = store.GetSession(ctx.Session.ID);
+            var session = await store.GetSession(ctx.Session.ID);
             Assert.AreSame(session, ctx.Session);
             Console.WriteLine(ctx.Session.ID);
         }
 
 
         [Test]
-        public void CanGetSessionFromCookie()
+        public async Task CanGetSessionFromCookie()
         {
             var store = new InMemorySessionStore();
-            var session = store.GetSession(null);
+            var session = await store.GetSession(null);
 
             var cookie = new Cookie(Constants.SessionKey, session.ID);
 
@@ -53,10 +54,10 @@ namespace Dolstagis.Tests.Web.Sessions
             mockRequest.SetupGet(x => x.Path).Returns(new VirtualPath("~/"));
             mockRequest.SetupGet(x => x.Headers).Returns(headers);
             var mockResponse = new Mock<IResponse>();
-            var hcb = new RequestContextBuilder
-                (store, null, new FeatureSet(null, new Feature[0]), () => null, null);
+            var processor = new RequestProcessor
+                (null, null, store, null, new FeatureSet(null, new IFeature[0]), null);
 
-            var ctx = hcb.CreateContext(mockRequest.Object, mockResponse.Object);
+            var ctx = processor.CreateContext(mockRequest.Object, mockResponse.Object, null);
             Assert.IsNotNull(ctx.Session);
 
             Assert.AreSame(session, ctx.Session);

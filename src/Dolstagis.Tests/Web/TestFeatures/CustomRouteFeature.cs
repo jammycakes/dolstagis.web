@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Dolstagis.Tests.Web.TestFeatures.Handlers;
+﻿using Dolstagis.Tests.Web.TestFeatures.Controllers;
 using Dolstagis.Web;
 
 namespace Dolstagis.Tests.Web.TestFeatures
@@ -12,7 +7,7 @@ namespace Dolstagis.Tests.Web.TestFeatures
     {
         public CustomRouteFeature(string customRoute)
         {
-            AddHandler<ChildHandler>(customRoute);
+            AddController<ChildController>(customRoute);
         }
     }
 }
