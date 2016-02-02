@@ -21,6 +21,9 @@ namespace Dolstagis.Web.Lifecycle
         private FeatureSet _features;
         private IIoCContainer _featureSetContainer;
 
+        private bool _requestContainerIsChecked = false;
+        private bool _requestContainerIsValid = false;
+
         public RequestProcessor(
             IEnumerable<IResultProcessor> resultProcessors,
             IEnumerable<IExceptionHandler> exceptionHandlers,
@@ -41,14 +44,33 @@ namespace Dolstagis.Web.Lifecycle
         public async Task ProcessRequestAsync(IRequest request, IResponse response)
         {
             using (var childContainer = _featureSetContainer.GetChildContainer()) {
-                var context = CreateContext(request, response, childContainer);
-                childContainer.Use<IRequestContext>(context);
-                childContainer.Use<RequestContext>(context);
-                //childContainer.Use<IRequest>(request);
-                //childContainer.Use<IResponse>(response);
+                childContainer.Use<IRequest>(request);
+                childContainer.Use<IResponse>(response);
 
                 foreach (var feature in _features.Features) {
                     feature.ContainerBuilder.SetupRequest(childContainer);
+                }
+
+                lock (_featureSetContainer) {
+                    // Only validate the request container once.
+                    // But throw every time if it fails.
+                    if (_requestContainerIsChecked) {
+                        if (!_requestContainerIsValid) {
+                            throw new InvalidOperationException(
+                                "The container configuration for requests for this feature set is invalid. "
+                                + "Please refer to previous errors."
+                            );
+                        }
+                    }
+                    else {
+                        try {
+                            childContainer.Validate();
+                            _requestContainerIsValid = true;
+                        }
+                        finally {
+                            _requestContainerIsChecked = true;
+                        }
+                    }
                 }
 
                 await ProcessRequestContextAsync(context);
