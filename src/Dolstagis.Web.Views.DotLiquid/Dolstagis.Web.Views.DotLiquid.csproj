@@ -45,7 +45,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
+    <Compile Include="DotLiquidFileSystem.cs" />
+    <Compile Include="DotLiquidFeature.cs" />
+    <Compile Include="DotLiquidView.cs" />
+    <Compile Include="DotLiquidViewEngine.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -66,6 +69,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Dolstagis.Web\Dolstagis.Web.csproj">
+      <Project>{e0e930ff-37b5-4495-8a73-3f69073e4629}</Project>
+      <Name>Dolstagis.Web</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
