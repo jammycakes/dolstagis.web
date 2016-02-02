@@ -50,24 +50,18 @@ namespace Dolstagis.Web.Lifecycle
 
                 try {
                     result = await context.InvokeRequest();
-                    if (context.Request.Method.Equals("head", StringComparison.OrdinalIgnoreCase)) {
-                        processor = HeadResultProcessor.Instance;
-                    }
-                    else {
-                        processor = _resultProcessors.LastOrDefault(x => x.CanProcess(result));
-                    }
-                    if (processor == null) Status.NotFound.Throw();
                 }
                 finally {
-                    if (context.Session != null && context.Session.ID != null) {
-                        var cookie = new Cookie(Constants.SessionKey, context.Session.ID) {
-                            Expires = context.Session.Expires,
-                            HttpOnly = true,
-                            Secure = context.Request.IsSecure
-                        };
-                        context.Response.Headers.AddCookie(cookie);
-                    }
+                    await context.PersistSession();
                 }
+
+                if (context.Request.Method.Equals("head", StringComparison.OrdinalIgnoreCase)) {
+                    processor = HeadResultProcessor.Instance;
+                }
+                else {
+                    processor = _resultProcessors.LastOrDefault(x => x.CanProcess(result));
+                }
+                if (processor == null) Status.NotFound.Throw();
                 await processor.Process(result, context);
             }
             catch (Exception ex) {
@@ -77,8 +71,6 @@ namespace Dolstagis.Web.Lifecycle
                 }
                 await HandleException(context, fault);
             }
-
-            if (context.Session != null) await context.Session.Persist();
         }
 
         public virtual async Task HandleException(RequestContext context, Exception fault)

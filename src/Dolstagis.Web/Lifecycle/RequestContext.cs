@@ -98,15 +98,12 @@ namespace Dolstagis.Web.Lifecycle
             }
         }
 
-
-
         private object Invoke(ActionInvocation action)
         {
             var instance = _container.GetService(action.ControllerType) as Controller;
             instance.Context = this;
             return action.Method.Invoke(instance, action.Arguments.ToArray());
         }
-
 
         protected virtual bool IsLoginRequired(ActionInvocation action)
         {
@@ -120,6 +117,24 @@ namespace Dolstagis.Web.Lifecycle
             var result = new RedirectResult("/login", Status.SeeOther);
             return Task.FromResult<object>(result);
         }
+
+
+        public async Task PersistSession()
+        {
+            if (_session != null) {
+                if (_session.ID != null) {
+                    var cookie = new Cookie(Constants.SessionKey, _session.ID) {
+                        Expires = _session.Expires,
+                        HttpOnly = true,
+                        Secure = Request.IsSecure
+                    };
+                    Response.Headers.AddCookie(cookie);
+                }
+                await _session.Persist();
+            }
+        }
+
+
 
         private class ContainerWrapper : IServiceProvider
         {
