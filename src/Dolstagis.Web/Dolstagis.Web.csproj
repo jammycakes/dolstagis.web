@@ -57,6 +57,7 @@
     <Compile Include="Auth\RequireLoginAttribute.cs" />
     <Compile Include="Auth\SessionAuthenticator.cs" />
     <Compile Include="ContentResult.cs" />
+    <Compile Include="Features\IContainerAssertions.cs" />
     <Compile Include="Features\IContainerExpression.cs" />
     <Compile Include="Features\IContainerIsExpression.cs" />
     <Compile Include="Features\IContainerSetupExpression.cs" />
