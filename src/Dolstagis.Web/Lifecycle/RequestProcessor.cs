@@ -40,20 +40,6 @@ namespace Dolstagis.Web.Lifecycle
         }
 
 
-
-        public async Task<object> InvokeRequestWithHomePageFallback(RequestContext context)
-        {
-            if (context.Request.Path.Parts.Any()
-                || context.Actions.Any())
-            {
-                return await context.InvokeRequest();
-            }
-            else
-            {
-                return new StaticResult(new VirtualPath("~/_dolstagis/index.html"));
-            }
-        }
-
         public async Task ProcessRequest(RequestContext context)
         {
             object result;
@@ -61,7 +47,7 @@ namespace Dolstagis.Web.Lifecycle
 
             try
             {
-                result = await InvokeRequestWithHomePageFallback(context);
+                result = await context.InvokeRequest();
                 if (context.Request.Method.Equals("head", StringComparison.OrdinalIgnoreCase))
                 {
                     processor = HeadResultProcessor.Instance;

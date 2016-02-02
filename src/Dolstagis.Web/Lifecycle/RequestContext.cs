@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Dolstagis.Web.Auth;
 using Dolstagis.Web.Http;
 using Dolstagis.Web.Sessions;
+using Dolstagis.Web.Static;
 
 namespace Dolstagis.Web.Lifecycle
 {
@@ -76,20 +77,25 @@ namespace Dolstagis.Web.Lifecycle
         {
             var actions = Actions.Where(x => x.Method != null);
 
-            foreach (var action in actions) {
-                if (IsLoginRequired(action)) {
-                    return await GetLoginResult();
+            if (Request.Path.Parts.Any() || actions.Any()) {
+                foreach (var action in actions) {
+                    if (IsLoginRequired(action)) {
+                        return await GetLoginResult();
+                    }
+                    var result = this.Invoke(action);
+                    if (result is Task) {
+                        await (Task)result;
+                        return ((dynamic)result).Result;
+                    }
+                    else if (result != null) {
+                        return result;
+                    }
                 }
-                var result = this.Invoke(action);
-                if (result is Task) {
-                    await (Task)result;
-                    return ((dynamic)result).Result;
-                }
-                else if (result != null) {
-                    return result;
-                }
+                throw new HttpStatusException(Status.NotFound);
             }
-            throw new HttpStatusException(Status.NotFound);
+            else {
+                return new StaticResult(new VirtualPath("~/_dolstagis/index.html"));
+            }
         }
 
 
