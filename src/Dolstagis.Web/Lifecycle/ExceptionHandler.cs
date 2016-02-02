@@ -18,7 +18,7 @@ namespace Dolstagis.Web.Lifecycle
             _settings = settings;
         }
 
-        public async Task HandleException(RequestContext context, Exception ex)
+        public async Task HandleException(IRequestContext context, Exception ex)
         {
             if (ex is HttpStatusException)
             {
@@ -30,7 +30,7 @@ namespace Dolstagis.Web.Lifecycle
             }
         }
 
-        private async Task DumpException(RequestContext context, HttpStatusException ex)
+        private async Task DumpException(IRequestContext context, HttpStatusException ex)
         {
             context.Response.Status = ex.Status;
             context.Response.AddHeader("Content-Type", "text/html");
@@ -57,7 +57,7 @@ namespace Dolstagis.Web.Lifecycle
             }
         }
 
-        private string RenderDebugInfo(RequestContext context, HttpStatusException ex)
+        private string RenderDebugInfo(IRequestContext context, HttpStatusException ex)
         {
             if (ex.InnerException == null) return String.Empty;
 
@@ -69,7 +69,7 @@ namespace Dolstagis.Web.Lifecycle
             return sb.ToString();
         }
 
-        private async Task HandleHttpStatusException(RequestContext context, HttpStatusException ex)
+        private async Task HandleHttpStatusException(IRequestContext context, HttpStatusException ex)
         {
             HttpStatusException fault = null;
 

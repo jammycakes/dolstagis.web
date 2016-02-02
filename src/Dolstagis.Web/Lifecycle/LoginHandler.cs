@@ -9,7 +9,7 @@
             LoginUrl = "~/login";
         }
 
-        public object GetLogin(RequestContext context)
+        public object GetLogin(IRequestContext context)
         {
             return new RedirectResult(LoginUrl, Status.SeeOther);
         }

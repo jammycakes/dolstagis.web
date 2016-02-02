@@ -14,7 +14,7 @@ namespace Dolstagis.Web.Static
             _resolver = new ResourceResolver(ResourceType.StaticFiles, mappings);
         }
 
-        protected override void ProcessHeaders(StaticResult typedData, RequestContext context)
+        protected override void ProcessHeaders(StaticResult typedData, IRequestContext context)
         {
             base.ProcessHeaders(typedData, context);
             _resource = _resolver.GetResource(typedData.Path);
@@ -28,7 +28,7 @@ namespace Dolstagis.Web.Static
             }
         }
 
-        public override async Task ProcessBody(StaticResult data, RequestContext context)
+        public override async Task ProcessBody(StaticResult data, IRequestContext context)
         {
             using (var stream = _resource.Open()) {
                 await stream.CopyToAsync(context.Response.Body);

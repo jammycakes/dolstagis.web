@@ -168,6 +168,7 @@ namespace Dolstagis.Web
                 feature.ContainerBuilder.SetupApplication(instance);
             }
 
+            instance.Validate();
             Container = instance;
         }
 

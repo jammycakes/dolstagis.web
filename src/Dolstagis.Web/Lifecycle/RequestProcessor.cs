@@ -44,8 +44,8 @@ namespace Dolstagis.Web.Lifecycle
         public async Task ProcessRequestAsync(IRequest request, IResponse response)
         {
             using (var childContainer = _featureSetContainer.GetChildContainer()) {
-                childContainer.Use<IRequest>(request);
-                childContainer.Use<IResponse>(response);
+                var context = CreateContext(request, response, childContainer);
+                childContainer.Use<IRequestContext>(context);
 
                 foreach (var feature in _features.Features) {
                     feature.ContainerBuilder.SetupRequest(childContainer);
@@ -78,7 +78,7 @@ namespace Dolstagis.Web.Lifecycle
         }
 
 
-        public async Task ProcessRequestContextAsync(RequestContext context)
+        private async Task ProcessRequestContextAsync(RequestContext context)
         {
             try {
                 object result;
@@ -109,7 +109,7 @@ namespace Dolstagis.Web.Lifecycle
             }
         }
 
-        public virtual async Task HandleException(RequestContext context, Exception fault)
+        public virtual async Task HandleException(IRequestContext context, Exception fault)
         {
             foreach (var handler in _exceptionHandlers)
             {
@@ -155,6 +155,10 @@ namespace Dolstagis.Web.Lifecycle
             action.Arguments = route.Feature.ModelBinder.GetArguments(route, request, method);
             return action;
         }
+
+        // TODO: this is only used in one of the tests. Need to either refactor the test
+        // or else use [InternalsVisibleTo]. We shouldn't be exposing RequestContext
+        // in the public API, only IRequestContext.
 
         public RequestContext CreateContext(IRequest request, IResponse response, IIoCContainer requestContainer)
         {

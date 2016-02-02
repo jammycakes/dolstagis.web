@@ -6,7 +6,7 @@ namespace Dolstagis.Web
 {
     public class Controller
     {
-        public RequestContext Context { get; internal set; }
+        public IRequestContext Context { get; internal set; }
 
         /// <summary>
         ///  Returns a static content result.

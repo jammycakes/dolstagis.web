@@ -12,7 +12,7 @@ namespace Dolstagis.Web.Auth
             this.SessionKey = "{C3F5F70A-8703-43FA-8947-5E519D7791D6}";
         }
 
-        public Task<IUser> GetUser(RequestContext context)
+        public Task<IUser> GetUser(IRequestContext context)
         {
             if (context.Session == null) return null;
             object result;
@@ -20,7 +20,7 @@ namespace Dolstagis.Web.Auth
                 (context.Session.Items.TryGetValue(SessionKey, out result) ? result as IUser : null);
         }
 
-        public async Task SetUser(RequestContext context, IUser user)
+        public async Task SetUser(IRequestContext context, IUser user)
         {
             if (user != null)
             {
