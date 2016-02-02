@@ -9,7 +9,6 @@ using Dolstagis.Web.Http;
 using Dolstagis.Web.Lifecycle.ResultProcessors;
 using Dolstagis.Web.Routes;
 using Dolstagis.Web.Sessions;
-using Dolstagis.Web.Static;
 
 namespace Dolstagis.Web.Lifecycle
 {
@@ -20,7 +19,10 @@ namespace Dolstagis.Web.Lifecycle
         private ISessionStore _sessionStore;
         private IAuthenticator _authenticator;
         private FeatureSet _features;
-        private IIoCContainer _requestContainer;
+        private IIoCContainer _featureSetContainer;
+
+        private bool _requestContainerIsChecked = false;
+        private bool _requestContainerIsValid = false;
 
         public RequestProcessor(
             IEnumerable<IResultProcessor> resultProcessors,
@@ -28,7 +30,7 @@ namespace Dolstagis.Web.Lifecycle
             ISessionStore sessionStore,
             IAuthenticator authenticator,
             FeatureSet features,
-            IIoCContainer requestContainer
+            IIoCContainer featureSetContainer
         )
         {
             _resultProcessors = (resultProcessors ?? Enumerable.Empty<IResultProcessor>()).ToList();
@@ -36,14 +38,49 @@ namespace Dolstagis.Web.Lifecycle
             _sessionStore = sessionStore;
             _authenticator = authenticator;
             _features = features;
-            _requestContainer = requestContainer;
+            _featureSetContainer = featureSetContainer;
+        }
+
+        public async Task ProcessRequestAsync(IRequest request, IResponse response)
+        {
+            using (var childContainer = _featureSetContainer.GetChildContainer()) {
+                childContainer.Use<IRequest>(request);
+                childContainer.Use<IResponse>(response);
+
+                foreach (var feature in _features.Features) {
+                    feature.ContainerBuilder.SetupRequest(childContainer);
+                }
+
+                lock (_featureSetContainer) {
+                    // Only validate the request container once.
+                    // But throw every time if it fails.
+                    if (_requestContainerIsChecked) {
+                        if (!_requestContainerIsValid) {
+                            throw new InvalidOperationException(
+                                "The container configuration for requests for this feature set is invalid. "
+                                + "Please refer to previous errors."
+                            );
+                        }
+                    }
+                    else {
+                        try {
+                            childContainer.Validate();
+                            _requestContainerIsValid = true;
+                        }
+                        finally {
+                            _requestContainerIsChecked = true;
+                        }
+                    }
+                }
+
+                var context = CreateContext(request, response, childContainer);
+                await ProcessRequest(context);
+            }
         }
 
 
-        public async Task ProcessRequest(IRequest request, IResponse response)
+        public async Task ProcessRequest(RequestContext context)
         {
-            var context = CreateContext(request, response);
-            Exception fault = null;
             try {
                 object result;
                 IResultProcessor processor;
@@ -65,7 +102,7 @@ namespace Dolstagis.Web.Lifecycle
                 await processor.Process(result, context);
             }
             catch (Exception ex) {
-                fault = ex;
+                var fault = ex;
                 while (fault is AggregateException && ((AggregateException)fault).InnerExceptions.Count == 1) {
                     fault = ((AggregateException)fault).InnerExceptions.Single();
                 }
@@ -114,15 +151,15 @@ namespace Dolstagis.Web.Lifecycle
                     return action;
                 }
             }
-                
+
             action.Method = method;
             action.Arguments = route.Feature.ModelBinder.GetArguments(route, request, method);
             return action;
         }
 
-        public RequestContext CreateContext(IRequest request, IResponse response)
+        public RequestContext CreateContext(IRequest request, IResponse response, IIoCContainer requestContainer)
         {
-            return new RequestContext(request, response, _sessionStore, _authenticator, _requestContainer) {
+            return new RequestContext(request, response, _sessionStore, _authenticator, requestContainer) {
                 Actions = GetActions(request).ToList()
             };
         }

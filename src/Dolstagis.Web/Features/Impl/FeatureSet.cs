@@ -20,9 +20,6 @@ namespace Dolstagis.Web.Features.Impl
 
     public class FeatureSet
     {
-        private bool _requestContainerIsChecked = false;
-        private bool _requestContainerIsValid = false;
-
         /// <summary>
         ///  Gets the Application object.
         /// </summary>
@@ -49,6 +46,7 @@ namespace Dolstagis.Web.Features.Impl
             {
                 this.Container = application.Container.GetChildContainer();
                 this.Container.Use<FeatureSet>(this);
+                this.Container.Use<RequestProcessor, RequestProcessor>(Scope.Application);
                 foreach (var feature in Features) {
                     Container.Add<IFeature>(feature);
                     feature.ContainerBuilder.SetupDomain(this.Container);
@@ -57,42 +55,9 @@ namespace Dolstagis.Web.Features.Impl
             }
         }
 
-        public async Task ProcessRequestAsync(IRequest request, IResponse response)
+        public RequestProcessor GetRequestProcessor()
         {
-            using (var childContainer = Container.GetChildContainer())
-            {
-                childContainer.Use<IRequest>(request);
-                childContainer.Use<IResponse>(response);
-
-                foreach (var feature in Features) {
-                    feature.ContainerBuilder.SetupRequest(childContainer);
-                }
-
-                lock(Container) {
-                    // Only validate the request container once.
-                    // But throw every time if it fails.
-                    if (_requestContainerIsChecked) {
-                        if (!_requestContainerIsValid) {
-                            throw new InvalidOperationException(
-                                "The container configuration for requests for this feature set is invalid. "
-                                + "Please refer to previous errors."
-                            );
-                        }
-                    }
-                    else {
-                        try {
-                            childContainer.Validate();
-                            _requestContainerIsValid = true;
-                        }
-                        finally {
-                            _requestContainerIsChecked = true;
-                        }
-                    }
-                }
-
-                await childContainer.GetService<RequestProcessor>()
-                    .ProcessRequest(request, response);
-            }
+            return this.Container.GetService<RequestProcessor>();
         }
 
 

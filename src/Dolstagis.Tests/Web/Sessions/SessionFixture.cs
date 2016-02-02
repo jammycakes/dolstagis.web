@@ -30,7 +30,7 @@ namespace Dolstagis.Tests.Web.Sessions
             var processor = new RequestProcessor
                 (null, null, store, null, new FeatureSet(null, new IFeature[0]), null);
 
-            var ctx = processor.CreateContext(mockRequest.Object, mockResponse.Object);
+            var ctx = processor.CreateContext(mockRequest.Object, mockResponse.Object, null);
             Assert.IsNotNull(ctx.Session);
 
             var session = await store.GetSession(ctx.Session.ID);
@@ -57,7 +57,7 @@ namespace Dolstagis.Tests.Web.Sessions
             var processor = new RequestProcessor
                 (null, null, store, null, new FeatureSet(null, new IFeature[0]), null);
 
-            var ctx = processor.CreateContext(mockRequest.Object, mockResponse.Object);
+            var ctx = processor.CreateContext(mockRequest.Object, mockResponse.Object, null);
             Assert.IsNotNull(ctx.Session);
 
             Assert.AreSame(session, ctx.Session);
