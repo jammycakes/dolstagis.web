@@ -139,6 +139,11 @@ namespace Dolstagis.Web.StructureMap
             });
         }
 
+        public void Validate()
+        {
+            Container.AssertConfigurationIsValid();
+        }
+
 
         /* ====== StructureMap specifics ====== */
 

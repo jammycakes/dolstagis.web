@@ -7,14 +7,14 @@ namespace Dolstagis.Web.Auth
 {
     public class PrincipalAuthenticator : IAuthenticator
     {
-        public Task<IUser> GetUser(RequestContext context)
+        public Task<IUser> GetUser(IRequestContext context)
         {
             var principal = Thread.CurrentPrincipal;
             return Task.FromResult<IUser>
                 (principal.Identity.IsAuthenticated ? new PrincipalUser(principal) : null);
         }
 
-        public Task SetUser(RequestContext context, IUser user)
+        public Task SetUser(IRequestContext context, IUser user)
         {
             throw new NotSupportedException("Changing the logged in user is not supported.");
         }

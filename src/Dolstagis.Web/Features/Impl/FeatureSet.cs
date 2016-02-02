@@ -51,6 +51,8 @@ namespace Dolstagis.Web.Features.Impl
                     Container.Add<IFeature>(feature);
                     feature.ContainerBuilder.SetupDomain(this.Container);
                 }
+
+                if (application.Settings.Debug) this.Container.Validate();
             }
         }
 

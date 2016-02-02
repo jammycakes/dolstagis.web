@@ -11,14 +11,14 @@ namespace Dolstagis.Web.Lifecycle
             return (data is T);
         }
 
-        public Task Process(object data, RequestContext context)
+        public Task Process(object data, IRequestContext context)
         {
             var typedData = (T)data;
             ProcessHeaders(typedData, context);
             return ProcessBody(typedData, context);
         }
 
-        protected virtual void ProcessHeaders(T typedData, RequestContext context)
+        protected virtual void ProcessHeaders(T typedData, IRequestContext context)
         {
             // Location: header should be absolute per RFC 2616 para 14.30. Enforce this.
 
@@ -53,6 +53,6 @@ namespace Dolstagis.Web.Lifecycle
             }
         }
 
-        public abstract Task ProcessBody(T data, RequestContext context);
+        public abstract Task ProcessBody(T data, IRequestContext context);
     }
 }

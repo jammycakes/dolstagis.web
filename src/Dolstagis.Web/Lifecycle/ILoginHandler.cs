@@ -2,6 +2,6 @@
 {
     public interface ILoginHandler
     {
-        object GetLogin(RequestContext context);
+        object GetLogin(IRequestContext context);
     }
 }

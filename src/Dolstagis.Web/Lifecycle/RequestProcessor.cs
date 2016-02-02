@@ -14,6 +14,7 @@ namespace Dolstagis.Web.Lifecycle
 {
     public class RequestProcessor
     {
+        private ISettings _settings;
         private IList<IResultProcessor> _resultProcessors;
         private IEnumerable<IExceptionHandler> _exceptionHandlers;
         private ISessionStore _sessionStore;
@@ -21,13 +22,17 @@ namespace Dolstagis.Web.Lifecycle
         private FeatureSet _features;
         private IIoCContainer _featureSetContainer;
 
+        private bool _requestContainerIsChecked = false;
+        private bool _requestContainerIsValid = false;
+
         public RequestProcessor(
             IEnumerable<IResultProcessor> resultProcessors,
             IEnumerable<IExceptionHandler> exceptionHandlers,
             ISessionStore sessionStore,
             IAuthenticator authenticator,
             FeatureSet features,
-            IIoCContainer featureSetContainer
+            IIoCContainer featureSetContainer,
+            ISettings settings
         )
         {
             _resultProcessors = (resultProcessors ?? Enumerable.Empty<IResultProcessor>()).ToList();
@@ -36,6 +41,7 @@ namespace Dolstagis.Web.Lifecycle
             _authenticator = authenticator;
             _features = features;
             _featureSetContainer = featureSetContainer;
+            _settings = settings;
         }
 
         public async Task ProcessRequestAsync(IRequest request, IResponse response)
@@ -43,12 +49,33 @@ namespace Dolstagis.Web.Lifecycle
             using (var childContainer = _featureSetContainer.GetChildContainer()) {
                 var context = CreateContext(request, response, childContainer);
                 childContainer.Use<IRequestContext>(context);
-                childContainer.Use<RequestContext>(context);
-                //childContainer.Use<IRequest>(request);
-                //childContainer.Use<IResponse>(response);
 
                 foreach (var feature in _features.Features) {
                     feature.ContainerBuilder.SetupRequest(childContainer);
+                }
+
+                if (_settings.Debug) {
+                    lock (_featureSetContainer) {
+                        // Only validate the request container once.
+                        // But throw every time if it fails.
+                        if (_requestContainerIsChecked) {
+                            if (!_requestContainerIsValid) {
+                                throw new InvalidOperationException(
+                                    "The container configuration for requests for this feature set is invalid. "
+                                    + "Please refer to previous errors."
+                                );
+                            }
+                        }
+                        else {
+                            try {
+                                childContainer.Validate();
+                                _requestContainerIsValid = true;
+                            }
+                            finally {
+                                _requestContainerIsChecked = true;
+                            }
+                        }
+                    }
                 }
 
                 await ProcessRequestContextAsync(context);
@@ -56,7 +83,7 @@ namespace Dolstagis.Web.Lifecycle
         }
 
 
-        public async Task ProcessRequestContextAsync(RequestContext context)
+        private async Task ProcessRequestContextAsync(RequestContext context)
         {
             try {
                 object result;
@@ -87,7 +114,7 @@ namespace Dolstagis.Web.Lifecycle
             }
         }
 
-        public virtual async Task HandleException(RequestContext context, Exception fault)
+        public virtual async Task HandleException(IRequestContext context, Exception fault)
         {
             foreach (var handler in _exceptionHandlers)
             {
@@ -133,6 +160,10 @@ namespace Dolstagis.Web.Lifecycle
             action.Arguments = route.Feature.ModelBinder.GetArguments(route, request, method);
             return action;
         }
+
+        // TODO: this is only used in one of the tests. Need to either refactor the test
+        // or else use [InternalsVisibleTo]. We shouldn't be exposing RequestContext
+        // in the public API, only IRequestContext.
 
         public RequestContext CreateContext(IRequest request, IResponse response, IIoCContainer requestContainer)
         {
