@@ -100,8 +100,10 @@ namespace Dolstagis.Web.Lifecycle
 
         private object Invoke(ActionInvocation action)
         {
-            var instance = _container.GetService(action.ControllerType) as Controller;
-            instance.Context = this;
+            var instance = _container.GetService(action.ControllerType);
+            if (instance is Controller) {
+                ((Controller)instance).Context = this;
+            }
             return action.Method.Invoke(instance, action.Arguments.ToArray());
         }
 

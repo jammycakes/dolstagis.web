@@ -180,7 +180,7 @@ namespace Dolstagis.Web
         /// </summary>
         /// <typeparam name="T"></typeparam>
 
-        public void AddController<T>() where T: Controller
+        public void AddController<T>()
         {
             var attributes = typeof(T).GetCustomAttributes(typeof(RouteAttribute), true);
             if (!attributes.Any()) {
@@ -202,7 +202,7 @@ namespace Dolstagis.Web
         ///  The route definition for this controller.
         /// </param>
 
-        public void AddController<T>(VirtualPath route) where T: Controller
+        public void AddController<T>(VirtualPath route)
         {
             this._routes.Add(route, new RouteTarget(typeof(T)));
         }
