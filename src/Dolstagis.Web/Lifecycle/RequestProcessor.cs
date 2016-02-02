@@ -73,13 +73,12 @@ namespace Dolstagis.Web.Lifecycle
                     }
                 }
 
-                var context = CreateContext(request, response, childContainer);
-                await ProcessRequest(context);
+                await ProcessRequestContextAsync(context);
             }
         }
 
 
-        public async Task ProcessRequest(RequestContext context)
+        public async Task ProcessRequestContextAsync(RequestContext context)
         {
             try {
                 object result;
