@@ -40,57 +40,39 @@ namespace Dolstagis.Web.Lifecycle
         }
 
 
-        public async Task ProcessRequest(RequestContext context)
-        {
-            object result;
-            IResultProcessor processor;
-
-            try
-            {
-                result = await context.InvokeRequest();
-                if (context.Request.Method.Equals("head", StringComparison.OrdinalIgnoreCase))
-                {
-                    processor = HeadResultProcessor.Instance;
-                }
-                else
-                {
-                    processor = _resultProcessors.LastOrDefault(x => x.CanProcess(result));
-                }
-                if (processor == null) Status.NotFound.Throw();
-            }
-            finally
-            {
-                if (context.Session != null && context.Session.ID != null)
-                {
-                    var cookie = new Cookie(Constants.SessionKey, context.Session.ID)
-                    {
-                        Expires = context.Session.Expires,
-                        HttpOnly = true,
-                        Secure = context.Request.IsSecure
-                    };
-                    context.Response.Headers.AddCookie(cookie);
-                }
-            }
-            await processor.Process(result, context);
-        }
-
         public async Task ProcessRequest(IRequest request, IResponse response)
         {
             var context = CreateContext(request, response);
             Exception fault = null;
-            try
-            {
-                await ProcessRequest(context);
-            }
-            catch (Exception ex)
-            {
-                fault = ex;
-            }
+            try {
+                object result;
+                IResultProcessor processor;
 
-            if (fault != null)
-            {
-                while (fault is AggregateException && ((AggregateException)fault).InnerExceptions.Count == 1)
-                {
+                try {
+                    result = await context.InvokeRequest();
+                    if (context.Request.Method.Equals("head", StringComparison.OrdinalIgnoreCase)) {
+                        processor = HeadResultProcessor.Instance;
+                    }
+                    else {
+                        processor = _resultProcessors.LastOrDefault(x => x.CanProcess(result));
+                    }
+                    if (processor == null) Status.NotFound.Throw();
+                }
+                finally {
+                    if (context.Session != null && context.Session.ID != null) {
+                        var cookie = new Cookie(Constants.SessionKey, context.Session.ID) {
+                            Expires = context.Session.Expires,
+                            HttpOnly = true,
+                            Secure = context.Request.IsSecure
+                        };
+                        context.Response.Headers.AddCookie(cookie);
+                    }
+                }
+                await processor.Process(result, context);
+            }
+            catch (Exception ex) {
+                fault = ex;
+                while (fault is AggregateException && ((AggregateException)fault).InnerExceptions.Count == 1) {
                     fault = ((AggregateException)fault).InnerExceptions.Single();
                 }
                 await HandleException(context, fault);
