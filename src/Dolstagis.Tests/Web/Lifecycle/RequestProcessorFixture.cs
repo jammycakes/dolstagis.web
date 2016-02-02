@@ -15,6 +15,7 @@ namespace Dolstagis.Tests.Web.Lifecycle
     public class RequestProcessorFixture
     {
         private IIoCContainer _mockContainer;
+        private ISettings _mockSettings;
 
         [OneTimeSetUp]
         public void CreateRouteTable()
@@ -23,6 +24,10 @@ namespace Dolstagis.Tests.Web.Lifecycle
             mock.Setup(x => x.GetService(It.IsAny<Type>())).Returns(new RootController());
             mock.Setup(x => x.GetChildContainer()).Returns<IIoCContainer>(x => x);
             _mockContainer = mock.Object;
+
+            var mockSettings = new Mock<ISettings>();
+            mockSettings.Setup(x => x.Debug).Returns(false);
+            _mockSettings = mockSettings.Object;
         }
 
 
@@ -31,7 +36,8 @@ namespace Dolstagis.Tests.Web.Lifecycle
             var featureSet = new FeatureSet(null, new IFeature[] { new FirstFeature() });
             var processor = new RequestProcessor(null, null, null, null,
                 featureSet,
-                _mockContainer
+                _mockContainer,
+                _mockSettings
             );
             var request = new Mock<IRequest>();
             request.SetupGet(x => x.Path).Returns(new VirtualPath(path));

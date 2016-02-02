@@ -14,6 +14,7 @@ namespace Dolstagis.Web.Lifecycle
 {
     public class RequestProcessor
     {
+        private ISettings _settings;
         private IList<IResultProcessor> _resultProcessors;
         private IEnumerable<IExceptionHandler> _exceptionHandlers;
         private ISessionStore _sessionStore;
@@ -30,7 +31,8 @@ namespace Dolstagis.Web.Lifecycle
             ISessionStore sessionStore,
             IAuthenticator authenticator,
             FeatureSet features,
-            IIoCContainer featureSetContainer
+            IIoCContainer featureSetContainer,
+            ISettings settings
         )
         {
             _resultProcessors = (resultProcessors ?? Enumerable.Empty<IResultProcessor>()).ToList();
@@ -39,6 +41,7 @@ namespace Dolstagis.Web.Lifecycle
             _authenticator = authenticator;
             _features = features;
             _featureSetContainer = featureSetContainer;
+            _settings = settings;
         }
 
         public async Task ProcessRequestAsync(IRequest request, IResponse response)
@@ -51,24 +54,26 @@ namespace Dolstagis.Web.Lifecycle
                     feature.ContainerBuilder.SetupRequest(childContainer);
                 }
 
-                lock (_featureSetContainer) {
-                    // Only validate the request container once.
-                    // But throw every time if it fails.
-                    if (_requestContainerIsChecked) {
-                        if (!_requestContainerIsValid) {
-                            throw new InvalidOperationException(
-                                "The container configuration for requests for this feature set is invalid. "
-                                + "Please refer to previous errors."
-                            );
+                if (_settings.Debug) {
+                    lock (_featureSetContainer) {
+                        // Only validate the request container once.
+                        // But throw every time if it fails.
+                        if (_requestContainerIsChecked) {
+                            if (!_requestContainerIsValid) {
+                                throw new InvalidOperationException(
+                                    "The container configuration for requests for this feature set is invalid. "
+                                    + "Please refer to previous errors."
+                                );
+                            }
                         }
-                    }
-                    else {
-                        try {
-                            childContainer.Validate();
-                            _requestContainerIsValid = true;
-                        }
-                        finally {
-                            _requestContainerIsChecked = true;
+                        else {
+                            try {
+                                childContainer.Validate();
+                                _requestContainerIsValid = true;
+                            }
+                            finally {
+                                _requestContainerIsChecked = true;
+                            }
                         }
                     }
                 }
