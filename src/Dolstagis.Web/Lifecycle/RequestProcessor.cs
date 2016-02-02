@@ -9,7 +9,6 @@ using Dolstagis.Web.Http;
 using Dolstagis.Web.Lifecycle.ResultProcessors;
 using Dolstagis.Web.Routes;
 using Dolstagis.Web.Sessions;
-using Dolstagis.Web.Static;
 
 namespace Dolstagis.Web.Lifecycle
 {
@@ -18,9 +17,9 @@ namespace Dolstagis.Web.Lifecycle
         private IList<IResultProcessor> _resultProcessors;
         private IEnumerable<IExceptionHandler> _exceptionHandlers;
         private ISessionStore _sessionStore;
-        private Func<ActionInvocation> _createAction;
         private IAuthenticator _authenticator;
         private FeatureSet _features;
+        private IIoCContainer _featureSetContainer;
 
         public RequestProcessor(
             IEnumerable<IResultProcessor> resultProcessors,
@@ -28,128 +27,64 @@ namespace Dolstagis.Web.Lifecycle
             ISessionStore sessionStore,
             IAuthenticator authenticator,
             FeatureSet features,
-            Func<ActionInvocation> createAction
+            IIoCContainer featureSetContainer
         )
         {
             _resultProcessors = (resultProcessors ?? Enumerable.Empty<IResultProcessor>()).ToList();
             _exceptionHandlers = exceptionHandlers;
             _sessionStore = sessionStore;
-            _createAction = createAction;
             _authenticator = authenticator;
             _features = features;
+            _featureSetContainer = featureSetContainer;
         }
 
-
-        protected virtual bool IsLoginRequired(RequestContext context, ActionInvocation action)
+        public async Task ProcessRequestAsync(IRequest request, IResponse response)
         {
-            var attributes = action.Method.GetCustomAttributes(true).OfType<IRequirement>()
-                .Concat(action.ControllerType.GetCustomAttributes(true).OfType<IRequirement>());
-            return attributes.Any(x => x.IsDenied(context));
-        }
+            using (var childContainer = _featureSetContainer.GetChildContainer()) {
+                var context = CreateContext(request, response, childContainer);
+                childContainer.Use<IRequestContext>(context);
+                childContainer.Use<RequestContext>(context);
+                //childContainer.Use<IRequest>(request);
+                //childContainer.Use<IResponse>(response);
 
-        protected virtual Task<object> GetLoginResult(RequestContext context)
-        {
-            var result = new RedirectResult("/login", Status.SeeOther);
-            return Task.FromResult<object>(result);
-        }
-
-
-        public async Task<object> InvokeRequest(RequestContext context)
-        {
-            if (context == null) Status.NotFound.Throw();
-
-            var actions = context.Actions.Where(x => x.Method != null);
-
-            foreach (var action in actions)
-            {
-                if (IsLoginRequired(context, action))
-                {
-                    return await GetLoginResult(context);
+                foreach (var feature in _features.Features) {
+                    feature.ContainerBuilder.SetupRequest(childContainer);
                 }
-                var result = action.Invoke(context);
-                if (result is Task)
-                {
-                    await (Task)result;
-                    return ((dynamic)result).Result;
-                }
-                else if (result != null)
-                {
-                    return result;
-                }
-            }
-            throw new HttpStatusException(Status.NotFound);
-        }
 
-        public async Task<object> InvokeRequestWithHomePageFallback(RequestContext context)
-        {
-            if (context.Request.Path.Parts.Any()
-                || context.Actions.Any())
-            {
-                return await InvokeRequest(context);
-            }
-            else
-            {
-                return new StaticResult(new VirtualPath("~/_dolstagis/index.html"));
+                await ProcessRequestContextAsync(context);
             }
         }
 
-        public async Task ProcessRequest(RequestContext context)
-        {
-            object result;
-            IResultProcessor processor;
 
-            try
-            {
-                result = await InvokeRequestWithHomePageFallback(context);
-                if (context.Request.Method.Equals("head", StringComparison.OrdinalIgnoreCase))
-                {
+        public async Task ProcessRequestContextAsync(RequestContext context)
+        {
+            try {
+                object result;
+                IResultProcessor processor;
+
+                try {
+                    result = await context.InvokeRequest();
+                }
+                finally {
+                    await context.PersistSession();
+                }
+
+                if (context.Request.Method.Equals("head", StringComparison.OrdinalIgnoreCase)) {
                     processor = HeadResultProcessor.Instance;
                 }
-                else
-                {
+                else {
                     processor = _resultProcessors.LastOrDefault(x => x.CanProcess(result));
                 }
                 if (processor == null) Status.NotFound.Throw();
+                await processor.Process(result, context);
             }
-            finally
-            {
-                if (context.Session != null && context.Session.ID != null)
-                {
-                    var cookie = new Cookie(Constants.SessionKey, context.Session.ID)
-                    {
-                        Expires = context.Session.Expires,
-                        HttpOnly = true,
-                        Secure = context.Request.IsSecure
-                    };
-                    context.Response.Headers.AddCookie(cookie);
-                }
-            }
-            await processor.Process(result, context);
-        }
-
-        public async Task ProcessRequest(IRequest request, IResponse response)
-        {
-            var context = await CreateContext(request, response);
-            Exception fault = null;
-            try
-            {
-                await ProcessRequest(context);
-            }
-            catch (Exception ex)
-            {
-                fault = ex;
-            }
-
-            if (fault != null)
-            {
-                while (fault is AggregateException && ((AggregateException)fault).InnerExceptions.Count == 1)
-                {
+            catch (Exception ex) {
+                var fault = ex;
+                while (fault is AggregateException && ((AggregateException)fault).InnerExceptions.Count == 1) {
                     fault = ((AggregateException)fault).InnerExceptions.Single();
                 }
                 await HandleException(context, fault);
             }
-
-            if (context.Session != null) await context.Session.Persist();
         }
 
         public virtual async Task HandleException(RequestContext context, Exception fault)
@@ -171,7 +106,7 @@ namespace Dolstagis.Web.Lifecycle
 
         private ActionInvocation GetAction(IRequest request, RouteInvocation route)
         {
-            var action = _createAction();
+            var action = new ActionInvocation();
             action.ControllerType = route.Target.ControllerType;
             var method = action.ControllerType.GetMethod(request.Method,
                 BindingFlags.Instance | BindingFlags.IgnoreCase |
@@ -193,30 +128,17 @@ namespace Dolstagis.Web.Lifecycle
                     return action;
                 }
             }
-                
+
             action.Method = method;
             action.Arguments = route.Feature.ModelBinder.GetArguments(route, request, method);
             return action;
         }
 
-        public async Task<RequestContext> CreateContext(IRequest request, IResponse response)
+        public RequestContext CreateContext(IRequest request, IResponse response, IIoCContainer requestContainer)
         {
-            var actions = GetActions(request);
-            var session = await GetSession(request);
-            return new RequestContext(request, response, session, _authenticator, actions);
-        }
-
-        private async Task<ISession> GetSession(IRequest request)
-        {
-            if (_sessionStore == null) return null;
-
-            Cookie sessionCookie;
-            string sessionID =
-                request.Headers.Cookies.TryGetValue(Constants.SessionKey, out sessionCookie)
-                ? sessionCookie.Value
-                : null;
-
-            return await _sessionStore.GetSession(sessionID);
+            return new RequestContext(request, response, _sessionStore, _authenticator, requestContainer) {
+                Actions = GetActions(request).ToList()
+            };
         }
     }
 }

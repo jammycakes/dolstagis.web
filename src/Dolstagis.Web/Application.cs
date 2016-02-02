@@ -190,7 +190,7 @@ namespace Dolstagis.Web
                 request.Protocol + " " + request.Method + " " + request.AbsolutePath.ToString()
             );
             var featureSet = Features.GetFeatureSet(request);
-            await featureSet.ProcessRequestAsync(request, response);
+            await featureSet.GetRequestProcessor().ProcessRequestAsync(request, response);
         }
 
         /// <summary>

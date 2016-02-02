@@ -1,11 +1,12 @@
-﻿using Dolstagis.Web.Lifecycle;
+﻿using System.Threading.Tasks;
+using Dolstagis.Web.Lifecycle;
 
 namespace Dolstagis.Web.Auth
 {
     public interface IAuthenticator
     {
-        IUser GetUser(RequestContext context);
+        Task<IUser> GetUser(RequestContext context);
 
-        void SetUser(RequestContext context, IUser user);
+        Task SetUser(RequestContext context, IUser user);
     }
 }
