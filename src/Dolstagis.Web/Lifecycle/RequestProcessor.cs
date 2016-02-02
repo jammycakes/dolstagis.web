@@ -21,6 +21,7 @@ namespace Dolstagis.Web.Lifecycle
         private Func<ActionInvocation> _createAction;
         private IAuthenticator _authenticator;
         private FeatureSet _features;
+        private IIoCContainer _requestContainer;
 
         public RequestProcessor(
             IEnumerable<IResultProcessor> resultProcessors,
@@ -28,7 +29,8 @@ namespace Dolstagis.Web.Lifecycle
             ISessionStore sessionStore,
             IAuthenticator authenticator,
             FeatureSet features,
-            Func<ActionInvocation> createAction
+            Func<ActionInvocation> createAction,
+            IIoCContainer requestContainer
         )
         {
             _resultProcessors = (resultProcessors ?? Enumerable.Empty<IResultProcessor>()).ToList();
@@ -37,6 +39,7 @@ namespace Dolstagis.Web.Lifecycle
             _createAction = createAction;
             _authenticator = authenticator;
             _features = features;
+            _requestContainer = requestContainer;
         }
 
 
@@ -162,7 +165,7 @@ namespace Dolstagis.Web.Lifecycle
 
         public RequestContext CreateContext(IRequest request, IResponse response)
         {
-            return new RequestContext(request, response, _sessionStore, _authenticator) {
+            return new RequestContext(request, response, _sessionStore, _authenticator, _requestContainer) {
                 Actions = GetActions(request).ToList()
             };
         }

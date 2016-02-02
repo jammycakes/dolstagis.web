@@ -14,16 +14,20 @@ namespace Dolstagis.Web.Lifecycle
         private IAuthenticator _authenticator;
         private ISession _session = null;
         private IUser _user = null;
+        private IServiceProvider _container;
 
         public RequestContext(IRequest request, IResponse response,
-            ISessionStore sessionStore, IAuthenticator authenticator)
+            ISessionStore sessionStore, IAuthenticator authenticator,
+            IIoCContainer container)
         {
             Request = request;
             Response = response;
             _sessionStore = sessionStore;
             _authenticator = authenticator;
+            _container = new ContainerWrapper(container);
         }
 
+        public IServiceProvider Container { get { return _container; } }
 
         public IRequest Request { get; private set; }
 
@@ -100,6 +104,21 @@ namespace Dolstagis.Web.Lifecycle
         {
             var result = new RedirectResult("/login", Status.SeeOther);
             return Task.FromResult<object>(result);
+        }
+
+        private class ContainerWrapper : IServiceProvider
+        {
+            private IServiceProvider _provider;
+
+            public ContainerWrapper(IServiceProvider provider)
+            {
+                _provider = provider;
+            }
+
+            public object GetService(Type serviceType)
+            {
+                return _provider.GetService(serviceType);
+            }
         }
     }
 }
