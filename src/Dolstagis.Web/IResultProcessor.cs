@@ -26,6 +26,6 @@ namespace Dolstagis.Web
         /// </param>
         /// <returns>A <see cref="Task"/> instance.</returns>
 
-        Task Process(object data, RequestContext context);
+        Task Process(object data, IRequestContext context);
     }
 }

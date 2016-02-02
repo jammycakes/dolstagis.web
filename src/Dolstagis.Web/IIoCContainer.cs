@@ -17,6 +17,8 @@ namespace Dolstagis.Web
         void Add(Type source, object target);
 
         void Use(Type source, object target);
+
+        void Validate();
     }
 
     public interface IIoCContainer<TImpl> : IIoCContainer

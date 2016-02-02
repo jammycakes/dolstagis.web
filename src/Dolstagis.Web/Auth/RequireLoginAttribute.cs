@@ -9,7 +9,7 @@ namespace Dolstagis.Web.Auth
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = true, Inherited = true)]
     public class RequireLoginAttribute : Attribute, IRequirement
     {
-        public bool IsDenied(RequestContext context)
+        public bool IsDenied(IRequestContext context)
         {
             return context.User == null;
         }

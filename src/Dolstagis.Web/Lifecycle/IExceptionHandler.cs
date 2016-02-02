@@ -5,6 +5,6 @@ namespace Dolstagis.Web.Lifecycle
 {
     public interface IExceptionHandler
     {
-        Task HandleException(RequestContext context, Exception ex);
+        Task HandleException(IRequestContext context, Exception ex);
     }
 }
