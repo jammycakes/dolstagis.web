@@ -18,7 +18,6 @@ namespace Dolstagis.Web.Lifecycle
         private IList<IResultProcessor> _resultProcessors;
         private IEnumerable<IExceptionHandler> _exceptionHandlers;
         private ISessionStore _sessionStore;
-        private Func<ActionInvocation> _createAction;
         private IAuthenticator _authenticator;
         private FeatureSet _features;
         private IIoCContainer _requestContainer;
@@ -29,14 +28,12 @@ namespace Dolstagis.Web.Lifecycle
             ISessionStore sessionStore,
             IAuthenticator authenticator,
             FeatureSet features,
-            Func<ActionInvocation> createAction,
             IIoCContainer requestContainer
         )
         {
             _resultProcessors = (resultProcessors ?? Enumerable.Empty<IResultProcessor>()).ToList();
             _exceptionHandlers = exceptionHandlers;
             _sessionStore = sessionStore;
-            _createAction = createAction;
             _authenticator = authenticator;
             _features = features;
             _requestContainer = requestContainer;
@@ -135,7 +132,7 @@ namespace Dolstagis.Web.Lifecycle
 
         private ActionInvocation GetAction(IRequest request, RouteInvocation route)
         {
-            var action = _createAction();
+            var action = new ActionInvocation();
             action.ControllerType = route.Target.ControllerType;
             var method = action.ControllerType.GetMethod(request.Method,
                 BindingFlags.Instance | BindingFlags.IgnoreCase |

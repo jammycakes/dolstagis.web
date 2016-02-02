@@ -31,8 +31,7 @@ namespace Dolstagis.Tests.Web.Lifecycle
             var featureSet = new FeatureSet(null, new IFeature[] { new FirstFeature() });
             var processor = new RequestProcessor(null, null, null, null,
                 featureSet, 
-                () => new ActionInvocation(_mockContainer),
-                null
+                _mockContainer
             );
             var request = new Mock<IRequest>();
             request.SetupGet(x => x.Path).Returns(new VirtualPath(path));

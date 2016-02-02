@@ -80,7 +80,7 @@ namespace Dolstagis.Web.Lifecycle
                 if (IsLoginRequired(action)) {
                     return await GetLoginResult();
                 }
-                var result = action.Invoke(this);
+                var result = this.Invoke(action);
                 if (result is Task) {
                     await (Task)result;
                     return ((dynamic)result).Result;
@@ -90,6 +90,15 @@ namespace Dolstagis.Web.Lifecycle
                 }
             }
             throw new HttpStatusException(Status.NotFound);
+        }
+
+
+
+        private object Invoke(ActionInvocation action)
+        {
+            var instance = _container.GetService(action.ControllerType) as Controller;
+            instance.Context = this;
+            return action.Method.Invoke(instance, action.Arguments.ToArray());
         }
 
 
