@@ -9,15 +9,22 @@ namespace Dolstagis.Web.Views.Razor
 {
     public class RazorFeature : Feature
     {
+        private IViewEngine CreateViewEngine<TLanguage>(IIoCContainer container, string extension)
+            where TLanguage: RazorCodeLanguage
+        {
+            return new RazorViewEngine(
+                container.GetService<ISettings>(),
+                extension,
+                container.GetService<TLanguage>()
+            );
+        }
+
         public RazorFeature()
         {
-            this.Services.For<IViewEngine>().Singleton().Add<RazorViewEngine>()
-                .Ctor<string>("extension").Is("cshtml")
-                .Ctor<RazorCodeLanguage>("language").Is(new CSharpRazorCodeLanguage());
-            this.Services.For<IViewEngine>().Singleton().Add<RazorViewEngine>()
-                .Ctor<string>("extension").Is("vbhtml")
-                .Ctor<RazorCodeLanguage>("language").Is(new VBRazorCodeLanguage());
-
+            Container.Setup.Feature(c => {
+                c.Add<IViewEngine>(ctr => CreateViewEngine<CSharpRazorCodeLanguage>(ctr, "cshtml"), Scope.Application);
+                c.Add<IViewEngine>(ctr => CreateViewEngine<VBRazorCodeLanguage>(ctr, "vbhtml"), Scope.Application);
+            });
         }
     }
 }
