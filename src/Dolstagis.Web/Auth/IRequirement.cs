@@ -1,6 +1,4 @@
-﻿using Dolstagis.Web.Lifecycle;
-
-namespace Dolstagis.Web.Auth
+﻿namespace Dolstagis.Web.Auth
 {
     public interface IRequirement
     {

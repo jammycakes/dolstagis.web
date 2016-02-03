@@ -1,5 +1,4 @@
-﻿using Dolstagis.Web.Lifecycle;
-using Dolstagis.Web.Static;
+﻿using Dolstagis.Web.Static;
 using Dolstagis.Web.Views;
 
 namespace Dolstagis.Web
