@@ -12,16 +12,20 @@ namespace Dolstagis.Web.Views.DotLiquid
 {
     public class DotLiquidFileSystem : IFileSystem
     {
-        private ResourceResolver _resolver;
+        public static string Guid { get; private set; }
 
-        public DotLiquidFileSystem(ResourceResolver resolver)
+        static DotLiquidFileSystem()
         {
-            _resolver = resolver;
+            Guid = System.Guid.NewGuid().ToString();
         }
 
         public string ReadTemplateFile(Context context, string templateName)
         {
-            var resource = _resolver.GetResource(templateName);
+            var templatePath = (string)context[templateName];
+
+            var resolver = context.Registers[Guid] as ResourceResolver;
+
+            var resource = resolver.GetResource("~/" + templatePath + ".liquid");
             using (var stream = resource.Open())
             using (var reader = new StreamReader(stream))
                 return reader.ReadToEnd();

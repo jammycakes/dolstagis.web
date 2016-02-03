@@ -4,12 +4,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Dolstagis.Web.Static;
+using DotLiquid;
+using DotLiquid.FileSystems;
 
 namespace Dolstagis.Web.Views.DotLiquid
 {
     public class DotLiquidViewEngine : ViewEngineBase
     {
-        public DotLiquidViewEngine(ISettings settings) : base(settings) { }
+        public DotLiquidViewEngine(ISettings settings, IFileSystem fileSystem) : base(settings) {
+            Template.FileSystem = fileSystem;
+        }
 
         public override IEnumerable<string> Extensions
         {
@@ -25,7 +29,7 @@ namespace Dolstagis.Web.Views.DotLiquid
                 return null;
             }
 
-            return new DotLiquidView(this, pathToView, resource, resolver);
+            return new DotLiquidView(pathToView, resource, resolver);
         }
     }
 }

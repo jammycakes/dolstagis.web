@@ -1,4 +1,5 @@
-﻿using Dolstagis.Web;
+﻿using System.Collections.Generic;
+using Dolstagis.Web;
 using Dolstagis.Web.Sessions;
 using Dolstagis.Web.Views;
 
@@ -16,7 +17,11 @@ namespace WebApp
 
         public object Get()
         {
-            return new ViewResult("~/views/hello.nustache", _session);
+            return new ViewResult("~/views/hello.liquid",
+                new Dictionary<string, object>() {
+                    { "ID", _session.ID }
+                }
+            );
         }
     }
 }

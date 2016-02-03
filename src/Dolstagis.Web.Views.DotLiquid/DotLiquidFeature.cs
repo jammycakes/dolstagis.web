@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DotLiquid.FileSystems;
 
 namespace Dolstagis.Web.Views.DotLiquid
 {
@@ -12,6 +13,7 @@ namespace Dolstagis.Web.Views.DotLiquid
         {
             Container.Setup.Application(c => {
                 c.Add<IViewEngine, DotLiquidViewEngine>(Scope.Application);
+                c.Add<IFileSystem, DotLiquidFileSystem>(Scope.Application);
             });
         }
     }

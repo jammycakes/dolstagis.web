@@ -5,7 +5,7 @@ using System.Web;
 using System.Web.Security;
 using System.Web.SessionState;
 using Dolstagis.Web.Aspnet;
-using Dolstagis.Web.Views.Nustache;
+using Dolstagis.Web.Views.DotLiquid;
 
 namespace WebApp
 {
@@ -18,7 +18,7 @@ namespace WebApp
 
             Startup.ConfigureApplication(x => {
                 x.AddAllFeaturesInAssemblyOf<Global>();
-                x.AddFeature<NustacheFeature>();
+                x.AddFeature<DotLiquidFeature>();
             });
         }
     }

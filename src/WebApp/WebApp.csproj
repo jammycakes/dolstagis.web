@@ -113,9 +113,9 @@
       <Project>{7ba05c38-f6ce-412a-ac78-9de7ba57fc1a}</Project>
       <Name>Dolstagis.Web.StructureMap</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Dolstagis.Web.Views.Nustache\Dolstagis.Web.Views.Nustache.csproj">
-      <Project>{2c298f3a-d57e-4d56-a529-88c47d5d809b}</Project>
-      <Name>Dolstagis.Web.Views.Nustache</Name>
+    <ProjectReference Include="..\Dolstagis.Web.Views.DotLiquid\Dolstagis.Web.Views.DotLiquid.csproj">
+      <Project>{c04459c2-79ab-47af-b7fa-70a43cd866bd}</Project>
+      <Name>Dolstagis.Web.Views.DotLiquid</Name>
     </ProjectReference>
     <ProjectReference Include="..\Dolstagis.Web\Dolstagis.Web.csproj">
       <Project>{e0e930ff-37b5-4495-8a73-3f69073e4629}</Project>
