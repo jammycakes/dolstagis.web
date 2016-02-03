@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Dolstagis.Web.Lifecycle;
 
 namespace Dolstagis.Web.Auth
 {

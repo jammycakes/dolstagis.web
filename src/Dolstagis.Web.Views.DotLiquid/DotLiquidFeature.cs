@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using DotLiquid.FileSystems;
+﻿using DotLiquid.FileSystems;
 
 namespace Dolstagis.Web.Views.DotLiquid
 {
