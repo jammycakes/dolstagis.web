@@ -19,6 +19,8 @@ namespace Dolstagis.Web.Features.Impl
 
         public IIoCContainer Instance { get; private set; }
 
+        public bool ApplicationLevel { get; private set; }
+
         public Type ContainerType
         {
             get { return typeof(TContainer); }
@@ -47,11 +49,15 @@ namespace Dolstagis.Web.Features.Impl
             _setupRequestFunc((TContainer)container);
         }
 
+        public event EventHandler ConfiguringApplication;
+        public event EventHandler SettingContainer;
+
 
         /* ====== Fluent configuration interfaces implementation ====== */
 
         public IContainerUsingExpression<TContainer> Using(TContainer container)
         {
+            if (SettingContainer != null) SettingContainer(this, EventArgs.Empty);
             Instance = container;
             HasInstance = true;
             return this;
@@ -66,6 +72,8 @@ namespace Dolstagis.Web.Features.Impl
 
         public IContainerUsingExpression<TContainer> Application(Action<TContainer> setupAction)
         {
+            if (ConfiguringApplication != null) ConfiguringApplication(this, EventArgs.Empty);
+            ApplicationLevel = true;
             _setupApplicationFunc = setupAction;
             return this;
         }

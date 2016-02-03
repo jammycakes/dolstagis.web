@@ -11,14 +11,17 @@ namespace WebApp
         public HomeFeature()
         {
             Description("The home page and static content.");
-            Active.When(req => true);
-
             Container.Is<StructureMapContainer>()
                 .Setup.Application(x => {
                     x.Use<ISessionStore, InMemorySessionStore>(Scope.Application);
                 })
                 .Setup.Feature(x => { })
                 .Setup.Request(x => { });
+
+            // This is how you would set up a feature switch. Note that you can't
+            // have both a feature switch and application-level IOC configuration
+            // in the same feature.
+            // Active.When(req => true);
 
             AddStaticFiles("~/content", Path.Combine(HttpRuntime.AppDomainAppPath, "content"));
             AddViews("~/views", Path.Combine(HttpRuntime.AppDomainAppPath, "views"));
