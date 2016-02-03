@@ -82,6 +82,8 @@
     <Compile Include="IoC\StructureMap\StructureMapFixture.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Web\Features\FeatureSetFixture.cs" />
+    <Compile Include="Web\Features\FluentConfiguration\ConfigConflictFixture.cs" />
+    <Compile Include="Web\Features\FluentConfiguration\ConfigConflictFeature.cs" />
     <Compile Include="Web\Lifecycle\RequestProcessorFixture.cs" />
     <Compile Include="Web\Logging\LoggerFixture.cs" />
     <Compile Include="Web\ModelBinding\ObjectBindingFixture.cs" />
