@@ -96,8 +96,8 @@ using System.Runtime.InteropServices;
     Invokes MSBuild to build the solution or a .proj file
     """
     def msbuild(self, build_file, *targets, **properties):
-        MSBUILD = 'C:\\Program Files (x86)\\MSBuild\\12.0\\Bin\\MSBuild.exe'
-        if not properties.get('Configuration'):
+        MSBUILD = 'C:\\Program Files (x86)\\MSBuild\\14.0\\Bin\\MSBuild.exe'
+        IF not properties.get('Configuration'):
             properties['Configuration'] = self.configuration
         args = [self._abspath(build_file)]
         if targets:
