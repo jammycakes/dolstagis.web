@@ -56,12 +56,9 @@ class Project:
     """
     Restores all NuGet packages
     """
-    def restore_packages(self):
+    def restore_packages(self, buildfile):
         nuget_exe = self._abspath('src/.nuget/NuGet.exe')
-        packages_config = self._abspath('src/.nuget/packages.config')
-        packages_folder = self._abspath('src/packages')
-
-        self.run(nuget_exe, ['install', packages_config, '-OutputDirectory', packages_folder])
+        self.run(nuget_exe, ['restore', buildfile])
 
     # ====== write_version ====== #
 
