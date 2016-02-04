@@ -1,24 +1,22 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <package>
   <metadata>
-    <id>Dolstagis.Web.Aspnet</id>
+    <id>Dolstagis.Web.StructureMap</id>
     <version>0.4.0.0</version>
-    <title>Dolstagis.Web.Aspnet</title>
+    <title>Dolstagis.Web.StructureMap</title>
     <authors>James McKay</authors>
     <owners>James McKay</owners>
     <licenseUrl>https://raw.github.com/jammycakes/dolstagis.web/master/license.txt</licenseUrl>
     <projectUrl>https://github.com/jammycakes/dolstagis.web</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>
-      ASP.NET/IIS application host for Dolstagis.Web, yet another ALT.MVC framework for .NET.
+      StructureMap provider for the Dolstagis.Web framework, yet another ALT.MVC framework for .NET. 
     </description>
     <copyright>Copyright 2013-2016 James McKay</copyright>
     <tags>web alt.mvc</tags>
     <dependencies>
       <dependency id="Dolstagis.Web" version="0.4-alpha" />
-      <dependency id="Owin" version="1.0" />
-      <dependency id="Microsoft.Owin" version="3.0" />
-      <dependency id="Microsoft.Owin.Host.SystemWeb" version="3.0" />
+      <dependency id="structuremap" version="4.0" />
     </dependencies>
   </metadata>
 </package>

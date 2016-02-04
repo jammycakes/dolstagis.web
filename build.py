@@ -37,4 +37,6 @@ project.make_nuget('Dolstagis.Web.Aspnet',
         'Web.config.transform'
     ]
 )
+project.make_nuget('Dolstagis.Web.StructureMap')
+project.make_nuget('Dolstagis.Web.Views.DotLiquid')
 project.make_nuget('Dolstagis.Web.Views.Nustache')

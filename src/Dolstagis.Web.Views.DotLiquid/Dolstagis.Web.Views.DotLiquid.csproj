@@ -68,6 +68,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Dolstagis.Web.Views.DotLiquid.nuspec" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
