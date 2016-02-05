@@ -24,7 +24,7 @@ project.configuration = args.configuration
 
 project.start()
 project.clean()
-project.restore_packages()
+project.restore_packages('src/Dolstagis.Web.sln')
 project.write_version('src/.version/VersionInfo.cs')
 project.msbuild('src/Dolstagis.Web.sln', 'Clean', 'Build', Platform='Any CPU')
 project.nunit('src/Dolstagis.Tests/Dolstagis.Tests.nunit')
@@ -37,4 +37,6 @@ project.make_nuget('Dolstagis.Web.Aspnet',
         'Web.config.transform'
     ]
 )
+project.make_nuget('Dolstagis.Web.StructureMap')
+project.make_nuget('Dolstagis.Web.Views.DotLiquid')
 project.make_nuget('Dolstagis.Web.Views.Nustache')

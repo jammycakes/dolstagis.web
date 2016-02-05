@@ -2,7 +2,7 @@
 <package>
   <metadata>
     <id>Dolstagis.Web.Views.Nustache</id>
-    <version>0.2.0.0</version>
+    <version>0.4.0.0</version>
     <title>Dolstagis.Web.Views.Nustache</title>
     <authors>James McKay</authors>
     <owners>James McKay</owners>
@@ -10,14 +10,13 @@
     <projectUrl>https://github.com/jammycakes/dolstagis.web</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>
-      Yet another ALT.MVC framework for .NET. This is the view adapter for Nustache views.
+      Nustache view engine provider for Dolstagis.Web, yet another ALT.MVC framework for .NET.
     </description>
-    <copyright>Copyright 2013 James McKay</copyright>
+    <copyright>Copyright 2013-2016 James McKay</copyright>
     <tags>web alt.mvc</tags>
     <dependencies>
-      <dependency id="Dolstagis.Web" version="0.2-alpha" />
-      <dependency id="Nustache" version="1.13" />
-      <dependency id="structuremap" version="3.0" />
+      <dependency id="Dolstagis.Web" version="0.4-alpha" />
+      <dependency id="Nustache" version="1.15" />
     </dependencies>
   </metadata>
 </package>

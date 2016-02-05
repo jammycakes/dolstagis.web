@@ -1,6 +1,8 @@
 About Dolstagis.Web
 ===================
 
+[![Build status](https://ci.appveyor.com/api/projects/status/3o1keyi80vmuflyo?svg=true)](https://ci.appveyor.com/project/jammycakes/dolstagis-web)
+
 Dolstagis.Web is an ALT.MVC web framework, intended as a lightweight alternative to ASP.NET MVC and
 WebAPI, and similar in intent to frameworks such as
 [NancyFX](http://nancyfx.org/), [FubuMVC](http://mvc.fubu-project.org) and

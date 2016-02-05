@@ -2,7 +2,7 @@
 <package>
   <metadata>
     <id>Dolstagis.Web</id>
-    <version>0.2.0.0</version>
+    <version>0.4.0.0</version>
     <title>Dolstagis.Web</title>
     <authors>James McKay</authors>
     <owners>James McKay</owners>
@@ -12,10 +12,9 @@
     <description>
       Yet another ALT.MVC framework for .NET.
     </description>
-    <copyright>Copyright 2013 James McKay</copyright>
+    <copyright>Copyright 2013-2016 James McKay</copyright>
     <tags>web alt.mvc</tags>
     <dependencies>
-      <dependency id="structuremap" version="3.0" />
       <dependency id="Newtonsoft.Json" version="6.0" />
     </dependencies>
   </metadata>

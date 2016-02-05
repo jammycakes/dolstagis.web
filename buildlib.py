@@ -56,12 +56,9 @@ class Project:
     """
     Restores all NuGet packages
     """
-    def restore_packages(self):
+    def restore_packages(self, buildfile):
         nuget_exe = self._abspath('src/.nuget/NuGet.exe')
-        packages_config = self._abspath('src/.nuget/packages.config')
-        packages_folder = self._abspath('src/packages')
-
-        self.run(nuget_exe, ['install', packages_config, '-OutputDirectory', packages_folder])
+        self.run(nuget_exe, ['restore', buildfile])
 
     # ====== write_version ====== #
 
@@ -96,7 +93,7 @@ using System.Runtime.InteropServices;
     Invokes MSBuild to build the solution or a .proj file
     """
     def msbuild(self, build_file, *targets, **properties):
-        MSBUILD = 'C:\\Program Files (x86)\\MSBuild\\12.0\\Bin\\MSBuild.exe'
+        MSBUILD = 'C:\\Program Files (x86)\\MSBuild\\14.0\\Bin\\MSBuild.exe'
         if not properties.get('Configuration'):
             properties['Configuration'] = self.configuration
         args = [self._abspath(build_file)]
@@ -113,7 +110,7 @@ using System.Runtime.InteropServices;
     Runs the unit tests against a given NUnit project.
     """
     def nunit(self, nunit_project):
-        NUNIT = self._abspath('src/packages/NUnit.Runners.2.6.3/tools/nunit-console.exe')
+        NUNIT = self._abspath('src/packages/NUnit.Console.3.0.1/tools/nunit3-console.exe')
         args = [self._abspath(nunit_project), '/config=' + self.configuration]
         self.run(NUNIT, args)
 
