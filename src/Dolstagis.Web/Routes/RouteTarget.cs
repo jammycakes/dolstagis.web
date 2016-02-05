@@ -1,19 +1,16 @@
 ﻿using System;
 using System.Linq.Expressions;
+using Dolstagis.Web.Features;
+using Dolstagis.Web.Util;
 
 namespace Dolstagis.Web.Routes
 {
-    public class RouteTarget : IRouteTarget
+    public class RouteTarget : IRouteTarget, IControllerExpression
     {
         private Expression<Func<IServiceProvider, object>> _controllerExpr;
         private Func<IServiceProvider, object> _controllerFunc;
 
-        private Expression<Func<IServiceProvider, IModelBinder>> _modelBinderExpr;
-
-        public object GetController(IServiceProvider provider)
-        {
-            return _controllerFunc(provider);
-        }
+        public IModelBinder ModelBinder { get; private set; }
 
         public Type ControllerType { get; set; }
 
@@ -39,6 +36,19 @@ namespace Dolstagis.Web.Routes
 
             ControllerType = ((_controllerExpr.Body as MethodCallExpression)?.Arguments?[0]
                 as ConstantExpression)?.Value as Type;
+        }
+
+
+        public object GetController(IServiceProvider provider)
+        {
+            return _controllerFunc(provider);
+        }
+
+
+        IControllerExpression IControllerExpression.WithModelBinder(IModelBinder modelBinder)
+        {
+            ModelBinder = modelBinder;
+            return this;
         }
     }
 }

@@ -23,28 +23,9 @@ namespace Dolstagis.Web.Features
         /// </returns>
 
         public static IControllerExpression WithModelBinder<TModelBinder>(this IControllerExpression expr)
-            where TModelBinder: IModelBinder
+            where TModelBinder: IModelBinder, new()
         {
-            return expr.WithModelBinder(services => (IModelBinder)services.GetService(typeof(TModelBinder)));
-        }
-
-
-        /// <summary>
-        ///  Specifies that this mapping should use the specified model binder.
-        /// </summary>
-        /// <param name="expr">
-        ///  The configuration expression.
-        /// </param>
-        /// <param name="instance">
-        ///  The already constructed model binder to use.
-        /// </param>
-        /// <returns>
-        ///  The configuration expression.
-        /// </returns>
-
-        public static IControllerExpression WithModelBinder(this IControllerExpression expr, IModelBinder instance)
-        {
-            return expr.WithModelBinder(services => instance);
+            return expr.WithModelBinder(new TModelBinder());
         }
 
 
@@ -62,9 +43,9 @@ namespace Dolstagis.Web.Features
         ///  The configuration expression.
         /// </returns>
 
-        public static IControllerExpression Controller<TController>(this IRouteDestinationExpression expr) where TController: new()
+        public static IControllerExpression Controller<TController>(this IRouteDestinationExpression expr)
         {
-            return expr.Controller(services => new TController());
+            return expr.Controller(services => services.GetService<TController>());
         }
 
 

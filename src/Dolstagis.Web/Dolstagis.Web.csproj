@@ -64,6 +64,7 @@
     <Compile Include="Features\Impl\ContainerBuilder.cs" />
     <Compile Include="Features\Impl\ContainerConfiguration.cs" />
     <Compile Include="Features\IContainerBuilder.cs" />
+    <Compile Include="Features\Impl\RouteExpression.cs" />
     <Compile Include="IIoCContainer.cs" />
     <Compile Include="IRequestContext.cs" />
     <Compile Include="Lifecycle\ResultProcessors\ContentResultProcessor.cs" />
@@ -127,7 +128,6 @@
     <Compile Include="Owin\Request.cs" />
     <Compile Include="Owin\Response.cs" />
     <Compile Include="RedirectResult.cs" />
-    <Compile Include="Routes\NewRouteTarget.cs" />
     <Compile Include="Routes\Node.cs" />
     <Compile Include="Routes\Parameter.cs" />
     <Compile Include="Routes\RouteInvocation.cs" />

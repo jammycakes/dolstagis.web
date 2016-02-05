@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using System.Web;
 using Dolstagis.Web;
+using Dolstagis.Web.Features;
 using Dolstagis.Web.Sessions;
 using Dolstagis.Web.StructureMap;
 
@@ -22,6 +23,8 @@ namespace WebApp
             // have both a feature switch and application-level IOC configuration
             // in the same feature.
             // Active.When(req => true);
+
+            Route("~/").To.Controller<Index>();
 
             AddStaticFiles("~/content", Path.Combine(HttpRuntime.AppDomainAppPath, "content"));
             AddViews("~/views", Path.Combine(HttpRuntime.AppDomainAppPath, "views"));

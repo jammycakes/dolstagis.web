@@ -5,6 +5,6 @@ namespace Dolstagis.Web.Features
 {
     public interface IControllerExpression
     {
-        IControllerExpression WithModelBinder(Expression<Func<IServiceProvider, IModelBinder>> modelBinderFunc);
+        IControllerExpression WithModelBinder(IModelBinder modelBinderFunc);
     }
 }

@@ -122,10 +122,8 @@ namespace Dolstagis.Web
         protected IRouteExpression Route(VirtualPath specification)
         {
             AssertConstructing();
-            return _routes.Add(specification);
+            return new RouteExpression(_routes, specification);
         }
-
-
 
 
         /* ====== Public properties and methods ====== */
@@ -215,7 +213,7 @@ namespace Dolstagis.Web
             }
 
             foreach (RouteAttribute attr in attributes) {
-                AddController<T>(attr.Route);
+                Route(attr.Route).To.Controller<T>();
             }
         }
 
@@ -231,7 +229,7 @@ namespace Dolstagis.Web
 
         public void AddController<T>(VirtualPath route)
         {
-            this._routes.Add(route, new RouteTarget(typeof(T)));
+            Route(route).To.Controller<T>();
         }
 
         /* ====== AddStaticFiles and AddViews helper methods ====== */
