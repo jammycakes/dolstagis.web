@@ -7,7 +7,7 @@ namespace Dolstagis.Web.Static
     public class ResourceResultProcessor : ResultProcessor<ResourceResult>
     {
         private static Regex reGetExtension = new Regex(@"\.[^\.]+$");
-        private static string DefaultMimeType = "application/octet-stream";
+        private const string DefaultMimeType = "application/octet-stream";
 
         protected override void ProcessHeaders(ResourceResult typedData, IRequestContext context)
         {
@@ -18,7 +18,7 @@ namespace Dolstagis.Web.Static
             var ext = reGetExtension.Match(resource.Name);
             context.Response.AddHeader(
                 "Content-Type", 
-                ext.Success ? MimeTypeMap.GetMimeType(ext.Value) : "application/octet-stream"
+                ext.Success ? MimeTypeMap.GetMimeType(ext.Value) : DefaultMimeType
             );
             context.Response.AddHeader("Last-Modified", resource.LastModified.ToString("R"));
             if (resource.Length.HasValue) {
