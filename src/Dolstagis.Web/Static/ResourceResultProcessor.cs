@@ -1,17 +1,25 @@
-﻿using System.Threading.Tasks;
+﻿using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using Dolstagis.Web.Lifecycle;
 
 namespace Dolstagis.Web.Static
 {
     public class ResourceResultProcessor : ResultProcessor<ResourceResult>
     {
+        private static Regex reGetExtension = new Regex(@"\.[^\.]+$");
+        private static string DefaultMimeType = "application/octet-stream";
+
         protected override void ProcessHeaders(ResourceResult typedData, IRequestContext context)
         {
             base.ProcessHeaders(typedData, context);
             var resource = typedData.Resource;
             if (resource == null) Status.NotFound.Throw();
             context.Response.Status = Status.OK;
-            context.Response.AddHeader("Content-Type", MimeTypes.GetMimeType(resource.Name));
+            var ext = reGetExtension.Match(resource.Name);
+            context.Response.AddHeader(
+                "Content-Type", 
+                ext.Success ? MimeTypeMap.GetMimeType(ext.Value) : "application/octet-stream"
+            );
             context.Response.AddHeader("Last-Modified", resource.LastModified.ToString("R"));
             if (resource.Length.HasValue) {
                 context.Response.AddHeader("Content-Length", resource.Length.Value.ToString());
