@@ -1,5 +1,6 @@
 ﻿using Dolstagis.Tests.Web.TestFeatures.Controllers;
 using Dolstagis.Web;
+using Dolstagis.Web.Features;
 
 namespace Dolstagis.Tests.Web.TestFeatures
 {
@@ -7,7 +8,7 @@ namespace Dolstagis.Tests.Web.TestFeatures
     {
         public CustomRouteFeature(string customRoute)
         {
-            AddController<ChildController>(customRoute);
+            Route(customRoute).To.Controller<ChildController>();
         }
     }
 }

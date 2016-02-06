@@ -1,5 +1,6 @@
 ﻿using Dolstagis.Tests.Web.TestFeatures.Controllers;
 using Dolstagis.Web;
+using Dolstagis.Web.Features;
 
 namespace Dolstagis.Tests.Web.TestFeatures
 {
@@ -7,14 +8,14 @@ namespace Dolstagis.Tests.Web.TestFeatures
     {
         public FirstFeature()
         {
-            AddController<RootController>();
-            AddController<ChildController>("one/two");
-            AddController<ChildController>("one/three");
-            AddController<ChildController>("one/two/three/{id}");
-            AddController<ChildController>("one/two/greedy/{id+}");
-            AddController<ChildController>("one/two/optional/{id?}");
-            AddController<ChildController>("one/two/optgreedy/{id*}");
-            AddController<LanguageController>("{language}/one/two");
+            Route("").To.Controller<RootController>();
+            Route("one/two").To.Controller<ChildController>();
+            Route("one/three").To.Controller<ChildController>();
+            Route("one/two/three/{id}").To.Controller<ChildController>();
+            Route("one/two/greedy/{id+}").To.Controller<ChildController>();
+            Route("one/two/optional/{id?}").To.Controller<ChildController>();
+            Route("one/two/optgreedy/{id*}").To.Controller<ChildController>();
+            Route("{language}/one/two").To.Controller<LanguageController>();
         }
     }
 }
