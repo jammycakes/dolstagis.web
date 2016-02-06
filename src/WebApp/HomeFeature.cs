@@ -25,7 +25,7 @@ namespace WebApp
             // in the same feature.
             // Active.When(req => true);
 
-            Route("~/").To.Controller<Index>();
+            //Route("~/").To.Controller<Index>();
             Route("~/content").To.StaticFiles.FromWebApplication("~/content");
 
             AddViews("~/views", Path.Combine(HttpRuntime.AppDomainAppPath, "views"));

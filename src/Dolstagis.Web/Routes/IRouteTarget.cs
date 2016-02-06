@@ -6,6 +6,7 @@ namespace Dolstagis.Web.Routes
     {
         object GetController(IServiceProvider provider);
 
+        [Obsolete("This is deprecated. Use GetController instead.", true)]
         Type ControllerType { get; }
     }
 }

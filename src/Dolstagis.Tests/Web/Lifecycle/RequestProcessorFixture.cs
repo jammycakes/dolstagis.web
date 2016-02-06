@@ -6,6 +6,7 @@ using Dolstagis.Web.Features;
 using Dolstagis.Web.Features.Impl;
 using Dolstagis.Web.Http;
 using Dolstagis.Web.Lifecycle;
+using Dolstagis.Web.Routes;
 using Moq;
 using NUnit.Framework;
 
@@ -33,12 +34,14 @@ namespace Dolstagis.Tests.Web.Lifecycle
 
         private object Execute(string method, string path)
         {
-            var featureSet = new FeatureSet(null, new IFeature[] { new FirstFeature() });
+            var feature = new FirstFeature();
+            var featureSet = new FeatureSet(null, new IFeature[] { feature });
             var processor = new RequestProcessor(null, null, null, null,
                 featureSet,
                 _mockContainer,
                 _mockSettings
             );
+
             var request = new Mock<IRequest>();
             request.SetupGet(x => x.Path).Returns(new VirtualPath(path));
             request.SetupGet(x => x.Method).Returns(method);

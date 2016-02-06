@@ -18,7 +18,7 @@ namespace Dolstagis.Web.Static
             _resourceFunc = resourceFunc;
         }
 
-        public object Get(string path)
+        public object Get(string path = "")
         {
             return new ResourceResult(_resourceFunc(path, _serviceProvider));
         }

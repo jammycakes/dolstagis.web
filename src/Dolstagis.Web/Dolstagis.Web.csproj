@@ -143,7 +143,6 @@
     <Compile Include="JsonResult.cs" />
     <Compile Include="Lifecycle\ResultProcessors\JsonResultProcessor.cs" />
     <Compile Include="Lifecycle\ExceptionHandler.cs" />
-    <Compile Include="Lifecycle\ActionInvocation.cs" />
     <Compile Include="Lifecycle\IExceptionHandler.cs" />
     <Compile Include="IResultProcessor.cs" />
     <Compile Include="Lifecycle\ResultProcessor.cs" />
@@ -155,10 +154,9 @@
     <Compile Include="Static\ResourceMapping.cs" />
     <Compile Include="Static\ResourceResolver.cs" />
     <Compile Include="Static\ResourceResult.cs" />
+    <Compile Include="Static\ResourceResultProcessor.cs" />
     <Compile Include="Static\ResourceType.cs" />
     <Compile Include="Static\StaticFileController.cs" />
-    <Compile Include="Static\StaticResult.cs" />
-    <Compile Include="Static\StaticResultProcessor.cs" />
     <Compile Include="Util\AssemblyExtensions.cs" />
     <Compile Include="Util\DictionaryExtensions.cs" />
     <Compile Include="IoCExtensions.cs" />
@@ -179,7 +177,6 @@
     <Compile Include="Views\ViewEngineBase.cs" />
     <Compile Include="Views\ViewRegistry.cs" />
     <Compile Include="VirtualPathType.cs" />
-    <Compile Include="_dolstagis\DolstagisModule.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Dolstagis.Web.nuspec" />

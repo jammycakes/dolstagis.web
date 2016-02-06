@@ -14,6 +14,5 @@ namespace Dolstagis.Web.Static
         {
             Resource = resource;
         }
-
     }
 }

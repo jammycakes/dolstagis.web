@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using Dolstagis.Web.Auth;
+using Dolstagis.Web.Features;
 using Dolstagis.Web.Http;
 using Dolstagis.Web.Lifecycle;
 using Dolstagis.Web.Lifecycle.ResultProcessors;
@@ -22,7 +23,7 @@ namespace Dolstagis.Web
                 c.Use<IAuthenticator, SessionAuthenticator>(Scope.Application);
                 c.Use<ILoginHandler, LoginHandler>(Scope.Request);
 
-                c.Add<IResultProcessor, StaticResultProcessor>(Scope.Transient);
+                c.Add<IResultProcessor, ResourceResultProcessor>(Scope.Transient);
                 c.Add<IResultProcessor, ViewResultProcessor>(Scope.Transient);
                 c.Add<IResultProcessor>(JsonResultProcessor.Instance);
                 c.Add<IResultProcessor>(ContentResultProcessor.Instance);
@@ -38,6 +39,12 @@ namespace Dolstagis.Web
             })
             .Setup.Request(c => {
             });
+
+            Route("~/").To.StaticFiles.FromAssemblyResources
+                (this.GetType().Assembly, "Dolstagis.Web._dolstagis.index.html");
+            Route("~/_dolstagis").To.StaticFiles.FromAssemblyResources
+                (this.GetType().Assembly, "Dolstagis.Web._dolstagis");
+
         }
 
 
