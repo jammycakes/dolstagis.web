@@ -11,13 +11,13 @@ namespace Dolstagis.Tests.Web.Logging
         [Test]
         public void CanCreateLogger()
         {
-            var provider = new Mock<ILoggingProvider>();
-            provider.Setup(x => x.CreateLogger(It.IsAny<Type>())).Returns<Logger>(null);
-            var tmp = Logger.Provider;
-            Logger.Provider = provider.Object;
+            var factory = new Mock<ILoggerFactory>();
+            factory.Setup(x => x.CreateLogger(It.IsAny<Type>())).Returns<Logger>(null);
+            var tmp = Logger.Factory;
+            Logger.Factory = factory.Object;
             var log = Logger.ForThisClass();
-            Logger.Provider = tmp;
-            provider.Verify(x => x.CreateLogger(this.GetType()), Times.Once);
+            Logger.Factory = tmp;
+            factory.Verify(x => x.CreateLogger(this.GetType()), Times.Once);
         }
     }
 }

@@ -3,7 +3,7 @@ using System.Linq.Expressions;
 
 namespace Dolstagis.Web.Logging
 {
-    internal class NLogLoggingProvider : ILoggingProvider
+    internal class NLogLoggerFactory : ILoggerFactory
     {
         private static readonly Type logManagerType = Type.GetType("NLog.LogManager, NLog", false);
         private static readonly Type loggerType = Type.GetType("NLog.Logger, NLog", false);
@@ -16,7 +16,7 @@ namespace Dolstagis.Web.Logging
         }
 
 
-        static NLogLoggingProvider()
+        static NLogLoggerFactory()
         {
             if (!IsAvailable) return;
 

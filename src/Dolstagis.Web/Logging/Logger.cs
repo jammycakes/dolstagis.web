@@ -11,7 +11,7 @@ namespace Dolstagis.Web.Logging
             return new LogEntry(message, exception);
         }
 
-        public static ILoggingProvider Provider { get; set; }
+        public static ILoggerFactory Factory { get; set; }
 
         [MethodImpl(MethodImplOptions.NoInlining)]
         public static Logger ForThisClass()
@@ -19,17 +19,17 @@ namespace Dolstagis.Web.Logging
             var stackTrace = new StackTrace(1);
             var frame = stackTrace.GetFrame(0);
             var type = frame.GetMethod().DeclaringType;
-            return Provider.CreateLogger(type);
+            return Factory.CreateLogger(type);
         }
 
         static Logger()
         {
-            if (NLogLoggingProvider.IsAvailable)
-                Provider = new NLogLoggingProvider();
-            else if (Log4netLoggingProvider.IsAvailable)
-                Provider = new Log4netLoggingProvider();
+            if (NLogLoggerFactory.IsAvailable)
+                Factory = new NLogLoggerFactory();
+            else if (Log4netLoggerFactory.IsAvailable)
+                Factory = new Log4netLoggerFactory();
             else
-                Provider = new NullLoggingProvider();
+                Factory = new NullLoggerFactory();
         }
 
 

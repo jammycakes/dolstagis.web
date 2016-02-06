@@ -2,7 +2,7 @@
 
 namespace Dolstagis.Web.Logging
 {
-    public interface ILoggingProvider
+    public interface ILoggerFactory
     {
         Logger CreateLogger(Type type);
     }
