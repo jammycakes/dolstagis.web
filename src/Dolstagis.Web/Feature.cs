@@ -198,40 +198,6 @@ namespace Dolstagis.Web
         public IModelBinder ModelBinder { get; set; }
 
 
-        /// <summary>
-        ///  Registers a <see cref="Controller"/> in this feature by type,
-        ///  with a route specified in a [Route] attribute on the controller
-        ///  class declaration.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-
-        public void AddController<T>()
-        {
-            var attributes = typeof(T).GetCustomAttributes(typeof(RouteAttribute), true);
-            if (!attributes.Any()) {
-                throw new ArgumentException("Type " + typeof(T) + " does not declare any routes, and no route was specified.");
-            }
-
-            foreach (RouteAttribute attr in attributes) {
-                Route(attr.Route).To.Controller<T>();
-            }
-        }
-
-        /// <summary>
-        ///  Registers a <see cref="Controller"/> in this feature with a specified route.
-        /// </summary>
-        /// <typeparam name="T">
-        ///  The type of this controller.
-        /// </typeparam>
-        /// <param name="route">
-        ///  The route definition for this controller.
-        /// </param>
-
-        public void AddController<T>(VirtualPath route)
-        {
-            Route(route).To.Controller<T>();
-        }
-
         /* ====== AddStaticFiles and AddViews helper methods ====== */
 
         protected void AddStaticResources(ResourceType type, VirtualPath path, Func<IIoCContainer, IResourceLocation> locationFactory)
@@ -251,61 +217,7 @@ namespace Dolstagis.Web
         protected void AddStaticResources(ResourceType type, VirtualPath path, string physicalPath)
         {
             AddStaticResources(type, path, new FileResourceLocation(physicalPath));
-            AddStaticFilesController(path);
         }
-
-        private void AddStaticFilesController(VirtualPath path)
-        {
-            AddController<StaticRequestController>(path.Append("{path*}"));
-        }
-
-        /* ====== AddStaticFiles methods ====== */
-
-        /// <summary>
-        ///  Registers a directory or file of static files,
-        ///  using a location created with dependencies taken from the IOC container.
-        /// </summary>
-        /// <param name="path"></param>
-        /// <param name="locationFactory"></param>
-
-        public void AddStaticFiles(VirtualPath path, Func<IIoCContainer, IResourceLocation> locationFactory)
-        {
-            AddStaticResources(ResourceType.StaticFiles, path, locationFactory);
-            AddStaticFilesController(path);
-        }
-
-
-        /// <summary>
-        ///  Registers a directory or file of static files at the specified location.
-        /// </summary>
-        /// <param name="path"></param>
-        /// <param name="location"></param>
-
-        public void AddStaticFiles(VirtualPath path, IResourceLocation location)
-        {
-            AddStaticResources(ResourceType.StaticFiles, path, location);
-            AddStaticFilesController(path);
-        }
-
-
-        /// <summary>
-        ///  Registers a directory or file of static files at a different mapping from
-        ///  that within the filespace of the website.
-        /// </summary>
-        /// <param name="path">
-        ///  The virtual path to the static file or directory.
-        /// </param>
-        /// <param name="physicalPath">
-        ///  The physical path to the static file or directory. This may be either relative
-        ///  to the application root, or else an absolute path.
-        /// </param>
-
-        public void AddStaticFiles(VirtualPath path, string physicalPath)
-        {
-            AddStaticResources(ResourceType.StaticFiles, path, physicalPath);
-            AddStaticFilesController(path);
-        }
-
 
         /* ====== AddViews methods ====== */
 

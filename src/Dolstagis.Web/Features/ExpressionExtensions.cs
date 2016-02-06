@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using Dolstagis.Web.Static;
 
 namespace Dolstagis.Web.Features
 {
@@ -107,15 +108,11 @@ namespace Dolstagis.Web.Features
 
         public static void FromDirectory(this IStaticFilesExpression expr, string rootDirectory)
         {
-            expr.FromStream((path, services) => {
+            expr.FromResource((path, services) => {
                 var parts = new[] { rootDirectory }.Concat(path.Parts).ToArray();
                 var filePath = Path.Combine(parts);
-                if (File.Exists(filePath)) {
-                    return new FileStream(filePath, FileMode.Open, FileAccess.Read);
-                }
-                else {
-                    return null;
-                }
+                var resource = new FileResource(filePath);
+                return resource.Exists ? resource : null;
             });
         }
 
@@ -140,10 +137,11 @@ namespace Dolstagis.Web.Features
         public static void FromAssemblyResources
             (this IStaticFilesExpression expr, Assembly assembly, string rootNamespace)
         {
-            expr.FromStream((path, services) => {
+            expr.FromResource((path, services) => {
                 var parts = new[] { rootNamespace }.Concat(path.Parts);
                 var name = String.Join(".", parts);
-                return assembly.GetManifestResourceStream(name);
+                var resource = new AssemblyResource(assembly, name);
+                return resource.Exists ? resource : null;
             });
         }
 
@@ -165,11 +163,8 @@ namespace Dolstagis.Web.Features
 
         public static void FromAssemblyResourcesRelativeTo<TBaseClass>(this IStaticFilesExpression expr)
         {
-            expr.FromStream((path, services) => {
-                string name = String.Join(".", path.Parts);
-                var type = typeof(TBaseClass);
-                return type.Assembly.GetManifestResourceStream(type, name);
-            });
+            Type t = typeof(TBaseClass);
+            expr.FromAssemblyResources(t.Assembly, t.Namespace);
         }
     }
 }

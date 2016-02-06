@@ -1,4 +1,5 @@
 ﻿using Dolstagis.Web.Static;
+using Dolstagis.Web.Features;
 
 namespace Dolstagis.Web._dolstagis
 {
@@ -7,10 +8,9 @@ namespace Dolstagis.Web._dolstagis
         public DolstagisFeature()
         {
             string ns = this.GetType().Namespace;
-            this.AddStaticFiles("~/_dolstagis/content",
-                new AssemblyResourceLocation(this.GetType().Assembly, ns + ".content"));
-            this.AddStaticResources(ResourceType.StaticFiles, new VirtualPath("~/_dolstagis/index.html"),
-                new AssemblyResourceLocation(this.GetType().Assembly, ns + ".index.html"));
+
+            Route("~/_dolstagis").To.StaticFiles
+                .FromAssemblyResourcesRelativeTo<DolstagisFeature>();
         }
     }
 }

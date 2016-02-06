@@ -5,10 +5,12 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using Dolstagis.Web.Routes;
+using Dolstagis.Web.Static;
 
 namespace Dolstagis.Web.Features.Impl
 {
-    public class RouteExpression : IRouteExpression, IRouteDestinationExpression
+    public class RouteExpression : IRouteExpression, IRouteDestinationExpression,
+        IStaticFilesExpression
     {
         private RouteTable _routes;
         private VirtualPath _path;
@@ -19,25 +21,32 @@ namespace Dolstagis.Web.Features.Impl
             _path = path;
         }
 
-        public IRouteDestinationExpression To
+        IRouteDestinationExpression IRouteExpression.To
         {
             get {
                 return this;
             }
         }
 
-        public IControllerExpression Controller(Expression<Func<IServiceProvider, object>> controllerFunc)
+        IControllerExpression IRouteDestinationExpression.Controller
+            (Expression<Func<IServiceProvider, object>> controllerFunc)
         {
             var target = new RouteTarget(controllerFunc);
             _routes.Add(_path, target);
             return target;
         }
 
-        public IStaticFilesExpression StaticFiles
+        IStaticFilesExpression IRouteDestinationExpression.StaticFiles
         {
             get {
-                throw new NotImplementedException();
+                return this;
             }
+        }
+
+        void IStaticFilesExpression.FromResource(Func<VirtualPath, IServiceProvider, IResource> locator)
+        {
+            var target = new RouteTarget(svc => new StaticFileController(svc, locator));
+            _routes.Add(_path.Append("{path*}"), target);
         }
     }
 }

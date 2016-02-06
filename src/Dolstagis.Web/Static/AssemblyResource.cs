@@ -19,6 +19,10 @@ namespace Dolstagis.Web.Static
             Length = null;
         }
 
+        public AssemblyResource(Type baseClass, string resourceName)
+            : this(baseClass.Assembly, baseClass.Namespace + "." + resourceName)
+        { }
+
         public bool Exists { get; private set; }
 
         public DateTime LastModified { get; private set; }

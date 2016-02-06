@@ -154,8 +154,9 @@
     <Compile Include="Static\IResourceLocation.cs" />
     <Compile Include="Static\ResourceMapping.cs" />
     <Compile Include="Static\ResourceResolver.cs" />
+    <Compile Include="Static\ResourceResult.cs" />
     <Compile Include="Static\ResourceType.cs" />
-    <Compile Include="Static\StaticRequestController.cs" />
+    <Compile Include="Static\StaticFileController.cs" />
     <Compile Include="Static\StaticResult.cs" />
     <Compile Include="Static\StaticResultProcessor.cs" />
     <Compile Include="Util\AssemblyExtensions.cs" />

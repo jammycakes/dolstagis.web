@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using System.Web;
 using Dolstagis.Web;
+using Dolstagis.Web.Aspnet;
 using Dolstagis.Web.Features;
 using Dolstagis.Web.Sessions;
 using Dolstagis.Web.StructureMap;
@@ -25,12 +26,11 @@ namespace WebApp
             // Active.When(req => true);
 
             Route("~/").To.Controller<Index>();
+            Route("~/content").To.StaticFiles.FromWebApplication("~/content");
 
-            AddStaticFiles("~/content", Path.Combine(HttpRuntime.AppDomainAppPath, "content"));
             AddViews("~/views", Path.Combine(HttpRuntime.AppDomainAppPath, "views"));
             // Uncomment the following line to use custom error messages.
             // AddViews("~/errors", Path.Combine(HttpRuntime.AppDomainAppPath, "errors"));
-            AddController<Index>();
         }
     }
 }
