@@ -2,9 +2,10 @@
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using Dolstagis.Web.Features;
 using Dolstagis.Web.Static;
 
-namespace Dolstagis.Web.Features
+namespace Dolstagis.Web
 {
     public static class ExpressionExtensions
     {
