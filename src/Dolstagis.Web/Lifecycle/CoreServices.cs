@@ -11,7 +11,7 @@ using Dolstagis.Web.Sessions;
 using Dolstagis.Web.Static;
 using Dolstagis.Web.Views;
 
-namespace Dolstagis.Web
+namespace Dolstagis.Web.Lifecycle
 {
     internal class CoreServices : Feature
     {

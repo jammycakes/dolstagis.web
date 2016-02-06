@@ -68,7 +68,7 @@
     <Compile Include="IIoCContainer.cs" />
     <Compile Include="IRequestContext.cs" />
     <Compile Include="Lifecycle\ResultProcessors\ContentResultProcessor.cs" />
-    <Compile Include="CoreServices.cs" />
+    <Compile Include="Lifecycle\CoreServices.cs" />
     <Compile Include="ErrorStatus.cs" />
     <Compile Include="Errors\StatusMessages.Designer.cs">
       <AutoGen>True</AutoGen>
