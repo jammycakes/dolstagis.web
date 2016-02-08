@@ -1,6 +1,9 @@
 ﻿using System;
 using Dolstagis.Web.Features;
 using Dolstagis.Web.Features.Impl;
+using Dolstagis.Web.IoC;
+using Dolstagis.Web.IoC.DSL;
+using Dolstagis.Web.IoC.Impl;
 using Dolstagis.Web.Logging;
 using Dolstagis.Web.Routes;
 using Dolstagis.Web.Static;

@@ -1,6 +1,7 @@
 ﻿using System;
+using Dolstagis.Web.IoC.DSL;
 
-namespace Dolstagis.Web.Features
+namespace Dolstagis.Web.IoC
 {
     public interface IContainerBuilder
     {

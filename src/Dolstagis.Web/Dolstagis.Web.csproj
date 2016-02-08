@@ -18,7 +18,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -56,14 +56,13 @@
     <Compile Include="Auth\RequireLoginAttribute.cs" />
     <Compile Include="Auth\SessionAuthenticator.cs" />
     <Compile Include="ContentResult.cs" />
-    <Compile Include="Features\IContainerAssertions.cs" />
-    <Compile Include="Features\IContainerExpression.cs" />
-    <Compile Include="Features\IContainerIsExpression.cs" />
-    <Compile Include="Features\IContainerSetupExpression.cs" />
-    <Compile Include="Features\IContainerUsingExpression.cs" />
-    <Compile Include="Features\Impl\ContainerBuilder.cs" />
-    <Compile Include="Features\Impl\ContainerConfiguration.cs" />
-    <Compile Include="Features\IContainerBuilder.cs" />
+    <Compile Include="IoC\DSL\IContainerExpression.cs" />
+    <Compile Include="IoC\DSL\IContainerIsExpression.cs" />
+    <Compile Include="IoC\DSL\IContainerSetupExpression.cs" />
+    <Compile Include="IoC\DSL\IContainerUsingExpression.cs" />
+    <Compile Include="IoC\Impl\ContainerBuilder.cs" />
+    <Compile Include="IoC\Impl\ContainerConfiguration.cs" />
+    <Compile Include="IoC\IContainerBuilder.cs" />
     <Compile Include="Features\Impl\RouteExpression.cs" />
     <Compile Include="IIoCContainer.cs" />
     <Compile Include="IRequestContext.cs" />
@@ -209,6 +208,7 @@
       <Link>Properties\VersionInfo.cs</Link>
     </Compile>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

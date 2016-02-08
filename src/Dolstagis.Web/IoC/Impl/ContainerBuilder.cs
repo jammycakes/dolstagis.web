@@ -1,6 +1,8 @@
 ﻿using System;
+using Dolstagis.Web.IoC.DSL;
 
-namespace Dolstagis.Web.Features.Impl
+
+namespace Dolstagis.Web.IoC.Impl
 {
     public class ContainerBuilder<TContainer> : IContainerBuilder,
         IContainerIsExpression<TContainer>,

@@ -1,4 +1,6 @@
-﻿using Dolstagis.Web.Routes;
+﻿using Dolstagis.Web.IoC;
+using Dolstagis.Web.IoC.DSL;
+using Dolstagis.Web.Routes;
 
 namespace Dolstagis.Web.Features
 {

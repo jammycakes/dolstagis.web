@@ -1,4 +1,4 @@
-﻿namespace Dolstagis.Web.Features
+﻿namespace Dolstagis.Web.IoC.DSL
 {
     public interface IContainerIsExpression<TContainer> 
         : IContainerUsingExpression<TContainer>
