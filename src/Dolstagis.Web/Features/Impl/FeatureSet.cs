@@ -47,7 +47,7 @@ namespace Dolstagis.Web.Features.Impl
                 this.Container.Use<RequestProcessor, RequestProcessor>(Scope.Application);
                 foreach (var feature in Features) {
                     Container.Add<IFeature>(feature);
-                    feature.ContainerBuilder.SetupDomain(this.Container);
+                    feature.ContainerBuilder.SetupFeature(this.Container);
                 }
 
                 if (application.Settings.Debug) this.Container.Validate();

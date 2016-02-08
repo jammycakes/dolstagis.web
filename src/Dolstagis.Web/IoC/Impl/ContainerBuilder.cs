@@ -11,7 +11,7 @@ namespace Dolstagis.Web.IoC.Impl
         where TContainer : IIoCContainer
     {
         private Action<TContainer> _setupApplicationFunc = container => { };
-        private Action<TContainer> _setupDomainFunc = container => { };
+        private Action<TContainer> _setupFeatureFunc = container => { };
         private Action<TContainer> _setupRequestFunc = container => { };
 
 
@@ -40,9 +40,9 @@ namespace Dolstagis.Web.IoC.Impl
         }
 
 
-        public void SetupDomain(IIoCContainer container)
+        public void SetupFeature(IIoCContainer container)
         {
-            _setupDomainFunc((TContainer)container);
+            _setupFeatureFunc((TContainer)container);
         }
 
 
@@ -82,7 +82,7 @@ namespace Dolstagis.Web.IoC.Impl
 
         public IContainerUsingExpression<TContainer> Feature(Action<TContainer> setupAction)
         {
-            _setupDomainFunc = setupAction;
+            _setupFeatureFunc = setupAction;
             return this;
         }
 

@@ -11,7 +11,7 @@ namespace Dolstagis.Web.IoC
         bool ApplicationLevel { get; }
         IIoCContainer CreateContainer();
         void SetupApplication(IIoCContainer container);
-        void SetupDomain(IIoCContainer container);
+        void SetupFeature(IIoCContainer container);
         void SetupRequest(IIoCContainer container);
 
         event EventHandler ConfiguringApplication;
