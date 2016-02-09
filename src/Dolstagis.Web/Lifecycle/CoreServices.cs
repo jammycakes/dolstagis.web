@@ -18,7 +18,7 @@ namespace Dolstagis.Web.Lifecycle
     {
         public CoreServices()
         {
-            Container.Setup.Application(c => {
+            Container.Setup.Application.Container(c => {
                 c.Use<IExceptionHandler, ExceptionHandler>(Scope.Request);
                 c.Use<ISessionStore, InMemorySessionStore>(Scope.Application);
                 c.Use<IAuthenticator, SessionAuthenticator>(Scope.Application);
@@ -38,7 +38,7 @@ namespace Dolstagis.Web.Lifecycle
                 c.Use<IUser>(ctx => ctx.GetService<IRequestContext>().User, Scope.Request);
                 c.Use<ISession>(ctx => ctx.GetService<IRequestContext>().Session, Scope.Request);
             })
-            .Setup.Request(c => {
+            .Setup.Request.Container(c => {
             });
 
             Route("~/").To.StaticFiles.FromAssemblyResources

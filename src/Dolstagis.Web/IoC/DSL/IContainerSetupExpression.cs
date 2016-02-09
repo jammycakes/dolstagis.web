@@ -4,10 +4,10 @@ namespace Dolstagis.Web.IoC.DSL
 {
     public interface IContainerSetupExpression<out TContainer> where TContainer : IIoCContainer
     {
-        IContainerUsingExpression<TContainer> Application(Action<TContainer> setupAction);
+        IContainerScopeExpression<TContainer> Application { get; }
 
-        IContainerUsingExpression<TContainer> Feature(Action<TContainer> setupAction);
+        IContainerScopeExpression<TContainer> Feature { get; }
 
-        IContainerUsingExpression<TContainer> Request(Action<TContainer> setupAction);
+        IContainerScopeExpression<TContainer> Request { get; }
     }
 }

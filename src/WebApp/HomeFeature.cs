@@ -14,11 +14,11 @@ namespace WebApp
         {
             Description("The home page and static content.");
             Container.Is<StructureMapContainer>()
-                .Setup.Application(x => {
+                .Setup.Application.Container(x => {
                     x.Use<ISessionStore, InMemorySessionStore>(Scope.Application);
                 })
-                .Setup.Feature(x => { })
-                .Setup.Request(x => { });
+                .Setup.Feature.Container(x => { })
+                .Setup.Request.Container(x => { });
 
             // This is how you would set up a feature switch. Note that you can't
             // have both a feature switch and application-level IOC configuration

@@ -58,6 +58,7 @@
     <Compile Include="ContentResult.cs" />
     <Compile Include="IoC\DSL\IContainerExpression.cs" />
     <Compile Include="IoC\DSL\IContainerIsExpression.cs" />
+    <Compile Include="IoC\DSL\IContainerScopeExpression.cs" />
     <Compile Include="IoC\DSL\IContainerSetupExpression.cs" />
     <Compile Include="IoC\DSL\IContainerUsingExpression.cs" />
     <Compile Include="IoC\Impl\ContainerBuilder.cs" />
@@ -65,6 +66,7 @@
     <Compile Include="IoC\IContainerBuilder.cs" />
     <Compile Include="Features\Impl\RouteExpression.cs" />
     <Compile Include="IoC\IIoCContainer.cs" />
+    <Compile Include="IoC\Impl\ContainerScope.cs" />
     <Compile Include="IRequestContext.cs" />
     <Compile Include="Lifecycle\ResultProcessors\ContentResultProcessor.cs" />
     <Compile Include="Lifecycle\CoreServices.cs" />

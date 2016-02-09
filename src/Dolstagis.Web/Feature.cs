@@ -204,14 +204,14 @@ namespace Dolstagis.Web
 
         protected void AddStaticResources(ResourceType type, VirtualPath path, Func<IIoCContainer, IResourceLocation> locationFactory)
         {
-            Container.Setup.Feature(c => {
+            Container.Setup.Feature.Container(c => {
                 c.Add<ResourceMapping>(ioc => new ResourceMapping(type, path, locationFactory(ioc)), Scope.Request);
             });
        }
 
         protected void AddStaticResources(ResourceType type, VirtualPath path, IResourceLocation location)
         {
-            Container.Setup.Feature(c => {
+            Container.Setup.Feature.Container(c => {
                 c.Add<ResourceMapping>(new ResourceMapping(type, path, location));
             });
         }

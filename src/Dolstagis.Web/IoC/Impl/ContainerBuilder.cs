@@ -10,9 +10,22 @@ namespace Dolstagis.Web.IoC.Impl
         IContainerSetupExpression<TContainer>
         where TContainer : IIoCContainer
     {
-        private Action<TContainer> _setupApplicationFunc = container => { };
-        private Action<TContainer> _setupFeatureFunc = container => { };
-        private Action<TContainer> _setupRequestFunc = container => { };
+        private ContainerScope<TContainer> _application;
+        private ContainerScope<TContainer> _feature;
+        private ContainerScope<TContainer> _request;
+
+        public ContainerBuilder()
+        {
+            _application = new ContainerScope<TContainer>(this);
+            _feature = new ContainerScope<TContainer>(this);
+            _request = new ContainerScope<TContainer>(this);
+
+            _application.Configuring += (s, e) => {
+                ApplicationLevel = true;
+                if (ConfiguringApplication != null)
+                    ConfiguringApplication(this, EventArgs.Empty);
+            };
+        }
 
 
         /* ====== IContainerBuilder implementation ====== */
@@ -36,19 +49,19 @@ namespace Dolstagis.Web.IoC.Impl
 
         public void SetupApplication(IIoCContainer container)
         {
-            _setupApplicationFunc((TContainer)container);
+            _application.Setup((TContainer)container);
         }
 
 
         public void SetupFeature(IIoCContainer container)
         {
-            _setupFeatureFunc((TContainer)container);
+            _feature.Setup((TContainer)container);
         }
 
 
         public void SetupRequest(IIoCContainer container)
         {
-            _setupRequestFunc((TContainer)container);
+            _request.Setup((TContainer)container);
         }
 
         public event EventHandler ConfiguringApplication;
@@ -72,24 +85,19 @@ namespace Dolstagis.Web.IoC.Impl
             }
         }
 
-        public IContainerUsingExpression<TContainer> Application(Action<TContainer> setupAction)
+        public IContainerScopeExpression<TContainer> Application
         {
-            if (ConfiguringApplication != null) ConfiguringApplication(this, EventArgs.Empty);
-            ApplicationLevel = true;
-            _setupApplicationFunc = setupAction;
-            return this;
+            get { return _application; }
         }
 
-        public IContainerUsingExpression<TContainer> Feature(Action<TContainer> setupAction)
+        public IContainerScopeExpression<TContainer> Feature
         {
-            _setupFeatureFunc = setupAction;
-            return this;
+            get { return _feature; }
         }
 
-        public IContainerUsingExpression<TContainer> Request(Action<TContainer> setupAction)
+        public IContainerScopeExpression<TContainer> Request
         {
-            _setupRequestFunc = setupAction;
-            return this;
+            get { return _request; }
         }
     }
 }

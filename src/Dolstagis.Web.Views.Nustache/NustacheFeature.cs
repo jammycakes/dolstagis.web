@@ -6,7 +6,7 @@ namespace Dolstagis.Web.Views.Nustache
     {
         public NustacheFeature()
         {
-            Container.Setup.Application(c => {
+            Container.Setup.Application.Container(c => {
                 c.Add<IViewEngine, NustacheViewEngine>(Scope.Application);
             });
         }
