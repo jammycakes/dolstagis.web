@@ -5,6 +5,7 @@ using System.Reflection;
 using Dolstagis.Web;
 using Dolstagis.Web.Features;
 using Dolstagis.Web.Http;
+using Dolstagis.Web.IoC;
 using Dolstagis.Web.ModelBinding;
 using Dolstagis.Web.Routes;
 using Dolstagis.Web.StructureMap;

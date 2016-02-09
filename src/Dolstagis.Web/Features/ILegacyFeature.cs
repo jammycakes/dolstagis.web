@@ -1,4 +1,5 @@
 ﻿using System;
+using Dolstagis.Web.IoC;
 using Dolstagis.Web.Static;
 
 namespace Dolstagis.Web.Features

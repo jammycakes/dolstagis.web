@@ -1,4 +1,5 @@
-﻿using DotLiquid.FileSystems;
+﻿using Dolstagis.Web.IoC;
+using DotLiquid.FileSystems;
 
 namespace Dolstagis.Web.Views.DotLiquid
 {

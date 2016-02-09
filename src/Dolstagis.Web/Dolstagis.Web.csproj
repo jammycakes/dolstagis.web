@@ -64,7 +64,7 @@
     <Compile Include="IoC\Impl\ContainerConfiguration.cs" />
     <Compile Include="IoC\IContainerBuilder.cs" />
     <Compile Include="Features\Impl\RouteExpression.cs" />
-    <Compile Include="IIoCContainer.cs" />
+    <Compile Include="IoC\IIoCContainer.cs" />
     <Compile Include="IRequestContext.cs" />
     <Compile Include="Lifecycle\ResultProcessors\ContentResultProcessor.cs" />
     <Compile Include="Lifecycle\CoreServices.cs" />
@@ -158,7 +158,7 @@
     <Compile Include="Static\StaticFileController.cs" />
     <Compile Include="Util\AssemblyExtensions.cs" />
     <Compile Include="Util\DictionaryExtensions.cs" />
-    <Compile Include="IoCExtensions.cs" />
+    <Compile Include="IoC\IoCExtensions.cs" />
     <Compile Include="Views\ViewResultProcessor.cs" />
     <Compile Include="VirtualPath.cs" />
     <Compile Include="Lifecycle\RequestContext.cs" />

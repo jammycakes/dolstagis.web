@@ -1,4 +1,6 @@
-﻿namespace Dolstagis.Web.Views.Nustache
+﻿using Dolstagis.Web.IoC;
+
+namespace Dolstagis.Web.Views.Nustache
 {
     public class NustacheFeature : Feature
     {

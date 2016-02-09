@@ -5,6 +5,7 @@ using Dolstagis.Web;
 using Dolstagis.Web.Features;
 using Dolstagis.Web.Features.Impl;
 using Dolstagis.Web.Http;
+using Dolstagis.Web.IoC;
 using Dolstagis.Web.Lifecycle;
 using Moq;
 using NUnit.Framework;

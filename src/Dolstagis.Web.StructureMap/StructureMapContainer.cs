@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using StructureMap;
 using StructureMap.Pipeline;
+using Dolstagis.Web.IoC;
 
 namespace Dolstagis.Web.StructureMap
 {

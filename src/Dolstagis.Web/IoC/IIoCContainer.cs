@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Dolstagis.Web
+namespace Dolstagis.Web.IoC
 {
     public interface IIoCContainer : IServiceProvider, IDisposable
     {

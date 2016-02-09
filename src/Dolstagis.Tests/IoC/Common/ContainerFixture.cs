@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using Dolstagis.Web;
+using Dolstagis.Web.IoC;
+
 using NUnit.Framework;
 
 namespace Dolstagis.Tests.IoC.Common

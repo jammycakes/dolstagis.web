@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Dolstagis.Web.Auth;
 using Dolstagis.Web.Features;
 using Dolstagis.Web.Http;
+using Dolstagis.Web.IoC;
 using Dolstagis.Web.Lifecycle;
 using Dolstagis.Web.Lifecycle.ResultProcessors;
 using Dolstagis.Web.Sessions;

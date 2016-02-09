@@ -1,6 +1,7 @@
 ﻿using System;
+using Dolstagis.Web.IoC;
 
-namespace Dolstagis.Web
+namespace Dolstagis.Web.IoC
 {
     public static class IoCExtensions
     {

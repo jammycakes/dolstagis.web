@@ -2,6 +2,7 @@
 using System.Web;
 using Dolstagis.Web;
 using Dolstagis.Web.Aspnet;
+using Dolstagis.Web.IoC;
 using Dolstagis.Web.Sessions;
 using Dolstagis.Web.StructureMap;
 
