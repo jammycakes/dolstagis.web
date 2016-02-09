@@ -6,6 +6,10 @@ namespace Dolstagis.Web.IoC
     {
         IIoCContainer GetChildContainer();
 
+        void Add(IBinding binding);
+
+        // TODO: all other Add/Use methods need to be deprecated.
+
         void Add(Type source, Type target, Scope scope);
 
         void Use(Type source, Type target, Scope scope);

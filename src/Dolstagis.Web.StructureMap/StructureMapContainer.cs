@@ -108,6 +108,31 @@ namespace Dolstagis.Web.StructureMap
             }
         }
 
+        public void Add(IBinding binding)
+        {
+            Container.Configure(x => {
+                var from = x.For(binding.SourceType);
+                if (binding.TargetType != null) {
+                    var to = binding.Multiple
+                    ? from.Add(binding.TargetType)
+                    : from.Use(binding.TargetType);
+                    if (binding.Transient) to.Transient(); else to.Singleton();
+                }
+                else if (binding.TargetFunc != null) {
+                    var to = binding.Multiple
+                        ? from.Add(ctr => binding.TargetFunc(this))
+                        : from.Use(ctr => binding.TargetFunc(this));
+                    if (binding.Transient) to.Transient(); else to.Singleton();
+                }
+                else if (binding.Target != null) {
+                    var to = binding.Multiple
+                        ? from.Add(binding.Target)
+                        : from.Use(binding.Target);
+                    if (binding.Transient) to.Transient(); else to.Singleton();
+                }
+            });
+        }
+
         public void Add(Type source, Func<IIoCContainer, object> target, Scope scope)
         {
             Container.Configure(x => {
