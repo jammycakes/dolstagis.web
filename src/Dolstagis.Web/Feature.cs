@@ -234,28 +234,28 @@ namespace Dolstagis.Web
 
         /* ====== AddStaticFiles and AddViews helper methods ====== */
 
-        protected void AddStaticResources(ResourceType type, VirtualPath path,
+        protected void AddStaticResources(VirtualPath path,
             Func<IIoCContainer, IResourceLocation> locationFactory)
         {
             Container.Setup.Request.Bindings(bind => {
                 bind.From<ResourceMapping>()
-                    .To(ioc => new ResourceMapping(type, path, locationFactory(ioc)))
+                    .To(ioc => new ResourceMapping(path, locationFactory(ioc)))
                     .Managed();
             });
        }
 
-        protected void AddStaticResources(ResourceType type, VirtualPath path, IResourceLocation location)
+        protected void AddStaticResources(VirtualPath path, IResourceLocation location)
         {
             Container.Setup.Feature.Bindings(bind => {
                 bind.From<ResourceMapping>()
-                    .To(new ResourceMapping(type, path, location))
+                    .To(new ResourceMapping(path, location))
                     .Managed();
             });
         }
 
-        protected void AddStaticResources(ResourceType type, VirtualPath path, string physicalPath)
+        protected void AddStaticResources(VirtualPath path, string physicalPath)
         {
-            AddStaticResources(type, path, new FileResourceLocation(physicalPath));
+            AddStaticResources(path, new FileResourceLocation(physicalPath));
         }
 
         /* ====== AddViews methods ====== */
@@ -269,7 +269,7 @@ namespace Dolstagis.Web
 
         public void AddViews(VirtualPath path, Func<IIoCContainer, IResourceLocation> locationFactory)
         {
-            AddStaticResources(ResourceType.Views, path, locationFactory);
+            AddStaticResources(path, locationFactory);
         }
 
 
@@ -281,7 +281,7 @@ namespace Dolstagis.Web
 
         public void AddViews(VirtualPath vPath, IResourceLocation location)
         {
-            AddStaticResources(ResourceType.Views, vPath, location);
+            AddStaticResources(vPath, location);
         }
 
 
@@ -299,7 +299,7 @@ namespace Dolstagis.Web
 
         public void AddViews(VirtualPath path, string physicalPath)
         {
-            AddStaticResources(ResourceType.Views, path, physicalPath);
+            AddStaticResources(path, physicalPath);
         }
 
         #endregion

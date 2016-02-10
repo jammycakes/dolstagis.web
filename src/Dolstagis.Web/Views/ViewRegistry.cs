@@ -14,7 +14,7 @@ namespace Dolstagis.Web.Views
 
         public ViewRegistry(ResourceMapping[] mappings, IViewEngine[] viewEngines)
         {
-            _resolver = new ResourceResolver(ResourceType.Views, mappings);
+            _resolver = new ResourceResolver(mappings);
             foreach (var engine in viewEngines)
                 foreach (var ext in engine.Extensions)
                     _viewEngines[ext] = engine;

@@ -5,19 +5,16 @@ namespace Dolstagis.Web.Static
 {
     public class ResourceMapping
     {
-        public ResourceType Type { get; private set; }
-
         public VirtualPath Root { get; private set; }
 
         public IResourceLocation Location { get; private set; }
 
-        public ResourceMapping(ResourceType type, VirtualPath root, IResourceLocation location)
+        public ResourceMapping(VirtualPath root, IResourceLocation location)
         {
             if (root.Type != VirtualPathType.AppRelative) {
                 throw new ArgumentException("The root path must be app-relative.");
             }
             Root = root;
-            Type = type;
             Location = location;
         }
 

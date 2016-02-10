@@ -162,7 +162,6 @@
     <Compile Include="Static\ResourceResolver.cs" />
     <Compile Include="Static\ResourceResult.cs" />
     <Compile Include="Static\ResourceResultProcessor.cs" />
-    <Compile Include="Static\ResourceType.cs" />
     <Compile Include="Static\StaticFileController.cs" />
     <Compile Include="Util\AssemblyExtensions.cs" />
     <Compile Include="Util\DictionaryExtensions.cs" />

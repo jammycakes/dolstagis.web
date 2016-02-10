@@ -7,9 +7,9 @@ namespace Dolstagis.Web.Static
     {
         private IEnumerable<ResourceMapping> _mappings;
 
-        public ResourceResolver(ResourceType type, IEnumerable<ResourceMapping> mappings)
+        public ResourceResolver(IEnumerable<ResourceMapping> mappings)
         {
-            _mappings = mappings.Where(x => x.Type == type).ToList(); ;
+            _mappings = mappings.ToList();
         }
 
         public IResource GetResource(VirtualPath path)
