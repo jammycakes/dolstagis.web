@@ -7,6 +7,7 @@ using Dolstagis.Web.Features.Impl;
 using Dolstagis.Web.IoC;
 using Dolstagis.Web.Http;
 using Dolstagis.Web.Sessions;
+using System.Collections;
 
 namespace Dolstagis.Web.Lifecycle
 {
@@ -16,7 +17,7 @@ namespace Dolstagis.Web.Lifecycle
         private IAuthenticator _authenticator;
         private ISession _session = null;
         private IUser _user = null;
-        private IServiceProvider _container;
+        private IServiceLocator _container;
 
         public RequestContext(IRequest request, IResponse response,
             ISessionStore sessionStore, IAuthenticator authenticator,
@@ -30,7 +31,7 @@ namespace Dolstagis.Web.Lifecycle
             Features = features;
         }
 
-        public IServiceProvider Container { get { return _container; } }
+        public IServiceLocator Container { get { return _container; } }
 
         public IRequest Request { get; private set; }
 
@@ -144,18 +145,23 @@ namespace Dolstagis.Web.Lifecycle
         }
 
 
-        private class ContainerWrapper : IServiceProvider
+        private class ContainerWrapper : IServiceLocator
         {
-            private IServiceProvider _provider;
+            private IServiceLocator _provider;
 
-            public ContainerWrapper(IServiceProvider provider)
+            public ContainerWrapper(IServiceLocator provider)
             {
                 _provider = provider;
             }
 
-            public object GetService(Type serviceType)
+            public object Get(Type serviceType)
             {
-                return _provider.GetService(serviceType);
+                return _provider.Get(serviceType);
+            }
+
+            public IEnumerable GetAll(Type itemType)
+            {
+                return _provider.GetAll(itemType);
             }
         }
     }

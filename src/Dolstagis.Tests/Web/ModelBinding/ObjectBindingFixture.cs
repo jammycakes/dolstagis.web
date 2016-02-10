@@ -39,7 +39,7 @@ namespace Dolstagis.Tests.Web.ModelBinding
             var container = new StructureMapContainer();
             IFeature coreServices = new Dolstagis.Web.Lifecycle.CoreServices();
             coreServices.ContainerBuilder.SetupApplication(container);
-            binder = container.GetService<ModelBinder>();
+            binder = container.Get<ModelBinder>();
         }
 
 

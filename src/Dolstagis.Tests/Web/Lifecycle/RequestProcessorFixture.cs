@@ -22,7 +22,7 @@ namespace Dolstagis.Tests.Web.Lifecycle
         public void CreateRouteTable()
         {
             var mock = new Mock<IIoCContainer>();
-            mock.Setup(x => x.GetService(It.IsAny<Type>())).Returns(new RootController());
+            mock.Setup(x => x.Get(It.IsAny<Type>())).Returns(new RootController());
             mock.Setup(x => x.GetChildContainer()).Returns<IIoCContainer>(x => x);
             _mockContainer = mock.Object;
 

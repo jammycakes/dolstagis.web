@@ -1,14 +1,15 @@
 ﻿using System;
+using Dolstagis.Web.IoC;
 
 namespace Dolstagis.Web.Static
 {
     public class StaticFileController
     {
-        private IServiceProvider _serviceProvider;
-        private Func<VirtualPath, IServiceProvider, IResource> _resourceFunc;
+        private IServiceLocator _serviceProvider;
+        private Func<VirtualPath, IServiceLocator, IResource> _resourceFunc;
 
-        public StaticFileController(IServiceProvider provider,
-            Func<VirtualPath, IServiceProvider, IResource> resourceFunc)
+        public StaticFileController(IServiceLocator provider,
+            Func<VirtualPath, IServiceLocator, IResource> resourceFunc)
         {
             _serviceProvider = provider;
             _resourceFunc = resourceFunc;

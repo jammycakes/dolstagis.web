@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Linq.Expressions;
 using Dolstagis.Web.Features;
+using Dolstagis.Web.IoC;
 
 namespace Dolstagis.Web.Routes
 {
     public class RouteTarget : IRouteTarget, IControllerExpression
     {
-        private Expression<Func<IServiceProvider, object>> _controllerExpr;
-        private Func<IServiceProvider, object> _controllerFunc;
+        private Expression<Func<IServiceLocator, object>> _controllerExpr;
+        private Func<IServiceLocator, object> _controllerFunc;
 
         public IModelBinder ModelBinder { get; private set; }
 
@@ -17,18 +18,18 @@ namespace Dolstagis.Web.Routes
         {
             ControllerType = controllerType;
 
-            var method = typeof(IServiceProvider).GetMethod("GetService", new Type[] { typeof(Type) });
-            var serviceProviderParam = Expression.Parameter(typeof(IServiceProvider), "provider");
+            var method = typeof(IServiceLocator).GetMethod("GetService", new Type[] { typeof(Type) });
+            var serviceProviderParam = Expression.Parameter(typeof(IServiceLocator), "provider");
             var typeParam = Expression.Constant(controllerType, typeof(Type));
             var resultParam = Expression.Parameter(typeof(object), "result");
             var methodCallExpr = Expression.Call(serviceProviderParam, method, typeParam);
 
             _controllerExpr =
-                Expression.Lambda<Func<IServiceProvider, object>>(methodCallExpr, serviceProviderParam);
+                Expression.Lambda<Func<IServiceLocator, object>>(methodCallExpr, serviceProviderParam);
             _controllerFunc = _controllerExpr.Compile();
         }
 
-        public RouteTarget(Expression<Func<IServiceProvider, object>> controllerExpr)
+        public RouteTarget(Expression<Func<IServiceLocator, object>> controllerExpr)
         {
             _controllerExpr = controllerExpr;
             _controllerFunc = _controllerExpr.Compile();
@@ -38,7 +39,7 @@ namespace Dolstagis.Web.Routes
         }
 
 
-        public object GetController(IServiceProvider provider)
+        public object GetController(IServiceLocator provider)
         {
             return _controllerFunc(provider);
         }

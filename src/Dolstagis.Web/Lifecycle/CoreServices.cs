@@ -35,10 +35,10 @@ namespace Dolstagis.Web.Lifecycle
                 bind.From<ILoginHandler>().Only().To<LoginHandler>().Managed();
                 bind.From<ViewRegistry>().Only().To<ViewRegistry>().Managed();
 
-                bind.From<IRequest>().Only().To(ctx => ctx.GetService<IRequestContext>().Request).Managed();
-                bind.From<IResponse>().Only().To(ctx => ctx.GetService<IRequestContext>().Response).Managed();
-                bind.From<IUser>().Only().To(ctx => ctx.GetService<IRequestContext>().User).Managed();
-                bind.From<ISession>().Only().To(ctx => ctx.GetService<IRequestContext>().Session).Managed();
+                bind.From<IRequest>().Only().To(ctx => ctx.Get<IRequestContext>().Request).Managed();
+                bind.From<IResponse>().Only().To(ctx => ctx.Get<IRequestContext>().Response).Managed();
+                bind.From<IUser>().Only().To(ctx => ctx.Get<IRequestContext>().User).Managed();
+                bind.From<ISession>().Only().To(ctx => ctx.Get<IRequestContext>().Session).Managed();
             });
 
             Route("~/").To.StaticFiles.FromAssemblyResources
@@ -88,7 +88,7 @@ namespace Dolstagis.Web.Lifecycle
                 }
             }
 
-            public IServiceProvider Container
+            public IServiceLocator Container
             {
                 get {
                     throw GetException();

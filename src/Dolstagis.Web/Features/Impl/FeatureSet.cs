@@ -58,7 +58,7 @@ namespace Dolstagis.Web.Features.Impl
 
         public RequestProcessor GetRequestProcessor()
         {
-            return Container.GetService<RequestProcessor>();
+            return Container.Get<RequestProcessor>();
         }
 
 

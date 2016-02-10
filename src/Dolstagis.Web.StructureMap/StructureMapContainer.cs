@@ -4,6 +4,7 @@ using System.Linq;
 using StructureMap;
 using StructureMap.Pipeline;
 using Dolstagis.Web.IoC;
+using System.Collections;
 
 namespace Dolstagis.Web.StructureMap
 {
@@ -21,7 +22,7 @@ namespace Dolstagis.Web.StructureMap
             this._container = container;
             this._container.Configure(x => {
                 x.For<IIoCContainer>().Use(this);
-                x.For<IServiceProvider>().Use(this);
+                x.For<IServiceLocator>().Use(this);
             });
         }
 
@@ -46,20 +47,18 @@ namespace Dolstagis.Web.StructureMap
             return new StructureMapFeatureContainer(_container.CreateChildContainer());
         }
 
-        public object GetService(Type serviceType)
+        public object Get(Type serviceType)
         {
-            if (serviceType.IsGenericType && serviceType.GetGenericTypeDefinition() == typeof(IEnumerable<>)) {
-                var itemType = serviceType.GetGenericArguments().FirstOrDefault();
-                if (Container.Model.HasImplementationsFor(itemType)) {
-                    return Container.GetInstance(serviceType);
-                }
-            }
-
             if (serviceType.IsAbstract || serviceType.IsInterface ||
                 (serviceType.IsGenericType && !serviceType.IsConstructedGenericType))
                 return Container.TryGetInstance(serviceType);
             else
                 return Container.GetInstance(serviceType);
+        }
+
+        public IEnumerable GetAll(Type instanceType)
+        {
+            return Container.GetAllInstances(instanceType);
         }
 
         public virtual void Add(IBinding binding)

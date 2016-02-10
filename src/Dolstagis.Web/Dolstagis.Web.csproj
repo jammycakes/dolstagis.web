@@ -72,6 +72,7 @@
     <Compile Include="Features\Impl\RouteExpression.cs" />
     <Compile Include="IoC\IIoCContainer.cs" />
     <Compile Include="IoC\Impl\ContainerScope.cs" />
+    <Compile Include="IoC\IServiceLocator.cs" />
     <Compile Include="IRequestContext.cs" />
     <Compile Include="Lifecycle\ResultProcessors\ContentResultProcessor.cs" />
     <Compile Include="Lifecycle\CoreServices.cs" />

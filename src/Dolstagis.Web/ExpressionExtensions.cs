@@ -47,7 +47,7 @@ namespace Dolstagis.Web
 
         public static IControllerExpression Controller<TController>(this IRouteDestinationExpression expr)
         {
-            return expr.Controller(services => services.GetService(typeof(TController)));
+            return expr.Controller(services => services.Get(typeof(TController)));
         }
 
 

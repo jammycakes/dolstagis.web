@@ -2,7 +2,7 @@
 
 namespace Dolstagis.Web.IoC
 {
-    public interface IIoCContainer : IServiceProvider, IDisposable
+    public interface IIoCContainer : IServiceLocator, IDisposable
     {
         IIoCContainer GetChildContainer();
 

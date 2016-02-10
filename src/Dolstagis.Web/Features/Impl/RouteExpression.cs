@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq.Expressions;
+using Dolstagis.Web.IoC;
 using Dolstagis.Web.Routes;
 using Dolstagis.Web.Static;
 
@@ -25,7 +26,7 @@ namespace Dolstagis.Web.Features.Impl
         }
 
         IControllerExpression IRouteDestinationExpression.Controller
-            (Expression<Func<IServiceProvider, object>> controllerFunc)
+            (Expression<Func<IServiceLocator, object>> controllerFunc)
         {
             var target = new RouteTarget(controllerFunc);
             _routes.Add(_path, target);
@@ -39,7 +40,7 @@ namespace Dolstagis.Web.Features.Impl
             }
         }
 
-        void IStaticFilesExpression.FromResource(Func<VirtualPath, IServiceProvider, IResource> locator)
+        void IStaticFilesExpression.FromResource(Func<VirtualPath, IServiceLocator, IResource> locator)
         {
             var target = new RouteTarget(svc => new StaticFileController(svc, locator));
             _routes.Add(_path.Append("{path*}"), target);
