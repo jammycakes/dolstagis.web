@@ -23,7 +23,7 @@ namespace Dolstagis.Web.Aspnet
         ///  The virtual path to the view(s) to be registered.
         /// </param>
 
-        public static void AddViews(this IFeature feature, VirtualPath path)
+        public static void AddViews(this Feature feature, VirtualPath path)
         {
             feature.AddViews(path, HostingEnvironment.MapPath(path.ToString()));
         }

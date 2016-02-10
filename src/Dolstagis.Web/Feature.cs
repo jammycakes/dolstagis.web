@@ -232,32 +232,6 @@ namespace Dolstagis.Web
         #region /* ====== Old API, being replaced with the new fluent API ====== */
 
 
-        /* ====== AddStaticFiles and AddViews helper methods ====== */
-
-        protected void AddStaticResources(VirtualPath path,
-            Func<IIoCContainer, IResourceLocation> locationFactory)
-        {
-            Container.Setup.Request.Bindings(bind => {
-                bind.From<ResourceMapping>()
-                    .To(ioc => new ResourceMapping(path, locationFactory(ioc)))
-                    .Managed();
-            });
-       }
-
-        protected void AddStaticResources(VirtualPath path, IResourceLocation location)
-        {
-            Container.Setup.Feature.Bindings(bind => {
-                bind.From<ResourceMapping>()
-                    .To(new ResourceMapping(path, location))
-                    .Managed();
-            });
-        }
-
-        protected void AddStaticResources(VirtualPath path, string physicalPath)
-        {
-            AddStaticResources(path, new FileResourceLocation(physicalPath));
-        }
-
         /* ====== AddViews methods ====== */
 
         /// <summary>
@@ -267,9 +241,14 @@ namespace Dolstagis.Web
         /// <param name="path"></param>
         /// <param name="locationFactory"></param>
 
-        public void AddViews(VirtualPath path, Func<IIoCContainer, IResourceLocation> locationFactory)
+        protected void AddViews(VirtualPath path, Func<IIoCContainer, IResourceLocation> locationFactory)
         {
-            AddStaticResources(path, locationFactory);
+            AssertConstructing();
+            Container.Setup.Request.Bindings(bind => {
+                bind.From<ResourceMapping>()
+                    .To(ioc => new ResourceMapping(path, locationFactory(ioc)))
+                    .Managed();
+            });
         }
 
 
@@ -279,9 +258,14 @@ namespace Dolstagis.Web
         /// <param name="vPath"></param>
         /// <param name="location"></param>
 
-        public void AddViews(VirtualPath vPath, IResourceLocation location)
+        protected void AddViews(VirtualPath path, IResourceLocation location)
         {
-            AddStaticResources(vPath, location);
+            AssertConstructing();
+            Container.Setup.Feature.Bindings(bind => {
+                bind.From<ResourceMapping>()
+                    .To(new ResourceMapping(path, location))
+                    .Managed();
+            });
         }
 
 
@@ -299,7 +283,7 @@ namespace Dolstagis.Web
 
         public void AddViews(VirtualPath path, string physicalPath)
         {
-            AddStaticResources(path, physicalPath);
+            AddViews(path, new FileResourceLocation(physicalPath));
         }
 
         #endregion

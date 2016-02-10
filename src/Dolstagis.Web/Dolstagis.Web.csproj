@@ -105,7 +105,6 @@
     <Compile Include="Http\RequestHeaders.cs" />
     <Compile Include="Http\ResponseHeaders.cs" />
     <Compile Include="Features\IFeatureSwitch.cs" />
-    <Compile Include="Features\ILegacyFeature.cs" />
     <Compile Include="IModelBinder.cs" />
     <Compile Include="Logging\ILoggerFactory.cs" />
     <Compile Include="Logging\LogEntry.cs" />

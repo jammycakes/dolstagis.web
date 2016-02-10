@@ -4,7 +4,7 @@ using Dolstagis.Web.Routes;
 
 namespace Dolstagis.Web.Features
 {
-    public interface IFeature : ILegacyFeature
+    public interface IFeature
     {
         IFeatureSwitch Switch { get; }
         string Description { get; }
