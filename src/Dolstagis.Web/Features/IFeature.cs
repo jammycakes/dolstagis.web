@@ -10,5 +10,6 @@ namespace Dolstagis.Web.Features
         string Description { get; }
         RouteInvocation GetRouteInvocation(VirtualPath path);
         IContainerBuilder ContainerBuilder { get; }
+        IModelBinder ModelBinder { get; }
     }
 }

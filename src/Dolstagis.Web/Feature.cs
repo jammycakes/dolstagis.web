@@ -26,6 +26,7 @@ namespace Dolstagis.Web
         private RouteTable _routes = new RouteTable();
         private readonly ContainerConfiguration _containerConfiguration
             = new ContainerConfiguration();
+        private IModelBinder _modelBinder = ModelBinding.ModelBinder.Default;
 
         /// <summary>
         ///  Creates a new instance of this feature.
@@ -33,7 +34,6 @@ namespace Dolstagis.Web
 
         protected Feature()
         {
-            this.ModelBinder = Dolstagis.Web.ModelBinding.ModelBinder.Default;
             _containerConfiguration.ConfiguringApplication += (s, e) =>
                 _switch.AssertNotDefined(
                     "You can not register services in the IOC container at Application level in " +
@@ -128,6 +128,30 @@ namespace Dolstagis.Web
         }
 
 
+        /// <summary>
+        ///  Configures the model binder for controllers defined in this feature.
+        /// </summary>
+        /// <typeparam name="TModelBinder"></typeparam>
+
+        protected void ModelBinder<TModelBinder>()
+            where TModelBinder : IModelBinder, new()
+        {
+            AssertConstructing();
+            _modelBinder = new TModelBinder();
+        }
+
+
+        /// <summary>
+        ///  Configures the model binder for controllers defined in this feature.
+        /// </summary>
+        /// <param name="binder"></param>
+
+        protected void ModelBinder(IModelBinder binder)
+        {
+            AssertConstructing();
+            _modelBinder = binder;
+        }
+
         /* ====== Public properties and methods ====== */
 
         /*
@@ -174,6 +198,7 @@ namespace Dolstagis.Web
 
         RouteInvocation IFeature.GetRouteInvocation(VirtualPath path)
         {
+            _constructed = true;
             return _routes.GetRouteInvocation(path, this);
         }
 
@@ -185,19 +210,26 @@ namespace Dolstagis.Web
         IContainerBuilder IFeature.ContainerBuilder
         {
             get {
+                _constructed = true;
                 return _containerConfiguration.Builder;
             }
         }
 
-        #region /* ====== Old API, being replaced with the new fluent API ====== */
-
 
         /// <summary>
-        ///  Gets or sets the <see cref="IModelBinder"/> instance used to invoke
+        ///  Gets the <see cref="IModelBinder"/> instance used to invoke
         ///  actions provided by this feature.
         /// </summary>
 
-        public IModelBinder ModelBinder { get; set; }
+        IModelBinder IFeature.ModelBinder {
+            get {
+                _constructed = true;
+                return _modelBinder;
+            }
+        }
+
+
+        #region /* ====== Old API, being replaced with the new fluent API ====== */
 
 
         /* ====== AddStaticFiles and AddViews helper methods ====== */
