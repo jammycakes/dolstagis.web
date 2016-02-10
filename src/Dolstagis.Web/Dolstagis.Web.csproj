@@ -56,6 +56,7 @@
     <Compile Include="Auth\RequireLoginAttribute.cs" />
     <Compile Include="Auth\SessionAuthenticator.cs" />
     <Compile Include="ContentResult.cs" />
+    <Compile Include="IoC\DSL\IBindingExpression.cs" />
     <Compile Include="IoC\DSL\IContainerExpression.cs" />
     <Compile Include="IoC\DSL\IContainerIsExpression.cs" />
     <Compile Include="IoC\DSL\IContainerScopeExpression.cs" />
@@ -64,7 +65,7 @@
     <Compile Include="IoC\DSL\IFromExpression.cs" />
     <Compile Include="IoC\DSL\IToExpression.cs" />
     <Compile Include="IoC\IBinding.cs" />
-    <Compile Include="IoC\Impl\Binding.cs" />
+    <Compile Include="IoC\Binding.cs" />
     <Compile Include="IoC\Impl\ContainerBuilder.cs" />
     <Compile Include="IoC\Impl\ContainerConfiguration.cs" />
     <Compile Include="IoC\IContainerBuilder.cs" />

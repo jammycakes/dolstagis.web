@@ -18,34 +18,33 @@ namespace Dolstagis.Web.Lifecycle
     {
         public CoreServices()
         {
-            Container.Setup.Application.Container(c => {
-                c.Use<IExceptionHandler, ExceptionHandler>(Scope.Request);
-                c.Use<ISessionStore, InMemorySessionStore>(Scope.Application);
-                c.Use<IAuthenticator, SessionAuthenticator>(Scope.Application);
-                c.Use<ILoginHandler, LoginHandler>(Scope.Request);
+            Container.Setup.Application.Bindings(bind => {
+                bind.From<ISessionStore>().Only().To<InMemorySessionStore>().Managed();
+                bind.From<IAuthenticator>().Only().To<SessionAuthenticator>().Managed();
 
-                c.Add<IResultProcessor, ResourceResultProcessor>(Scope.Transient);
-                c.Add<IResultProcessor, ViewResultProcessor>(Scope.Transient);
-                c.Add<IResultProcessor>(JsonResultProcessor.Instance);
-                c.Add<IResultProcessor>(ContentResultProcessor.Instance);
-                c.Add<IResultProcessor>(HeadResultProcessor.Instance);
+                bind.From<IResultProcessor>().To<ResourceResultProcessor>().Transient();
+                bind.From<IResultProcessor>().To<ViewResultProcessor>().Transient();
+                bind.From<IResultProcessor>().To(JsonResultProcessor.Instance);
+                bind.From<IResultProcessor>().To(ContentResultProcessor.Instance);
+                bind.From<IResultProcessor>().To(HeadResultProcessor.Instance);
 
-                c.Use<ViewRegistry, ViewRegistry>(Scope.Request);
-
-                c.Use<IRequestContext, NullRequestContext>(Scope.Transient);
-                c.Use<IRequest>(ctx => ctx.GetService<IRequestContext>().Request, Scope.Request);
-                c.Use<IResponse>(ctx => ctx.GetService<IRequestContext>().Response, Scope.Request);
-                c.Use<IUser>(ctx => ctx.GetService<IRequestContext>().User, Scope.Request);
-                c.Use<ISession>(ctx => ctx.GetService<IRequestContext>().Session, Scope.Request);
+                bind.From<IRequestContext>().To<NullRequestContext>().Transient();
             })
-            .Setup.Request.Container(c => {
+            .Setup.Request.Bindings(bind => {
+                bind.From<IExceptionHandler>().Only().To<ExceptionHandler>().Managed();
+                bind.From<ILoginHandler>().Only().To<LoginHandler>().Managed();
+                bind.From<ViewRegistry>().Only().To<ViewRegistry>().Managed();
+
+                bind.From<IRequest>().Only().To(ctx => ctx.GetService<IRequestContext>().Request).Managed();
+                bind.From<IResponse>().Only().To(ctx => ctx.GetService<IRequestContext>().Response).Managed();
+                bind.From<IUser>().Only().To(ctx => ctx.GetService<IRequestContext>().User).Managed();
+                bind.From<ISession>().Only().To(ctx => ctx.GetService<IRequestContext>().Session).Managed();
             });
 
             Route("~/").To.StaticFiles.FromAssemblyResources
                 (this.GetType().Assembly, "Dolstagis.Web._dolstagis.index.html");
             Route("~/_dolstagis").To.StaticFiles.FromAssemblyResources
                 (this.GetType().Assembly, "Dolstagis.Web._dolstagis");
-
         }
 
 

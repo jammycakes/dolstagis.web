@@ -202,17 +202,22 @@ namespace Dolstagis.Web
 
         /* ====== AddStaticFiles and AddViews helper methods ====== */
 
-        protected void AddStaticResources(ResourceType type, VirtualPath path, Func<IIoCContainer, IResourceLocation> locationFactory)
+        protected void AddStaticResources(ResourceType type, VirtualPath path,
+            Func<IIoCContainer, IResourceLocation> locationFactory)
         {
-            Container.Setup.Feature.Container(c => {
-                c.Add<ResourceMapping>(ioc => new ResourceMapping(type, path, locationFactory(ioc)), Scope.Request);
+            Container.Setup.Request.Bindings(bind => {
+                bind.From<ResourceMapping>()
+                    .To(ioc => new ResourceMapping(type, path, locationFactory(ioc)))
+                    .Managed();
             });
        }
 
         protected void AddStaticResources(ResourceType type, VirtualPath path, IResourceLocation location)
         {
-            Container.Setup.Feature.Container(c => {
-                c.Add<ResourceMapping>(new ResourceMapping(type, path, location));
+            Container.Setup.Feature.Bindings(bind => {
+                bind.From<ResourceMapping>()
+                    .To(new ResourceMapping(type, path, location))
+                    .Managed();
             });
         }
 

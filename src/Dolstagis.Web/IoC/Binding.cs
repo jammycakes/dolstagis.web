@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Dolstagis.Web.IoC.DSL;
 
-namespace Dolstagis.Web.IoC.Impl
+namespace Dolstagis.Web.IoC
 {
     public class Binding<TSource> :
         IBinding, IFromExpression<TSource>, IToExpression

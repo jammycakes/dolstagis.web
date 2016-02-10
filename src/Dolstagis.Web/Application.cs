@@ -162,8 +162,8 @@ namespace Dolstagis.Web
 
             // Finally, configure the container from all features.
 
-            instance.Use<ISettings>(Settings);
-            instance.Use<Application>(this);
+            instance.Add(Binding<ISettings>.From(b => b.Only().To(Settings)));
+            instance.Add(Binding<Application>.From(b => b.Only().To(this)));
 
             foreach (var feature in Features) {
                 feature.ContainerBuilder.SetupApplication(instance);

@@ -48,7 +48,8 @@ namespace Dolstagis.Web.Lifecycle
             using (var childContainer = _featureSetContainer.GetChildContainer()) {
                 var context = new RequestContext
                     (request, response, _sessionStore, _authenticator, childContainer, _features);
-                childContainer.Use<IRequestContext>(context);
+                childContainer.Add(Binding<IRequestContext>
+                    .From(cfg => cfg.Only().To(context).Managed()));
 
                 foreach (var feature in _features.Features) {
                     feature.ContainerBuilder.SetupRequest(childContainer);

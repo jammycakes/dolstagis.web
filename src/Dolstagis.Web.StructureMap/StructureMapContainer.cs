@@ -43,7 +43,7 @@ namespace Dolstagis.Web.StructureMap
 
         public virtual IIoCContainer GetChildContainer()
         {
-            return new StructureMapDomainContainer(_container.CreateChildContainer());
+            return new StructureMapFeatureContainer(_container.CreateChildContainer());
         }
 
         public object GetService(Type serviceType)
@@ -108,7 +108,7 @@ namespace Dolstagis.Web.StructureMap
             }
         }
 
-        public void Add(IBinding binding)
+        public virtual void Add(IBinding binding)
         {
             Container.Configure(x => {
                 var from = x.For(binding.SourceType);
@@ -183,15 +183,58 @@ namespace Dolstagis.Web.StructureMap
             this.Container.Configure(x => x.AddRegistry<TRegistry>());
         }
 
-        private class StructureMapDomainContainer : StructureMapContainer
+        private class StructureMapFeatureContainer : StructureMapContainer
         {
-            public StructureMapDomainContainer(IContainer container)
+            public StructureMapFeatureContainer(IContainer container)
                 : base(container)
             { }
 
             public override IIoCContainer GetChildContainer()
             {
-                return new StructureMapContainer(_container.GetNestedContainer());
+                return new StructureMapRequestContainer(_container.GetNestedContainer(), this);
+            }
+        }
+
+        private class StructureMapRequestContainer : StructureMapContainer
+        {
+            private StructureMapFeatureContainer _parent;
+
+            public StructureMapRequestContainer(IContainer container, StructureMapFeatureContainer parent)
+                : base(container)
+            {
+                _parent = parent;
+            }
+
+            public override IIoCContainer GetChildContainer()
+            {
+                return new StructureMapRequestContainer(_container.GetNestedContainer(), _parent);
+            }
+
+            public override void Add(IBinding binding)
+            {
+                if (binding.Transient) {
+                    base.Add(binding);
+                }
+                else {
+                    _parent.Container.Configure(x => {
+                        var from = x.For(binding.SourceType).ContainerScoped();
+                        if (binding.TargetType != null) {
+                            var to = binding.Multiple
+                            ? from.Add(binding.TargetType)
+                            : from.Use(binding.TargetType);
+                        }
+                        else if (binding.TargetFunc != null) {
+                            var to = binding.Multiple
+                                ? from.Add(ctr => binding.TargetFunc(this))
+                                : from.Use(ctr => binding.TargetFunc(this));
+                        }
+                        else if (binding.Target != null) {
+                            var to = binding.Multiple
+                                ? from.Add(binding.Target)
+                                : from.Use(binding.Target);
+                        }
+                    });
+                }
             }
         }
     }

@@ -7,9 +7,9 @@ namespace Dolstagis.Web.Views.DotLiquid
     {
         public DotLiquidFeature()
         {
-            Container.Setup.Application.Container(c => {
-                c.Add<IViewEngine, DotLiquidViewEngine>(Scope.Application);
-                c.Add<IFileSystem, DotLiquidFileSystem>(Scope.Application);
+            Container.Setup.Application.Bindings(bind => {
+                bind.From<IViewEngine>().To<DotLiquidViewEngine>().Managed();
+                bind.From<IFileSystem>().To<DotLiquidFileSystem>().Managed();
             });
         }
     }
