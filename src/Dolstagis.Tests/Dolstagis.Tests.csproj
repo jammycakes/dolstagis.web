@@ -76,9 +76,7 @@
     <Compile Include="IoC\Common\Dependency.cs" />
     <Compile Include="IoC\Common\IDependency.cs" />
     <Compile Include="IoC\Common\IService.cs" />
-    <Compile Include="IoC\Common\ContainerFixture.cs" />
     <Compile Include="IoC\Common\Service.cs" />
-    <Compile Include="IoC\StructureMap\StructureMapFixture.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Web\Features\FeatureSetFixture.cs" />
     <Compile Include="Web\Features\FluentConfiguration\ConfigConflictFixture.cs" />
@@ -143,7 +141,9 @@
       <Link>Properties\VersionInfo.cs</Link>
     </Compile>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="IoC\StructureMap\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -62,52 +62,6 @@ namespace Dolstagis.Web.StructureMap
                 return Container.GetInstance(serviceType);
         }
 
-        public void Add(Type source, Type target, Scope scope)
-        {
-            Container.Configure(x => {
-                var entry = x.For(source).Add(target);
-                SetScope(scope, entry);
-            });
-        }
-
-        public void Use(Type source, Type target, Scope scope)
-        {
-            Container.Configure(x => {
-                var entry = x.For(source).Use(target);
-                SetScope(scope, entry);
-            });
-        }
-
-        private static void SetScope(Scope scope, ConfiguredInstance entry)
-        {
-            switch (scope) {
-                case Scope.Transient:
-                    entry.Transient();
-                    break;
-                case Scope.Application:
-                    entry.Singleton();
-                    break;
-                case Scope.Request:
-                    entry.ContainerScoped();
-                    break;
-            }
-        }
-
-        private static void SetScope(Scope scope, LambdaInstance<object> entry)
-        {
-            switch (scope) {
-                case Scope.Transient:
-                    entry.Transient();
-                    break;
-                case Scope.Application:
-                    entry.Singleton();
-                    break;
-                case Scope.Request:
-                    entry.ContainerScoped();
-                    break;
-            }
-        }
-
         public virtual void Add(IBinding binding)
         {
             Container.Configure(x => {
@@ -130,38 +84,6 @@ namespace Dolstagis.Web.StructureMap
                         : from.Use(binding.Target);
                     if (binding.Transient) to.Transient(); else to.Singleton();
                 }
-            });
-        }
-
-        public void Add(Type source, Func<IIoCContainer, object> target, Scope scope)
-        {
-            Container.Configure(x => {
-                var entry = x.For(source).Add(ctx => target(ctx.GetInstance<IIoCContainer>()));
-                SetScope(scope, entry);
-            });
-        }
-
-        public void Use(Type source, Func<IIoCContainer, object> target, Scope scope)
-        {
-            Container.Configure(x => {
-                var entry = x.For(source).Use(ctx => target(ctx.GetInstance<IIoCContainer>()));
-                SetScope(scope, entry);
-            });
-        }
-
-        public void Add(Type source, object target)
-        {
-            Container.Configure(x => {
-                var entry = x.For(source).Add(target);
-                entry.Transient();
-            });
-        }
-
-        public void Use(Type source, object target)
-        {
-            Container.Configure(x => {
-                var entry = x.For(source).Use(target);
-                entry.Transient();
             });
         }
 
