@@ -23,8 +23,8 @@ namespace WebApp
             // in the same feature.
             // Active.When(req => true);
 
-            //Route("~/").To.Controller<Index>();
-            Route("~/content").To.StaticFiles.FromWebApplication("~/content");
+            //Route.From("~/").To.Controller<Index>();
+            Route.From("~/content").To.StaticFiles.FromWebApplication("~/content");
 
             AddViews("~/views", Path.Combine(HttpRuntime.AppDomainAppPath, "views"));
             // Uncomment the following line to use custom error messages.

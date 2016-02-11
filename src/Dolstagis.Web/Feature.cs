@@ -152,10 +152,12 @@ namespace Dolstagis.Web
         ///  Provides a fluent interface to configure routes to controllers.
         /// </summary>
 
-        protected IRouteExpression Route(VirtualPath specification)
+        protected IRouteExpression Route
         {
-            AssertConstructing();
-            return new RouteExpression(_routes, specification);
+            get {
+                AssertConstructing();
+                return new RouteExpression(_routes);
+            }
         }
 
         /// <summary>

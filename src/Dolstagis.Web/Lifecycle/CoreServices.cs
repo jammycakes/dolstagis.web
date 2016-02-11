@@ -41,9 +41,9 @@ namespace Dolstagis.Web.Lifecycle
                 bind.From<ISession>().Only().To(ctx => ctx.Get<IRequestContext>().Session).Managed();
             });
 
-            Route("~/").To.StaticFiles.FromAssemblyResources
+            Route.From("~/").To.StaticFiles.FromAssemblyResources
                 (this.GetType().Assembly, "Dolstagis.Web._dolstagis.index.html");
-            Route("~/_dolstagis").To.StaticFiles.FromAssemblyResources
+            Route.From("~/_dolstagis").To.StaticFiles.FromAssemblyResources
                 (this.GetType().Assembly, "Dolstagis.Web._dolstagis");
         }
 

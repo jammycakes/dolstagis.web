@@ -56,7 +56,9 @@
     <Compile Include="Auth\RequireLoginAttribute.cs" />
     <Compile Include="Auth\SessionAuthenticator.cs" />
     <Compile Include="ContentResult.cs" />
+    <Compile Include="Features\Impl\RouteExpression.cs" />
     <Compile Include="Features\Impl\ViewExpression.cs" />
+    <Compile Include="Features\IRouteExpression.cs" />
     <Compile Include="IoC\DSL\IBindingExpression.cs" />
     <Compile Include="IoC\DSL\IContainerExpression.cs" />
     <Compile Include="IoC\DSL\IContainerIsExpression.cs" />
@@ -70,7 +72,7 @@
     <Compile Include="IoC\Impl\ContainerBuilder.cs" />
     <Compile Include="IoC\Impl\ContainerConfiguration.cs" />
     <Compile Include="IoC\IContainerBuilder.cs" />
-    <Compile Include="Features\Impl\RouteExpression.cs" />
+    <Compile Include="Features\Impl\RouteFromExpression.cs" />
     <Compile Include="IoC\IIoCContainer.cs" />
     <Compile Include="IoC\Impl\ContainerScope.cs" />
     <Compile Include="IoC\IServiceLocator.cs" />
@@ -88,7 +90,7 @@
     <Compile Include="Features\IControllerExpression.cs" />
     <Compile Include="Features\Impl\FeatureSwitch.cs" />
     <Compile Include="Features\IRouteDestinationExpression.cs" />
-    <Compile Include="Features\IRouteExpression.cs" />
+    <Compile Include="Features\IRouteFromExpression.cs" />
     <Compile Include="Features\IStaticFilesExpression.cs" />
     <Compile Include="Features\ISwitchExpression.cs" />
     <Compile Include="Features\Impl\FeatureSet.cs" />

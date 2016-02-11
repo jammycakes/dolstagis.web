@@ -8,14 +8,14 @@ namespace Dolstagis.Tests.Web.TestFeatures
     {
         public FirstFeature()
         {
-            Route("").To.Controller<RootController>();
-            Route("one/two").To.Controller<ChildController>();
-            Route("one/three").To.Controller<ChildController>();
-            Route("one/two/three/{id}").To.Controller<ChildController>();
-            Route("one/two/greedy/{id+}").To.Controller<ChildController>();
-            Route("one/two/optional/{id?}").To.Controller<ChildController>();
-            Route("one/two/optgreedy/{id*}").To.Controller<ChildController>();
-            Route("{language}/one/two").To.Controller<LanguageController>();
+            Route.From("").To.Controller<RootController>();
+            Route.From("one/two").To.Controller<ChildController>();
+            Route.From("one/three").To.Controller<ChildController>();
+            Route.From("one/two/three/{id}").To.Controller<ChildController>();
+            Route.From("one/two/greedy/{id+}").To.Controller<ChildController>();
+            Route.From("one/two/optional/{id?}").To.Controller<ChildController>();
+            Route.From("one/two/optgreedy/{id*}").To.Controller<ChildController>();
+            Route.From("{language}/one/two").To.Controller<LanguageController>();
         }
     }
 }
