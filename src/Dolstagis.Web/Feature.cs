@@ -118,17 +118,6 @@ namespace Dolstagis.Web
 
 
         /// <summary>
-        ///  Provides a fluent interface to configure routes to controllers.
-        /// </summary>
-
-        protected IRouteExpression Route(VirtualPath specification)
-        {
-            AssertConstructing();
-            return new RouteExpression(_routes, specification);
-        }
-
-
-        /// <summary>
         ///  Configures the model binder for controllers defined in this feature.
         /// </summary>
         /// <typeparam name="TModelBinder"></typeparam>
@@ -152,6 +141,18 @@ namespace Dolstagis.Web
             _modelBinder = binder;
         }
 
+
+        /// <summary>
+        ///  Provides a fluent interface to configure routes to controllers.
+        /// </summary>
+
+        protected IRouteExpression Route(VirtualPath specification)
+        {
+            AssertConstructing();
+            return new RouteExpression(_routes, specification);
+        }
+
+
         /* ====== Public properties and methods ====== */
 
         /*
@@ -159,7 +160,7 @@ namespace Dolstagis.Web
          * classes, specifically, the rest of the framework.
          * 
          * To avoid polluting IntelliSense with irrelevancies, these must be
-         * declared as members of tie IFeature interface, which must be
+         * declared as members of the IFeature interface, which must be
          * implemented explicitly as shown below.
          *
          * They must also set _constructed = true to ensure that they signal
@@ -255,7 +256,7 @@ namespace Dolstagis.Web
         /// <summary>
         ///  Registers a directory or file of views at the specified location.
         /// </summary>
-        /// <param name="vPath"></param>
+        /// <param name="path"></param>
         /// <param name="location"></param>
 
         protected void AddViews(VirtualPath path, IResourceLocation location)
