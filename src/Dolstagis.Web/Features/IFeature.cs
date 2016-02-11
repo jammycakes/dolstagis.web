@@ -1,6 +1,8 @@
-﻿using Dolstagis.Web.IoC;
+﻿using System;
+using Dolstagis.Web.IoC;
 using Dolstagis.Web.IoC.DSL;
 using Dolstagis.Web.Routes;
+using Dolstagis.Web.Views;
 
 namespace Dolstagis.Web.Features
 {
@@ -11,5 +13,6 @@ namespace Dolstagis.Web.Features
         RouteInvocation GetRouteInvocation(VirtualPath path);
         IContainerBuilder ContainerBuilder { get; }
         IModelBinder ModelBinder { get; }
+        ViewTable Views { get; }
     }
 }

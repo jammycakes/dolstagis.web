@@ -3,6 +3,7 @@ using System.Linq;
 
 namespace Dolstagis.Web.Static
 {
+    [Obsolete("Deprecate this in favour of ViewTable", false)]
     public class ResourceMapping
     {
         public VirtualPath Root { get; private set; }

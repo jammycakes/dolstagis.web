@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Dolstagis.Web.Static
 {
+    [Obsolete("Deprecate this in favour of ViewTable")]
     public class ResourceResolver
     {
         private IEnumerable<ResourceMapping> _mappings;

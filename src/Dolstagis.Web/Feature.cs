@@ -7,6 +7,7 @@ using Dolstagis.Web.IoC.Impl;
 using Dolstagis.Web.Logging;
 using Dolstagis.Web.Routes;
 using Dolstagis.Web.Static;
+using Dolstagis.Web.Views;
 
 namespace Dolstagis.Web
 {
@@ -27,6 +28,7 @@ namespace Dolstagis.Web
         private readonly ContainerConfiguration _containerConfiguration
             = new ContainerConfiguration();
         private IModelBinder _modelBinder = ModelBinding.ModelBinder.Default;
+        private ViewTable _views = new ViewTable();
 
         /// <summary>
         ///  Creates a new instance of this feature.
@@ -96,6 +98,10 @@ namespace Dolstagis.Web
         }
 
 
+        /// <summary>
+        ///  Configures the IOC containers.
+        /// </summary>
+
         protected IContainerExpression Container
         {
             get {
@@ -152,6 +158,17 @@ namespace Dolstagis.Web
             return new RouteExpression(_routes, specification);
         }
 
+        /// <summary>
+        ///  Provides a fluent interface to configure routes to views.
+        /// </summary>
+        /// <param name="specification"></param>
+        /// <returns></returns>
+
+        protected IStaticFilesExpression Views(VirtualPath specification)
+        {
+            AssertConstructing();
+            return new ViewExpression(_views, specification);
+        }
 
         /* ====== Public properties and methods ====== */
 
@@ -229,6 +246,18 @@ namespace Dolstagis.Web
             }
         }
 
+        /// <summary>
+        ///  Gets the <see cref="ViewTable"/> instance used to look up views.
+        /// </summary>
+
+        ViewTable IFeature.Views
+        {
+            get {
+                _constructed = true;
+                return _views;
+            }
+        }
+
 
         #region /* ====== Old API, being replaced with the new fluent API ====== */
 
@@ -242,6 +271,7 @@ namespace Dolstagis.Web
         /// <param name="path"></param>
         /// <param name="locationFactory"></param>
 
+        [Obsolete("Deprecated in favour of View(...) fluent API")]
         protected void AddViews(VirtualPath path, Func<IIoCContainer, IResourceLocation> locationFactory)
         {
             AssertConstructing();
@@ -259,6 +289,7 @@ namespace Dolstagis.Web
         /// <param name="path"></param>
         /// <param name="location"></param>
 
+        [Obsolete("Deprecated in favour of View(...) fluent API")]
         protected void AddViews(VirtualPath path, IResourceLocation location)
         {
             AssertConstructing();
@@ -282,6 +313,7 @@ namespace Dolstagis.Web
         ///  to the application root, or else an absolute path.
         /// </param>
 
+        [Obsolete("Deprecated in favour of View(...) fluent API")]
         public void AddViews(VirtualPath path, string physicalPath)
         {
             AddViews(path, new FileResourceLocation(physicalPath));

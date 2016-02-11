@@ -56,6 +56,7 @@
     <Compile Include="Auth\RequireLoginAttribute.cs" />
     <Compile Include="Auth\SessionAuthenticator.cs" />
     <Compile Include="ContentResult.cs" />
+    <Compile Include="Features\Impl\ViewExpression.cs" />
     <Compile Include="IoC\DSL\IBindingExpression.cs" />
     <Compile Include="IoC\DSL\IContainerExpression.cs" />
     <Compile Include="IoC\DSL\IContainerIsExpression.cs" />
@@ -166,6 +167,7 @@
     <Compile Include="Util\DictionaryExtensions.cs" />
     <Compile Include="IoC\IoCExtensions.cs" />
     <Compile Include="Views\ViewResultProcessor.cs" />
+    <Compile Include="Views\ViewTable.cs" />
     <Compile Include="VirtualPath.cs" />
     <Compile Include="Lifecycle\RequestContext.cs" />
     <Compile Include="Static\FileResource.cs" />
