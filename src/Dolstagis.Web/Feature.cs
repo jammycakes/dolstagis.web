@@ -156,7 +156,7 @@ namespace Dolstagis.Web
         {
             get {
                 AssertConstructing();
-                return new RouteExpression(_routes);
+                return new RouteExpression(_routes, this);
             }
         }
 
