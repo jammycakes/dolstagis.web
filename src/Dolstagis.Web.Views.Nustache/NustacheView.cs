@@ -10,12 +10,12 @@ namespace Dolstagis.Web.Views.Nustache
     {
         private NustacheViewEngine _engine;
         private VirtualPath _path;
-        private ResourceResolver _resolver;
+        private IResourceResolver _resolver;
 
         public Template Template { get; private set; }
 
 
-        public NustacheView(NustacheViewEngine engine, VirtualPath path, IResource resource, ResourceResolver resolver)
+        public NustacheView(NustacheViewEngine engine, VirtualPath path, IResource resource, IResourceResolver resolver)
         {
             _engine = engine;
             _path = path;

@@ -5,7 +5,7 @@ using System.Linq;
 namespace Dolstagis.Web.Static
 {
     [Obsolete("Deprecate this in favour of ViewTable")]
-    public class ResourceResolver
+    public class ResourceResolver : IResourceResolver
     {
         private IEnumerable<ResourceMapping> _mappings;
 

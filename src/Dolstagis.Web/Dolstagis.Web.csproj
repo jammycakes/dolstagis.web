@@ -160,6 +160,7 @@
     <Compile Include="Static\AssemblyResourceLocation.cs" />
     <Compile Include="Static\FileResourceLocation.cs" />
     <Compile Include="Static\IResourceLocation.cs" />
+    <Compile Include="Static\IResourceResolver.cs" />
     <Compile Include="Static\ResourceMapping.cs" />
     <Compile Include="Static\ResourceResolver.cs" />
     <Compile Include="Static\ResourceResult.cs" />

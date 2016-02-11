@@ -10,7 +10,7 @@ namespace Dolstagis.Web.Views
         private IDictionary<string, IViewEngine> _viewEngines
             = new Dictionary<string, IViewEngine>(StringComparer.OrdinalIgnoreCase);
 
-        private ResourceResolver _resolver;
+        private IResourceResolver _resolver;
 
         public ViewRegistry(ResourceMapping[] mappings, IViewEngine[] viewEngines)
         {
