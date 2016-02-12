@@ -27,6 +27,7 @@ namespace Dolstagis.Web.Lifecycle
                 bind.From<IResultProcessor>().To(JsonResultProcessor.Instance);
                 bind.From<IResultProcessor>().To(ContentResultProcessor.Instance);
                 bind.From<IResultProcessor>().To<TextResultProcessor>().Transient();
+                bind.From<IResultProcessor>().To<XmlSerializationResultProcessor>().Transient();
                 bind.From<IRequestContext>().To<NullRequestContext>().Transient();
             })
             .Setup.Request.Bindings(bind => {

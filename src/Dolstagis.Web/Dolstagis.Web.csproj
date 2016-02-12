@@ -112,6 +112,7 @@
     <Compile Include="Features\IFeatureSwitch.cs" />
     <Compile Include="IModelBinder.cs" />
     <Compile Include="Lifecycle\ResultProcessors\TextResultProcessor.cs" />
+    <Compile Include="Lifecycle\ResultProcessors\XmlSerializationResultProcessor.cs" />
     <Compile Include="Logging\ILoggerFactory.cs" />
     <Compile Include="Logging\LogEntry.cs" />
     <Compile Include="Logging\Logger.cs" />
