@@ -28,7 +28,8 @@ namespace Dolstagis.Web.Lifecycle
                     exact
                         ? Lifecycle.Match.Exact
                         : (fallback ? Lifecycle.Match.Inexact : Lifecycle.Match.Fallback),
-                    opt.Q
+                    opt.Q,
+                    opt.Value
                 )
                 orderby result.Match descending, result.Q descending
                 select result)
@@ -111,14 +112,9 @@ namespace Dolstagis.Web.Lifecycle
                 }
             }
 
-            typedData.Headers.Remove("Content-Encoding");
             context.Response.Status = typedData.Status;
             foreach (var key in typedData.Headers.Keys) {
                 context.Response.AddHeader(key, typedData.Headers[key]);
-            }
-            if (typedData.Encoding != null)
-            {
-                context.Response.AddHeader("Content-Encoding", typedData.Encoding.WebName);
             }
 
             await Task.Yield();
