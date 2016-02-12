@@ -48,7 +48,7 @@ namespace Dolstagis.Web.Views.Razor
             get { return new[] { _extension }; }
         }
 
-        protected override IView CreateView(VirtualPath pathToView, ResourceResolver resolver)
+        protected override IView CreateView(VirtualPath pathToView, IResourceResolver resolver)
         {
             var resource = resolver.GetResource(pathToView);
             if (resource == null || !resource.Exists) return null;

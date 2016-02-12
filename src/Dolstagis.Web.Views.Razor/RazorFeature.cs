@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Razor;
+using Dolstagis.Web.IoC;
 
 namespace Dolstagis.Web.Views.Razor
 {
@@ -13,17 +14,21 @@ namespace Dolstagis.Web.Views.Razor
             where TLanguage: RazorCodeLanguage
         {
             return new RazorViewEngine(
-                container.GetService<ISettings>(),
+                container.Get<ISettings>(),
                 extension,
-                container.GetService<TLanguage>()
+                container.Get<TLanguage>()
             );
         }
 
         public RazorFeature()
         {
-            Container.Setup.Feature(c => {
-                c.Add<IViewEngine>(ctr => CreateViewEngine<CSharpRazorCodeLanguage>(ctr, "cshtml"), Scope.Application);
-                c.Add<IViewEngine>(ctr => CreateViewEngine<VBRazorCodeLanguage>(ctr, "vbhtml"), Scope.Application);
+            Container.Setup.Application.Bindings(c => {
+                c.From<IViewEngine>()
+                    .To(ctr => CreateViewEngine<CSharpRazorCodeLanguage>(ctr, "cshtml"))
+                    .Managed();
+                c.From<IViewEngine>()
+                    .To(ctr => CreateViewEngine<VBRazorCodeLanguage>(ctr, "vbhtml"))
+                    .Managed();
             });
         }
     }

@@ -13,9 +13,9 @@ namespace Dolstagis.Web.Views.Razor
         private RazorViewEngine _engine;
         private VirtualPath _pathToView;
         private IResource _resource;
-        private ResourceResolver _resolver;
+        private IResourceResolver _resolver;
 
-        public RazorView(RazorViewEngine razorViewEngine, VirtualPath pathToView, IResource resource, ResourceResolver resolver)
+        public RazorView(RazorViewEngine razorViewEngine, VirtualPath pathToView, IResource resource, IResourceResolver resolver)
         {
             this._engine = razorViewEngine;
             this._pathToView = pathToView;
