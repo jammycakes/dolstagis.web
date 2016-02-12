@@ -1,6 +1,4 @@
-﻿using System;
-using Dolstagis.Web.IoC;
-using Dolstagis.Web.IoC.DSL;
+﻿using Dolstagis.Web.IoC;
 using Dolstagis.Web.Routes;
 using Dolstagis.Web.Views;
 

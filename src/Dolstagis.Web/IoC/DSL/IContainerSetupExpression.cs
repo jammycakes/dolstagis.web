@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Dolstagis.Web.IoC.DSL
+﻿namespace Dolstagis.Web.IoC.DSL
 {
     public interface IContainerSetupExpression<out TContainer> where TContainer : IIoCContainer
     {

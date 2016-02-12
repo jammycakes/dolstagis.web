@@ -1,13 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using Dolstagis.Web.Auth;
-using Dolstagis.Web.Http;
-using Dolstagis.Web.IoC;
-using Dolstagis.Web.Sessions;
+﻿using System.Threading.Tasks;
 
 namespace Dolstagis.Web.Lifecycle.ResultProcessors
 {

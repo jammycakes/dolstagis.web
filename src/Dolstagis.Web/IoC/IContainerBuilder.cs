@@ -1,5 +1,4 @@
 ﻿using System;
-using Dolstagis.Web.IoC.DSL;
 
 namespace Dolstagis.Web.IoC
 {

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Dolstagis.Web.Auth;
 using Dolstagis.Web.Http;
 using Dolstagis.Web.IoC;

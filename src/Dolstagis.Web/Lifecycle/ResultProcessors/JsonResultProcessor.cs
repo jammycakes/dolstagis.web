@@ -1,9 +1,7 @@
 ﻿using System.IO;
-using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using Dolstagis.Web.Http;
 using Newtonsoft.Json;
 
 namespace Dolstagis.Web.Lifecycle.ResultProcessors
