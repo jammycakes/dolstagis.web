@@ -13,7 +13,7 @@ namespace Dolstagis.Web.Lifecycle.ResultProcessors
 {
     public class XmlSerializationResultProcessor : ResultProcessor
     {
-        private static Regex reIsXml = new Regex(@"^(text|application)/(.*\+)xml$");
+        private static Regex reIsXml = new Regex(@"^(text|application)/xml$");
 
         private string _mimeType;
 
