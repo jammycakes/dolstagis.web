@@ -38,5 +38,6 @@ project.make_nuget('Dolstagis.Web.Aspnet',
     ]
 )
 project.make_nuget('Dolstagis.Web.StructureMap')
+project.make_nuget('Dolstagis.Web.Testing')
 project.make_nuget('Dolstagis.Web.Views.DotLiquid')
 project.make_nuget('Dolstagis.Web.Views.Nustache')

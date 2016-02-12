@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<package>
+  <metadata>
+    <id>Dolstagis.Web.Testing</id>
+    <version>0.4.0.0</version>
+    <title>Dolstagis.Web.Testing</title>
+    <authors>James McKay</authors>
+    <owners>James McKay</owners>
+    <licenseUrl>https://raw.github.com/jammycakes/dolstagis.web/master/license.txt</licenseUrl>
+    <projectUrl>https://github.com/jammycakes/dolstagis.web</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>
+      Test helper methods and mocks for the Dolstagis.Web framework, yet another ALT.MVC framework for .NET. 
+    </description>
+    <copyright>Copyright 2013-2016 James McKay</copyright>
+    <tags>web alt.mvc</tags>
+    <dependencies>
+      <dependency id="Dolstagis.Web" version="0.4-alpha" />
+    </dependencies>
+  </metadata>
+</package>
