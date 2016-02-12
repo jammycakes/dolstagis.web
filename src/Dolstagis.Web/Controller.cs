@@ -1,4 +1,5 @@
-﻿using Dolstagis.Web.Static;
+﻿using System.Reflection;
+using Dolstagis.Web.Static;
 using Dolstagis.Web.Views;
 
 namespace Dolstagis.Web
@@ -14,9 +15,9 @@ namespace Dolstagis.Web
         ///  The path to the static content.
         /// </param>
         /// <returns></returns>
-        public ResultBase Static(string path)
+        public ResultBase File(string path)
         {
-            return new StaticResult(new VirtualPath(path));
+            return new ResourceResult(new FileResource(path));
         }
 
         /// <summary>
@@ -26,9 +27,9 @@ namespace Dolstagis.Web
         ///  The path to the static content.
         /// </param>
         /// <returns></returns>
-        public ResultBase Static(VirtualPath path)
+        public ResultBase AssemblyResource(Assembly assembly, string name)
         {
-            return new StaticResult(path);
+            return new ResourceResult(new AssemblyResource(assembly, name));
         }
 
         /// <summary>

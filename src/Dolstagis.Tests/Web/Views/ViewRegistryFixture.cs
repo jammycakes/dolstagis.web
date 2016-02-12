@@ -14,7 +14,9 @@ namespace Dolstagis.Tests.Web.Views
         {
             var engine = new Mock<IViewEngine>();
             engine.SetupGet(x => x.Extensions).Returns(new[] { "nustache" });
+#pragma warning disable 0618
             var registry = new ViewRegistry(new ResourceMapping[0], new[] { engine.Object });
+#pragma warning restore 0618
 
             var gotEngine = registry.GetViewEngine(new VirtualPath("~/test.nustache"));
 
@@ -26,7 +28,9 @@ namespace Dolstagis.Tests.Web.Views
         {
             var engine = new Mock<IViewEngine>();
             engine.SetupGet(x => x.Extensions).Returns(new[] { "nustache" });
+#pragma warning disable 0618
             var registry = new ViewRegistry(new ResourceMapping[0], new[] { engine.Object });
+#pragma warning restore 0618
             Assert.IsNull(registry.GetViewEngine(new VirtualPath("~/test.cshtml")));
         }
 
@@ -37,9 +41,13 @@ namespace Dolstagis.Tests.Web.Views
         {
             var engine = new Mock<IViewEngine>();
             engine.SetupGet(x => x.Extensions).Returns(new[] { "nustache" });
+#pragma warning disable 0618
             var registry = new ViewRegistry(new ResourceMapping[0], new[] { engine.Object });
+#pragma warning restore 0618
             var view = Mock.Of<IView>();
+#pragma warning disable 0618
             engine.Setup(x => x.GetView(new VirtualPath("~/test.nustache"), It.IsAny<ResourceResolver>()))
+#pragma warning restore 0618
                 .Returns(view);
             var gotView = registry.GetView(new VirtualPath(path));
             if (isExpected)

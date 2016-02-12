@@ -17,7 +17,7 @@ namespace Dolstagis.Web.Views
 
         public abstract IEnumerable<string> Extensions { get; }
 
-        public IView GetView(VirtualPath pathToView, ResourceResolver resolver)
+        public IView GetView(VirtualPath pathToView, IResourceResolver resolver)
         {
             if (_settings.Debug)
             {
@@ -33,6 +33,6 @@ namespace Dolstagis.Web.Views
             return result;
         }
 
-        protected abstract IView CreateView(VirtualPath pathToView, ResourceResolver resolver);
+        protected abstract IView CreateView(VirtualPath pathToView, IResourceResolver resolver);
     }
 }

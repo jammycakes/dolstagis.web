@@ -15,6 +15,6 @@ namespace Dolstagis.Web.Views
         /// <returns>
         ///  The view, if it exists, or null if it doesn't.
         /// </returns>
-        IView GetView(VirtualPath pathToView, ResourceResolver resolver);
+        IView GetView(VirtualPath pathToView, IResourceResolver resolver);
     }
 }

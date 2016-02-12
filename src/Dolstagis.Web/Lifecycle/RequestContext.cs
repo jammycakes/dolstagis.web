@@ -1,11 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using Dolstagis.Web.Auth;
+using Dolstagis.Web.Features.Impl;
+using Dolstagis.Web.IoC;
 using Dolstagis.Web.Http;
 using Dolstagis.Web.Sessions;
-using Dolstagis.Web.Static;
+using System.Collections;
 
 namespace Dolstagis.Web.Lifecycle
 {
@@ -15,24 +17,27 @@ namespace Dolstagis.Web.Lifecycle
         private IAuthenticator _authenticator;
         private ISession _session = null;
         private IUser _user = null;
-        private IServiceProvider _container;
+        private IServiceLocator _container;
 
         public RequestContext(IRequest request, IResponse response,
             ISessionStore sessionStore, IAuthenticator authenticator,
-            IIoCContainer container)
+            IIoCContainer container, FeatureSet features)
         {
             Request = request;
             Response = response;
             _sessionStore = sessionStore;
             _authenticator = authenticator;
             _container = new ContainerWrapper(container);
+            Features = features;
         }
 
-        public IServiceProvider Container { get { return _container; } }
+        public IServiceLocator Container { get { return _container; } }
 
         public IRequest Request { get; private set; }
 
         public IResponse Response { get; private set; }
+
+        public FeatureSet Features { get; private set; }
 
         public ISession Session {
             get {
@@ -68,49 +73,52 @@ namespace Dolstagis.Web.Lifecycle
             return _user;
         }
 
-        public IList<ActionInvocation> Actions { get; set; }
-
 
         /* ====== Invoking the request ====== */
 
         public async Task<object> InvokeRequest()
         {
-            var actions = Actions.Where(x => x.Method != null);
+            var invocation = Features.GetRouteInvocation(Request);
+            var controller = invocation.Target.GetController(Container);
+            if (controller == null) return Status.NotFound;
+            Type controllerType = controller.GetType();
 
-            if (Request.Path.Parts.Any() || actions.Any()) {
-                foreach (var action in actions) {
-                    if (IsLoginRequired(action)) {
-                        return await GetLoginResult();
-                    }
-                    var result = this.Invoke(action);
-                    if (result is Task) {
-                        await (Task)result;
-                        return ((dynamic)result).Result;
-                    }
-                    else if (result != null) {
-                        return result;
-                    }
+            var method = controllerType.GetMethod(Request.Method,
+                BindingFlags.Instance | BindingFlags.IgnoreCase |
+                BindingFlags.Public | BindingFlags.DeclaredOnly);
+            if (method == null) {
+                if (Request.Method.Equals("head", StringComparison.OrdinalIgnoreCase)) {
+                    method = controllerType.GetMethod(Request.Method,
+                        BindingFlags.Instance | BindingFlags.IgnoreCase |
+                        BindingFlags.Public | BindingFlags.DeclaredOnly);
                 }
-                throw new HttpStatusException(Status.NotFound);
             }
-            else {
-                return new StaticResult(new VirtualPath("~/_dolstagis/index.html"));
+
+            if (method == null) return Status.NotFound;
+
+            var modelBinder = invocation.Feature.ModelBinder;
+            var arguments = modelBinder.GetArguments(invocation, Request, method);
+
+            if (IsLoginRequired(method)) {
+                return await GetLoginResult();
             }
+
+            var result = method.Invoke(controller, arguments);
+            if (result is Task) {
+                await (Task)result;
+                return ((dynamic)result).Result;
+            }
+            else if (result != null) {
+                return result;
+            }
+
+            return Status.NotFound;
         }
 
-        private object Invoke(ActionInvocation action)
+        protected virtual bool IsLoginRequired(MethodInfo method)
         {
-            var instance = _container.GetService(action.ControllerType);
-            if (instance is Controller) {
-                ((Controller)instance).Context = this;
-            }
-            return action.Method.Invoke(instance, action.Arguments.ToArray());
-        }
-
-        protected virtual bool IsLoginRequired(ActionInvocation action)
-        {
-            var attributes = action.Method.GetCustomAttributes(true).OfType<IRequirement>()
-                .Concat(action.ControllerType.GetCustomAttributes(true).OfType<IRequirement>());
+            var attributes = method.GetCustomAttributes(true).OfType<IRequirement>()
+                .Concat(method.DeclaringType.GetCustomAttributes(true).OfType<IRequirement>());
             return attributes.Any(x => x.IsDenied(this));
         }
 
@@ -137,19 +145,23 @@ namespace Dolstagis.Web.Lifecycle
         }
 
 
-
-        private class ContainerWrapper : IServiceProvider
+        private class ContainerWrapper : IServiceLocator
         {
-            private IServiceProvider _provider;
+            private IServiceLocator _provider;
 
-            public ContainerWrapper(IServiceProvider provider)
+            public ContainerWrapper(IServiceLocator provider)
             {
                 _provider = provider;
             }
 
-            public object GetService(Type serviceType)
+            public object Get(Type serviceType)
             {
-                return _provider.GetService(serviceType);
+                return _provider.Get(serviceType);
+            }
+
+            public IEnumerable GetAll(Type itemType)
+            {
+                return _provider.GetAll(itemType);
             }
         }
     }

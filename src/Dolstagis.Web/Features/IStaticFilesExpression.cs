@@ -1,10 +1,11 @@
 ﻿using System;
-using System.IO;
+using Dolstagis.Web.IoC;
+using Dolstagis.Web.Static;
 
 namespace Dolstagis.Web.Features
 {
     public interface IStaticFilesExpression
     {
-        void FromStream(Func<VirtualPath, IServiceProvider, Stream> streamLocator);
+        void FromResource(Func<VirtualPath, IServiceLocator, IResource> locator);
     }
 }

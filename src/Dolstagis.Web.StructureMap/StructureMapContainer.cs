@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using StructureMap;
-using StructureMap.Pipeline;
+using Dolstagis.Web.IoC;
+using System.Collections;
 
 namespace Dolstagis.Web.StructureMap
 {
@@ -20,7 +19,7 @@ namespace Dolstagis.Web.StructureMap
             this._container = container;
             this._container.Configure(x => {
                 x.For<IIoCContainer>().Use(this);
-                x.For<IServiceProvider>().Use(this);
+                x.For<IServiceLocator>().Use(this);
             });
         }
 
@@ -42,18 +41,11 @@ namespace Dolstagis.Web.StructureMap
 
         public virtual IIoCContainer GetChildContainer()
         {
-            return new StructureMapDomainContainer(_container.CreateChildContainer());
+            return new StructureMapFeatureContainer(_container.CreateChildContainer());
         }
 
-        public object GetService(Type serviceType)
+        public object Get(Type serviceType)
         {
-            if (serviceType.IsGenericType && serviceType.GetGenericTypeDefinition() == typeof(IEnumerable<>)) {
-                var itemType = serviceType.GetGenericArguments().FirstOrDefault();
-                if (Container.Model.HasImplementationsFor(itemType)) {
-                    return Container.GetInstance(serviceType);
-                }
-            }
-
             if (serviceType.IsAbstract || serviceType.IsInterface ||
                 (serviceType.IsGenericType && !serviceType.IsConstructedGenericType))
                 return Container.TryGetInstance(serviceType);
@@ -61,81 +53,33 @@ namespace Dolstagis.Web.StructureMap
                 return Container.GetInstance(serviceType);
         }
 
-        public void Add(Type source, Type target, Scope scope)
+        public IEnumerable GetAll(Type instanceType)
+        {
+            return Container.GetAllInstances(instanceType);
+        }
+
+        public virtual void Add(IBinding binding)
         {
             Container.Configure(x => {
-                var entry = x.For(source).Add(target);
-                SetScope(scope, entry);
-            });
-        }
-
-        public void Use(Type source, Type target, Scope scope)
-        {
-            Container.Configure(x => {
-                var entry = x.For(source).Use(target);
-                SetScope(scope, entry);
-            });
-        }
-
-        private static void SetScope(Scope scope, ConfiguredInstance entry)
-        {
-            switch (scope) {
-                case Scope.Transient:
-                    entry.Transient();
-                    break;
-                case Scope.Application:
-                    entry.Singleton();
-                    break;
-                case Scope.Request:
-                    entry.ContainerScoped();
-                    break;
-            }
-        }
-
-        private static void SetScope(Scope scope, LambdaInstance<object> entry)
-        {
-            switch (scope) {
-                case Scope.Transient:
-                    entry.Transient();
-                    break;
-                case Scope.Application:
-                    entry.Singleton();
-                    break;
-                case Scope.Request:
-                    entry.ContainerScoped();
-                    break;
-            }
-        }
-
-        public void Add(Type source, Func<IIoCContainer, object> target, Scope scope)
-        {
-            Container.Configure(x => {
-                var entry = x.For(source).Add(ctx => target(ctx.GetInstance<IIoCContainer>()));
-                SetScope(scope, entry);
-            });
-        }
-
-        public void Use(Type source, Func<IIoCContainer, object> target, Scope scope)
-        {
-            Container.Configure(x => {
-                var entry = x.For(source).Use(ctx => target(ctx.GetInstance<IIoCContainer>()));
-                SetScope(scope, entry);
-            });
-        }
-
-        public void Add(Type source, object target)
-        {
-            Container.Configure(x => {
-                var entry = x.For(source).Add(target);
-                entry.Transient();
-            });
-        }
-
-        public void Use(Type source, object target)
-        {
-            Container.Configure(x => {
-                var entry = x.For(source).Use(target);
-                entry.Transient();
+                var from = x.For(binding.SourceType);
+                if (binding.TargetType != null) {
+                    var to = binding.Multiple
+                    ? from.Add(binding.TargetType)
+                    : from.Use(binding.TargetType);
+                    if (binding.Transient) to.Transient(); else to.Singleton();
+                }
+                else if (binding.TargetFunc != null) {
+                    var to = binding.Multiple
+                        ? from.Add(ctr => binding.TargetFunc(this))
+                        : from.Use(ctr => binding.TargetFunc(this));
+                    if (binding.Transient) to.Transient(); else to.Singleton();
+                }
+                else if (binding.Target != null) {
+                    var to = binding.Multiple
+                        ? from.Add(binding.Target)
+                        : from.Use(binding.Target);
+                    if (binding.Transient) to.Transient(); else to.Singleton();
+                }
             });
         }
 
@@ -157,15 +101,58 @@ namespace Dolstagis.Web.StructureMap
             this.Container.Configure(x => x.AddRegistry<TRegistry>());
         }
 
-        private class StructureMapDomainContainer : StructureMapContainer
+        private class StructureMapFeatureContainer : StructureMapContainer
         {
-            public StructureMapDomainContainer(IContainer container)
+            public StructureMapFeatureContainer(IContainer container)
                 : base(container)
             { }
 
             public override IIoCContainer GetChildContainer()
             {
-                return new StructureMapContainer(_container.GetNestedContainer());
+                return new StructureMapRequestContainer(_container.GetNestedContainer(), this);
+            }
+        }
+
+        private class StructureMapRequestContainer : StructureMapContainer
+        {
+            private StructureMapFeatureContainer _parent;
+
+            public StructureMapRequestContainer(IContainer container, StructureMapFeatureContainer parent)
+                : base(container)
+            {
+                _parent = parent;
+            }
+
+            public override IIoCContainer GetChildContainer()
+            {
+                return new StructureMapRequestContainer(_container.GetNestedContainer(), _parent);
+            }
+
+            public override void Add(IBinding binding)
+            {
+                if (binding.Transient) {
+                    base.Add(binding);
+                }
+                else {
+                    _parent.Container.Configure(x => {
+                        var from = x.For(binding.SourceType).ContainerScoped();
+                        if (binding.TargetType != null) {
+                            var to = binding.Multiple
+                            ? from.Add(binding.TargetType)
+                            : from.Use(binding.TargetType);
+                        }
+                        else if (binding.TargetFunc != null) {
+                            var to = binding.Multiple
+                                ? from.Add(ctr => binding.TargetFunc(this))
+                                : from.Use(ctr => binding.TargetFunc(this));
+                        }
+                        else if (binding.Target != null) {
+                            var to = binding.Multiple
+                                ? from.Add(binding.Target)
+                                : from.Use(binding.Target);
+                        }
+                    });
+                }
             }
         }
     }

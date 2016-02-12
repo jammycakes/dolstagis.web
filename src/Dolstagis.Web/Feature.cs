@@ -1,10 +1,13 @@
 ﻿using System;
-using System.Linq;
 using Dolstagis.Web.Features;
 using Dolstagis.Web.Features.Impl;
+using Dolstagis.Web.IoC;
+using Dolstagis.Web.IoC.DSL;
+using Dolstagis.Web.IoC.Impl;
 using Dolstagis.Web.Logging;
 using Dolstagis.Web.Routes;
 using Dolstagis.Web.Static;
+using Dolstagis.Web.Views;
 
 namespace Dolstagis.Web
 {
@@ -24,6 +27,8 @@ namespace Dolstagis.Web
         private RouteTable _routes = new RouteTable();
         private readonly ContainerConfiguration _containerConfiguration
             = new ContainerConfiguration();
+        private IModelBinder _modelBinder = ModelBinding.ModelBinder.Default;
+        private ViewTable _views = new ViewTable();
 
         /// <summary>
         ///  Creates a new instance of this feature.
@@ -31,7 +36,6 @@ namespace Dolstagis.Web
 
         protected Feature()
         {
-            this.ModelBinder = Dolstagis.Web.ModelBinding.ModelBinder.Default;
             _containerConfiguration.ConfiguringApplication += (s, e) =>
                 _switch.AssertNotDefined(
                     "You can not register services in the IOC container at Application level in " +
@@ -94,6 +98,10 @@ namespace Dolstagis.Web
         }
 
 
+        /// <summary>
+        ///  Configures the IOC containers.
+        /// </summary>
+
         protected IContainerExpression Container
         {
             get {
@@ -116,17 +124,53 @@ namespace Dolstagis.Web
 
 
         /// <summary>
-        ///  Provides a fluent interface to configure routes to controllers.
+        ///  Configures the model binder for controllers defined in this feature.
         /// </summary>
+        /// <typeparam name="TModelBinder"></typeparam>
 
-        protected IRouteExpression Route(VirtualPath specification)
+        protected void ModelBinder<TModelBinder>()
+            where TModelBinder : IModelBinder, new()
         {
             AssertConstructing();
-            return _routes.Add(specification);
+            _modelBinder = new TModelBinder();
         }
 
 
+        /// <summary>
+        ///  Configures the model binder for controllers defined in this feature.
+        /// </summary>
+        /// <param name="binder"></param>
 
+        protected void ModelBinder(IModelBinder binder)
+        {
+            AssertConstructing();
+            _modelBinder = binder;
+        }
+
+
+        /// <summary>
+        ///  Provides a fluent interface to configure routes to controllers.
+        /// </summary>
+
+        protected IRouteExpression Route
+        {
+            get {
+                AssertConstructing();
+                return new RouteExpression(_routes, this);
+            }
+        }
+
+        /// <summary>
+        ///  Provides a fluent interface to configure routes to views.
+        /// </summary>
+        /// <param name="specification"></param>
+        /// <returns></returns>
+
+        protected IStaticFilesExpression Views(VirtualPath specification)
+        {
+            AssertConstructing();
+            return new ViewExpression(_views, specification);
+        }
 
         /* ====== Public properties and methods ====== */
 
@@ -135,7 +179,7 @@ namespace Dolstagis.Web
          * classes, specifically, the rest of the framework.
          * 
          * To avoid polluting IntelliSense with irrelevancies, these must be
-         * declared as members of tie IFeature interface, which must be
+         * declared as members of the IFeature interface, which must be
          * implemented explicitly as shown below.
          *
          * They must also set _constructed = true to ensure that they signal
@@ -174,6 +218,7 @@ namespace Dolstagis.Web
 
         RouteInvocation IFeature.GetRouteInvocation(VirtualPath path)
         {
+            _constructed = true;
             return _routes.GetRouteInvocation(path, this);
         }
 
@@ -185,128 +230,38 @@ namespace Dolstagis.Web
         IContainerBuilder IFeature.ContainerBuilder
         {
             get {
+                _constructed = true;
                 return _containerConfiguration.Builder;
             }
         }
 
-        #region /* ====== Old API, being replaced with the new fluent API ====== */
-
 
         /// <summary>
-        ///  Gets or sets the <see cref="IModelBinder"/> instance used to invoke
+        ///  Gets the <see cref="IModelBinder"/> instance used to invoke
         ///  actions provided by this feature.
         /// </summary>
 
-        public IModelBinder ModelBinder { get; set; }
-
-
-        /// <summary>
-        ///  Registers a <see cref="Controller"/> in this feature by type,
-        ///  with a route specified in a [Route] attribute on the controller
-        ///  class declaration.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-
-        public void AddController<T>()
-        {
-            var attributes = typeof(T).GetCustomAttributes(typeof(RouteAttribute), true);
-            if (!attributes.Any()) {
-                throw new ArgumentException("Type " + typeof(T) + " does not declare any routes, and no route was specified.");
-            }
-
-            foreach (RouteAttribute attr in attributes) {
-                AddController<T>(attr.Route);
+        IModelBinder IFeature.ModelBinder {
+            get {
+                _constructed = true;
+                return _modelBinder;
             }
         }
 
         /// <summary>
-        ///  Registers a <see cref="Controller"/> in this feature with a specified route.
+        ///  Gets the <see cref="ViewTable"/> instance used to look up views.
         /// </summary>
-        /// <typeparam name="T">
-        ///  The type of this controller.
-        /// </typeparam>
-        /// <param name="route">
-        ///  The route definition for this controller.
-        /// </param>
 
-        public void AddController<T>(VirtualPath route)
+        ViewTable IFeature.Views
         {
-            this._routes.Add(route, new RouteTarget(typeof(T)));
-        }
-
-        /* ====== AddStaticFiles and AddViews helper methods ====== */
-
-        protected void AddStaticResources(ResourceType type, VirtualPath path, Func<IIoCContainer, IResourceLocation> locationFactory)
-        {
-            Container.Setup.Feature(c => {
-                c.Add<ResourceMapping>(ioc => new ResourceMapping(type, path, locationFactory(ioc)), Scope.Request);
-            });
-       }
-
-        protected void AddStaticResources(ResourceType type, VirtualPath path, IResourceLocation location)
-        {
-            Container.Setup.Feature(c => {
-                c.Add<ResourceMapping>(new ResourceMapping(type, path, location));
-            });
-        }
-
-        protected void AddStaticResources(ResourceType type, VirtualPath path, string physicalPath)
-        {
-            AddStaticResources(type, path, new FileResourceLocation(physicalPath));
-            AddStaticFilesController(path);
-        }
-
-        private void AddStaticFilesController(VirtualPath path)
-        {
-            AddController<StaticRequestController>(path.Append("{path*}"));
-        }
-
-        /* ====== AddStaticFiles methods ====== */
-
-        /// <summary>
-        ///  Registers a directory or file of static files,
-        ///  using a location created with dependencies taken from the IOC container.
-        /// </summary>
-        /// <param name="path"></param>
-        /// <param name="locationFactory"></param>
-
-        public void AddStaticFiles(VirtualPath path, Func<IIoCContainer, IResourceLocation> locationFactory)
-        {
-            AddStaticResources(ResourceType.StaticFiles, path, locationFactory);
-            AddStaticFilesController(path);
+            get {
+                _constructed = true;
+                return _views;
+            }
         }
 
 
-        /// <summary>
-        ///  Registers a directory or file of static files at the specified location.
-        /// </summary>
-        /// <param name="path"></param>
-        /// <param name="location"></param>
-
-        public void AddStaticFiles(VirtualPath path, IResourceLocation location)
-        {
-            AddStaticResources(ResourceType.StaticFiles, path, location);
-            AddStaticFilesController(path);
-        }
-
-
-        /// <summary>
-        ///  Registers a directory or file of static files at a different mapping from
-        ///  that within the filespace of the website.
-        /// </summary>
-        /// <param name="path">
-        ///  The virtual path to the static file or directory.
-        /// </param>
-        /// <param name="physicalPath">
-        ///  The physical path to the static file or directory. This may be either relative
-        ///  to the application root, or else an absolute path.
-        /// </param>
-
-        public void AddStaticFiles(VirtualPath path, string physicalPath)
-        {
-            AddStaticResources(ResourceType.StaticFiles, path, physicalPath);
-            AddStaticFilesController(path);
-        }
+        #region /* ====== Old API, being replaced with the new fluent API ====== */
 
 
         /* ====== AddViews methods ====== */
@@ -318,21 +273,33 @@ namespace Dolstagis.Web
         /// <param name="path"></param>
         /// <param name="locationFactory"></param>
 
-        public void AddViews(VirtualPath path, Func<IIoCContainer, IResourceLocation> locationFactory)
+        [Obsolete("Deprecated in favour of View(...) fluent API")]
+        protected void AddViews(VirtualPath path, Func<IIoCContainer, IResourceLocation> locationFactory)
         {
-            AddStaticResources(ResourceType.Views, path, locationFactory);
+            AssertConstructing();
+            Container.Setup.Request.Bindings(bind => {
+                bind.From<ResourceMapping>()
+                    .To(ioc => new ResourceMapping(path, locationFactory(ioc)))
+                    .Managed();
+            });
         }
 
 
         /// <summary>
         ///  Registers a directory or file of views at the specified location.
         /// </summary>
-        /// <param name="vPath"></param>
+        /// <param name="path"></param>
         /// <param name="location"></param>
 
-        public void AddViews(VirtualPath vPath, IResourceLocation location)
+        [Obsolete("Deprecated in favour of View(...) fluent API")]
+        protected void AddViews(VirtualPath path, IResourceLocation location)
         {
-            AddStaticResources(ResourceType.Views, vPath, location);
+            AssertConstructing();
+            Container.Setup.Feature.Bindings(bind => {
+                bind.From<ResourceMapping>()
+                    .To(new ResourceMapping(path, location))
+                    .Managed();
+            });
         }
 
 
@@ -348,9 +315,10 @@ namespace Dolstagis.Web
         ///  to the application root, or else an absolute path.
         /// </param>
 
+        [Obsolete("Deprecated in favour of View(...) fluent API")]
         public void AddViews(VirtualPath path, string physicalPath)
         {
-            AddStaticResources(ResourceType.Views, path, physicalPath);
+            AddViews(path, new FileResourceLocation(physicalPath));
         }
 
         #endregion

@@ -5,6 +5,7 @@ using System.Reflection;
 using Dolstagis.Web;
 using Dolstagis.Web.Features;
 using Dolstagis.Web.Http;
+using Dolstagis.Web.IoC;
 using Dolstagis.Web.ModelBinding;
 using Dolstagis.Web.Routes;
 using Dolstagis.Web.StructureMap;
@@ -36,9 +37,9 @@ namespace Dolstagis.Tests.Web.ModelBinding
         public void CreateModelBinder()
         {
             var container = new StructureMapContainer();
-            IFeature coreServices = new CoreServices();
+            IFeature coreServices = new Dolstagis.Web.Lifecycle.CoreServices();
             coreServices.ContainerBuilder.SetupApplication(container);
-            binder = container.GetService<ModelBinder>();
+            binder = container.Get<ModelBinder>();
         }
 
 

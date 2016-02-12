@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using System.Threading.Tasks;
 using Dolstagis.Web.Auth;
 using Dolstagis.Web.Features.Impl;
 using Dolstagis.Web.Http;
+using Dolstagis.Web.IoC;
 using Dolstagis.Web.Lifecycle.ResultProcessors;
-using Dolstagis.Web.Routes;
 using Dolstagis.Web.Sessions;
 
 namespace Dolstagis.Web.Lifecycle
@@ -47,8 +46,10 @@ namespace Dolstagis.Web.Lifecycle
         public async Task ProcessRequestAsync(IRequest request, IResponse response)
         {
             using (var childContainer = _featureSetContainer.GetChildContainer()) {
-                var context = CreateContext(request, response, childContainer);
-                childContainer.Use<IRequestContext>(context);
+                var context = new RequestContext
+                    (request, response, _sessionStore, _authenticator, childContainer, _features);
+                childContainer.Add(Binding<IRequestContext>
+                    .From(cfg => cfg.Only().To(context).Managed()));
 
                 foreach (var feature in _features.Features) {
                     feature.ContainerBuilder.SetupRequest(childContainer);
@@ -87,7 +88,6 @@ namespace Dolstagis.Web.Lifecycle
         {
             try {
                 object result;
-                IResultProcessor processor;
 
                 try {
                     result = await context.InvokeRequest();
@@ -96,80 +96,54 @@ namespace Dolstagis.Web.Lifecycle
                     await context.PersistSession();
                 }
 
-                if (context.Request.Method.Equals("head", StringComparison.OrdinalIgnoreCase)) {
-                    processor = HeadResultProcessor.Instance;
-                }
-                else {
-                    processor = _resultProcessors.LastOrDefault(x => x.CanProcess(result));
-                }
-                if (processor == null) Status.NotFound.Throw();
-                await processor.Process(result, context);
+                if (!await ProcessResultAsync(context, result)) Status.NotAcceptable.Throw();
             }
             catch (Exception ex) {
-                var fault = ex;
-                while (fault is AggregateException && ((AggregateException)fault).InnerExceptions.Count == 1) {
-                    fault = ((AggregateException)fault).InnerExceptions.Single();
-                }
-                await HandleException(context, fault);
+                await HandleException(context, ex);
             }
         }
 
-        public virtual async Task HandleException(IRequestContext context, Exception fault)
+        private async Task<bool> ProcessResultAsync(IRequestContext context, object result)
         {
+            var processors =
+                from rp in _resultProcessors
+                let match = rp.Match(result, context)
+                where match.Match != Match.None
+                orderby match.Match descending, match.Q descending
+                select rp;
+            IResultProcessor processor = processors.FirstOrDefault();
+            if (processor == null) return false;
+
+            if (context.Request.Method.Equals("head", StringComparison.OrdinalIgnoreCase)) {
+                processor = new HeadResultProcessor(processor);
+            }
+
+            await processor.ProcessHeadersAsync(result, context);
+            await processor.ProcessBodyAsync(result, context);
+            return true;
+        }
+
+
+        private async Task HandleException(IRequestContext context, Exception ex)
+        {
+            var fault = ex;
+            while (fault is AggregateException && ((AggregateException)fault).InnerExceptions.Count == 1) {
+                fault = ((AggregateException)fault).InnerExceptions.Single();
+            }
             foreach (var handler in _exceptionHandlers)
             {
                 await handler.HandleException(context, fault);
             }
+            await ProcessResultAsync(context, fault);
         }
-
-        private IEnumerable<ActionInvocation> GetActions(IRequest request)
-        {
-            var routeInvocation = _features.GetRouteInvocation(request);
-            if (routeInvocation != null) {
-                var action = GetAction(request, routeInvocation);
-                yield return action;
-            }
-        }
-
-        private ActionInvocation GetAction(IRequest request, RouteInvocation route)
-        {
-            var action = new ActionInvocation();
-            action.ControllerType = route.Target.ControllerType;
-            var method = action.ControllerType.GetMethod(request.Method,
-                BindingFlags.Instance | BindingFlags.IgnoreCase |
-                BindingFlags.Public | BindingFlags.DeclaredOnly);
-            if (method == null)
-            {
-                if (request.Method.Equals("head", StringComparison.OrdinalIgnoreCase))
-                {
-                    method = action.ControllerType.GetMethod("get",
-                        BindingFlags.Instance | BindingFlags.IgnoreCase |
-                        BindingFlags.Public | BindingFlags.DeclaredOnly);
-                    if (method == null)
-                    {
-                        return action;
-                    }
-                }
-                else
-                {
-                    return action;
-                }
-            }
-
-            action.Method = method;
-            action.Arguments = route.Feature.ModelBinder.GetArguments(route, request, method);
-            return action;
-        }
-
+        
         // TODO: this is only used in one of the tests. Need to either refactor the test
         // or else use [InternalsVisibleTo]. We shouldn't be exposing RequestContext
         // in the public API, only IRequestContext.
 
         public RequestContext CreateContext(IRequest request, IResponse response, IIoCContainer requestContainer)
         {
-            return new RequestContext(request, response, _sessionStore, _authenticator, requestContainer) {
-                Actions = GetActions(request).ToList()
-            };
+            return new RequestContext(request, response, _sessionStore, _authenticator, requestContainer, _features);
         }
     }
 }

@@ -4,8 +4,8 @@
     {
         public NustacheFeature()
         {
-            Container.Setup.Application(c => {
-                c.Add<IViewEngine, NustacheViewEngine>(Scope.Application);
+            Container.Setup.Application.Bindings(bind => {
+                bind.From<IViewEngine>().To<NustacheViewEngine>().Managed();
             });
         }
     }

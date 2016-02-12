@@ -11,7 +11,7 @@ namespace Dolstagis.Web.Lifecycle.ResultProcessors
         private ContentResultProcessor()
         { }
 
-        public override async Task ProcessBody(ContentResult data, IRequestContext context)
+        protected override async Task ProcessTypedBodyAsync(ContentResult data, IRequestContext context)
         {
             if (!String.IsNullOrEmpty(data.Content))
             {

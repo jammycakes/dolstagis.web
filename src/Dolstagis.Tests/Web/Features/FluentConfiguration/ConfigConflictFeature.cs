@@ -11,7 +11,7 @@ namespace Dolstagis.Tests.Web.Features.FluentConfiguration
             }
 
             if (mapGlobal) {
-                Container.Setup.Application(c => { });
+                Container.Setup.Application.Container(c => { });
             }
 
             if (createSwitchSecond) {

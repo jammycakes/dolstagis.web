@@ -1,12 +1,16 @@
-﻿using Dolstagis.Web.Routes;
+﻿using Dolstagis.Web.IoC;
+using Dolstagis.Web.Routes;
+using Dolstagis.Web.Views;
 
 namespace Dolstagis.Web.Features
 {
-    public interface IFeature : ILegacyFeature
+    public interface IFeature
     {
         IFeatureSwitch Switch { get; }
         string Description { get; }
         RouteInvocation GetRouteInvocation(VirtualPath path);
         IContainerBuilder ContainerBuilder { get; }
+        IModelBinder ModelBinder { get; }
+        ViewTable Views { get; }
     }
 }

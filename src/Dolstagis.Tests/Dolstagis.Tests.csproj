@@ -76,13 +76,13 @@
     <Compile Include="IoC\Common\Dependency.cs" />
     <Compile Include="IoC\Common\IDependency.cs" />
     <Compile Include="IoC\Common\IService.cs" />
-    <Compile Include="IoC\Common\ContainerFixture.cs" />
     <Compile Include="IoC\Common\Service.cs" />
-    <Compile Include="IoC\StructureMap\StructureMapFixture.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Web\Features\FeatureSetFixture.cs" />
     <Compile Include="Web\Features\FluentConfiguration\ConfigConflictFixture.cs" />
     <Compile Include="Web\Features\FluentConfiguration\ConfigConflictFeature.cs" />
+    <Compile Include="Web\Lifecycle\TextResultProcessorFixture.cs" />
+    <Compile Include="Web\Lifecycle\JsonResultProcessorFixture.cs" />
     <Compile Include="Web\Lifecycle\RequestProcessorFixture.cs" />
     <Compile Include="Web\Logging\LoggerFixture.cs" />
     <Compile Include="Web\ModelBinding\ObjectBindingFixture.cs" />
@@ -90,6 +90,7 @@
     <Compile Include="Web\Owin\OwinFixtureBase.cs" />
     <Compile Include="Web\Owin\RequestFixture.cs" />
     <Compile Include="Web\Routes\RouteTableFixture.cs" />
+    <Compile Include="Web\Routes\RouteTargetFixture.cs" />
     <Compile Include="Web\Sessions\SessionFixture.cs" />
     <Compile Include="Web\Static\AssemblyResourceLocationFixture.cs" />
     <Compile Include="Web\TestFeatures\CustomRouteFeature.cs" />
@@ -113,6 +114,10 @@
     <ProjectReference Include="..\Dolstagis.Web.StructureMap\Dolstagis.Web.StructureMap.csproj">
       <Project>{7ba05c38-f6ce-412a-ac78-9de7ba57fc1a}</Project>
       <Name>Dolstagis.Web.StructureMap</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Dolstagis.Web.Testing\Dolstagis.Web.Testing.csproj">
+      <Project>{adcad4a0-c8e9-4095-aebe-c5e38bd38a69}</Project>
+      <Name>Dolstagis.Web.Testing</Name>
     </ProjectReference>
     <ProjectReference Include="..\Dolstagis.Web\Dolstagis.Web.csproj">
       <Project>{e0e930ff-37b5-4495-8a73-3f69073e4629}</Project>
@@ -146,7 +151,9 @@
       <Link>Properties\VersionInfo.cs</Link>
     </Compile>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="IoC\StructureMap\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

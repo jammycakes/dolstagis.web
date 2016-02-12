@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Dolstagis.Web.Http;
+using Dolstagis.Web.IoC;
 using Dolstagis.Web.Lifecycle;
 using Dolstagis.Web.Routes;
 
@@ -42,21 +43,22 @@ namespace Dolstagis.Web.Features.Impl
             this.Features = features.ToList().AsReadOnly();
             if (application != null)
             {
-                this.Container = application.Container.GetChildContainer();
-                this.Container.Use<FeatureSet>(this);
-                this.Container.Use<RequestProcessor, RequestProcessor>(Scope.Application);
+                Container = application.Container.GetChildContainer();
+                Container.Add(Binding<FeatureSet>.From(b => b.Only().To(this)));
+                Container.Add(Binding<RequestProcessor>
+                    .From(b => b.Only().To<RequestProcessor>().Managed()));
                 foreach (var feature in Features) {
-                    Container.Add<IFeature>(feature);
-                    feature.ContainerBuilder.SetupDomain(this.Container);
+                    Container.Add(Binding<IFeature>.From(b => b.To(feature).Managed()));
+                    feature.ContainerBuilder.SetupFeature(Container);
                 }
 
-                if (application.Settings.Debug) this.Container.Validate();
+                if (application.Settings.Debug) Container.Validate();
             }
         }
 
         public RequestProcessor GetRequestProcessor()
         {
-            return this.Container.GetService<RequestProcessor>();
+            return Container.Get<RequestProcessor>();
         }
 
 

@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using Dolstagis.Web.Lifecycle;
 
 namespace Dolstagis.Web
 {
@@ -12,7 +13,7 @@ namespace Dolstagis.Web
         ///  true if this processor can handle data of this type, otherwise false.
         /// </returns>
 
-        bool CanProcess(object data);
+        MatchResult Match(object data, IRequestContext context);
 
         /// <summary>
         ///  Processes the data returned from the controller and sends the output to the response.
@@ -25,6 +26,8 @@ namespace Dolstagis.Web
         /// </param>
         /// <returns>A <see cref="Task"/> instance.</returns>
 
-        Task Process(object data, IRequestContext context);
+        Task ProcessHeadersAsync(object data, IRequestContext context);
+
+        Task ProcessBodyAsync(object data, IRequestContext context);
     }
 }

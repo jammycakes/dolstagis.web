@@ -9,10 +9,10 @@ namespace Dolstagis.Web.Views.DotLiquid
     public class DotLiquidView : IView
     {
         private VirtualPath _path;
-        private ResourceResolver _resolver;
+        private IResourceResolver _resolver;
         private Template _template;
 
-        public DotLiquidView(VirtualPath path, IResource resource, ResourceResolver resolver)
+        public DotLiquidView(VirtualPath path, IResource resource, IResourceResolver resolver)
         {
             _path = path;
             _resolver = resolver;

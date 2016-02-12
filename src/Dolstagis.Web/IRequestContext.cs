@@ -1,7 +1,7 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Dolstagis.Web.Auth;
 using Dolstagis.Web.Http;
+using Dolstagis.Web.IoC;
 using Dolstagis.Web.Sessions;
 
 namespace Dolstagis.Web
@@ -15,7 +15,7 @@ namespace Dolstagis.Web
         /// <summary>
         ///  Gets an interface to the IOC container for this request.
         /// </summary>
-        IServiceProvider Container { get; }
+        IServiceLocator Container { get; }
 
         /// <summary>
         ///  Gets the <see cref="IRequest"/> instance containing the data from

@@ -18,7 +18,7 @@ namespace Dolstagis.Web.Views.DotLiquid
         {
             var templatePath = (string)context[templateName];
 
-            var resolver = context.Registers[Guid] as ResourceResolver;
+            var resolver = context.Registers[Guid] as IResourceResolver;
 
             var resource = resolver.GetResource("~/" + templatePath + ".liquid");
             using (var stream = resource.Open())

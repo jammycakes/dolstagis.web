@@ -56,14 +56,6 @@ namespace Dolstagis.Web.Routes
             }
         }
 
-
-        public IRouteExpression Add(VirtualPath specification)
-        {
-            var target = new NewRouteTarget();
-            Add(specification, target);
-            return target;
-        }
-
         private IEnumerable<Node> GetCandidates(Node node, string[] path, int index)
         {
             if (index >= path.Length || (node is Parameter && ((Parameter)node).Greedy))

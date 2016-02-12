@@ -6,15 +6,34 @@ namespace Dolstagis.Web.Http
 {
     public class RequestHeaders : HttpDictionary
     {
+        private Lazy<IList<Option>> _accept;
+        private Lazy<IList<Option>> _acceptEncoding;
+        private Lazy<IList<Option>> _acceptLanguage;
         private Lazy<IDictionary<string, Cookie>> _cookies;
 
         public RequestHeaders(IDictionary<string, string[]> inner)
             : base(inner)
         {
+            _accept = new Lazy<IList<Option>>(() => GetOptions("Accept"));
+            _acceptEncoding = new Lazy<IList<Option>>(() => GetOptions("Accept-Encoding"));
+            _acceptLanguage = new Lazy<IList<Option>>(() => GetOptions("Accept-Language"));
             _cookies = new Lazy<IDictionary<string, Cookie>>(GetCookies);
         }
-        public IDictionary<string, Cookie> Cookies
-        { get { return _cookies.Value;} }
+
+        public IList<Option> Accept {  get { return _accept.Value; } }
+
+        public IList<Option> AcceptEncoding { get { return _acceptEncoding.Value; } }
+
+        public IList<Option> AcceptLanguage { get { return _acceptLanguage.Value; } }
+
+        public string ContentType
+        {
+            get { return this.GetValue("Content-Type"); }
+            set { this.SetValue("Content-Type", value); }
+        }
+
+        public IDictionary<string, Cookie> Cookies { get { return _cookies.Value;} }
+
 
         private IDictionary<string, Cookie> GetCookies()
         {
@@ -37,10 +56,21 @@ namespace Dolstagis.Web.Http
             return cookies;
         }
 
-        public string ContentType
+
+        private IList<Option> GetOptions(string header)
         {
-            get { return this.GetValue("Content-Type"); }
-            set { this.SetValue("Content-Type", value); }
+            string[] optHeaders;
+            if (this.TryGetValue(header, out optHeaders)) {
+                var result =
+                    from h in optHeaders
+                    from option in Option.ParseAll(h)
+                    orderby option.Q descending
+                    select option;
+                return result.ToList();
+            }
+            else {
+                return new List<Option>();
+            }
         }
     }
 }

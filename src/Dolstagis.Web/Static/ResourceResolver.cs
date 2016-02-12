@@ -1,15 +1,17 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Dolstagis.Web.Static
 {
-    public class ResourceResolver
+    [Obsolete("Deprecate this in favour of ViewTable")]
+    public class ResourceResolver : IResourceResolver
     {
         private IEnumerable<ResourceMapping> _mappings;
 
-        public ResourceResolver(ResourceType type, IEnumerable<ResourceMapping> mappings)
+        public ResourceResolver(IEnumerable<ResourceMapping> mappings)
         {
-            _mappings = mappings.Where(x => x.Type == type).ToList(); ;
+            _mappings = mappings.ToList();
         }
 
         public IResource GetResource(VirtualPath path)

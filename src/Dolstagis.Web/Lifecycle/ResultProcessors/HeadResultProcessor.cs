@@ -2,14 +2,26 @@
 
 namespace Dolstagis.Web.Lifecycle.ResultProcessors
 {
-    public class HeadResultProcessor : ResultProcessor<HeadResult>
+    public class HeadResultProcessor : IResultProcessor
     {
-        public static readonly HeadResultProcessor Instance = new HeadResultProcessor();
+        private IResultProcessor _inner;
 
-        private HeadResultProcessor()
-        { }
+        public HeadResultProcessor(IResultProcessor innerProcessor)
+        {
+            _inner = innerProcessor;
+        }
 
-        public override async Task ProcessBody(HeadResult data, IRequestContext context)
+        public MatchResult Match(object data, IRequestContext context)
+        {
+            return _inner.Match(data, context);
+        }
+
+        public async Task ProcessHeadersAsync(object data, IRequestContext context)
+        {
+            await _inner.ProcessHeadersAsync(data, context);
+        }
+
+        public async Task ProcessBodyAsync(object data, IRequestContext context)
         {
             await Task.Yield();
         }

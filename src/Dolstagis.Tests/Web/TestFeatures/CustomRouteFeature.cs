@@ -7,7 +7,7 @@ namespace Dolstagis.Tests.Web.TestFeatures
     {
         public CustomRouteFeature(string customRoute)
         {
-            AddController<ChildController>(customRoute);
+            Route.From(customRoute).To.Controller<ChildController>();
         }
     }
 }
