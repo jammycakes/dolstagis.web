@@ -10,7 +10,7 @@ namespace Dolstagis.Web.Http
     {
         public string Value { get; private set; }
 
-        public float Q { get; private set; }
+        public double Q { get; private set; }
 
         public Option(string content)
         {
@@ -18,8 +18,8 @@ namespace Dolstagis.Web.Http
             Value = parts.First();
             string qv = parts.Skip(1).Where(x => x.StartsWith("q="))
                 .Select(x => x.Substring(2)).FirstOrDefault();
-            float q;
-            Q = (float.TryParse(qv, out q)) ? q : 1;
+            double q;
+            Q = (double.TryParse(qv, out q)) ? q : 1;
         }
 
         public static IEnumerable<Option> ParseAll(string header)

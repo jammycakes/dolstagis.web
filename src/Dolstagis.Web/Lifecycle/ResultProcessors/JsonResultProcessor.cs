@@ -3,6 +3,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Dolstagis.Web.Http;
 using Newtonsoft.Json;
 
 namespace Dolstagis.Web.Lifecycle.ResultProcessors
@@ -18,22 +19,7 @@ namespace Dolstagis.Web.Lifecycle.ResultProcessors
 
         public override MatchResult MatchUntyped(object data, IRequestContext context)
         {
-            var accept = context.Request.Headers.Accept;
-            if (!accept.Any()) {
-                return MatchResult.None;
-            }
-
-            return (
-                from opt in accept
-                let isExact = reIsJson.IsMatch(opt.Value)
-                let isInexact = opt.Value == "*/*"
-                let result = new MatchResult(
-                    isExact ? Lifecycle.Match.Exact : Lifecycle.Match.Fallback,
-                    opt.Q
-                )
-                orderby result.Match descending, result.Q descending
-                select result
-            ).FirstOrDefault() ?? MatchResult.None;
+            return MatchAccept(context, reIsJson, false);
         }
 
         protected override async Task ProcessTypedBodyAsync(JsonResult data, IRequestContext context)

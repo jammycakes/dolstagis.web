@@ -1,12 +1,61 @@
 ﻿using System;
+using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Dolstagis.Web.Http;
 
 namespace Dolstagis.Web.Lifecycle
 {
-    public abstract class ResultProcessor<T> : IResultProcessor where T: ResultBase
+    public abstract class ResultProcessor : IResultProcessor
     {
-        public MatchResult Match(object data, IRequestContext context)
+        public abstract MatchResult Match(object data, IRequestContext context);
+        public abstract Task ProcessBodyAsync(object data, IRequestContext context);
+        public abstract Task ProcessHeadersAsync(object data, IRequestContext context);
+
+        protected MatchResult MatchAccept
+            (IRequestContext context, Predicate<string> test, bool fallback)
+        {
+            var accept = context.Request.Headers.Accept;
+
+            if (!accept.Any()) return fallback ? MatchResult.Fallback : MatchResult.None;
+
+            var matches = (
+                from opt in accept
+                let exact = test(opt.Value)
+                let wildcard = opt.Value == "*/*"
+                where exact || wildcard
+                let result = new MatchResult(
+                    exact
+                        ? Lifecycle.Match.Exact
+                        : (fallback ? Lifecycle.Match.Inexact : Lifecycle.Match.Fallback),
+                    opt.Q
+                )
+                orderby result.Match descending, result.Q descending
+                select result)
+                .ToList();
+            return matches.FirstOrDefault() ?? MatchResult.None;
+        }
+
+        protected MatchResult MatchAccept
+            (IRequestContext context, string contentType, bool fallback)
+        {
+            return MatchAccept(
+                context,
+                s => String.Compare(s, contentType, StringComparison.OrdinalIgnoreCase) == 0,
+                fallback
+            );
+        }
+
+        protected MatchResult MatchAccept
+            (IRequestContext context, Regex re, bool fallback)
+        {
+            return MatchAccept(context, s => re.IsMatch(s), fallback);
+        }
+    }
+
+    public abstract class ResultProcessor<T> : ResultProcessor where T: ResultBase
+    {
+        public override MatchResult Match(object data, IRequestContext context)
         {
             if (data is T) return MatchResult.Exact;
             return MatchUntyped(data, context);
@@ -18,7 +67,7 @@ namespace Dolstagis.Web.Lifecycle
         }
 
 
-        public virtual async Task ProcessHeadersAsync(object data, IRequestContext context)
+        public override async Task ProcessHeadersAsync(object data, IRequestContext context)
         {
             if (data is T) {
                 await ProcessTypedHeadersAsync((T)data, context);
@@ -28,7 +77,7 @@ namespace Dolstagis.Web.Lifecycle
             }
         }
 
-        public async Task ProcessBodyAsync(object data, IRequestContext context)
+        public override async Task ProcessBodyAsync(object data, IRequestContext context)
         {
             if (data is T) {
                 await ProcessTypedBodyAsync((T)data, context);

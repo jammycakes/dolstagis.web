@@ -8,11 +8,11 @@ namespace Dolstagis.Web.Lifecycle
 {
     public class MatchResult
     {
-        public float Q { get; private set; }
+        public double Q { get; private set; }
 
         public Match Match { get; private set; }
 
-        public MatchResult(Match match, float q)
+        public MatchResult(Match match, double q)
         {
             Match = match;
             Q = q;
@@ -20,6 +20,6 @@ namespace Dolstagis.Web.Lifecycle
 
         public static readonly MatchResult Exact = new MatchResult(Match.Exact, 1);
         public static readonly MatchResult Fallback = new MatchResult(Match.Fallback, 0);
-        public static readonly MatchResult None = new MatchResult(Match.None, 1);
+        public static readonly MatchResult None = new MatchResult(Match.None, 0);
     }
 }
