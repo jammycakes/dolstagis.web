@@ -9,8 +9,6 @@ namespace Dolstagis.Web.Lifecycle.ResultProcessors
 {
     public class TextResultProcessor : IResultProcessor
     {
-        private Encoding _encoding;
-
         public MatchResult Match(object data, IRequestContext context)
         {
             var accept = context.Request.Headers.Accept;
