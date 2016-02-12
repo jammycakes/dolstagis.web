@@ -9,9 +9,9 @@ namespace Dolstagis.Web.Static
         private static Regex reGetExtension = new Regex(@"\.[^\.]+$");
         private const string DefaultMimeType = "application/octet-stream";
 
-        protected override void ProcessHeaders(ResourceResult typedData, IRequestContext context)
+        protected override async Task ProcessTypedHeadersAsync(ResourceResult typedData, IRequestContext context)
         {
-            base.ProcessHeaders(typedData, context);
+            await base.ProcessTypedHeadersAsync(typedData, context);
             var resource = typedData.Resource;
             if (resource == null) Status.NotFound.Throw();
             context.Response.Status = Status.OK;
@@ -24,9 +24,10 @@ namespace Dolstagis.Web.Static
             if (resource.Length.HasValue) {
                 context.Response.AddHeader("Content-Length", resource.Length.Value.ToString());
             }
+            await Task.Yield();
         }
 
-        public override async Task ProcessBody(ResourceResult data, IRequestContext context)
+        protected override async Task ProcessTypedBodyAsync(ResourceResult data, IRequestContext context)
         {
             var resource = data.Resource;
             using (var stream = resource.Open()) {

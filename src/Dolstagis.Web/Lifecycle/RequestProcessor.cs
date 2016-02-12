@@ -88,7 +88,6 @@ namespace Dolstagis.Web.Lifecycle
         {
             try {
                 object result;
-                IResultProcessor processor;
 
                 try {
                     result = await context.InvokeRequest();
@@ -97,30 +96,45 @@ namespace Dolstagis.Web.Lifecycle
                     await context.PersistSession();
                 }
 
-                if (context.Request.Method.Equals("head", StringComparison.OrdinalIgnoreCase)) {
-                    processor = HeadResultProcessor.Instance;
-                }
-                else {
-                    processor = _resultProcessors.LastOrDefault(x => x.CanProcess(result));
-                }
-                if (processor == null) Status.NotFound.Throw();
-                await processor.Process(result, context);
+                if (!await ProcessResultAsync(context, result)) Status.NotFound.Throw();
             }
             catch (Exception ex) {
-                var fault = ex;
-                while (fault is AggregateException && ((AggregateException)fault).InnerExceptions.Count == 1) {
-                    fault = ((AggregateException)fault).InnerExceptions.Single();
-                }
-                await HandleException(context, fault);
+                await HandleException(context, ex);
             }
         }
 
-        public virtual async Task HandleException(IRequestContext context, Exception fault)
+        private async Task<bool> ProcessResultAsync(IRequestContext context, object result)
         {
+            var processors =
+                from rp in _resultProcessors
+                let match = rp.Match(result, context)
+                where match != Match.None
+                orderby match descending
+                select rp;
+            IResultProcessor processor = processors.FirstOrDefault();
+            if (processor == null) return false;
+
+            if (context.Request.Method.Equals("head", StringComparison.OrdinalIgnoreCase)) {
+                processor = new HeadResultProcessor(processor);
+            }
+
+            await processor.ProcessHeadersAsync(result, context);
+            await processor.ProcessBodyAsync(result, context);
+            return true;
+        }
+
+
+        private async Task HandleException(IRequestContext context, Exception ex)
+        {
+            var fault = ex;
+            while (fault is AggregateException && ((AggregateException)fault).InnerExceptions.Count == 1) {
+                fault = ((AggregateException)fault).InnerExceptions.Single();
+            }
             foreach (var handler in _exceptionHandlers)
             {
                 await handler.HandleException(context, fault);
             }
+            await ProcessResultAsync(context, fault);
         }
         
         // TODO: this is only used in one of the tests. Need to either refactor the test

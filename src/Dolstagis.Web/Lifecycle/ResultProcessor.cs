@@ -6,19 +6,39 @@ namespace Dolstagis.Web.Lifecycle
 {
     public abstract class ResultProcessor<T> : IResultProcessor where T: ResultBase
     {
-        public bool CanProcess(object data)
+        public Match Match(object data, IRequestContext context)
         {
-            return (data is T);
+            if (data is T) return Lifecycle.Match.Exact;
+            return MatchUntyped(data, context);
         }
 
-        public Task Process(object data, IRequestContext context)
+        public virtual Match MatchUntyped(object data, IRequestContext context)
         {
-            var typedData = (T)data;
-            ProcessHeaders(typedData, context);
-            return ProcessBody(typedData, context);
+            return Lifecycle.Match.None;
         }
 
-        protected virtual void ProcessHeaders(T typedData, IRequestContext context)
+
+        public virtual async Task ProcessHeadersAsync(object data, IRequestContext context)
+        {
+            if (data is T) {
+                await ProcessTypedHeadersAsync((T)data, context);
+            }
+            else {
+                await ProcessUntypedHeadersAsync(data, context);
+            }
+        }
+
+        public async Task ProcessBodyAsync(object data, IRequestContext context)
+        {
+            if (data is T) {
+                await ProcessTypedBodyAsync((T)data, context);
+            }
+            else {
+                await ProcessUntypedBodyAsync(data, context);
+            }
+        }
+
+        protected virtual async Task ProcessTypedHeadersAsync(T typedData, IRequestContext context)
         {
             // Location: header should be absolute per RFC 2616 para 14.30. Enforce this.
 
@@ -51,8 +71,20 @@ namespace Dolstagis.Web.Lifecycle
             {
                 context.Response.AddHeader("Content-Encoding", typedData.Encoding.WebName);
             }
+
+            await Task.Yield();
         }
 
-        public abstract Task ProcessBody(T data, IRequestContext context);
+        protected virtual async Task ProcessUntypedHeadersAsync(object data, IRequestContext context)
+        {
+            await Task.Yield();
+        }
+
+        protected abstract Task ProcessTypedBodyAsync(T data, IRequestContext context);
+
+        protected async virtual Task ProcessUntypedBodyAsync(object data, IRequestContext context)
+        {
+            await Task.Yield();
+        }
     }
 }

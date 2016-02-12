@@ -12,7 +12,7 @@ namespace Dolstagis.Web.Views
             _registry = registry;
         }
 
-        public override async Task ProcessBody(ViewResult data, IRequestContext context)
+        protected override async Task ProcessTypedBodyAsync(ViewResult data, IRequestContext context)
         {
             var view = _registry.GetView(data.Path);
             await view.Render(context.Response.Body, data);

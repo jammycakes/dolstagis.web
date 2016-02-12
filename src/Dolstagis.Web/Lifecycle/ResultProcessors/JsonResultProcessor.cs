@@ -11,7 +11,7 @@ namespace Dolstagis.Web.Lifecycle.ResultProcessors
         private JsonResultProcessor()
         { }
 
-        public override async Task ProcessBody(JsonResult data, IRequestContext context)
+        protected override async Task ProcessTypedBodyAsync(JsonResult data, IRequestContext context)
         {
             using (var textWriter = new StreamWriter(context.Response.Body, data.Encoding))
             {

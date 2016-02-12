@@ -77,6 +77,7 @@
     <Compile Include="IoC\Impl\ContainerScope.cs" />
     <Compile Include="IoC\IServiceLocator.cs" />
     <Compile Include="IRequestContext.cs" />
+    <Compile Include="Lifecycle\Match.cs" />
     <Compile Include="Lifecycle\ResultProcessors\ContentResultProcessor.cs" />
     <Compile Include="Lifecycle\CoreServices.cs" />
     <Compile Include="ErrorStatus.cs" />
