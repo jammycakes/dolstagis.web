@@ -24,6 +24,7 @@ namespace Dolstagis.Web.Lifecycle.ResultProcessors
                 let isInexact = val == "*/*"
                 where isExact || isInexact
                 let mr = new MatchResult(isExact ? Lifecycle.Match.Exact : Lifecycle.Match.Inexact, q)
+                orderby mr.Match descending, mr.Q descending
                 select mr;
 
             return result.FirstOrDefault() ?? MatchResult.None;
@@ -37,7 +38,7 @@ namespace Dolstagis.Web.Lifecycle.ResultProcessors
 
         public async Task ProcessHeadersAsync(object data, IRequestContext context)
         {
-            context.Response.AddHeader("Content-Type", "text/plain; charset=utf-8");
+            context.Response.Headers["Content-Type"] = new[] { "text/plain; charset=utf-8" };
             await Task.Yield();
         }
     }
