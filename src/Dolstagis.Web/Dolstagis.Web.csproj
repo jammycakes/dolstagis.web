@@ -97,7 +97,6 @@
     <Compile Include="Features\Impl\FeatureSet.cs" />
     <Compile Include="Features\Impl\FeatureSwitchboard.cs" />
     <Compile Include="Controller.cs" />
-    <Compile Include="HeadResult.cs" />
     <Compile Include="Lifecycle\ResultProcessors\HeadResultProcessor.cs" />
     <Compile Include="HttpStatusException.cs" />
     <Compile Include="Http\Constants.cs" />

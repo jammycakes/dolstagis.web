@@ -1,6 +1,6 @@
 ﻿namespace Dolstagis.Web
 {
-    public class RedirectResult : HeadResult
+    public class RedirectResult : ResultBase
     {
         public string Location
         {
