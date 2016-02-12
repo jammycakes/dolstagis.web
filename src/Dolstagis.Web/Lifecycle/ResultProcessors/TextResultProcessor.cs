@@ -9,9 +9,24 @@ namespace Dolstagis.Web.Lifecycle.ResultProcessors
 {
     public class TextResultProcessor : IResultProcessor
     {
-        public Match Match(object data, IRequestContext context)
+        private Encoding _encoding;
+
+        public MatchResult Match(object data, IRequestContext context)
         {
-            return Lifecycle.Match.Fallback;
+            var accept = context.Request.Headers.Accept;
+            if (!accept.Any()) return MatchResult.Fallback;
+
+            var result =
+                from opt in context.Request.Headers.Accept
+                let val = opt.Value.ToLowerInvariant()
+                let q = opt.Q
+                let isExact = val == "text/plain"
+                let isInexact = val == "*/*"
+                where isExact || isInexact
+                let mr = new MatchResult(isExact ? Lifecycle.Match.Exact : Lifecycle.Match.Inexact, q)
+                select mr;
+
+            return result.FirstOrDefault() ?? MatchResult.None;
         }
 
         public async Task ProcessBodyAsync(object data, IRequestContext context)

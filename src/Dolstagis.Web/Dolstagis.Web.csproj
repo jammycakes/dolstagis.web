@@ -59,6 +59,7 @@
     <Compile Include="Features\Impl\RouteExpression.cs" />
     <Compile Include="Features\Impl\ViewExpression.cs" />
     <Compile Include="Features\IRouteExpression.cs" />
+    <Compile Include="Http\Option.cs" />
     <Compile Include="IoC\DSL\IBindingExpression.cs" />
     <Compile Include="IoC\DSL\IContainerExpression.cs" />
     <Compile Include="IoC\DSL\IContainerIsExpression.cs" />
@@ -78,6 +79,7 @@
     <Compile Include="IoC\IServiceLocator.cs" />
     <Compile Include="IRequestContext.cs" />
     <Compile Include="Lifecycle\Match.cs" />
+    <Compile Include="Lifecycle\MatchResult.cs" />
     <Compile Include="Lifecycle\ResultProcessors\ContentResultProcessor.cs" />
     <Compile Include="Lifecycle\CoreServices.cs" />
     <Compile Include="ErrorStatus.cs" />

@@ -96,7 +96,7 @@ namespace Dolstagis.Web.Lifecycle
                     await context.PersistSession();
                 }
 
-                if (!await ProcessResultAsync(context, result)) Status.NotFound.Throw();
+                if (!await ProcessResultAsync(context, result)) Status.NotAcceptable.Throw();
             }
             catch (Exception ex) {
                 await HandleException(context, ex);
@@ -108,8 +108,8 @@ namespace Dolstagis.Web.Lifecycle
             var processors =
                 from rp in _resultProcessors
                 let match = rp.Match(result, context)
-                where match != Match.None
-                orderby match descending
+                where match.Match != Match.None
+                orderby match.Match descending, match.Q descending
                 select rp;
             IResultProcessor processor = processors.FirstOrDefault();
             if (processor == null) return false;

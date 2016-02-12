@@ -20,7 +20,7 @@ namespace Dolstagis.Web.Lifecycle.ResultProcessors
             _inner = innerProcessor;
         }
 
-        public Match Match(object data, IRequestContext context)
+        public MatchResult Match(object data, IRequestContext context)
         {
             return _inner.Match(data, context);
         }

@@ -13,7 +13,7 @@ namespace Dolstagis.Web
         ///  true if this processor can handle data of this type, otherwise false.
         /// </returns>
 
-        Match Match(object data, IRequestContext context);
+        MatchResult Match(object data, IRequestContext context);
 
         /// <summary>
         ///  Processes the data returned from the controller and sends the output to the response.

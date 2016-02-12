@@ -6,15 +6,15 @@ namespace Dolstagis.Web.Lifecycle
 {
     public abstract class ResultProcessor<T> : IResultProcessor where T: ResultBase
     {
-        public Match Match(object data, IRequestContext context)
+        public MatchResult Match(object data, IRequestContext context)
         {
-            if (data is T) return Lifecycle.Match.Exact;
+            if (data is T) return MatchResult.Exact;
             return MatchUntyped(data, context);
         }
 
-        public virtual Match MatchUntyped(object data, IRequestContext context)
+        public virtual MatchResult MatchUntyped(object data, IRequestContext context)
         {
-            return Lifecycle.Match.None;
+            return MatchResult.None;
         }
 
 
