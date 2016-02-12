@@ -30,11 +30,7 @@ namespace Dolstagis.Web
 
         public Encoding Encoding { get; set; }
 
-        public string ContentType
-        {
-            get { return GetHeader("Content-Type"); }
-            set { SetHeader("Content-Type", value); }
-        }
+        public string MimeType { get; set; }
 
         public IDictionary<string, string> Headers { get; private set; }
 

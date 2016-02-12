@@ -7,7 +7,8 @@
         public JsonResult(object data)
         {
             Data = data;
-            ContentType = "application/json";
+            MimeType = "application/json";
+            Encoding = System.Text.Encoding.UTF8;
         }
     }
 }

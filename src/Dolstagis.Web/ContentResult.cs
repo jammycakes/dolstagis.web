@@ -7,7 +7,8 @@
         public ContentResult(string content = "", string contentType = "text/plain") : base()
         {
             this.Content = content;
-            this.ContentType = contentType;
+            this.MimeType = contentType;
+            this.Encoding = System.Text.Encoding.UTF8;
         }
     }
 }

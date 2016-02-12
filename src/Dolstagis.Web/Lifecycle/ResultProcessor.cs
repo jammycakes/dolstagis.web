@@ -117,6 +117,15 @@ namespace Dolstagis.Web.Lifecycle
                 context.Response.AddHeader(key, typedData.Headers[key]);
             }
 
+            if (typedData.MimeType != null) {
+                context.Response.AddHeader("Content-Type",
+                    typedData.MimeType +
+                    typedData.Encoding != null
+                        ? "; charset=" + typedData.Encoding.WebName
+                        : String.Empty
+                );
+            }
+
             await Task.Yield();
         }
 
