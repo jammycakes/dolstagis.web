@@ -17,9 +17,7 @@ namespace WebApp
 
         public object Get()
         {
-            return new {
-                message = "Hello world"
-            };
+            return "Hello world";
             //return new ViewResult("~/views/hello.liquid",
             //    new Dictionary<string, object>() {
             //        { "ID", _session.ID }

@@ -7,11 +7,11 @@ namespace Dolstagis.Web
 {
     public class JsonResult : ResultBase
     {
-        public object Data { get; set; }
+        public object Model { get; set; }
 
-        public JsonResult(object data)
+        public JsonResult(object model)
         {
-            Data = data;
+            Model = model;
             MimeType = "application/json";
             Encoding = System.Text.Encoding.UTF8;
         }
@@ -21,7 +21,7 @@ namespace Dolstagis.Web
             using (var textWriter = new StreamWriter(context.Response.Body, Encoding)) {
                 var serializer = new JsonSerializer();
                 await Task.Run(() => {
-                    serializer.Serialize(textWriter, Data);
+                    serializer.Serialize(textWriter, Model);
                 });
             }
         }

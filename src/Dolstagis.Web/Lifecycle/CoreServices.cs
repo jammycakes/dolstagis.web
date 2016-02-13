@@ -25,8 +25,9 @@ namespace Dolstagis.Web.Lifecycle
                 // their own additional negotiations.
                 bind.From<IArbitrator>().Only().To<Arbitrator>().Transient();
 
-                bind.From<INegotiator>().To<JsonNegotiator>();
                 bind.From<INegotiator>().To<TextContentNegotiator>();
+                bind.From<INegotiator>().To<JsonNegotiator>();
+                bind.From<INegotiator>().To<XmlNegotiator>();
 
                 bind.From<IRequestContext>().To<NullRequestContext>().Transient();
             })
