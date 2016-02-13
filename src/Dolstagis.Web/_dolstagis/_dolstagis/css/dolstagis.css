@@ -16,16 +16,17 @@
     -webkit-box-sizing: border-box;
 }
 
+#logo {
+    text-align: center;
+}
 
 #heading h1 {
     transform: rotate(-90deg);
     -webkit-transform: rotate(-90deg);
     -ms-transform: rotate(-90deg);
-    -o-transform: rotate(-90deg);
     transform-origin: top right;
     -webkit-transform-origin: top right;
     -ms-transform-origin: top right;
-    -o-transform-origin: top right;
     text-align: left;
     font-size: 200px;
     top: 30px;
