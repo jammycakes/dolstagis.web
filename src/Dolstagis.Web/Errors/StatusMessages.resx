@@ -117,6 +117,21 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Message301MovedPermanently" xml:space="preserve">
+    <value>The URL you requested is now available &lt;a href="{0}"&gt;here&lt;/a&gt;. Please update your records (bookmarks/favourites, database records etc).</value>
+  </data>
+  <data name="Message302Found" xml:space="preserve">
+    <value>The URL you requested is currently available &lt;a href="{0}"&gt;here&lt;/a&gt;. This may change in future, so please continue to use this address to access it.</value>
+  </data>
+  <data name="Message303SeeOther" xml:space="preserve">
+    <value>The response to this request is available &lt;a href="{0}"&gt;here&gt;&lt;/a&gt;.</value>
+  </data>
+  <data name="Message305UseProxy" xml:space="preserve">
+    <value>The URL you requested must be accessed through a proxy server &lt;a href="{0}"&gt;here&lt;/a&gt;.</value>
+  </data>
+  <data name="Message307TemporaryRedirect" xml:space="preserve">
+    <value>The URL you requested has been moved temporarily and is currently available &lt;a href="{0}"&gt;here&lt;/a&gt;. Please continue to use this URL for future requests.</value>
+  </data>
   <data name="Message400BadRequest" xml:space="preserve">
     <value>Your browser sent a request that the server could not understand.</value>
   </data>

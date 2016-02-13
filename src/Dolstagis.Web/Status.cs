@@ -79,13 +79,19 @@ namespace Dolstagis.Web
         public static readonly Status IMUsed = new Status(226, "IM Used");
 
         public static readonly Status MultipleChoices = new Status(300, "Multiple Choices");
-        public static readonly Status MovedPermanently = new Status(301, "Moved Permanently");
-        public static readonly Status Found = new Status(302, "Found");
-        public static readonly Status SeeOther = new Status(303, "See Other");
+        public static readonly Status MovedPermanently = new Status
+            (301, "Moved Permanently", StatusMessages.Message301MovedPermanently);
+        public static readonly Status Found = new Status
+            (302, "Found", StatusMessages.Message302Found);
+        public static readonly Status SeeOther = new Status
+            (303, "See Other", StatusMessages.Message303SeeOther);
         public static readonly Status NotModified = new Status(304, "Not Modified");
-        public static readonly Status UseProxy = new Status(305, "Use Proxy");
+        public static readonly Status UseProxy = new Status
+            (305, "Use Proxy", StatusMessages.Message305UseProxy);
+        [Obsolete("This status has been removed from the HTTP/1.1 specification. See RFC2616 §10.3.7")]
         public static readonly Status SwitchProxy = new Status(306, "Switch Proxy");
-        public static readonly Status TemporaryRedirect = new Status(307, "Temporary Redirect");
+        public static readonly Status TemporaryRedirect = new Status
+            (307, "Temporary Redirect", StatusMessages.Message307TemporaryRedirect);
         public static readonly Status ResumeIncomplete = new Status(308, "Resume Incomplete");
 
         public static readonly ErrorStatus BadRequest = new ErrorStatus
@@ -141,8 +147,10 @@ namespace Dolstagis.Web
             (429, "Too Many Requests", StatusMessages.Message429TooManyRequests);
         public static readonly ErrorStatus NoResponse = new ErrorStatus(444, "No Response");
         public static readonly ErrorStatus RetryWith = new ErrorStatus(449, "Retry With");
-        public static readonly ErrorStatus BlockedByWindowsParentalControls = new ErrorStatus(450, "Blocked By Windows Parental Controls");
-        public static readonly ErrorStatus ClientClosedRequest = new ErrorStatus(499, "Client Closed Request");
+        public static readonly ErrorStatus BlockedByWindowsParentalControls
+            = new ErrorStatus(450, "Blocked By Windows Parental Controls");
+        public static readonly ErrorStatus ClientClosedRequest 
+            = new ErrorStatus(499, "Client Closed Request");
 
         public static readonly ErrorStatus InternalServerError = new ErrorStatus
             (500, "Internal Server Error", StatusMessages.Message500InternalServerError);

@@ -55,6 +55,15 @@
     <Compile Include="Auth\RequireAnyAttribute.cs" />
     <Compile Include="Auth\RequireLoginAttribute.cs" />
     <Compile Include="Auth\SessionAuthenticator.cs" />
+    <Compile Include="ContentNegotiation\IArbitrator.cs" />
+    <Compile Include="ContentNegotiation\Arbitrator.cs" />
+    <Compile Include="ContentNegotiation\INegotiator.cs" />
+    <Compile Include="ContentNegotiation\Match.cs" />
+    <Compile Include="ContentNegotiation\Negotiation.cs" />
+    <Compile Include="ContentNegotiation\Types\Helpers.cs" />
+    <Compile Include="ContentNegotiation\Types\JsonNegotiator.cs" />
+    <Compile Include="ContentNegotiation\Types\TextContentNegotiator.cs" />
+    <Compile Include="ContentNegotiation\Types\XmlNegotiator.cs" />
     <Compile Include="ContentResult.cs" />
     <Compile Include="Features\Impl\RouteExpression.cs" />
     <Compile Include="Features\Impl\ViewExpression.cs" />
@@ -78,9 +87,8 @@
     <Compile Include="IoC\Impl\ContainerScope.cs" />
     <Compile Include="IoC\IServiceLocator.cs" />
     <Compile Include="IRequestContext.cs" />
-    <Compile Include="Lifecycle\Match.cs" />
-    <Compile Include="Lifecycle\MatchResult.cs" />
-    <Compile Include="Lifecycle\ResultProcessors\ContentResultProcessor.cs" />
+    <Compile Include="IResult.cs" />
+    <Compile Include="Lifecycle\BodylessRequestContextDecorator.cs" />
     <Compile Include="Lifecycle\CoreServices.cs" />
     <Compile Include="ErrorStatus.cs" />
     <Compile Include="Errors\StatusMessages.Designer.cs">
@@ -100,7 +108,6 @@
     <Compile Include="Features\Impl\FeatureSwitchboard.cs" />
     <Compile Include="Controller.cs" />
     <Compile Include="HtmlString.cs" />
-    <Compile Include="Lifecycle\ResultProcessors\HeadResultProcessor.cs" />
     <Compile Include="HttpStatusException.cs" />
     <Compile Include="Http\Constants.cs" />
     <Compile Include="Http\Cookie.cs" />
@@ -113,8 +120,6 @@
     <Compile Include="Http\ResponseHeaders.cs" />
     <Compile Include="Features\IFeatureSwitch.cs" />
     <Compile Include="IModelBinder.cs" />
-    <Compile Include="Lifecycle\ResultProcessors\TextResultProcessor.cs" />
-    <Compile Include="Lifecycle\ResultProcessors\XmlSerializationResultProcessor.cs" />
     <Compile Include="Logging\ILoggerFactory.cs" />
     <Compile Include="Logging\LogEntry.cs" />
     <Compile Include="Logging\Logger.cs" />
@@ -156,11 +161,8 @@
     <Compile Include="Http\IRequest.cs" />
     <Compile Include="Http\IResponse.cs" />
     <Compile Include="JsonResult.cs" />
-    <Compile Include="Lifecycle\ResultProcessors\JsonResultProcessor.cs" />
     <Compile Include="Lifecycle\ExceptionHandler.cs" />
     <Compile Include="Lifecycle\IExceptionHandler.cs" />
-    <Compile Include="IResultProcessor.cs" />
-    <Compile Include="Lifecycle\ResultProcessor.cs" />
     <Compile Include="ResultBase.cs" />
     <Compile Include="Static\AssemblyResource.cs" />
     <Compile Include="Static\AssemblyResourceLocation.cs" />
@@ -170,12 +172,10 @@
     <Compile Include="Static\ResourceMapping.cs" />
     <Compile Include="Static\ResourceResolver.cs" />
     <Compile Include="Static\ResourceResult.cs" />
-    <Compile Include="Static\ResourceResultProcessor.cs" />
     <Compile Include="Static\StaticFileController.cs" />
     <Compile Include="Util\AssemblyExtensions.cs" />
     <Compile Include="Util\DictionaryExtensions.cs" />
     <Compile Include="IoC\IoCExtensions.cs" />
-    <Compile Include="Views\ViewResultProcessor.cs" />
     <Compile Include="Views\ViewTable.cs" />
     <Compile Include="VirtualPath.cs" />
     <Compile Include="Lifecycle\RequestContext.cs" />
@@ -193,17 +193,19 @@
     <Compile Include="Views\ViewEngineBase.cs" />
     <Compile Include="Views\ViewRegistry.cs" />
     <Compile Include="VirtualPathType.cs" />
+    <Compile Include="XmlResult.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Dolstagis.Web.nuspec" />
     <None Include="packages.config" />
+    <EmbeddedResource Include="_dolstagis\_dolstagis\css\dolstagis.css" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Errors\StatusMessages.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>StatusMessages.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="_dolstagis\content\images\logo.png" />
+    <EmbeddedResource Include="_dolstagis\_dolstagis\images\logo.png" />
     <EmbeddedResource Include="_dolstagis\index.html" />
   </ItemGroup>
   <ItemGroup>
@@ -224,6 +226,9 @@
     <Compile Include="..\.version\VersionInfo.cs" Condition="Exists('..\.version\VersionInfo.cs')">
       <Link>Properties\VersionInfo.cs</Link>
     </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="_dolstagis\favicon.ico" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

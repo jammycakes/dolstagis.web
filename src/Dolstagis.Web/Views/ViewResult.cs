@@ -1,4 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Threading.Tasks;
+using Dolstagis.Web.IoC;
 
 namespace Dolstagis.Web.Views
 {
@@ -22,6 +26,13 @@ namespace Dolstagis.Web.Views
             this.Path = new VirtualPath(path);
             this.Model = model;
             this.Data = new Dictionary<string, object>();
+        }
+
+        protected override async Task SendBodyAsync(IRequestContext context)
+        {
+            var registry = context.Container.Get<ViewRegistry>();
+            var view = registry.GetView(Path);
+            await view.Render(context.Response.Body, this);
         }
     }
 }

@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using Dolstagis.Web.Auth;
+using Dolstagis.Web.ContentNegotiation;
+using Dolstagis.Web.ContentNegotiation.Types;
 using Dolstagis.Web.Http;
 using Dolstagis.Web.IoC;
-using Dolstagis.Web.Lifecycle.ResultProcessors;
 using Dolstagis.Web.Sessions;
-using Dolstagis.Web.Static;
 using Dolstagis.Web.Views;
 
 namespace Dolstagis.Web.Lifecycle
@@ -20,12 +20,14 @@ namespace Dolstagis.Web.Lifecycle
                 bind.From<ISessionStore>().Only().To<InMemorySessionStore>().Managed();
                 bind.From<IAuthenticator>().Only().To<SessionAuthenticator>().Managed();
 
-                bind.From<IResultProcessor>().To<ResourceResultProcessor>().Transient();
-                bind.From<IResultProcessor>().To<ViewResultProcessor>().Transient();
-                bind.From<IResultProcessor>().To<JsonResultProcessor>().Transient();
-                bind.From<IResultProcessor>().To(ContentResultProcessor.Instance);
-                bind.From<IResultProcessor>().To<TextResultProcessor>().Transient();
-                bind.From<IResultProcessor>().To<XmlSerializationResultProcessor>().Transient();
+                // Arbitrator needs to be transient to allow features to declare
+                // their own additional negotiations.
+                bind.From<IArbitrator>().Only().To<Arbitrator>().Transient();
+
+                bind.From<INegotiator>().To<TextContentNegotiator>();
+                bind.From<INegotiator>().To<JsonNegotiator>();
+                bind.From<INegotiator>().To<XmlNegotiator>();
+
                 bind.From<IRequestContext>().To<NullRequestContext>().Transient();
             })
             .Setup.Request.Bindings(bind => {
@@ -41,8 +43,10 @@ namespace Dolstagis.Web.Lifecycle
 
             Route.From("~/").To.StaticFiles.FromAssemblyResources
                 (this.GetType().Assembly, "Dolstagis.Web._dolstagis.index.html");
+            Route.From("~/favicon.ico").To.StaticFiles.FromAssemblyResources
+                (this.GetType().Assembly, "Dolstagis.Web._dolstagis.favicon.ico");
             Route.From("~/_dolstagis").To.StaticFiles.FromAssemblyResources
-                (this.GetType().Assembly, "Dolstagis.Web._dolstagis");
+                (this.GetType().Assembly, "Dolstagis.Web._dolstagis._dolstagis");
         }
 
 
@@ -67,219 +71,52 @@ namespace Dolstagis.Web.Lifecycle
         {
             private Exception GetException()
             {
-                throw new NotImplementedException
-                    ("You have attempted to use an IRequestContext that was instantiated outside of a request. " +
-                    "This is not supported because IRequestContext is only meaingful within a request.");
+                throw new NotImplementedException(
+                    "You have attempted to use an IRequestContext that was " +
+                    "instantiated outside of a request. This is not supported " +
+                    "because IRequestContext is only meaingful within a request."
+                );
             }
 
-            public VirtualPath AbsolutePath
-            {
-                get {
-                    throw GetException();
-                }
-            }
-
-            public Stream Body
-            {
-                get {
-                    throw GetException();
-                }
-            }
-
-            public IServiceLocator Container
-            {
-                get {
-                    throw GetException();
-                }
-            }
-
-            public DateTime? Expires
-            {
-                get {
-                    throw GetException();
-                }
-            }
-
-            public IDictionary<string, string[]> Form
-            {
-                get {
-                    throw GetException();
-                }
-            }
-
-            public RequestHeaders Headers
-            {
-                get {
-                    throw GetException();
-                }
-            }
-
-            public string ID
-            {
-                get {
-                    throw GetException();
-                }
-            }
-
-            public bool IsSecure
-            {
-                get {
-                    throw GetException();
-                }
-            }
-
-            public IDictionary<string, object> Items
-            {
-                get {
-                    throw GetException();
-                }
-            }
-
-            public string Method
-            {
-                get {
-                    throw GetException();
-                }
-            }
-
-            public VirtualPath Path
-            {
-                get {
-                    throw GetException();
-                }
-            }
-
-            public VirtualPath PathBase
-            {
-                get {
-                    throw GetException();
-                }
-            }
-
-            public string Protocol
-            {
-                get {
-                    throw GetException();
-                }
-            }
-
-            public IDictionary<string, string[]> Query
-            {
-                get {
-                    throw GetException();
-                }
-            }
-
-            public IRequest Request
-            {
-                get {
-                    return this;
-                }
-            }
-
-            public IResponse Response
-            {
-                get {
-                    return this;
-                }
-            }
-
-            public ISession Session
-            {
-                get {
-                    return this;
-                }
-            }
-
+            public VirtualPath AbsolutePath { get { throw GetException(); } }
+            public Stream Body { get { throw GetException(); } }
+            public IServiceLocator Container { get { throw GetException(); } }
+            public DateTime? Expires { get { throw GetException(); } }
+            public IDictionary<string, string[]> Form { get { throw GetException(); } }
+            public RequestHeaders Headers { get { throw GetException(); } }
+            public string ID { get { throw GetException(); } }
+            public bool IsSecure { get { throw GetException(); } }
+            public IDictionary<string, object> Items { get { throw GetException(); } }
+            public string Method { get { throw GetException(); } }
+            public VirtualPath Path { get { throw GetException(); } }
+            public VirtualPath PathBase { get { throw GetException(); } }
+            public string Protocol { get { throw GetException(); } }
+            public IDictionary<string, string[]> Query { get { throw GetException(); } }
+            public IRequest Request { get { return this; } }
+            public IResponse Response { get { return this; } }
+            public ISession Session { get { return this; } }
             public Status Status
             {
-                get {
-                    throw GetException();
-                }
-
-                set {
-                    throw GetException();
-                }
+                get { throw GetException(); }
+                set { throw GetException(); }
             }
-
-            public Uri Url
-            {
-                get {
-                    throw GetException();
-                }
-            }
-
-            public IUser User
-            {
-                get {
-                    return this;
-                }
-            }
-
-            public string UserName
-            {
-                get {
-                    throw GetException();
-                }
-            }
-
-            ResponseHeaders IResponse.Headers
-            {
-                get {
-                    throw GetException();
-                }
-            }
-
+            public Uri Url { get { throw GetException(); } }
+            public IUser User { get { return this; } }
+            public string UserName { get { throw GetException(); } }
+            ResponseHeaders IResponse.Headers { get { throw GetException(); } }
             string IResponse.Protocol
             {
-                get {
-                    throw GetException();
-                }
-
-                set {
-                    throw GetException();
-                }
+                get { throw GetException(); }
+                set { throw GetException(); }
             }
-
-            public void AddHeader(string name, string value)
-            {
-                throw GetException();
-            }
-
-            public void End()
-            {
-                throw GetException();
-            }
-
-            public Task<object> GetItemAsync(string key)
-            {
-                throw GetException();
-            }
-
-            public Task<ISession> GetSessionAsync()
-            {
-                throw GetException();
-            }
-
-            public Task<IUser> GetUserAsync()
-            {
-                throw GetException();
-            }
-
-            public bool IsInRole(string role)
-            {
-                throw GetException();
-            }
-
-            public Task Persist()
-            {
-                throw GetException();
-            }
-
-            public Task SetItemAsync(string key, object value)
-            {
-                throw GetException();
-            }
+            public void AddHeader(string name, string value) { throw GetException(); }
+            public void End() { throw GetException(); }
+            public Task<object> GetItemAsync(string key) { throw GetException(); }
+            public Task<ISession> GetSessionAsync() { throw GetException(); }
+            public Task<IUser> GetUserAsync() { throw GetException(); }
+            public bool IsInRole(string role) { throw GetException(); }
+            public Task Persist() { throw GetException(); }
+            public Task SetItemAsync(string key, object value) { throw GetException(); }
         }
     }
 }
