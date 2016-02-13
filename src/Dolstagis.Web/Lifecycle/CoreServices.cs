@@ -41,8 +41,10 @@ namespace Dolstagis.Web.Lifecycle
 
             Route.From("~/").To.StaticFiles.FromAssemblyResources
                 (this.GetType().Assembly, "Dolstagis.Web._dolstagis.index.html");
+            Route.From("~/favicon.ico").To.StaticFiles.FromAssemblyResources
+                (this.GetType().Assembly, "Dolstagis.Web._dolstagis.favicon.ico");
             Route.From("~/_dolstagis").To.StaticFiles.FromAssemblyResources
-                (this.GetType().Assembly, "Dolstagis.Web._dolstagis");
+                (this.GetType().Assembly, "Dolstagis.Web._dolstagis._dolstagis");
         }
 
 

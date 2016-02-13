@@ -195,13 +195,14 @@
   <ItemGroup>
     <None Include="Dolstagis.Web.nuspec" />
     <None Include="packages.config" />
+    <EmbeddedResource Include="_dolstagis\_dolstagis\css\dolstagis.css" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Errors\StatusMessages.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>StatusMessages.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="_dolstagis\content\images\logo.png" />
+    <EmbeddedResource Include="_dolstagis\_dolstagis\images\logo.png" />
     <EmbeddedResource Include="_dolstagis\index.html" />
   </ItemGroup>
   <ItemGroup>
@@ -223,7 +224,9 @@
       <Link>Properties\VersionInfo.cs</Link>
     </Compile>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="_dolstagis\favicon.ico" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
