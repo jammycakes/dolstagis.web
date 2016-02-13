@@ -14,7 +14,6 @@ namespace Dolstagis.Web.Lifecycle
     public class RequestProcessor
     {
         private ISettings _settings;
-        private IList<IResultProcessor> _resultProcessors;
         private IEnumerable<IExceptionHandler> _exceptionHandlers;
         private ISessionStore _sessionStore;
         private IAuthenticator _authenticator;
@@ -34,7 +33,6 @@ namespace Dolstagis.Web.Lifecycle
             ISettings settings
         )
         {
-            _resultProcessors = (resultProcessors ?? Enumerable.Empty<IResultProcessor>()).ToList();
             _exceptionHandlers = exceptionHandlers;
             _sessionStore = sessionStore;
             _authenticator = authenticator;
@@ -105,21 +103,9 @@ namespace Dolstagis.Web.Lifecycle
 
         private async Task<bool> ProcessResultAsync(IRequestContext context, object result)
         {
-            var processors =
-                from rp in _resultProcessors
-                let match = rp.Match(result, context)
-                where match.Match != Match.None
-                orderby match.Match descending, match.Q descending
-                select rp;
-            IResultProcessor processor = processors.FirstOrDefault();
-            if (processor == null) return false;
-
-            if (context.Request.Method.Equals("head", StringComparison.OrdinalIgnoreCase)) {
-                processor = new HeadResultProcessor(processor);
-            }
-
-            await processor.ProcessHeadersAsync(result, context);
-            await processor.ProcessBodyAsync(result, context);
+            var resultObj = result as IResult;
+            if (resultObj == null) return false;
+            await resultObj.RenderAsync(context);
             return true;
         }
 
@@ -134,7 +120,7 @@ namespace Dolstagis.Web.Lifecycle
             {
                 await handler.HandleException(context, fault);
             }
-            await ProcessResultAsync(context, fault);
+            //await ProcessResultAsync(context, fault);
         }
         
         // TODO: this is only used in one of the tests. Need to either refactor the test

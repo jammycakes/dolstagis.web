@@ -1,4 +1,9 @@
-﻿namespace Dolstagis.Web
+﻿using System;
+using System.IO;
+using System.Threading.Tasks;
+using Dolstagis.Web.Http;
+
+namespace Dolstagis.Web
 {
     public class ContentResult : ResultBase
     {
@@ -9,6 +14,20 @@
             this.Content = content;
             this.MimeType = contentType;
             this.Encoding = System.Text.Encoding.UTF8;
+        }
+
+        protected override void SendHeaders(IRequestContext context)
+        {
+            context.Response.AddHeader("Content-Length", Encoding.GetByteCount(Content).ToString());
+            base.SendHeaders(context);
+        }
+
+        protected override async Task SendBodyAsync(IRequestContext context)
+        {
+            if (!String.IsNullOrEmpty(Content)) {
+                using (var writer = new StreamWriter(context.Response.Body))
+                    await writer.WriteAsync(Content);
+            }
         }
     }
 }
