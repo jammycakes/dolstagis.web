@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Dolstagis.Web.Auth;
+using Dolstagis.Web.ContentNegotiation;
 using Dolstagis.Web.Features.Impl;
 using Dolstagis.Web.Http;
 using Dolstagis.Web.IoC;
-using Dolstagis.Web.Lifecycle.ResultProcessors;
 using Dolstagis.Web.Sessions;
 
 namespace Dolstagis.Web.Lifecycle
@@ -19,18 +19,19 @@ namespace Dolstagis.Web.Lifecycle
         private IAuthenticator _authenticator;
         private FeatureSet _features;
         private IIoCContainer _featureSetContainer;
+        private Arbitrator _negotiator;
 
         private bool _requestContainerIsChecked = false;
         private bool _requestContainerIsValid = false;
 
         public RequestProcessor(
-            IEnumerable<IResultProcessor> resultProcessors,
             IEnumerable<IExceptionHandler> exceptionHandlers,
             ISessionStore sessionStore,
             IAuthenticator authenticator,
             FeatureSet features,
             IIoCContainer featureSetContainer,
-            ISettings settings
+            ISettings settings,
+            Arbitrator negotiator
         )
         {
             _exceptionHandlers = exceptionHandlers;
@@ -39,6 +40,7 @@ namespace Dolstagis.Web.Lifecycle
             _features = features;
             _featureSetContainer = featureSetContainer;
             _settings = settings;
+            _negotiator = negotiator;
         }
 
         public async Task ProcessRequestAsync(IRequest request, IResponse response)
@@ -46,6 +48,7 @@ namespace Dolstagis.Web.Lifecycle
             using (var childContainer = _featureSetContainer.GetChildContainer()) {
                 var context = new RequestContext
                     (request, response, _sessionStore, _authenticator, childContainer, _features);
+
                 childContainer.Add(Binding<IRequestContext>
                     .From(cfg => cfg.Only().To(context).Managed()));
 
@@ -84,6 +87,11 @@ namespace Dolstagis.Web.Lifecycle
 
         private async Task ProcessRequestContextAsync(RequestContext context)
         {
+            var outputContext =
+                context.Request.Method.Equals("HEAD", StringComparison.OrdinalIgnoreCase)
+                ? new BodylessRequestContextDecorator(context)
+                : (IRequestContext)context;
+
             try {
                 object result;
 
@@ -94,16 +102,17 @@ namespace Dolstagis.Web.Lifecycle
                     await context.PersistSession();
                 }
 
-                if (!await ProcessResultAsync(context, result)) Status.NotAcceptable.Throw();
+                if (!await ProcessResultAsync(outputContext, result)) Status.NotAcceptable.Throw();
             }
             catch (Exception ex) {
-                await HandleException(context, ex);
+                await HandleException(outputContext, ex);
             }
         }
 
         private async Task<bool> ProcessResultAsync(IRequestContext context, object result)
         {
-            var resultObj = result as IResult;
+            var resultObj = result as IResult
+                ?? _negotiator.Arbitrate(context.Request, result);
             if (resultObj == null) return false;
             await resultObj.RenderAsync(context);
             return true;

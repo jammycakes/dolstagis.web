@@ -81,8 +81,6 @@
     <Compile Include="Web\Features\FeatureSetFixture.cs" />
     <Compile Include="Web\Features\FluentConfiguration\ConfigConflictFixture.cs" />
     <Compile Include="Web\Features\FluentConfiguration\ConfigConflictFeature.cs" />
-    <Compile Include="Web\Lifecycle\ResultProcessors\TextResultProcessorFixture.cs" />
-    <Compile Include="Web\Lifecycle\ResultProcessors\JsonResultProcessorFixture.cs" />
     <Compile Include="Web\Lifecycle\RequestProcessorFixture.cs" />
     <Compile Include="Web\Logging\LoggerFixture.cs" />
     <Compile Include="Web\ModelBinding\ObjectBindingFixture.cs" />

@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using Dolstagis.Web.Auth;
+using Dolstagis.Web.ContentNegotiation;
+using Dolstagis.Web.ContentNegotiation.Types;
 using Dolstagis.Web.Http;
 using Dolstagis.Web.IoC;
-using Dolstagis.Web.Lifecycle.ResultProcessors;
 using Dolstagis.Web.Sessions;
 using Dolstagis.Web.Static;
 using Dolstagis.Web.Views;
@@ -20,12 +21,13 @@ namespace Dolstagis.Web.Lifecycle
                 bind.From<ISessionStore>().Only().To<InMemorySessionStore>().Managed();
                 bind.From<IAuthenticator>().Only().To<SessionAuthenticator>().Managed();
 
-                bind.From<IResultProcessor>().To<ResourceResultProcessor>().Transient();
-                bind.From<IResultProcessor>().To<ViewResultProcessor>().Transient();
-                bind.From<IResultProcessor>().To<JsonResultProcessor>().Transient();
-                bind.From<IResultProcessor>().To(ContentResultProcessor.Instance);
-                bind.From<IResultProcessor>().To<TextResultProcessor>().Transient();
-                bind.From<IResultProcessor>().To<XmlSerializationResultProcessor>().Transient();
+                // Arbitrator needs to be transient to allow features to declare
+                // their own additional negotiations.
+                bind.From<IArbitrator>().Only().To<Arbitrator>().Transient();
+
+                bind.From<INegotiator>().To<JsonNegotiator>();
+                bind.From<INegotiator>().To<TextContentNegotiator>();
+
                 bind.From<IRequestContext>().To<NullRequestContext>().Transient();
             })
             .Setup.Request.Bindings(bind => {

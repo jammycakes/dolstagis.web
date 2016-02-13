@@ -55,6 +55,14 @@
     <Compile Include="Auth\RequireAnyAttribute.cs" />
     <Compile Include="Auth\RequireLoginAttribute.cs" />
     <Compile Include="Auth\SessionAuthenticator.cs" />
+    <Compile Include="ContentNegotiation\IArbitrator.cs" />
+    <Compile Include="ContentNegotiation\Arbitrator.cs" />
+    <Compile Include="ContentNegotiation\INegotiator.cs" />
+    <Compile Include="ContentNegotiation\Match.cs" />
+    <Compile Include="ContentNegotiation\Negotiation.cs" />
+    <Compile Include="ContentNegotiation\Types\Helpers.cs" />
+    <Compile Include="ContentNegotiation\Types\JsonNegotiator.cs" />
+    <Compile Include="ContentNegotiation\Types\TextContentNegotiator.cs" />
     <Compile Include="ContentResult.cs" />
     <Compile Include="Features\Impl\RouteExpression.cs" />
     <Compile Include="Features\Impl\ViewExpression.cs" />
@@ -79,9 +87,9 @@
     <Compile Include="IoC\IServiceLocator.cs" />
     <Compile Include="IRequestContext.cs" />
     <Compile Include="IResult.cs" />
+    <Compile Include="Lifecycle\BodylessRequestContextDecorator.cs" />
     <Compile Include="Lifecycle\Match.cs" />
     <Compile Include="Lifecycle\MatchResult.cs" />
-    <Compile Include="Lifecycle\ResultProcessors\ContentResultProcessor.cs" />
     <Compile Include="Lifecycle\CoreServices.cs" />
     <Compile Include="ErrorStatus.cs" />
     <Compile Include="Errors\StatusMessages.Designer.cs">
@@ -100,7 +108,6 @@
     <Compile Include="Features\Impl\FeatureSet.cs" />
     <Compile Include="Features\Impl\FeatureSwitchboard.cs" />
     <Compile Include="Controller.cs" />
-    <Compile Include="Lifecycle\ResultProcessors\HeadResultProcessor.cs" />
     <Compile Include="HttpStatusException.cs" />
     <Compile Include="Http\Constants.cs" />
     <Compile Include="Http\Cookie.cs" />
@@ -112,8 +119,6 @@
     <Compile Include="Http\ResponseHeaders.cs" />
     <Compile Include="Features\IFeatureSwitch.cs" />
     <Compile Include="IModelBinder.cs" />
-    <Compile Include="Lifecycle\ResultProcessors\TextResultProcessor.cs" />
-    <Compile Include="Lifecycle\ResultProcessors\XmlSerializationResultProcessor.cs" />
     <Compile Include="Logging\ILoggerFactory.cs" />
     <Compile Include="Logging\LogEntry.cs" />
     <Compile Include="Logging\Logger.cs" />
@@ -155,11 +160,8 @@
     <Compile Include="Http\IRequest.cs" />
     <Compile Include="Http\IResponse.cs" />
     <Compile Include="JsonResult.cs" />
-    <Compile Include="Lifecycle\ResultProcessors\JsonResultProcessor.cs" />
     <Compile Include="Lifecycle\ExceptionHandler.cs" />
     <Compile Include="Lifecycle\IExceptionHandler.cs" />
-    <Compile Include="IResultProcessor.cs" />
-    <Compile Include="Lifecycle\ResultProcessor.cs" />
     <Compile Include="ResultBase.cs" />
     <Compile Include="Static\AssemblyResource.cs" />
     <Compile Include="Static\AssemblyResourceLocation.cs" />
@@ -169,12 +171,10 @@
     <Compile Include="Static\ResourceMapping.cs" />
     <Compile Include="Static\ResourceResolver.cs" />
     <Compile Include="Static\ResourceResult.cs" />
-    <Compile Include="Static\ResourceResultProcessor.cs" />
     <Compile Include="Static\StaticFileController.cs" />
     <Compile Include="Util\AssemblyExtensions.cs" />
     <Compile Include="Util\DictionaryExtensions.cs" />
     <Compile Include="IoC\IoCExtensions.cs" />
-    <Compile Include="Views\ViewResultProcessor.cs" />
     <Compile Include="Views\ViewTable.cs" />
     <Compile Include="VirtualPath.cs" />
     <Compile Include="Lifecycle\RequestContext.cs" />
@@ -228,6 +228,7 @@
   <ItemGroup>
     <EmbeddedResource Include="_dolstagis\favicon.ico" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

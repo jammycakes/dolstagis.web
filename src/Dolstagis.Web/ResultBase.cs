@@ -78,9 +78,9 @@ namespace Dolstagis.Web
 
             if (MimeType != null) {
                 context.Response.AddHeader("Content-Type",
-                    MimeType + Encoding != null
+                    MimeType + (Encoding != null
                         ? "; charset=" + Encoding.WebName
-                        : String.Empty
+                        : String.Empty)
                 );
             }
         }

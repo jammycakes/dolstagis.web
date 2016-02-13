@@ -2,6 +2,7 @@
 using Dolstagis.Tests.Web.TestFeatures;
 using Dolstagis.Tests.Web.TestFeatures.Controllers;
 using Dolstagis.Web;
+using Dolstagis.Web.ContentNegotiation;
 using Dolstagis.Web.Features;
 using Dolstagis.Web.Features.Impl;
 using Dolstagis.Web.Http;
@@ -17,6 +18,7 @@ namespace Dolstagis.Tests.Web.Lifecycle
     {
         private IIoCContainer _mockContainer;
         private ISettings _mockSettings;
+        private Arbitrator _mockNegotiator;
 
         [OneTimeSetUp]
         public void CreateRouteTable()
@@ -29,6 +31,8 @@ namespace Dolstagis.Tests.Web.Lifecycle
             var mockSettings = new Mock<ISettings>();
             mockSettings.Setup(x => x.Debug).Returns(false);
             _mockSettings = mockSettings.Object;
+
+            _mockNegotiator = new Mock<Arbitrator>(MockBehavior.Loose).Object;
         }
 
 
@@ -36,10 +40,11 @@ namespace Dolstagis.Tests.Web.Lifecycle
         {
             var feature = new FirstFeature();
             var featureSet = new FeatureSet(null, new IFeature[] { feature });
-            var processor = new RequestProcessor(null, null, null, null,
+            var processor = new RequestProcessor(null, null, null,
                 featureSet,
                 _mockContainer,
-                _mockSettings
+                _mockSettings,
+                _mockNegotiator
             );
 
             var request = new Mock<IRequest>();
