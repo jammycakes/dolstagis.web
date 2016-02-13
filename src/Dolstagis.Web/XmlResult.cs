@@ -52,27 +52,37 @@ namespace Dolstagis.Web
 
         protected override async Task SendBodyAsync(IRequestContext context)
         {
-            if (Model is XDocument) {
-                await TransformAsync(context, ((XDocument)Model).CreateNavigator());
-            }
-            else if (Model is IXPathNavigable) {
-                await TransformAsync(context, ((IXPathNavigable)Model).CreateNavigator());
-            }
-            else if (Model is XPathNavigator) {
-                await TransformAsync(context, (XPathNavigator)Model);
-            }
-            else {
-                var ser = Serializer ?? new XmlSerializer(Model.GetType());
-                if (Xslt != null) {
+            if (Xslt != null) {
+                if (Model is XDocument)
+                    await TransformAsync(context, ((XDocument)Model).CreateNavigator());
+                else if (Model is IXPathNavigable)
+                    await TransformAsync(context, ((IXPathNavigable)Model).CreateNavigator());
+                else if (Model is XPathNavigator)
+                    await TransformAsync(context, (XPathNavigator)Model);
+                else {
+                    var ser = Serializer ?? new XmlSerializer(Model.GetType());
                     var doc = new XDocument();
                     using (var writer = doc.CreateWriter())
                         ser.Serialize(writer, Model);
                     await TransformAsync(context, doc.CreateNavigator());
                 }
-                else {
-                    using (var writer = new StreamWriter(context.Response.Body, Encoding)) {
-                        ser.Serialize(writer, Model);
-                    }
+            }
+            else {
+                using (var writer = new StreamWriter(context.Response.Body, Encoding))
+                using (var xWriter = new XmlTextWriter(writer)) {
+                    if (Model is XDocument)
+                        await Task.Run(() => ((XDocument)Model).Save(xWriter));
+                    else if (Model is XmlDocument)
+                        await Task.Run(() => ((XmlDocument)Model).Save(xWriter));
+                    else if (Model is IXPathNavigable)
+                        await Task.Run(() =>
+                            ((IXPathNavigable)Model).CreateNavigator().WriteSubtree(xWriter));
+                    else if (Model is XPathNavigator)
+                        await Task.Run(() =>
+                            ((XPathNavigator)Model).WriteSubtree(xWriter));
+                    else
+                        (Serializer ?? new XmlSerializer(Model.GetType()))
+                            .Serialize(xWriter, Model);
                 }
             }
         }
