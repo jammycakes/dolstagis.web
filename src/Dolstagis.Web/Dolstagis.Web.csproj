@@ -169,7 +169,7 @@
     <Compile Include="Static\IResourceResolver.cs" />
     <Compile Include="Static\ResourceMapping.cs" />
     <Compile Include="Static\ResourceResolver.cs" />
-    <Compile Include="Static\ResourceResult.cs" />
+    <Compile Include="ResourceResult.cs" />
     <Compile Include="Static\StaticFileController.cs" />
     <Compile Include="Util\AssemblyExtensions.cs" />
     <Compile Include="Util\DictionaryExtensions.cs" />
@@ -184,7 +184,7 @@
     <Compile Include="Lifecycle\RequestProcessor.cs" />
     <Compile Include="RouteAttribute.cs" />
     <Compile Include="Status.cs" />
-    <Compile Include="Views\ViewResult.cs" />
+    <Compile Include="ViewResult.cs" />
     <Compile Include="Views\IView.cs" />
     <Compile Include="Static\MimeTypes.cs" />
     <Compile Include="Views\IViewEngine.cs" />

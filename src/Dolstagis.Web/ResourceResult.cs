@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Dolstagis.Web.Static;
 
-namespace Dolstagis.Web.Static
+namespace Dolstagis.Web
 {
     public class ResourceResult : ResultBase
     {

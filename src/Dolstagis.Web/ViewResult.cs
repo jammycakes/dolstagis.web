@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using Dolstagis.Web.IoC;
+using Dolstagis.Web.Views;
 
-namespace Dolstagis.Web.Views
+namespace Dolstagis.Web
 {
     public class ViewResult : ResultBase
     {
