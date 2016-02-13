@@ -6,7 +6,7 @@ using NUnit.Framework;
 
 using lc = Dolstagis.Web.Lifecycle;
 
-namespace Dolstagis.Tests.Web.Lifecycle
+namespace Dolstagis.Tests.Web.Lifecycle.ResultProcessors
 {
     [TestFixture]
     public class JsonResultProcessorFixture
