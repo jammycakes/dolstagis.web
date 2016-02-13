@@ -88,8 +88,6 @@
     <Compile Include="IRequestContext.cs" />
     <Compile Include="IResult.cs" />
     <Compile Include="Lifecycle\BodylessRequestContextDecorator.cs" />
-    <Compile Include="Lifecycle\Match.cs" />
-    <Compile Include="Lifecycle\MatchResult.cs" />
     <Compile Include="Lifecycle\CoreServices.cs" />
     <Compile Include="ErrorStatus.cs" />
     <Compile Include="Errors\StatusMessages.Designer.cs">
