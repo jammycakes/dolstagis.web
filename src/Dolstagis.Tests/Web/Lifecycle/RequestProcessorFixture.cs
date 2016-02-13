@@ -18,7 +18,7 @@ namespace Dolstagis.Tests.Web.Lifecycle
     {
         private IIoCContainer _mockContainer;
         private ISettings _mockSettings;
-        private Arbitrator _mockNegotiator;
+        private IArbitrator _mockNegotiator;
 
         [OneTimeSetUp]
         public void CreateRouteTable()
@@ -32,7 +32,7 @@ namespace Dolstagis.Tests.Web.Lifecycle
             mockSettings.Setup(x => x.Debug).Returns(false);
             _mockSettings = mockSettings.Object;
 
-            _mockNegotiator = new Mock<Arbitrator>(MockBehavior.Loose).Object;
+            _mockNegotiator = new Mock<IArbitrator>(MockBehavior.Loose).Object;
         }
 
 

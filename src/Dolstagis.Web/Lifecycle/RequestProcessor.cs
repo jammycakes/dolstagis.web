@@ -19,7 +19,7 @@ namespace Dolstagis.Web.Lifecycle
         private IAuthenticator _authenticator;
         private FeatureSet _features;
         private IIoCContainer _featureSetContainer;
-        private Arbitrator _negotiator;
+        private IArbitrator _negotiator;
 
         private bool _requestContainerIsChecked = false;
         private bool _requestContainerIsValid = false;
@@ -31,7 +31,7 @@ namespace Dolstagis.Web.Lifecycle
             FeatureSet features,
             IIoCContainer featureSetContainer,
             ISettings settings,
-            Arbitrator negotiator
+            IArbitrator negotiator
         )
         {
             _exceptionHandlers = exceptionHandlers;
