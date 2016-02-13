@@ -16,6 +16,10 @@ namespace Dolstagis.Web.ContentNegotiation.Types
 
         public Negotiation Negotiate(IRequest request, object model)
         {
+            if (model is string || model is StringBuilder)
+                return new Negotiation
+                    (Match.Exact, 1, this, () => new ContentResult(model.ToString()));
+
             Match match;
 
             var opt = request.Headers.MatchAccept("text/plain");
