@@ -11,11 +11,8 @@ namespace Dolstagis.Web.Http
     {
         public static StreamWriter GetStreamWriter(this IResponse response)
         {
-            return new StreamWriter(
-                response.Body,
-                response.Headers.Encoding ?? Encoding.UTF8,
-                1024,
-                true);
+            return new NonClosingStreamWriter
+                (response.Body, response.Headers.Encoding ?? Encoding.UTF8);
         }
     }
 }

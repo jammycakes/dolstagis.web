@@ -70,6 +70,7 @@
     <Compile Include="Features\Impl\ViewExpression.cs" />
     <Compile Include="Features\IRouteExpression.cs" />
     <Compile Include="Http\Encodings.cs" />
+    <Compile Include="Http\NonClosingStreamWriter.cs" />
     <Compile Include="Http\Option.cs" />
     <Compile Include="Http\ResponseExtensions.cs" />
     <Compile Include="IoC\DSL\IBindingExpression.cs" />
