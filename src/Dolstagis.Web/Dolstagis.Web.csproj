@@ -69,6 +69,7 @@
     <Compile Include="Features\Impl\RouteExpression.cs" />
     <Compile Include="Features\Impl\ViewExpression.cs" />
     <Compile Include="Features\IRouteExpression.cs" />
+    <Compile Include="Http\Encodings.cs" />
     <Compile Include="Http\Option.cs" />
     <Compile Include="IoC\DSL\IBindingExpression.cs" />
     <Compile Include="IoC\DSL\IContainerExpression.cs" />

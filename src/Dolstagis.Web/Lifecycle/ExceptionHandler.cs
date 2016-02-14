@@ -34,7 +34,8 @@ namespace Dolstagis.Web.Lifecycle
         private async Task DumpException(IRequestContext context, HttpStatusException ex)
         {
             context.Response.Status = ex.Status;
-            context.Response.AddHeader("Content-Type", "text/html; charset=utf-8");
+            context.Response.Headers.MimeType = "text/html";
+            context.Response.Headers.Encoding = Encoding.UTF8;
 
             const string rn = "Dolstagis.Web.Errors.DefaultErrorPage.html";
             string template;
@@ -80,7 +81,8 @@ namespace Dolstagis.Web.Lifecycle
             {
                 try {
                     context.Response.Status = ex.Status;
-                    context.Response.AddHeader("Content-Type", "text/html; charset=utf-8");
+                    context.Response.Headers.MimeType = "text/html";
+                    context.Response.Headers.Encoding = Encoding.UTF8;
                     await view.Render(context.Response.Body, new ViewData {
                         Path = vPath.ToString(),
                         Model = ex
