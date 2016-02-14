@@ -17,20 +17,19 @@ namespace Dolstagis.Web
 
         public string Description { get; private set; }
 
-        public string Message { get; set; }
+        public string Message { get; private set; }
 
-        internal Status(int code, string description, string message)
+        public bool HasBody { get; private set; }
+
+        internal Status(int code, string description, string message = null, bool? hasBody = null)
         {
             this.Code = code;
             this.Description = description;
-            this.Message = message;
+            this.Message = message ?? description;
+            this.HasBody = hasBody ?? (code >= 200);
             _statuses.Add(this.Code, this);
         }
 
-        internal Status(int code, string description)
-            : this(code, description, description)
-        {
-        }
 
         /// <summary>
         ///  Gets a string representation of this HTTP status.
@@ -72,8 +71,8 @@ namespace Dolstagis.Web
         public static readonly Status Created = new Status(201, "Created");
         public static readonly Status Accepted = new Status(202, "Accepted");
         public static readonly Status NonAuthoritativeInformation = new Status(203, "Non Authoritative Information");
-        public static readonly Status NoContent = new Status(204, "No Content");
-        public static readonly Status ResetContent = new Status(205, "Reset Content");
+        public static readonly Status NoContent = new Status(204, "No Content", hasBody: false);
+        public static readonly Status ResetContent = new Status(205, "Reset Content", hasBody: false);
         public static readonly Status PartialContent = new Status(206, "Partial Content");
         public static readonly Status MultipleStatus = new Status(207, "Multiple Status");
         public static readonly Status IMUsed = new Status(226, "IM Used");
@@ -85,7 +84,7 @@ namespace Dolstagis.Web
             (302, "Found", StatusMessages.Message302Found);
         public static readonly Status SeeOther = new Status
             (303, "See Other", StatusMessages.Message303SeeOther);
-        public static readonly Status NotModified = new Status(304, "Not Modified");
+        public static readonly Status NotModified = new Status(304, "Not Modified", hasBody : false);
         public static readonly Status UseProxy = new Status
             (305, "Use Proxy", StatusMessages.Message305UseProxy);
         [Obsolete("This status has been removed from the HTTP/1.1 specification. See RFC2616 §10.3.7")]
