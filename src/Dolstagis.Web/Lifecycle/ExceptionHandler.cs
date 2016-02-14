@@ -82,7 +82,7 @@ namespace Dolstagis.Web.Lifecycle
                     context.Response.Status = ex.Status;
                     context.Response.Headers.MimeType = "text/html";
                     context.Response.Headers.Encoding = Encoding.UTF8;
-                    await view.Render(context.Response.Body, new ViewData {
+                    await view.Render(context.Response, new ViewData {
                         Path = vPath.ToString(),
                         Model = ex
                     });

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
+using Dolstagis.Web.Http;
 using Dolstagis.Web.Static;
 using DotLiquid;
 
@@ -29,7 +30,7 @@ namespace Dolstagis.Web.Views.DotLiquid
             }
         }
 
-        public Task Render(Stream stream, ViewData data)
+        public Task Render(IResponse response, ViewData data)
         {
             var register = new Hash();
             register.Add(DotLiquidFileSystem.Guid, _resolver);
@@ -40,7 +41,7 @@ namespace Dolstagis.Web.Views.DotLiquid
             hash.Add("Status", data.Status);
             var ctx = new Context(new List<Hash>(), hash, register, true);
 
-            using (var writer = new StreamWriter(stream, data.Encoding)) {
+            using (var writer = response.GetStreamWriter()) {
                 _template.Render(writer, new RenderParameters {
                     Context = ctx
                 });
