@@ -7,6 +7,7 @@ using Dolstagis.Web.Views;
 
 namespace Dolstagis.Web.Lifecycle
 {
+    [Obsolete("Use ExceptionResult and StatusResult for this instead.", true)]
     public class ExceptionHandler : IExceptionHandler
     {
         private ViewRegistry _viewRegistry;

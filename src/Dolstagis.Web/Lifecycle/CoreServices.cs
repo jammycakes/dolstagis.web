@@ -31,7 +31,6 @@ namespace Dolstagis.Web.Lifecycle
                 bind.From<IRequestContext>().To<NullRequestContext>().Transient();
             })
             .Setup.Request.Bindings(bind => {
-                bind.From<IExceptionHandler>().Only().To<ExceptionHandler>().Managed();
                 bind.From<ILoginHandler>().Only().To<LoginHandler>().Managed();
                 bind.From<ViewRegistry>().Only().To<ViewRegistry>().Managed();
 
