@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Dolstagis.Web.Http;
 using Dolstagis.Web.Static;
 
 namespace Dolstagis.Web.Views.Razor
@@ -23,7 +24,7 @@ namespace Dolstagis.Web.Views.Razor
             this._resolver = resolver;
         }
 
-        public async Task Render(Stream stream, ViewResult data)
+        public async Task Render(IResponse response, ViewData data)
         {
             await Task.Yield();
         }
