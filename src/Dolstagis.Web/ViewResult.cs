@@ -33,7 +33,14 @@ namespace Dolstagis.Web
         {
             var registry = context.Container.Get<ViewRegistry>();
             var view = registry.GetView(Path);
-            await view.Render(context.Response.Body, this);
+            await view.Render(context.Response.Body,
+                new ViewData() {
+                    Data = this.Data,
+                    Encoding = this.Encoding,
+                    Model = this.Model,
+                    Path = this.Path,
+                    Status = this.Status
+                });
         }
     }
 }

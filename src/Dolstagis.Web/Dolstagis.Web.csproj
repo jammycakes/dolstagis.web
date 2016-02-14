@@ -89,6 +89,7 @@
     <Compile Include="IoC\IServiceLocator.cs" />
     <Compile Include="IRequestContext.cs" />
     <Compile Include="IResult.cs" />
+    <Compile Include="ViewData.cs" />
     <Compile Include="Lifecycle\BodylessRequestContextDecorator.cs" />
     <Compile Include="Lifecycle\CoreServices.cs" />
     <Compile Include="ErrorStatus.cs" />

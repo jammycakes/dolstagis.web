@@ -77,11 +77,13 @@ namespace Dolstagis.Web.Lifecycle
                 _viewRegistry.GetView(new VirtualPath("~/errors/default"));
             if (view != null)
             {
-                try
-                {
+                try {
                     context.Response.Status = ex.Status;
                     context.Response.AddHeader("Content-Type", "text/html; charset=utf-8");
-                    await view.Render(context.Response.Body, new ViewResult(vPath.ToString(), ex));
+                    await view.Render(context.Response.Body, new ViewData {
+                        Path = vPath.ToString(),
+                        Model = ex
+                    });
                     return;
                 }
                 catch (Exception exRendering)

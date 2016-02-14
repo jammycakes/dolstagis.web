@@ -5,6 +5,6 @@ namespace Dolstagis.Web.Views
 {
     public interface IView
     {
-        Task Render(Stream stream, ViewResult data);
+        Task Render(Stream stream, ViewData data);
     }
 }
