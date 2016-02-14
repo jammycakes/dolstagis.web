@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Threading.Tasks;
+using Dolstagis.Web.Http;
 using Newtonsoft.Json;
 
 namespace Dolstagis.Web
@@ -18,7 +19,7 @@ namespace Dolstagis.Web
 
         protected override Task SendBodyAsync(IRequestContext context)
         {
-            using (var textWriter = new StreamWriter(context.Response.Body, Encoding)) {
+            using (var textWriter = context.Response.GetStreamWriter()) {
                 var serializer = new JsonSerializer();
                 serializer.Serialize(textWriter, Model);
             }

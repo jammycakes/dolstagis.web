@@ -24,10 +24,9 @@ namespace Dolstagis.Web
 
         protected override async Task SendBodyAsync(IRequestContext context)
         {
-            if (!String.IsNullOrEmpty(Content)) {
-                using (var writer = new StreamWriter(context.Response.Body))
+            if (!String.IsNullOrEmpty(Content))
+                using (var writer = context.Response.GetStreamWriter())
                     await writer.WriteAsync(Content);
-            }
         }
     }
 }

@@ -52,8 +52,7 @@ namespace Dolstagis.Web.Lifecycle
                 .Replace("{{description}}", HttpUtility.HtmlEncode(ex.Status.Message))
                 .Replace("{{debug}}", _settings.Debug ? RenderDebugInfo(context, ex) : "");
 
-            using (var writer = new StreamWriter(context.Response.Body, Encoding.UTF8))
-            {
+            using (var writer = context.Response.GetStreamWriter()) {
                 await writer.WriteAsync(html);
             }
         }

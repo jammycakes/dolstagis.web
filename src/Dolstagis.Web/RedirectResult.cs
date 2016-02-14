@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Threading.Tasks;
+using Dolstagis.Web.Http;
 
 namespace Dolstagis.Web
 {
@@ -22,7 +23,7 @@ namespace Dolstagis.Web
         {
             var message = String.Format(Status.Message, Location);
 
-            using (var writer = new StreamWriter(context.Response.Body)) {
+            using (var writer = context.Response.GetStreamWriter()) {
                 await writer.WriteLineAsync("<!DOCTYPE html>");
                 await writer.WriteLineAsync("<html>");
                 await writer.WriteLineAsync("<body>");
