@@ -29,7 +29,7 @@ namespace Dolstagis.Web.Views.DotLiquid
             }
         }
 
-        public async Task Render(Stream stream, ViewData data)
+        public Task Render(Stream stream, ViewData data)
         {
             var register = new Hash();
             register.Add(DotLiquidFileSystem.Guid, _resolver);
@@ -45,7 +45,7 @@ namespace Dolstagis.Web.Views.DotLiquid
                     Context = ctx
                 });
             }
-            await Task.Yield();
+            return Task.FromResult(0);
         }
     }
 }

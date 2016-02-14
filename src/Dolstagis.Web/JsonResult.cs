@@ -16,14 +16,13 @@ namespace Dolstagis.Web
             Encoding = System.Text.Encoding.UTF8;
         }
 
-        protected override async Task SendBodyAsync(IRequestContext context)
+        protected override Task SendBodyAsync(IRequestContext context)
         {
             using (var textWriter = new StreamWriter(context.Response.Body, Encoding)) {
                 var serializer = new JsonSerializer();
-                await Task.Run(() => {
-                    serializer.Serialize(textWriter, Model);
-                });
+                serializer.Serialize(textWriter, Model);
             }
+            return Task.FromResult(0);
         }
     }
 }

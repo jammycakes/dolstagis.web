@@ -43,10 +43,10 @@ namespace Dolstagis.Web.Sessions
         }
 
 
-        public async Task Persist()
+        public Task Persist()
         {
             // Nothing to see here, move along please.
-            await Task.Yield();
+            return Task.FromResult(0);
         }
 
         public Task<object> GetItemAsync(string key)
@@ -56,7 +56,7 @@ namespace Dolstagis.Web.Sessions
             return Task.FromResult<object>(result);
         }
 
-        public async Task SetItemAsync(string key, object value)
+        public Task SetItemAsync(string key, object value)
         {
             if (value == null && Items.ContainsKey(key)) {
                 Items.Remove(key);
@@ -64,7 +64,7 @@ namespace Dolstagis.Web.Sessions
             else {
                 Items[key] = value;
             }
-            await Task.Yield();
+            return Task.FromResult(0);
         }
     }
 }

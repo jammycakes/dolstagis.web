@@ -38,12 +38,12 @@ namespace Dolstagis.Web.Views.Nustache
             return result.Template;
         }
 
-        public async Task Render(Stream stream, ViewData data)
+        public Task Render(Stream stream, ViewData data)
         {
             using (var writer = new StreamWriter(stream, data.Encoding)) {
                 Template.Render(data, writer, GetChildTemplate);
             }
-            await Task.Yield();
+            return Task.FromResult(0);
         }
     }
 }
