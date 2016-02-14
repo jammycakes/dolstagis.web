@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Dolstagis.Web.Static;
 
-namespace Dolstagis.Web.Static
+namespace Dolstagis.Web
 {
     public class ResourceResult : ResultBase
     {
@@ -22,10 +23,8 @@ namespace Dolstagis.Web.Static
             if (Resource == null) Status.NotFound.Throw();
             context.Response.Status = Status.OK;
             var ext = reGetExtension.Match(Resource.Name);
-            context.Response.AddHeader(
-                "Content-Type",
-                ext.Success ? MimeTypeMap.GetMimeType(ext.Value) : DefaultMimeType
-            );
+            context.Response.Headers.MimeType =
+                ext.Success ? MimeTypeMap.GetMimeType(ext.Value) : DefaultMimeType;
             context.Response.AddHeader("Last-Modified", Resource.LastModified.ToString("R"));
             if (Resource.Length.HasValue) {
                 context.Response.AddHeader("Content-Length", Resource.Length.Value.ToString());

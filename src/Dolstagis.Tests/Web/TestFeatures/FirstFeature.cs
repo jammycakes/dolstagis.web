@@ -1,4 +1,5 @@
-﻿using Dolstagis.Tests.Web.TestFeatures.Controllers;
+﻿using System;
+using Dolstagis.Tests.Web.TestFeatures.Controllers;
 using Dolstagis.Web;
 
 namespace Dolstagis.Tests.Web.TestFeatures
@@ -15,6 +16,7 @@ namespace Dolstagis.Tests.Web.TestFeatures
             Route.From("one/two/optional/{id?}").To.Controller<ChildController>();
             Route.From("one/two/optgreedy/{id*}").To.Controller<ChildController>();
             Route.From("{language}/one/two").To.Controller<LanguageController>();
+            Route.From("throw/{async}/{afterAwait}").To.Controller<ThrowingController<InvalidOperationException>>();
         }
     }
 }

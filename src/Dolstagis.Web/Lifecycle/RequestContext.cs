@@ -8,6 +8,7 @@ using Dolstagis.Web.IoC;
 using Dolstagis.Web.Http;
 using Dolstagis.Web.Sessions;
 using System.Collections;
+using System.Runtime.ExceptionServices;
 
 namespace Dolstagis.Web.Lifecycle
 {
@@ -21,7 +22,7 @@ namespace Dolstagis.Web.Lifecycle
 
         public RequestContext(IRequest request, IResponse response,
             ISessionStore sessionStore, IAuthenticator authenticator,
-            IIoCContainer container, FeatureSet features)
+            IIoCContainer container, IFeatureSet features)
         {
             Request = request;
             Response = response;
@@ -37,7 +38,7 @@ namespace Dolstagis.Web.Lifecycle
 
         public IResponse Response { get; private set; }
 
-        public FeatureSet Features { get; private set; }
+        public IFeatureSet Features { get; private set; }
 
         public ISession Session {
             get {
@@ -103,7 +104,13 @@ namespace Dolstagis.Web.Lifecycle
                 return await GetLoginResult();
             }
 
-            var result = method.Invoke(controller, arguments);
+            object result = null;
+            try {
+                result = method.Invoke(controller, arguments);
+            }
+            catch (TargetInvocationException tex) {
+                ExceptionDispatchInfo.Capture(tex.InnerException).Throw();
+            }
             if (result is Task) {
                 await (Task)result;
                 return ((dynamic)result).Result;

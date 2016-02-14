@@ -9,6 +9,7 @@ using System.Xml.Linq;
 using System.Xml.Serialization;
 using System.Xml.XPath;
 using System.Xml.Xsl;
+using Dolstagis.Web.Http;
 
 namespace Dolstagis.Web
 {
@@ -35,19 +36,13 @@ namespace Dolstagis.Web
             return base.RenderAsync(context);
         }
 
-        private async Task TransformAsync(IRequestContext context, XPathNavigator xml)
+        private async Task TransformAsync(IRequestContext context, IXPathNavigable xml)
         {
-            await Task.Run(() => {
-                using (var writer = new StreamWriter(context.Response.Body, Encoding))
-                using (var xWriter = new XmlTextWriter(writer)) {
-                    if (Xslt != null) {
-                        Xslt.Transform(xml, XsltArgs ?? new XsltArgumentList(), xWriter);
-                    }
-                    else {
-                        xml.WriteSubtree(xWriter);
-                    }
-                }
-            });
+            using (var writer = context.Response.GetStreamWriter())
+            using (var xWriter = new XmlTextWriter(writer)) {
+                Xslt.Transform(xml, XsltArgs ?? new XsltArgumentList(), xWriter);
+                await xWriter.FlushAsync();
+            }
         }
 
         protected override async Task SendBodyAsync(IRequestContext context)
@@ -56,9 +51,7 @@ namespace Dolstagis.Web
                 if (Model is XDocument)
                     await TransformAsync(context, ((XDocument)Model).CreateNavigator());
                 else if (Model is IXPathNavigable)
-                    await TransformAsync(context, ((IXPathNavigable)Model).CreateNavigator());
-                else if (Model is XPathNavigator)
-                    await TransformAsync(context, (XPathNavigator)Model);
+                    await TransformAsync(context, ((IXPathNavigable)Model));
                 else {
                     var ser = Serializer ?? new XmlSerializer(Model.GetType());
                     var doc = new XDocument();
@@ -68,21 +61,17 @@ namespace Dolstagis.Web
                 }
             }
             else {
-                using (var writer = new StreamWriter(context.Response.Body, Encoding))
-                using (var xWriter = new XmlTextWriter(writer)) {
+                using (var writer = context.Response.GetStreamWriter()) {
                     if (Model is XDocument)
-                        await Task.Run(() => ((XDocument)Model).Save(xWriter));
+                        ((XDocument)Model).Save(writer);
                     else if (Model is XmlDocument)
-                        await Task.Run(() => ((XmlDocument)Model).Save(xWriter));
+                        ((XmlDocument)Model).Save(writer);
                     else if (Model is IXPathNavigable)
-                        await Task.Run(() =>
-                            ((IXPathNavigable)Model).CreateNavigator().WriteSubtree(xWriter));
-                    else if (Model is XPathNavigator)
-                        await Task.Run(() =>
-                            ((XPathNavigator)Model).WriteSubtree(xWriter));
+                        using (var xWriter = new XmlTextWriter(writer))
+                            ((IXPathNavigable)Model).CreateNavigator().WriteSubtree(xWriter);
                     else
                         (Serializer ?? new XmlSerializer(Model.GetType()))
-                            .Serialize(xWriter, Model);
+                            .Serialize(writer, Model);
                 }
             }
         }

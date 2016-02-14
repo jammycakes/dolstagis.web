@@ -1,6 +1,9 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using System.Text.RegularExpressions;
 
 namespace Dolstagis.Web.Http
 {
@@ -118,7 +121,62 @@ namespace Dolstagis.Web.Http
 
         protected void SetValue(string key, string value)
         {
-            this["key"] = new string[] { value };
+            this[key] = new string[] { value };
+        }
+
+
+        /* ====== Content-Type ====== */
+
+        public string ContentType
+        {
+            get { return this.GetValue("Content-Type"); }
+            set { this.SetValue("Content-Type", value); }
+        }
+
+        private const string disallowedMimeCharacters = @"()<>@,;:\""[]?.=";
+
+        private static readonly Regex reInvalidMimeCharacters =
+            new Regex(@"[\s" + Regex.Escape(disallowedMimeCharacters) + "]");
+
+        public string MimeType
+        {
+            get {
+                string contentType = this.ContentType;
+                if (contentType == null) return null;
+                return contentType.Split(';').First().Trim();
+            }
+            set {
+                if (value == null) throw new ArgumentNullException();
+                string mt = value.Trim();
+                if (reInvalidMimeCharacters.Match(mt).Success) {
+                    throw new ArgumentException(
+                        "MIME type can not contain whitespace or any of the following " +
+                        "characters: " + disallowedMimeCharacters);
+                }
+                string contentType = mt;
+                Encoding enc = Encoding;
+                if (enc != null) contentType += ";charset=" + enc.WebName;
+                this.ContentType = value;
+            }
+        }
+
+
+        private static readonly Regex reCharset = new Regex(@";\s*charset\s*=\s*(.*?)\s*(?:;|$)");
+
+        public Encoding Encoding
+        {
+            get {
+                string contentType = this.ContentType;
+                if (contentType == null) return null;
+                var match = reCharset.Match(contentType);
+                if (!match.Success) return null;
+                return Encodings.Lookup(match.Groups[1].Value);
+            }
+            set {
+                string contentType = MimeType ?? "text/plain";
+                if (value != null) contentType += ";charset=" + value.WebName;
+                this.ContentType = contentType;
+            }
         }
     }
 }

@@ -17,7 +17,7 @@ namespace Dolstagis.Web.Features.Impl
     ///  on which features are turned on or off.
     /// </summary>
 
-    public class FeatureSet
+    public class FeatureSet : IFeatureSet
     {
         /// <summary>
         ///  Gets the Application object.

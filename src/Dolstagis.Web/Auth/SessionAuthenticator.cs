@@ -19,7 +19,7 @@ namespace Dolstagis.Web.Auth
                 (context.Session.Items.TryGetValue(SessionKey, out result) ? result as IUser : null);
         }
 
-        public async Task SetUser(IRequestContext context, IUser user)
+        public Task SetUser(IRequestContext context, IUser user)
         {
             if (user != null)
             {
@@ -29,7 +29,7 @@ namespace Dolstagis.Web.Auth
             {
                 context.Session.Items.Remove(SessionKey);
             }
-            await Task.Yield();
+            return Task.FromResult(0);
         }
     }
 }

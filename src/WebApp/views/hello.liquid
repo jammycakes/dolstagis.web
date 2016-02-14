@@ -1,3 +1,6 @@
 ﻿{% include "views/header" %}
-    <p>Session ID: {{ Model.ID }}</p>
+    <ul>
+        <li><strong>Session ID:</strong> {{ Model.ID }}></li>
+        <li><strong>Status:</strong> {{ Status.Code }} {{ Status.Description }}</li>
+    </ul>
 {% include "views/footer" %}

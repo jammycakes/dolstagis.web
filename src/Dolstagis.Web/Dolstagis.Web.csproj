@@ -65,10 +65,13 @@
     <Compile Include="ContentNegotiation\Types\TextContentNegotiator.cs" />
     <Compile Include="ContentNegotiation\Types\XmlNegotiator.cs" />
     <Compile Include="ContentResult.cs" />
+    <Compile Include="Features\Impl\IFeatureSet.cs" />
     <Compile Include="Features\Impl\RouteExpression.cs" />
     <Compile Include="Features\Impl\ViewExpression.cs" />
     <Compile Include="Features\IRouteExpression.cs" />
+    <Compile Include="Http\Encodings.cs" />
     <Compile Include="Http\Option.cs" />
+    <Compile Include="Http\ResponseExtensions.cs" />
     <Compile Include="IoC\DSL\IBindingExpression.cs" />
     <Compile Include="IoC\DSL\IContainerExpression.cs" />
     <Compile Include="IoC\DSL\IContainerIsExpression.cs" />
@@ -88,6 +91,7 @@
     <Compile Include="IoC\IServiceLocator.cs" />
     <Compile Include="IRequestContext.cs" />
     <Compile Include="IResult.cs" />
+    <Compile Include="ViewData.cs" />
     <Compile Include="Lifecycle\BodylessRequestContextDecorator.cs" />
     <Compile Include="Lifecycle\CoreServices.cs" />
     <Compile Include="ErrorStatus.cs" />
@@ -153,7 +157,6 @@
     <Compile Include="Routes\RouteInvocation.cs" />
     <Compile Include="Routes\RouteTable.cs" />
     <Compile Include="Routes\RouteTarget.cs" />
-    <Compile Include="Scope.cs" />
     <Compile Include="Sessions\InMemorySession.cs" />
     <Compile Include="Sessions\InMemorySessionStore.cs" />
     <Compile Include="Sessions\ISession.cs" />
@@ -171,7 +174,7 @@
     <Compile Include="Static\IResourceResolver.cs" />
     <Compile Include="Static\ResourceMapping.cs" />
     <Compile Include="Static\ResourceResolver.cs" />
-    <Compile Include="Static\ResourceResult.cs" />
+    <Compile Include="ResourceResult.cs" />
     <Compile Include="Static\StaticFileController.cs" />
     <Compile Include="Util\AssemblyExtensions.cs" />
     <Compile Include="Util\DictionaryExtensions.cs" />
@@ -186,7 +189,7 @@
     <Compile Include="Lifecycle\RequestProcessor.cs" />
     <Compile Include="RouteAttribute.cs" />
     <Compile Include="Status.cs" />
-    <Compile Include="Views\ViewResult.cs" />
+    <Compile Include="ViewResult.cs" />
     <Compile Include="Views\IView.cs" />
     <Compile Include="Static\MimeTypes.cs" />
     <Compile Include="Views\IViewEngine.cs" />

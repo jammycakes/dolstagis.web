@@ -26,12 +26,6 @@ namespace Dolstagis.Web.Http
 
         public IList<Option> AcceptLanguage { get { return _acceptLanguage.Value; } }
 
-        public string ContentType
-        {
-            get { return this.GetValue("Content-Type"); }
-            set { this.SetValue("Content-Type", value); }
-        }
-
         public IDictionary<string, Cookie> Cookies { get { return _cookies.Value;} }
 
 

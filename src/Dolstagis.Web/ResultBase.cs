@@ -77,11 +77,11 @@ namespace Dolstagis.Web
             }
 
             if (MimeType != null) {
-                context.Response.AddHeader("Content-Type",
-                    MimeType + (Encoding != null
-                        ? "; charset=" + Encoding.WebName
-                        : String.Empty)
-                );
+                context.Response.Headers.MimeType = MimeType;
+            }
+
+            if (Encoding != null) {
+                context.Response.Headers.Encoding = Encoding;
             }
         }
 

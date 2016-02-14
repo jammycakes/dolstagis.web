@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Threading.Tasks;
+using Dolstagis.Web.Http;
 using Dolstagis.Web.Static;
 using global::Nustache.Core;
 
@@ -38,12 +39,12 @@ namespace Dolstagis.Web.Views.Nustache
             return result.Template;
         }
 
-        public async Task Render(Stream stream, ViewResult data)
+        public Task Render(IResponse response, ViewData data)
         {
-            using (var writer = new StreamWriter(stream, data.Encoding)) {
+            using (var writer = response.GetStreamWriter()) {
                 Template.Render(data, writer, GetChildTemplate);
             }
-            await Task.Yield();
+            return Task.FromResult(0);
         }
     }
 }

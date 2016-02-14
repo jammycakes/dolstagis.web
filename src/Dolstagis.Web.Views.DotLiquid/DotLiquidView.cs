@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
+using Dolstagis.Web.Http;
 using Dolstagis.Web.Static;
 using DotLiquid;
 
@@ -8,6 +9,12 @@ namespace Dolstagis.Web.Views.DotLiquid
 {
     public class DotLiquidView : IView
     {
+        static DotLiquidView()
+        {
+            Template.RegisterSafeType(typeof(ViewData), new string[] { "Data", "Model", "Status" });
+            Template.RegisterSafeType(typeof(Status), new string[] { "Code", "Description", "Message" });
+        }
+
         private VirtualPath _path;
         private IResourceResolver _resolver;
         private Template _template;
@@ -23,7 +30,7 @@ namespace Dolstagis.Web.Views.DotLiquid
             }
         }
 
-        public async Task Render(Stream stream, ViewResult data)
+        public Task Render(IResponse response, ViewData data)
         {
             var register = new Hash();
             register.Add(DotLiquidFileSystem.Guid, _resolver);
@@ -31,14 +38,15 @@ namespace Dolstagis.Web.Views.DotLiquid
             var hash = new Hash();
             hash.Add("Data", data.Data);
             hash.Add("Model", data.Model);
+            hash.Add("Status", data.Status);
             var ctx = new Context(new List<Hash>(), hash, register, true);
 
-            using (var writer = new StreamWriter(stream, data.Encoding)) {
+            using (var writer = response.GetStreamWriter()) {
                 _template.Render(writer, new RenderParameters {
                     Context = ctx
                 });
             }
-            await Task.Yield();
+            return Task.FromResult(0);
         }
     }
 }

@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using Dolstagis.Web.IoC;
+using Dolstagis.Web.Views;
 
-namespace Dolstagis.Web.Views
+namespace Dolstagis.Web
 {
     public class ViewResult : ResultBase
     {
@@ -32,7 +33,14 @@ namespace Dolstagis.Web.Views
         {
             var registry = context.Container.Get<ViewRegistry>();
             var view = registry.GetView(Path);
-            await view.Render(context.Response.Body, this);
+            await view.Render(context.Response,
+                new ViewData() {
+                    Data = this.Data,
+                    Encoding = this.Encoding,
+                    Model = this.Model,
+                    Path = this.Path,
+                    Status = this.Status
+                });
         }
     }
 }

@@ -17,12 +17,12 @@ namespace WebApp
 
         public object Get()
         {
-            return "Hello world";
-            //return new ViewResult("~/views/hello.liquid",
-            //    new Dictionary<string, object>() {
-            //        { "ID", _session.ID }
-            //    }
-            //);
+            //return "Hello world";
+            return new ViewResult("~/views/hello.liquid",
+                new Dictionary<string, object>() {
+                    { "ID", _session.ID }
+                }
+            );
         }
     }
 }

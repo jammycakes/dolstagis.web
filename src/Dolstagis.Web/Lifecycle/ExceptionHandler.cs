@@ -7,6 +7,7 @@ using Dolstagis.Web.Views;
 
 namespace Dolstagis.Web.Lifecycle
 {
+    [Obsolete("Use ExceptionResult and StatusResult for this instead.", true)]
     public class ExceptionHandler : IExceptionHandler
     {
         private ViewRegistry _viewRegistry;
@@ -33,7 +34,8 @@ namespace Dolstagis.Web.Lifecycle
         private async Task DumpException(IRequestContext context, HttpStatusException ex)
         {
             context.Response.Status = ex.Status;
-            context.Response.AddHeader("Content-Type", "text/html; charset=utf-8");
+            context.Response.Headers.MimeType = "text/html";
+            context.Response.Headers.Encoding = Encoding.UTF8;
 
             const string rn = "Dolstagis.Web.Errors.DefaultErrorPage.html";
             string template;
@@ -50,8 +52,7 @@ namespace Dolstagis.Web.Lifecycle
                 .Replace("{{description}}", HttpUtility.HtmlEncode(ex.Status.Message))
                 .Replace("{{debug}}", _settings.Debug ? RenderDebugInfo(context, ex) : "");
 
-            using (var writer = new StreamWriter(context.Response.Body, Encoding.UTF8))
-            {
+            using (var writer = context.Response.GetStreamWriter()) {
                 await writer.WriteAsync(html);
             }
         }
@@ -77,11 +78,14 @@ namespace Dolstagis.Web.Lifecycle
                 _viewRegistry.GetView(new VirtualPath("~/errors/default"));
             if (view != null)
             {
-                try
-                {
+                try {
                     context.Response.Status = ex.Status;
-                    context.Response.AddHeader("Content-Type", "text/html; charset=utf-8");
-                    await view.Render(context.Response.Body, new ViewResult(vPath.ToString(), ex));
+                    context.Response.Headers.MimeType = "text/html";
+                    context.Response.Headers.Encoding = Encoding.UTF8;
+                    await view.Render(context.Response, new ViewData {
+                        Path = vPath.ToString(),
+                        Model = ex
+                    });
                     return;
                 }
                 catch (Exception exRendering)

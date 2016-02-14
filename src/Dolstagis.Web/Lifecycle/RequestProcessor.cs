@@ -104,8 +104,13 @@ namespace Dolstagis.Web.Lifecycle
 
                 if (!await ProcessResultAsync(outputContext, result)) Status.NotAcceptable.Throw();
             }
+            catch (HttpStatusException hex) {
+                await HandleException(outputContext, hex);
+                await ProcessResultAsync(outputContext, hex.Status);
+            }
             catch (Exception ex) {
                 await HandleException(outputContext, ex);
+                await ProcessResultAsync(outputContext, ex);
             }
         }
 
@@ -114,6 +119,10 @@ namespace Dolstagis.Web.Lifecycle
             var resultObj = result as IResult
                 ?? _negotiator.Arbitrate(context.Request, result);
             if (resultObj == null) return false;
+            if (result is Status)
+                resultObj.Status = (Status)result;
+            if (result is HttpStatusException)
+                resultObj.Status = ((HttpStatusException)result).Status;
             await resultObj.RenderAsync(context);
             return true;
         }
@@ -121,15 +130,10 @@ namespace Dolstagis.Web.Lifecycle
 
         private async Task HandleException(IRequestContext context, Exception ex)
         {
-            var fault = ex;
-            while (fault is AggregateException && ((AggregateException)fault).InnerExceptions.Count == 1) {
-                fault = ((AggregateException)fault).InnerExceptions.Single();
-            }
             foreach (var handler in _exceptionHandlers)
             {
-                await handler.HandleException(context, fault);
+                await handler.HandleException(context, ex);
             }
-            //await ProcessResultAsync(context, fault);
         }
         
         // TODO: this is only used in one of the tests. Need to either refactor the test
