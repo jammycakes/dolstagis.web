@@ -17,6 +17,7 @@ namespace WebApp
 
         public object Get()
         {
+            throw new HttpStatusException(Status.Forbidden);
             //return "Hello world";
             return new ViewResult("~/views/hello.liquid",
                 new Dictionary<string, object>() {

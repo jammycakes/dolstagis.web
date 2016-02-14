@@ -65,6 +65,7 @@
     <Compile Include="ContentNegotiation\Types\TextContentNegotiator.cs" />
     <Compile Include="ContentNegotiation\Types\XmlNegotiator.cs" />
     <Compile Include="ContentResult.cs" />
+    <Compile Include="ExceptionResult.cs" />
     <Compile Include="Features\Impl\IFeatureSet.cs" />
     <Compile Include="Features\Impl\RouteExpression.cs" />
     <Compile Include="Features\Impl\ViewExpression.cs" />
@@ -92,6 +93,7 @@
     <Compile Include="IoC\IServiceLocator.cs" />
     <Compile Include="IRequestContext.cs" />
     <Compile Include="IResult.cs" />
+    <Compile Include="StatusResult.cs" />
     <Compile Include="ViewData.cs" />
     <Compile Include="Lifecycle\BodylessRequestContextDecorator.cs" />
     <Compile Include="Lifecycle\CoreServices.cs" />

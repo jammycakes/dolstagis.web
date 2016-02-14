@@ -13,21 +13,14 @@ namespace Dolstagis.Web.Http
         {
         }
 
-        public override void Flush()
-        {
-        }
-
-        public override Task FlushAsync()
-        {
-            return Task.FromResult(0);
-        }
-
         public override void Close()
         {
+            Flush();
         }
 
         protected override void Dispose(bool disposing)
         {
+            Flush();
         }
     }
 }

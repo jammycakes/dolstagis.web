@@ -20,7 +20,7 @@ namespace Dolstagis.Web
         protected override void SendHeaders(IRequestContext context)
         {
             base.SendHeaders(context);
-            if (Resource == null) Status.NotFound.Throw();
+            if (Resource == null) throw Status.NotFound.CreateException();
             context.Response.Status = Status.OK;
             var ext = reGetExtension.Match(Resource.Name);
             context.Response.Headers.MimeType =

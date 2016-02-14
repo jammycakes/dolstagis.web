@@ -1,4 +1,6 @@
-﻿namespace Dolstagis.Web
+﻿using System;
+
+namespace Dolstagis.Web
 {
     public class ErrorStatus : Status
     {
@@ -6,9 +8,9 @@
         ///  Throws an exception with this status code.
         /// </summary>
 
-        public void Throw()
+        public Exception CreateException()
         {
-            throw new HttpStatusException(this);
+            return new HttpStatusException(this);
         }
 
         internal ErrorStatus(int code, string description)

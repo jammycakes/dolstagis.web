@@ -102,15 +102,16 @@ namespace Dolstagis.Web.Lifecycle
                     await context.PersistSession();
                 }
 
-                if (!await ProcessResultAsync(outputContext, result)) Status.NotAcceptable.Throw();
+                if (!await ProcessResultAsync(outputContext, result))
+                    throw Status.NotAcceptable.CreateException();
             }
             catch (HttpStatusException hex) {
                 await HandleException(outputContext, hex);
-                await ProcessResultAsync(outputContext, hex.Status);
+                await ProcessResultAsync(outputContext, new StatusResult(hex.Status));
             }
             catch (Exception ex) {
                 await HandleException(outputContext, ex);
-                await ProcessResultAsync(outputContext, ex);
+                await ProcessResultAsync(outputContext, new ExceptionResult(ex));
             }
         }
 
