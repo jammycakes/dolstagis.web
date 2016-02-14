@@ -119,6 +119,10 @@ namespace Dolstagis.Web.Lifecycle
             var resultObj = result as IResult
                 ?? _negotiator.Arbitrate(context.Request, result);
             if (resultObj == null) return false;
+            if (result is Status)
+                resultObj.Status = (Status)result;
+            if (result is HttpStatusException)
+                resultObj.Status = ((HttpStatusException)result).Status;
             await resultObj.RenderAsync(context);
             return true;
         }

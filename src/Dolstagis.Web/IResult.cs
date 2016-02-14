@@ -9,5 +9,7 @@ namespace Dolstagis.Web
     public interface IResult
     {
         Task RenderAsync(IRequestContext context);
+
+        Status Status { get; set; }
     }
 }
