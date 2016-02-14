@@ -1,57 +1,26 @@
 ﻿<!DOCTYPE html>
-
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8" />
+    <base href="{{base}}" />
     <title>{{code}} {{title}}</title>
-
-    <style type="text/css">
-        body {
-            font: 12pt calibri, arial, helvetica, sans-serif;
-            position: relative;
-        }
-
-        #heading {
-            left: 0px;
-            top: 0px;
-            bottom: 0px;
-            width: 250px;
-            position: fixed;
-            border-right: 1px dotted #9999ff;
-            background-color: #f1db66;
-            padding: 20px;
-            box-sizing: border-box;
-            -moz-box-sizing: border-box;
-            -webkit-box-sizing: border-box;
-        }
-
-        #content {
-            margin-left: 275px;
-        }
-
-        h1 {
-            transform: rotate(-90deg);
-            -webkit-transform: rotate(-90deg);
-            -ms-transform: rotate(-90deg);
-            -o-transform: rotate(-90deg);
-            transform-origin: top right;
-            -webkit-transform-origin: top right;
-            -ms-transform-origin: top right;
-            -o-transform-origin: top right;
-            text-align: left;
-            font-size: 200px;
-            top: 30px;
-            right: 250px;
-            position: absolute;
-            white-space: nowrap;
-            color: #c8a802;
-            margin: 0px;
-            padding:0px;
-        }
-    </style>
+    <link rel="stylesheet" type="text/css" href="_dolstagis/css/dolstagis.css" />
+    <link rel="shortcut icon" href="favicon.ico" />
 </head>
 <body>
-    <header id="heading"><h1>{{code}}</h1></header>
+    <header id="heading">
+
+        <h1>{{code}}</h1>
+
+        <div id="acknowledgement">
+            <img src="_dolstagis/images/logo-notext.png" alt="Dolstagis" />
+            <div>
+                Powered by <a href="https://github.com/jammycakes/dolstagis.web">
+                    <span class="dol">dol</span><span class="stagis">stagis</span>
+                </a>
+            </div>
+        </div>
+    </header>
     <section id="content">
         <h2>
             {{title}}

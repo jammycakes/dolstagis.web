@@ -38,6 +38,32 @@
     padding:0px;
 }
 
+#heading #acknowledgement {
+    position: absolute;
+    bottom: 0px;
+    width: 100%;
+    left: 0px;
+    text-align: center;
+    padding: 1em;
+    box-sizing: border-box;
+}
+
+a {
+    text-decoration: none;
+    font-weight: bold;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+.dol {
+    color: #cc0000;
+}
+
+.stagis {
+    color: #0000cc;
+}
 
 #content {
     margin-left: 275px;
