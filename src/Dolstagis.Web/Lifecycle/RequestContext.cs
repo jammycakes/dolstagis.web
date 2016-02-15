@@ -117,7 +117,7 @@ namespace Dolstagis.Web.Lifecycle
 
             var modelBinder = invocation.Feature.ModelBinder;
             var arguments = modelBinder.GetArguments(invocation, Request, method);
-
+            arguments = await _interceptors.ModelBound(this, arguments, method);
 
             object result = null;
             try {

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -22,6 +23,11 @@ namespace Dolstagis.Web
         public Task<object> ControllerFound(IRequestContext context, object controller)
         {
             return Task.FromResult(controller);
+        }
+
+        public Task<object[]> ModelBound(IRequestContext context, object[] model, MethodInfo method)
+        {
+            return Task.FromResult(model);
         }
 
         public Task<Exception> HandleException(IRequestContext context, Exception ex)

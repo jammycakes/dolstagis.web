@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -35,6 +36,15 @@ namespace Dolstagis.Web.Lifecycle
             }
             return controller;
         }
+
+        public async Task<object[]> ModelBound(IRequestContext context, object[] model, MethodInfo method)
+        {
+            foreach (var interceptor in _interceptors) {
+                model = await interceptor.ModelBound(context, model, method);
+            }
+            return model;
+        }
+
 
         public async Task<Exception> HandleException(IRequestContext context, Exception ex)
         {

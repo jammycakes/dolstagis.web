@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 using System.Threading.Tasks;
 
 namespace Dolstagis.Web
@@ -27,6 +28,24 @@ namespace Dolstagis.Web
         /// <param name="controller"></param>
         /// <returns></returns>
         Task<object> ControllerFound(IRequestContext context, object controller);
+
+        /// <summary>
+        ///  Called when the parameters have been bound to the model passed into
+        ///  the controller action.
+        /// </summary>
+        /// <param name="context">
+        ///  The request context.
+        /// </param>
+        /// <param name="model">
+        ///  The controller action parameters bound from the request data.
+        /// </param>
+        /// <param name="method">
+        ///  The controller action method to call.
+        /// </param>
+        /// <returns>
+        ///  The controller action parameters, with any required modifications.
+        /// </returns>
+        Task<object[]> ModelBound(IRequestContext context, object[] model, MethodInfo method);
 
         Task<Exception> HandleException(IRequestContext context, Exception ex);
     }
