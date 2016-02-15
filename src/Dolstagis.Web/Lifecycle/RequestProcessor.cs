@@ -117,13 +117,11 @@ namespace Dolstagis.Web.Lifecycle
 
         private async Task<bool> ProcessResultAsync(IRequestContext context, object result)
         {
-            var resultObj = result as IResult
-                ?? _negotiator.Arbitrate(context.Request, result);
+            IResult resultObj = result is Status
+                ? new StatusResult((Status)result)
+                : result as IResult;
+            resultObj = resultObj ?? _negotiator.Arbitrate(context.Request, result);
             if (resultObj == null) return false;
-            if (result is Status)
-                resultObj.Status = (Status)result;
-            if (result is HttpStatusException)
-                resultObj.Status = ((HttpStatusException)result).Status;
             await resultObj.RenderAsync(context);
             return true;
         }
