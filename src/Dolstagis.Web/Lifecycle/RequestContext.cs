@@ -95,7 +95,7 @@ namespace Dolstagis.Web.Lifecycle
             var invocation = Features.GetRouteInvocation(Request);
             var controller = invocation.Target.GetController(Container);
             if (controller == null) return Status.NotFound;
-            controller = _interceptors.ControllerFound(this, controller);
+            controller = await _interceptors.ControllerFound(this, controller);
             Type controllerType = controller.GetType();
 
             var method = controllerType.GetMethod(Request.Method,
