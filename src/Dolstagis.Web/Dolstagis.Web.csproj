@@ -166,7 +166,7 @@
     <Compile Include="Http\IResponse.cs" />
     <Compile Include="JsonResult.cs" />
     <Compile Include="Lifecycle\ExceptionHandler.cs" />
-    <Compile Include="Lifecycle\IExceptionHandler.cs" />
+    <Compile Include="IInterceptor.cs" />
     <Compile Include="ResultBase.cs" />
     <Compile Include="Static\AssemblyResource.cs" />
     <Compile Include="Static\AssemblyResourceLocation.cs" />

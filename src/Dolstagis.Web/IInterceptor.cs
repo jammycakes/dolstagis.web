@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace Dolstagis.Web.Lifecycle
+namespace Dolstagis.Web
 {
-    public interface IExceptionHandler
+    public interface IInterceptor
     {
         Task HandleException(IRequestContext context, Exception ex);
     }

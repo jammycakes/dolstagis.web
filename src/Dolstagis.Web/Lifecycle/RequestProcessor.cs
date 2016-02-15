@@ -14,7 +14,7 @@ namespace Dolstagis.Web.Lifecycle
     public class RequestProcessor
     {
         private ISettings _settings;
-        private IEnumerable<IExceptionHandler> _exceptionHandlers;
+        private IEnumerable<IInterceptor> _interceptors;
         private ISessionStore _sessionStore;
         private IAuthenticator _authenticator;
         private FeatureSet _features;
@@ -25,7 +25,7 @@ namespace Dolstagis.Web.Lifecycle
         private bool _requestContainerIsValid = false;
 
         public RequestProcessor(
-            IEnumerable<IExceptionHandler> exceptionHandlers,
+            IEnumerable<IInterceptor> interceptors,
             ISessionStore sessionStore,
             IAuthenticator authenticator,
             FeatureSet features,
@@ -34,7 +34,7 @@ namespace Dolstagis.Web.Lifecycle
             IArbitrator negotiator
         )
         {
-            _exceptionHandlers = exceptionHandlers;
+            _interceptors = interceptors;
             _sessionStore = sessionStore;
             _authenticator = authenticator;
             _features = features;
@@ -129,7 +129,7 @@ namespace Dolstagis.Web.Lifecycle
 
         private async Task HandleException(IRequestContext context, Exception ex)
         {
-            foreach (var handler in _exceptionHandlers)
+            foreach (var handler in _interceptors)
             {
                 await handler.HandleException(context, ex);
             }
