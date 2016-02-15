@@ -44,22 +44,32 @@ namespace Dolstagis.Web
             }
         }
 
-        private async Task DumpStatus(IRequestContext context)
-        {
-            const string rn = "Dolstagis.Web.Errors.DefaultErrorPage.html";
-            string template;
+        private static readonly string template;
 
-            using (var stream = this.GetType().Assembly.GetManifestResourceStream(rn))
+        static StatusResult()
+        {
+            const string rn = "Dolstagis.Web._dolstagis.DefaultErrorPage.html";
+            using (var stream = typeof(StatusResult).Assembly.GetManifestResourceStream(rn))
             using (var reader = new StreamReader(stream))
             {
-                template = await reader.ReadToEndAsync();
+                template = reader.ReadToEnd();
             }
+        }
 
-            var html = template
+        protected string GetTemplate(IRequestContext context)
+        {
+            return template
                 .Replace("{{code}}", Status.Code.ToString())
                 .Replace("{{title}}", HttpUtility.HtmlEncode(Status.Description))
                 .Replace("{{description}}", HttpUtility.HtmlEncode(Status.Message))
                 .Replace("{{base}}", context.Request.PathBase.ToString());
+        }
+
+
+        private async Task DumpStatus(IRequestContext context)
+        {
+            var html = GetTemplate(context)
+                .Replace("{{exception}}", String.Empty);
 
             using (var writer = context.Response.GetStreamWriter()) {
                 await writer.WriteAsync(html);

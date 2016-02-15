@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Dolstagis.Web;
 using Dolstagis.Web.Sessions;
 using Dolstagis.Web.Views;
@@ -17,7 +18,7 @@ namespace WebApp
 
         public object Get()
         {
-            throw new HttpStatusException(Status.Forbidden);
+            throw new InvalidOperationException("<script>alert('Hello');</script>");
             //return "Hello world";
             return new ViewResult("~/views/hello.liquid",
                 new Dictionary<string, object>() {

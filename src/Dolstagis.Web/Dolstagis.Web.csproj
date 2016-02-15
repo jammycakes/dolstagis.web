@@ -213,7 +213,7 @@
     <EmbeddedResource Include="_dolstagis\index.html" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Errors\DefaultErrorPage.html" />
+    <EmbeddedResource Include="_dolstagis\DefaultErrorPage.html" />
   </ItemGroup>
   <ItemGroup>
     <!--
