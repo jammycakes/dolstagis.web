@@ -18,7 +18,7 @@ namespace Dolstagis.Web.Lifecycle
 
         public Interceptors(IEnumerable<IInterceptor> interceptors)
         {
-            _interceptors = interceptors.ToList();
+            _interceptors = interceptors?.ToList() ?? new List<IInterceptor>();
         }
 
         public async Task<IRequestContext> BeginRequest(IRequestContext context)
