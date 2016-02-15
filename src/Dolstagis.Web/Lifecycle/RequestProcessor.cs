@@ -109,30 +109,29 @@ namespace Dolstagis.Web.Lifecycle
                     ExceptionDispatchInfo.Capture(ex).Throw();
                 }
             }
-            catch (HttpStatusException hex) {
-                await ProcessResultAsync(outputContext, new StatusResult(hex.Status));
-            }
             catch (Exception ex) {
-                await ProcessResultAsync(outputContext, new ExceptionResult(ex));
+                try {
+                    var result = ex is HttpStatusException
+                        ? new StatusResult(((HttpStatusException)ex).Status)
+                        : new ExceptionResult(ex);
+                    await ProcessResultAsync(outputContext, new ExceptionResult(ex));
+                }
+                catch (Exception ex1) {
+                    ex1 = await _interceptors.Exception(context, ex1);
+                    ExceptionDispatchInfo.Capture(ex1).Throw();
+                }
             }
         }
 
         private async Task<bool> ProcessResultAsync(IRequestContext context, object result)
         {
-            try {
-                IResult resultObj = result is Status
-                    ? new StatusResult((Status)result)
-                    : result as IResult;
-                resultObj = resultObj ?? _negotiator.Arbitrate(context.Request, result);
-                if (resultObj == null) return false;
-                await resultObj.RenderAsync(context);
-                return true;
-            }
-            catch (Exception ex) {
-                ex = await _interceptors.Exception(context, ex);
-                ExceptionDispatchInfo.Capture(ex).Throw();
-                throw; // Will never be called, but needed to quiet error.
-            }
+            IResult resultObj = result is Status
+                ? new StatusResult((Status)result)
+                : result as IResult;
+            resultObj = resultObj ?? _negotiator.Arbitrate(context.Request, result);
+            if (resultObj == null) return false;
+            await resultObj.RenderAsync(context);
+            return true;
         }
 
 
