@@ -61,5 +61,12 @@ namespace Dolstagis.Web.Lifecycle
             }
             return ex;
         }
+
+        public async Task EndRequest(IRequestContext context)
+        {
+            foreach (var interceptor in _interceptors) {
+                await interceptor.EndRequest(context);
+            }
+        }
     }
 }

@@ -48,17 +48,21 @@ namespace Dolstagis.Web.Lifecycle
         {
             using (var childContainer = _featureSetContainer.GetChildContainer()) {
                 IRequestContext context = new RequestContext
-                    (request, response, _sessionStore, _authenticator, childContainer, _features);
-                context = await BuildRequestContextAsync(childContainer, context);
-                context = await _interceptors.BeginRequest(context);
-                childContainer.Add(Binding<IRequestContext>
-                    .From(cfg => cfg.Only().To(context).Managed()));
-                await ProcessRequestContextAsync(context);
+                    (request, response, _sessionStore, _authenticator, childContainer, _features, _interceptors);
+                try {
+                    BuildRequestContext(childContainer, context);
+                    context = await _interceptors.BeginRequest(context);
+                    childContainer.Add(Binding<IRequestContext>
+                        .From(cfg => cfg.Only().To(context).Managed()));
+                    await ProcessRequestContextAsync(context);
+                }
+                finally {
+                    await _interceptors.EndRequest(context);
+                }
             }
         }
 
-        private async Task<IRequestContext> BuildRequestContextAsync
-            (IIoCContainer childContainer, IRequestContext context)
+        private void BuildRequestContext(IIoCContainer childContainer, IRequestContext context)
         {
             foreach (var feature in _features.Features) {
                 feature.ContainerBuilder.SetupRequest(childContainer);
@@ -87,8 +91,6 @@ namespace Dolstagis.Web.Lifecycle
                     }
                 }
             }
-
-            return context;
         }
 
         private async Task ProcessRequestContextAsync(IRequestContext context)

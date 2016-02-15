@@ -39,5 +39,10 @@ namespace Dolstagis.Web
         {
             return Task.FromResult(ex);
         }
+
+        public Task EndRequest(IRequestContext context)
+        {
+            return Task.FromResult(0);
+        }
     }
 }

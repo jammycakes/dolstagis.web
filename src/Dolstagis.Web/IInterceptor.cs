@@ -56,6 +56,19 @@ namespace Dolstagis.Web
         /// <returns></returns>
         Task<object> ControllerResult(IRequestContext context, object controller, object result);
 
+        /// <summary>
+        ///  Called when an exception is thrown. 
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="ex"></param>
+        /// <returns></returns>
         Task<Exception> Exception(IRequestContext context, Exception ex);
+
+        /// <summary>
+        ///  Called when the request has been completed.
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
+        Task EndRequest(IRequestContext context);
     }
 }
