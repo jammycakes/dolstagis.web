@@ -19,6 +19,11 @@ namespace Dolstagis.Web
             return Task.FromResult(context);
         }
 
+        public Task<object> ControllerFound(IRequestContext context, object controller)
+        {
+            return Task.FromResult(controller);
+        }
+
         public Task<Exception> HandleException(IRequestContext context, Exception ex)
         {
             return Task.FromResult(ex);

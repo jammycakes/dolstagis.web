@@ -20,6 +20,13 @@ namespace Dolstagis.Web
         /// </returns>
         Task<IRequestContext> BeginRequest(IRequestContext context);
 
+        /// <summary>
+        ///  Invoked once the controller has been resolved.
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="controller"></param>
+        /// <returns></returns>
+        Task<object> ControllerFound(IRequestContext context, object controller);
 
         Task<Exception> HandleException(IRequestContext context, Exception ex);
     }

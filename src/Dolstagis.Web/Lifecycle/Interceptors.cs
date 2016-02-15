@@ -6,9 +6,14 @@ using System.Threading.Tasks;
 
 namespace Dolstagis.Web.Lifecycle
 {
-    internal class Interceptors
+    public class Interceptors
     {
         private IList<IInterceptor> _interceptors;
+
+        public Interceptors()
+        {
+            _interceptors = new List<IInterceptor>();
+        }
 
         public Interceptors(IEnumerable<IInterceptor> interceptors)
         {
@@ -21,6 +26,14 @@ namespace Dolstagis.Web.Lifecycle
                 context = await interceptor.BeginRequest(context);
             }
             return context;
+        }
+
+        public async Task<object> ControllerFound(IRequestContext context, object controller)
+        {
+            foreach (var interceptor in _interceptors) {
+                controller = await interceptor.ControllerFound(context, controller);
+            }
+            return controller;
         }
 
         public async Task<Exception> HandleException(IRequestContext context, Exception ex)

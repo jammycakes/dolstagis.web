@@ -19,10 +19,12 @@ namespace Dolstagis.Web.Lifecycle
         private ISession _session = null;
         private IUser _user = null;
         private IServiceLocator _container;
+        private Interceptors _interceptors;
 
         public RequestContext(IRequest request, IResponse response,
             ISessionStore sessionStore, IAuthenticator authenticator,
-            IIoCContainer container, IFeatureSet features)
+            IIoCContainer container, IFeatureSet features,
+            Interceptors interceptors = null)
         {
             Request = request;
             Response = response;
@@ -30,6 +32,7 @@ namespace Dolstagis.Web.Lifecycle
             _authenticator = authenticator;
             _container = new ContainerWrapper(container);
             Features = features;
+            _interceptors = interceptors ?? new Interceptors();
         }
 
         public IServiceLocator Container { get { return _container; } }
@@ -92,6 +95,7 @@ namespace Dolstagis.Web.Lifecycle
             var invocation = Features.GetRouteInvocation(Request);
             var controller = invocation.Target.GetController(Container);
             if (controller == null) return Status.NotFound;
+            controller = _interceptors.ControllerFound(this, controller);
             Type controllerType = controller.GetType();
 
             var method = controllerType.GetMethod(Request.Method,
@@ -107,12 +111,13 @@ namespace Dolstagis.Web.Lifecycle
 
             if (method == null) return Status.NotFound;
 
-            var modelBinder = invocation.Feature.ModelBinder;
-            var arguments = modelBinder.GetArguments(invocation, Request, method);
-
             if (IsLoginRequired(method)) {
                 return await GetLoginResult();
             }
+
+            var modelBinder = invocation.Feature.ModelBinder;
+            var arguments = modelBinder.GetArguments(invocation, Request, method);
+
 
             object result = null;
             try {

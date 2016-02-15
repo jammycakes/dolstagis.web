@@ -135,7 +135,8 @@ namespace Dolstagis.Web.Lifecycle
 
         public RequestContext CreateContext(IRequest request, IResponse response, IIoCContainer requestContainer)
         {
-            return new RequestContext(request, response, _sessionStore, _authenticator, requestContainer, _features);
+            return new RequestContext(request, response, _sessionStore, _authenticator,
+                requestContainer, _features, _interceptors);
         }
     }
 }
