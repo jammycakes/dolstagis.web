@@ -313,6 +313,15 @@ namespace Dolstagis.Web.Errors {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The item you requested is unavailable for legal reasons..
+        /// </summary>
+        internal static string Message451NotAvailableForLegalReasons {
+            get {
+                return ResourceManager.GetString("Message451NotAvailableForLegalReasons", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The server encountered an internal error or misconfiguration and was unable to complete your request..
         /// </summary>
         internal static string Message500InternalServerError {

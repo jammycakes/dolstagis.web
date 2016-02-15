@@ -129,7 +129,7 @@ namespace Dolstagis.Web
         public static readonly ErrorStatus ExpectationFailed = new ErrorStatus
             (417, "Expectation Failed", StatusMessages.Message417ExpectationFailed);
         public static readonly ErrorStatus ImATeapot = new ErrorStatus
-            (418, "Im ATeapot", StatusMessages.Message418ImATeapot);
+            (418, "I'm A Teapot", StatusMessages.Message418ImATeapot);
         public static readonly ErrorStatus EnhanceYourCalm = new ErrorStatus
             (420, "Enhance Your Calm", StatusMessages.Message420EnhanceYourCalm);
         public static readonly ErrorStatus UnprocessableEntity = new ErrorStatus
@@ -148,7 +148,9 @@ namespace Dolstagis.Web
         public static readonly ErrorStatus RetryWith = new ErrorStatus(449, "Retry With");
         public static readonly ErrorStatus BlockedByWindowsParentalControls
             = new ErrorStatus(450, "Blocked By Windows Parental Controls");
-        public static readonly ErrorStatus ClientClosedRequest 
+        public static readonly ErrorStatus NotAvailableForLegalReasons
+            = new ErrorStatus(451, "Not Available For Legal Reasons", StatusMessages.Message451NotAvailableForLegalReasons);
+        public static readonly ErrorStatus ClientClosedRequest
             = new ErrorStatus(499, "Client Closed Request");
 
         public static readonly ErrorStatus InternalServerError = new ErrorStatus

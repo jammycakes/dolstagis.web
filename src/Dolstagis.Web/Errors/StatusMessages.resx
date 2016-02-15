@@ -201,6 +201,9 @@
   <data name="Message429TooManyRequests" xml:space="preserve">
     <value>The user has sent too many requests in a given amount of time.</value>
   </data>
+  <data name="Message451NotAvailableForLegalReasons" xml:space="preserve">
+    <value>The item you requested is unavailable for legal reasons.</value>
+  </data>
   <data name="Message500InternalServerError" xml:space="preserve">
     <value>The server encountered an internal error or misconfiguration and was unable to complete your request.</value>
   </data>
