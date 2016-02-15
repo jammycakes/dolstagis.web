@@ -105,7 +105,7 @@ namespace Dolstagis.Web.Lifecycle
                         throw Status.NotAcceptable.CreateException();
                 }
                 catch (Exception ex) {
-                    ex = await _interceptors.HandleException(context, ex);
+                    ex = await _interceptors.Exception(context, ex);
                     ExceptionDispatchInfo.Capture(ex).Throw();
                 }
             }
@@ -119,13 +119,20 @@ namespace Dolstagis.Web.Lifecycle
 
         private async Task<bool> ProcessResultAsync(IRequestContext context, object result)
         {
-            IResult resultObj = result is Status
-                ? new StatusResult((Status)result)
-                : result as IResult;
-            resultObj = resultObj ?? _negotiator.Arbitrate(context.Request, result);
-            if (resultObj == null) return false;
-            await resultObj.RenderAsync(context);
-            return true;
+            try {
+                IResult resultObj = result is Status
+                    ? new StatusResult((Status)result)
+                    : result as IResult;
+                resultObj = resultObj ?? _negotiator.Arbitrate(context.Request, result);
+                if (resultObj == null) return false;
+                await resultObj.RenderAsync(context);
+                return true;
+            }
+            catch (Exception ex) {
+                ex = await _interceptors.Exception(context, ex);
+                ExceptionDispatchInfo.Capture(ex).Throw();
+                throw; // Will never be called, but needed to quiet error.
+            }
         }
 
 

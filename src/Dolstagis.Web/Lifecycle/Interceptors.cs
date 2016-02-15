@@ -45,8 +45,16 @@ namespace Dolstagis.Web.Lifecycle
             return model;
         }
 
+        public async Task<object> ControllerResult(IRequestContext context, object controller, object result)
+        {
+            foreach (var interceptor in _interceptors) {
+                result = await interceptor.ControllerResult(context, controller, result);
+            }
+            return result;
+        }
 
-        public async Task<Exception> HandleException(IRequestContext context, Exception ex)
+
+        public async Task<Exception> Exception(IRequestContext context, Exception ex)
         {
             foreach (var interceptor in _interceptors) {
                 ex = await interceptor.HandleException(context, ex);

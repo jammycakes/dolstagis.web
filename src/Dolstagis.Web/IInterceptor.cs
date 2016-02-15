@@ -47,6 +47,15 @@ namespace Dolstagis.Web
         /// </returns>
         Task<object[]> ModelBound(IRequestContext context, object[] model, MethodInfo method);
 
+        /// <summary>
+        ///  Called when the controller has successfully returned a result.
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="controller"></param>
+        /// <param name="result"></param>
+        /// <returns></returns>
+        Task<object> ControllerResult(IRequestContext context, object controller, object result);
+
         Task<Exception> HandleException(IRequestContext context, Exception ex);
     }
 }

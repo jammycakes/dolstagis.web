@@ -128,13 +128,11 @@ namespace Dolstagis.Web.Lifecycle
             }
             if (result is Task) {
                 await (Task)result;
-                return ((dynamic)result).Result;
-            }
-            else if (result != null) {
-                return result;
+                result = ((dynamic)result).Result;
             }
 
-            return Status.NotFound;
+            result = await _interceptors.ControllerResult(this, controller, result);
+            return result ?? Status.NotFound;
         }
 
         protected virtual bool IsLoginRequired(MethodInfo method)
