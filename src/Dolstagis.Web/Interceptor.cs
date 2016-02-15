@@ -35,7 +35,7 @@ namespace Dolstagis.Web
             return Task.FromResult(result);
         }
 
-        public Task<Exception> HandleException(IRequestContext context, Exception ex)
+        public Task<Exception> Exception(IRequestContext context, Exception ex)
         {
             return Task.FromResult(ex);
         }

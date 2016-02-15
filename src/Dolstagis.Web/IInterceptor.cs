@@ -56,6 +56,6 @@ namespace Dolstagis.Web
         /// <returns></returns>
         Task<object> ControllerResult(IRequestContext context, object controller, object result);
 
-        Task<Exception> HandleException(IRequestContext context, Exception ex);
+        Task<Exception> Exception(IRequestContext context, Exception ex);
     }
 }

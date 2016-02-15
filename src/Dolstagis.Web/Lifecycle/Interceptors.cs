@@ -57,7 +57,7 @@ namespace Dolstagis.Web.Lifecycle
         public async Task<Exception> Exception(IRequestContext context, Exception ex)
         {
             foreach (var interceptor in _interceptors) {
-                ex = await interceptor.HandleException(context, ex);
+                ex = await interceptor.Exception(context, ex);
             }
             return ex;
         }
