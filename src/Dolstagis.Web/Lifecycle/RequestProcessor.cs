@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.ExceptionServices;
 using System.Threading.Tasks;
 using Dolstagis.Web.Auth;
 using Dolstagis.Web.ContentNegotiation;
@@ -14,7 +15,7 @@ namespace Dolstagis.Web.Lifecycle
     public class RequestProcessor
     {
         private ISettings _settings;
-        private IEnumerable<IInterceptor> _interceptors;
+        private Interceptors _interceptors;
         private ISessionStore _sessionStore;
         private IAuthenticator _authenticator;
         private FeatureSet _features;
@@ -34,7 +35,7 @@ namespace Dolstagis.Web.Lifecycle
             IArbitrator negotiator
         )
         {
-            _interceptors = interceptors;
+            _interceptors = new Interceptors(interceptors);
             _sessionStore = sessionStore;
             _authenticator = authenticator;
             _features = features;
@@ -46,46 +47,51 @@ namespace Dolstagis.Web.Lifecycle
         public async Task ProcessRequestAsync(IRequest request, IResponse response)
         {
             using (var childContainer = _featureSetContainer.GetChildContainer()) {
-                var context = new RequestContext
+                IRequestContext context = new RequestContext
                     (request, response, _sessionStore, _authenticator, childContainer, _features);
-
+                context = await BuildRequestContextAsync(childContainer, context);
+                context = await _interceptors.BeginRequest(context);
                 childContainer.Add(Binding<IRequestContext>
                     .From(cfg => cfg.Only().To(context).Managed()));
-
-                foreach (var feature in _features.Features) {
-                    feature.ContainerBuilder.SetupRequest(childContainer);
-                }
-
-                if (_settings.Debug) {
-                    lock (_featureSetContainer) {
-                        // Only validate the request container once.
-                        // But throw every time if it fails.
-                        if (_requestContainerIsChecked) {
-                            if (!_requestContainerIsValid) {
-                                throw new InvalidOperationException(
-                                    "The container configuration for requests for this feature set is invalid. "
-                                    + "Please refer to previous errors."
-                                );
-                            }
-                        }
-                        else {
-                            try {
-                                childContainer.Validate();
-                                _requestContainerIsValid = true;
-                            }
-                            finally {
-                                _requestContainerIsChecked = true;
-                            }
-                        }
-                    }
-                }
-
                 await ProcessRequestContextAsync(context);
             }
         }
 
+        private async Task<IRequestContext> BuildRequestContextAsync
+            (IIoCContainer childContainer, IRequestContext context)
+        {
+            foreach (var feature in _features.Features) {
+                feature.ContainerBuilder.SetupRequest(childContainer);
+            }
 
-        private async Task ProcessRequestContextAsync(RequestContext context)
+            if (_settings.Debug) {
+                lock (_featureSetContainer) {
+                    // Only validate the request container once.
+                    // But throw every time if it fails.
+                    if (_requestContainerIsChecked) {
+                        if (!_requestContainerIsValid) {
+                            throw new InvalidOperationException(
+                                "The container configuration for requests for this feature set is invalid. "
+                                + "Please refer to previous errors."
+                            );
+                        }
+                    }
+                    else {
+                        try {
+                            childContainer.Validate();
+                            _requestContainerIsValid = true;
+                        }
+                        finally {
+                            _requestContainerIsChecked = true;
+                        }
+                    }
+                }
+            }
+
+            return context;
+        }
+
+        private async Task ProcessRequestContextAsync(IRequestContext context)
         {
             var outputContext =
                 context.Request.Method.Equals("HEAD", StringComparison.OrdinalIgnoreCase)
@@ -93,24 +99,20 @@ namespace Dolstagis.Web.Lifecycle
                 : (IRequestContext)context;
 
             try {
-                object result;
-
                 try {
-                    result = await context.InvokeRequest();
+                    object result = await context.InvokeRequest();
+                    if (!await ProcessResultAsync(outputContext, result))
+                        throw Status.NotAcceptable.CreateException();
                 }
-                finally {
-                    await context.PersistSession();
+                catch (Exception ex) {
+                    ex = await _interceptors.HandleException(context, ex);
+                    ExceptionDispatchInfo.Capture(ex).Throw();
                 }
-
-                if (!await ProcessResultAsync(outputContext, result))
-                    throw Status.NotAcceptable.CreateException();
             }
             catch (HttpStatusException hex) {
-                await HandleException(outputContext, hex);
                 await ProcessResultAsync(outputContext, new StatusResult(hex.Status));
             }
             catch (Exception ex) {
-                await HandleException(outputContext, ex);
                 await ProcessResultAsync(outputContext, new ExceptionResult(ex));
             }
         }
@@ -127,14 +129,6 @@ namespace Dolstagis.Web.Lifecycle
         }
 
 
-        private async Task HandleException(IRequestContext context, Exception ex)
-        {
-            foreach (var handler in _interceptors)
-            {
-                await handler.HandleException(context, ex);
-            }
-        }
-        
         // TODO: this is only used in one of the tests. Need to either refactor the test
         // or else use [InternalsVisibleTo]. We shouldn't be exposing RequestContext
         // in the public API, only IRequestContext.

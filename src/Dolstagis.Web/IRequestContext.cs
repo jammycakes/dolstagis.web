@@ -54,5 +54,13 @@ namespace Dolstagis.Web
         /// </summary>
         /// <returns>The user object, or null for anonymous requests.</returns>
         Task<IUser> GetUserAsync();
+
+        /// <summary>
+        ///  Called to invoke the request once the context has been created.
+        /// </summary>
+        /// <returns>
+        ///  The result returned from the controller.
+        /// </returns>
+        Task<object> InvokeRequest();
     }
 }

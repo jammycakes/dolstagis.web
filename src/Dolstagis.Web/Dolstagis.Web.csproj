@@ -74,6 +74,7 @@
     <Compile Include="Http\NonClosingStreamWriter.cs" />
     <Compile Include="Http\Option.cs" />
     <Compile Include="Http\ResponseExtensions.cs" />
+    <Compile Include="Interceptor.cs" />
     <Compile Include="IoC\DSL\IBindingExpression.cs" />
     <Compile Include="IoC\DSL\IContainerExpression.cs" />
     <Compile Include="IoC\DSL\IContainerIsExpression.cs" />
@@ -93,6 +94,7 @@
     <Compile Include="IoC\IServiceLocator.cs" />
     <Compile Include="IRequestContext.cs" />
     <Compile Include="IResult.cs" />
+    <Compile Include="Lifecycle\Interceptors.cs" />
     <Compile Include="StatusResult.cs" />
     <Compile Include="ViewData.cs" />
     <Compile Include="Lifecycle\BodylessRequestContextDecorator.cs" />
@@ -165,7 +167,6 @@
     <Compile Include="Http\IRequest.cs" />
     <Compile Include="Http\IResponse.cs" />
     <Compile Include="JsonResult.cs" />
-    <Compile Include="Lifecycle\ExceptionHandler.cs" />
     <Compile Include="IInterceptor.cs" />
     <Compile Include="ResultBase.cs" />
     <Compile Include="Static\AssemblyResource.cs" />

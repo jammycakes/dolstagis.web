@@ -42,6 +42,11 @@ namespace Dolstagis.Web.Lifecycle
             return _inner.GetUserAsync();
         }
 
+        public Task<object> InvokeRequest()
+        {
+            return _inner.InvokeRequest();
+        }
+
         private class BodylessResponseDecorator : IResponse
         {
             private IResponse _inner;

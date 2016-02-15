@@ -116,6 +116,7 @@ namespace Dolstagis.Web.Lifecycle
             public bool IsInRole(string role) { throw GetException(); }
             public Task Persist() { throw GetException(); }
             public Task SetItemAsync(string key, object value) { throw GetException(); }
+            public Task<object> InvokeRequest() { throw GetException(); }
         }
     }
 }

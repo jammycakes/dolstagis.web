@@ -79,6 +79,16 @@ namespace Dolstagis.Web.Lifecycle
 
         public async Task<object> InvokeRequest()
         {
+            try {
+                return await InvokeRequestInternal();
+            }
+            finally {
+                await PersistSession();
+            }
+        }
+
+        private async Task<object> InvokeRequestInternal()
+        {
             var invocation = Features.GetRouteInvocation(Request);
             var controller = invocation.Target.GetController(Container);
             if (controller == null) return Status.NotFound;
@@ -136,7 +146,7 @@ namespace Dolstagis.Web.Lifecycle
         }
 
 
-        public async Task PersistSession()
+        private async Task PersistSession()
         {
             if (_session != null) {
                 if (_session.ID != null) {
