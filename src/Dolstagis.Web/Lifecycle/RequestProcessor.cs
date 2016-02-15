@@ -116,7 +116,7 @@ namespace Dolstagis.Web.Lifecycle
                     var result = ex is HttpStatusException
                         ? new StatusResult(((HttpStatusException)ex).Status)
                         : new ExceptionResult(ex);
-                    await ProcessResultAsync(outputContext, new ExceptionResult(ex));
+                    await ProcessResultAsync(outputContext, result);
                 }
                 catch (Exception ex1) {
                     ex1 = await _interceptors.Exception(context, ex1);
