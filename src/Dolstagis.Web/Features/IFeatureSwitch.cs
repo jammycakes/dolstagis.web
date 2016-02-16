@@ -21,5 +21,11 @@ namespace Dolstagis.Web.Features
         /// </returns>
 
         bool IsEnabledForRequest(IRequest request);
+
+        /// <summary>
+        ///  Gets a value indicating that this feature has been defined.
+        /// </summary>
+
+        bool IsDefined { get; }
     }
 }

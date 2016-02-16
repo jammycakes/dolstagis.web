@@ -4,8 +4,6 @@
     {
         IContainerScopeExpression<TContainer> Application { get; }
 
-        IContainerScopeExpression<TContainer> Feature { get; }
-
         IContainerScopeExpression<TContainer> Request { get; }
     }
 }

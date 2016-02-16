@@ -13,6 +13,8 @@ namespace Dolstagis.Web.Features.Impl
         {
         }
 
+        public bool IsDefined { get { return _predicate != null; } }
+
         public bool IsEnabledForRequest(IRequest request)
         {
             return _predicate == null || _predicate(request);
@@ -32,7 +34,7 @@ namespace Dolstagis.Web.Features.Impl
 
         public void AssertNotDefined(string errorMessage)
         {
-            if (_predicate != null)
+            if (IsDefined)
                 throw new InvalidOperationException(errorMessage);
         }
     }

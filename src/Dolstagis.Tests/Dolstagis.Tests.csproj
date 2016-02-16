@@ -79,8 +79,6 @@
     <Compile Include="Objects\Services\Service.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Web\Features\FeatureSetFixture.cs" />
-    <Compile Include="Web\Features\FluentConfiguration\ConfigConflictFixture.cs" />
-    <Compile Include="Web\Features\FluentConfiguration\ConfigConflictFeature.cs" />
     <Compile Include="Web\Http\EncodingsFixture.cs" />
     <Compile Include="Web\Http\Response\ContentTypeFixture.cs" />
     <Compile Include="Web\Lifecycle\RequestContextFixture.cs" />

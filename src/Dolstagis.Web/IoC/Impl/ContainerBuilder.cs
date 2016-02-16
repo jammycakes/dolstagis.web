@@ -11,20 +11,12 @@ namespace Dolstagis.Web.IoC.Impl
         where TContainer : IIoCContainer
     {
         private ContainerScope<TContainer> _application;
-        private ContainerScope<TContainer> _feature;
         private ContainerScope<TContainer> _request;
 
         public ContainerBuilder()
         {
             _application = new ContainerScope<TContainer>(this);
-            _feature = new ContainerScope<TContainer>(this);
             _request = new ContainerScope<TContainer>(this);
-
-            _application.Configuring += (s, e) => {
-                ApplicationLevel = true;
-                if (ConfiguringApplication != null)
-                    ConfiguringApplication(this, EventArgs.Empty);
-            };
         }
 
 
@@ -33,8 +25,6 @@ namespace Dolstagis.Web.IoC.Impl
         public bool HasInstance { get; private set; }
 
         public IIoCContainer Instance { get; private set; }
-
-        public bool ApplicationLevel { get; private set; }
 
         public Type ContainerType
         {
@@ -53,18 +43,11 @@ namespace Dolstagis.Web.IoC.Impl
         }
 
 
-        public void SetupFeature(IIoCContainer container)
-        {
-            _feature.Setup((TContainer)container);
-        }
-
-
         public void SetupRequest(IIoCContainer container)
         {
             _request.Setup((TContainer)container);
         }
 
-        public event EventHandler ConfiguringApplication;
         public event EventHandler SettingContainer;
 
 
@@ -88,11 +71,6 @@ namespace Dolstagis.Web.IoC.Impl
         public IContainerScopeExpression<TContainer> Application
         {
             get { return _application; }
-        }
-
-        public IContainerScopeExpression<TContainer> Feature
-        {
-            get { return _feature; }
         }
 
         public IContainerScopeExpression<TContainer> Request

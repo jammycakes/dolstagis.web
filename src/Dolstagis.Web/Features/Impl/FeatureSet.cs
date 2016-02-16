@@ -48,8 +48,10 @@ namespace Dolstagis.Web.Features.Impl
                 Container.Add(Binding<RequestProcessor>
                     .From(b => b.Only().To<RequestProcessor>().Managed()));
                 foreach (var feature in Features) {
-                    Container.Add(Binding<IFeature>.From(b => b.To(feature).Managed()));
-                    feature.ContainerBuilder.SetupFeature(Container);
+                    if (feature.Switch.IsDefined) {
+                        Container.Add(Binding<IFeature>.From(b => b.To(feature).Managed()));
+                        feature.ContainerBuilder.SetupApplication(Container);
+                    }
                 }
 
                 if (application.Settings.Debug) Container.Validate();

@@ -125,14 +125,14 @@ namespace Dolstagis.Web
                 "at least one feature has specified an IOC container using " +
                 "Container.Is<TContainer>() in the constructor.";
 
-            IIoCContainer instance = null;
+            IIoCContainer container = null;
             IContainerBuilder builder = null;
 
             foreach (var feature in Features) {
                 var cb = feature.ContainerBuilder;
                 if (cb.HasInstance) {
-                    instance = instance ?? cb.Instance;
-                    if (!Object.ReferenceEquals(instance, cb.Instance)) {
+                    container = container ?? cb.Instance;
+                    if (!Object.ReferenceEquals(container, cb.Instance)) {
                         throw new InvalidOperationException(iocError);
                     }
                 }
@@ -146,8 +146,8 @@ namespace Dolstagis.Web
 
             // Is there an instance? If so, check it and return it
 
-            if (instance != null) {
-                if (builder != null && !builder.ContainerType.IsInstanceOfType(instance)) {
+            if (container != null) {
+                if (builder != null && !builder.ContainerType.IsInstanceOfType(container)) {
                     throw new InvalidOperationException(iocError);
                 }
             }
@@ -156,23 +156,26 @@ namespace Dolstagis.Web
                     throw new InvalidOperationException(iocMissingError);
                 }
                 else {
-                    instance = builder.CreateContainer();
+                    container = builder.CreateContainer();
                 }
             }
 
             // Finally, configure the container from all features.
 
-            instance.Add(Binding<ISettings>.From(b => b.Only().To(Settings)));
-            instance.Add(Binding<Application>.From(b => b.Only().To(this)));
+            container.Add(Binding<ISettings>.From(b => b.Only().To(Settings)));
+            container.Add(Binding<Application>.From(b => b.Only().To(this)));
 
             foreach (var feature in Features) {
-                feature.ContainerBuilder.SetupApplication(instance);
+                if (!feature.Switch.IsDefined) {
+                    container.Add(Binding<IFeature>.From(b => b.To(feature).Managed()));
+                    feature.ContainerBuilder.SetupApplication(container);
+                }
             }
 
             if (Settings.Debug) {
-                instance.Validate();
+                container.Validate();
             }
-            Container = instance;
+            Container = container;
         }
 
 

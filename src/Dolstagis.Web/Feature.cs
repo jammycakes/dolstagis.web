@@ -36,12 +36,6 @@ namespace Dolstagis.Web
 
         protected Feature()
         {
-            _containerConfiguration.ConfiguringApplication += (s, e) =>
-                _switch.AssertNotDefined(
-                    "You can not register services in the IOC container at Application level in " +
-                    "the feature " + this.GetType().FullName + " as it is switchable. Please " +
-                    "remove the feature switch or configure the services at Feature or Request " +
-                    "level, or in a separate, non-switchable feature.");
             _containerConfiguration.SettingContainer += (s, e) =>
                 _switch.AssertNotDefined(
                     "You can not specify an explicit IOC container in the feature " +
@@ -50,12 +44,6 @@ namespace Dolstagis.Web
                     "explicit IOC container, please do so in a non-switchable feature."
                 );
             _switch.Defining += (s, e) => {
-                _containerConfiguration.AssertApplicationNotConfigured(
-                    "You can not set a feature switch on the feature " + this.GetType().FullName +
-                    " as it has registered services in the IOC container at Application level. " +
-                    "Please remove the feature switch or configure the services at Feature or " +
-                    "Request level, or in a separate, non-switchable feature."
-                );
                 _containerConfiguration.AssertContainerNotSet(
                     "You can not set a feature switch on the feature " + this.GetType().FullName +
                     " as it has specified an explicit IOC container. Please remove the feature " +
@@ -295,7 +283,7 @@ namespace Dolstagis.Web
         protected void AddViews(VirtualPath path, IResourceLocation location)
         {
             AssertConstructing();
-            Container.Setup.Feature.Bindings(bind => {
+            Container.Setup.Application.Bindings(bind => {
                 bind.From<ResourceMapping>()
                     .To(new ResourceMapping(path, location))
                     .Managed();
