@@ -1,4 +1,4 @@
-﻿namespace Dolstagis.Tests.IoC.Common
+﻿namespace Dolstagis.Tests.Objects.Services
 {
     public class Service : IService
     {

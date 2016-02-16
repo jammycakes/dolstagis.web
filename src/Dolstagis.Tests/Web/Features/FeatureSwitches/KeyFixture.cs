@@ -4,7 +4,7 @@ using System.Linq;
 using Dolstagis.Web.Features.Impl;
 using NUnit.Framework;
 
-namespace Dolstagis.Tests.Internals.FeatureSwitches
+namespace Dolstagis.Tests.Web.Features.FeatureSwitches
 {
     [TestFixture]
     public class KeyFixture

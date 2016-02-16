@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Dolstagis.Tests.IoC.Common
+namespace Dolstagis.Tests.Objects.Services
 {
     public interface IDependency : IDisposable
     {

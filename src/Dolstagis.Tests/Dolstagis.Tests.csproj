@@ -72,11 +72,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Internals\FeatureSwitches\KeyFixture.cs" />
-    <Compile Include="IoC\Common\Dependency.cs" />
-    <Compile Include="IoC\Common\IDependency.cs" />
-    <Compile Include="IoC\Common\IService.cs" />
-    <Compile Include="IoC\Common\Service.cs" />
+    <Compile Include="Web\Features\FeatureSwitches\KeyFixture.cs" />
+    <Compile Include="Objects\Services\Dependency.cs" />
+    <Compile Include="Objects\Services\IDependency.cs" />
+    <Compile Include="Objects\Services\IService.cs" />
+    <Compile Include="Objects\Services\Service.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Web\Features\FeatureSetFixture.cs" />
     <Compile Include="Web\Features\FluentConfiguration\ConfigConflictFixture.cs" />
