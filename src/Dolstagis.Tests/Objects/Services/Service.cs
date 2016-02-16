@@ -12,6 +12,8 @@
 
         public int DisposeCount { get; private set; }
 
+        public string Name { get; set; }
+
         public void Dispose()
         {
             DisposeCount++;

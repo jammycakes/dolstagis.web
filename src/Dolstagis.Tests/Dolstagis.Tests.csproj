@@ -72,9 +72,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Objects\Fakes\FakeIoCContainer.cs" />
+    <Compile Include="Objects\Features\NonSwitchableFeature.cs" />
     <Compile Include="Objects\When.cs" />
+    <Compile Include="Web\Features\ApplicationFixture.cs" />
     <Compile Include="Web\Features\FeatureSwitches\KeyFixture.cs" />
-    <Compile Include="Objects\Features\StructureMapFeature.cs" />
+    <Compile Include="Objects\Features\ContainerFeature.cs" />
     <Compile Include="Objects\Services\Dependency.cs" />
     <Compile Include="Objects\Services\IDependency.cs" />
     <Compile Include="Objects\Services\IService.cs" />

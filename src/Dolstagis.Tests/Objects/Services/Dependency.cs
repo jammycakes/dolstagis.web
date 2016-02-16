@@ -11,6 +11,8 @@
 
         public int DisposeCount { get; private set; } = 0;
 
+        public string Name { get; set; }
+
         public void Dispose()
         {
             this.DisposeCount += 1;

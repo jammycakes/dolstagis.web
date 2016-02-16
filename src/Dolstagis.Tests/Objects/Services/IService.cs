@@ -7,5 +7,7 @@ namespace Dolstagis.Tests.Objects.Services
         int DisposeCount { get; }
 
         IDependency Dependency { get; }
+
+        string Name { get; }
     }
 }

@@ -107,7 +107,7 @@ namespace Dolstagis.Web
         /* ====== Setup after loading features====== */
 
         [MethodImpl(MethodImplOptions.Synchronized)]
-        private void Configure()
+        public void Configure()
         {
             if (Container != null) return;
 
@@ -137,8 +137,10 @@ namespace Dolstagis.Web
                     }
                 }
                 else if (!cb.ContainerType.IsInterface) {
-                    builder = builder ?? cb;
-                    if (builder.ContainerType != cb.ContainerType) {
+                    if (!feature.Switch.IsDefined) {
+                        builder = builder ?? cb;
+                    }
+                    if (builder != null && builder.ContainerType != cb.ContainerType) {
                         throw new InvalidOperationException(iocError);
                     }
                 }

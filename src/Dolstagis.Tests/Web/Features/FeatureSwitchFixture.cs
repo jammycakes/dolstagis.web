@@ -4,8 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Dolstagis.Tests.Objects;
+using Dolstagis.Tests.Objects.Fakes;
 using Dolstagis.Tests.Objects.Features;
+using Dolstagis.Web.IoC;
 using Dolstagis.Web.StructureMap;
+using Moq;
 using NUnit.Framework;
 
 namespace Dolstagis.Tests.Web.Features
@@ -16,18 +19,18 @@ namespace Dolstagis.Tests.Web.Features
         [Test]
         public void SwitchableFeatureDeclaringAContainerTypeShouldNotThrow()
         {
-            Assert.DoesNotThrow(() => new StructureMapFeature(When.Before));
-            Assert.DoesNotThrow(() => new StructureMapFeature(When.After));
-            Assert.DoesNotThrow(() => new StructureMapFeature(When.Neither));
+            Assert.DoesNotThrow(() => new ContainerFeature<FakeIoCContainer>(When.Before));
+            Assert.DoesNotThrow(() => new ContainerFeature<FakeIoCContainer>(When.After));
+            Assert.DoesNotThrow(() => new ContainerFeature<FakeIoCContainer>(When.Neither));
         }
 
         [Test]
         public void SwitchableFeatureDeclaringAContainerInstanceShouldThrow()
         {
-            var instance = new StructureMapContainer();
-            Assert.Throws<InvalidOperationException>(() => new StructureMapFeature(When.Before, instance));
-            Assert.Throws<InvalidOperationException>(() => new StructureMapFeature(When.After, instance));
-            Assert.DoesNotThrow(() => new StructureMapFeature(When.Neither, instance));
+            var instance = new FakeIoCContainer();
+            Assert.Throws<InvalidOperationException>(() => new ContainerFeature<FakeIoCContainer>(When.Before, instance));
+            Assert.Throws<InvalidOperationException>(() => new ContainerFeature<FakeIoCContainer>(When.After, instance));
+            Assert.DoesNotThrow(() => new ContainerFeature<FakeIoCContainer>(When.Neither, instance));
         }
     }
 }
