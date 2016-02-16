@@ -72,13 +72,17 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Objects\When.cs" />
     <Compile Include="Web\Features\FeatureSwitches\KeyFixture.cs" />
+    <Compile Include="Objects\Features\StructureMapFeature.cs" />
     <Compile Include="Objects\Services\Dependency.cs" />
     <Compile Include="Objects\Services\IDependency.cs" />
     <Compile Include="Objects\Services\IService.cs" />
     <Compile Include="Objects\Services\Service.cs" />
+    <Compile Include="Objects\Features\SwitchableFeature.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Web\Features\FeatureSetFixture.cs" />
+    <Compile Include="Web\Features\FeatureSwitchFixture.cs" />
     <Compile Include="Web\Http\EncodingsFixture.cs" />
     <Compile Include="Web\Http\Response\ContentTypeFixture.cs" />
     <Compile Include="Web\Lifecycle\RequestContextFixture.cs" />
@@ -148,7 +152,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="IoC\StructureMap\" />
     <Folder Include="Web\Lifecycle\RequestProcessor\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
