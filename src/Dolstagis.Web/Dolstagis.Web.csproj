@@ -95,6 +95,12 @@
     <Compile Include="IRequestContext.cs" />
     <Compile Include="IResult.cs" />
     <Compile Include="Lifecycle\Interceptors.cs" />
+    <Compile Include="Routes\RouteException.cs" />
+    <Compile Include="Routes\RouteNode.cs" />
+    <Compile Include="Routes\RouteTable.cs" />
+    <Compile Include="Routes\Trie\Match.cs" />
+    <Compile Include="Routes\Trie\Node.cs" />
+    <Compile Include="Routes\Trie\Trie.cs" />
     <Compile Include="StatusResult.cs" />
     <Compile Include="ViewData.cs" />
     <Compile Include="Lifecycle\BodylessRequestContextDecorator.cs" />
@@ -155,10 +161,7 @@
     <Compile Include="Owin\Request.cs" />
     <Compile Include="Owin\Response.cs" />
     <Compile Include="RedirectResult.cs" />
-    <Compile Include="Routes\Node.cs" />
-    <Compile Include="Routes\Parameter.cs" />
     <Compile Include="Routes\RouteInvocation.cs" />
-    <Compile Include="Routes\RouteTable.cs" />
     <Compile Include="Routes\RouteTarget.cs" />
     <Compile Include="Sessions\InMemorySession.cs" />
     <Compile Include="Sessions\InMemorySessionStore.cs" />

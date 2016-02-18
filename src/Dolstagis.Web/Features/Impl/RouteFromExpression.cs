@@ -9,10 +9,10 @@ namespace Dolstagis.Web.Features.Impl
     public class RouteFromExpression : IRouteFromExpression, IRouteDestinationExpression,
         IStaticFilesExpression
     {
-        private RouteTable _routes;
+        private IRouteTable _routes;
         private VirtualPath _path;
 
-        public RouteFromExpression(RouteTable routes, VirtualPath path)
+        public RouteFromExpression(IRouteTable routes, VirtualPath path)
         {
             _routes = routes;
             _path = path;

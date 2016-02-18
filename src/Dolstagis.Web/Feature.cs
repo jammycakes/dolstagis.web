@@ -24,7 +24,7 @@ namespace Dolstagis.Web
         private bool _constructed = false;
         private readonly FeatureSwitch _switch = new FeatureSwitch();
         private string _description = null;
-        private RouteTable _routes = new RouteTable();
+        private IRouteTable _routes = new RouteTable();
         private readonly ContainerConfiguration _containerConfiguration
             = new ContainerConfiguration();
         private IModelBinder _modelBinder = ModelBinding.ModelBinder.Default;

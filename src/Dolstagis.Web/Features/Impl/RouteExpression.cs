@@ -7,10 +7,10 @@ namespace Dolstagis.Web.Features.Impl
 {
     public class RouteExpression : IRouteExpression
     {
-        private RouteTable _routes;
+        private IRouteTable _routes;
         private Feature _feature;
 
-        public RouteExpression(RouteTable routes, Feature feature)
+        public RouteExpression(IRouteTable routes, Feature feature)
         {
             _routes = routes;
             _feature = feature;
