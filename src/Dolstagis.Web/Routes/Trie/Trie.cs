@@ -10,7 +10,7 @@ namespace Dolstagis.Web.Routes.Trie
     {
         private TNode _root = new TNode();
 
-        public void Add(VirtualPath specification, TItem item)
+        public virtual void Add(VirtualPath specification, TItem item)
         {
             var node = _root;
             foreach (var part in specification.Parts) {

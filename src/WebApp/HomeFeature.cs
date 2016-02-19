@@ -26,9 +26,9 @@ namespace WebApp
             Route.From("~/").To.Controller<Index>();
             Route.From("~/content").To.StaticFiles.FromWebApplication("~/content");
 
-            AddViews("~/views", Path.Combine(HttpRuntime.AppDomainAppPath, "views"));
+            Views("~/views").FromWebApplication("~/views");
             // Uncomment the following line to use custom error messages.
-            // AddViews("~/errors", Path.Combine(HttpRuntime.AppDomainAppPath, "errors"));
+            // Views("~/errors").FromWebApplication("~/errors");
         }
     }
 }

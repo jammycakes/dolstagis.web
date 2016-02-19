@@ -20,6 +20,8 @@ namespace Dolstagis.Web.Lifecycle
                 bind.From<ISessionStore>().Only().To<InMemorySessionStore>().Managed();
                 bind.From<IAuthenticator>().Only().To<SessionAuthenticator>().Managed();
 
+                /* ====== Content negotiation ====== */
+
                 // Arbitrator needs to be transient to allow features to declare
                 // their own additional negotiations.
                 bind.From<IArbitrator>().Only().To<Arbitrator>().Transient();
@@ -28,16 +30,25 @@ namespace Dolstagis.Web.Lifecycle
                 bind.From<INegotiator>().To<JsonNegotiator>();
                 bind.From<INegotiator>().To<XmlNegotiator>();
 
+                /* ====== Request context ====== */
+
                 bind.From<IRequestContext>().To<NullRequestContext>().Transient();
+
+                /* ====== Views ====== */
+
+                bind.From<ViewRegistry>().Only().To<ViewRegistry>().Managed();
             })
             .Setup.Request.Bindings(bind => {
                 bind.From<ILoginHandler>().Only().To<LoginHandler>().Managed();
-                bind.From<ViewRegistry>().Only().To<ViewRegistry>().Managed();
 
                 bind.From<IRequest>().Only().To(ctx => ctx.Get<IRequestContext>().Request).Managed();
                 bind.From<IResponse>().Only().To(ctx => ctx.Get<IRequestContext>().Response).Managed();
                 bind.From<IUser>().Only().To(ctx => ctx.Get<IRequestContext>().User).Managed();
                 bind.From<ISession>().Only().To(ctx => ctx.Get<IRequestContext>().Session).Managed();
+
+                /* ====== Views ====== */
+
+                bind.From<IViewResolver>().To<ViewResolver>().Transient();
             });
 
             Route.From("~/").To.StaticFiles.FromAssemblyResources

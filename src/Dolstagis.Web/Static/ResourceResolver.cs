@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Dolstagis.Web.Views;
 
 namespace Dolstagis.Web.Static
 {
-    [Obsolete("Deprecate this in favour of ViewTable")]
+    [Obsolete("Deprecate this in favour of ViewTable", true)]
     public class ResourceResolver : IResourceResolver
     {
         private IEnumerable<ResourceMapping> _mappings;

@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Dolstagis.Web.Features;
+using Dolstagis.Web.Routes.Trie;
 
 namespace Dolstagis.Web.Routes
 {
-    public class RouteTable : Trie.Trie<RouteNode, IRouteTarget>, IRouteTable
+    public class RouteTable : Trie<RouteNode, IRouteTarget>, IRouteTable
     {
         public RouteInvocation GetRouteInvocation(VirtualPath path, IFeature feature)
         {

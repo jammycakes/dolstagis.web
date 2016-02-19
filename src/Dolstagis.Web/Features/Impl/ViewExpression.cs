@@ -13,6 +13,7 @@ namespace Dolstagis.Web.Features.Impl
         public ViewExpression(ViewTable viewTable, VirtualPath root)
         {
             _viewTable = viewTable;
+            _root = root;
         }
 
         public void FromResource(Func<VirtualPath, IServiceLocator, IResource> locator)

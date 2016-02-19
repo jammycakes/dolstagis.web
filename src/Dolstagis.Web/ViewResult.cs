@@ -31,8 +31,8 @@ namespace Dolstagis.Web
 
         protected override async Task SendBodyAsync(IRequestContext context)
         {
-            var registry = context.Container.Get<ViewRegistry>();
-            var view = registry.GetView(Path);
+            var resolver = context.Container.Get<IViewResolver>();
+            var view = resolver.GetView(Path);
             await view.Render(context.Response,
                 new ViewData() {
                     Data = this.Data,

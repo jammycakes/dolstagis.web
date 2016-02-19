@@ -23,11 +23,11 @@ namespace Dolstagis.Web
         {
             VirtualPath viewPath = "~/errors/" + Status.Code;
 
-            var registry = context.Container.Get<ViewRegistry>();
-            var view = registry.GetView(viewPath);
+            var resolver = context.Container.Get<IViewResolver>();
+            var view = resolver.GetView(viewPath);
             if (view == null) {
                 viewPath = "~/errors/default";
-                view = registry.GetView(viewPath);
+                view = resolver.GetView(viewPath);
             }
             if (view != null) {
                 await view.Render(context.Response,

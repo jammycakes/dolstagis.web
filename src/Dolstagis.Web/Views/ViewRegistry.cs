@@ -1,69 +1,93 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Dolstagis.Web.Features;
 using Dolstagis.Web.Static;
 
 namespace Dolstagis.Web.Views
 {
+    /// <summary>
+    ///  The ViewRegistry is the class that aggregates all the view tables from
+    ///  the active features.
+    /// </summary>
+    /// <remarks>
+    ///  The ViewRegistry is registered in singleton scope to the feature
+    ///  container so we don't have to re-create it every time. It will then be
+    ///  injected into the request-scoped ViewResover instances as needed.
+    /// </remarks>
+
     public class ViewRegistry
     {
         private IDictionary<string, IViewEngine> _viewEngines
             = new Dictionary<string, IViewEngine>(StringComparer.OrdinalIgnoreCase);
 
-        private IResourceResolver _resolver;
+        private IList<ViewTable> _viewTables = new List<ViewTable>();
 
-        public ViewRegistry(ResourceMapping[] mappings, IViewEngine[] viewEngines)
+        public ViewRegistry(IEnumerable<IFeature> features, IEnumerable<IViewEngine> viewEngines)
         {
-            _resolver = new ResourceResolver(mappings);
             foreach (var engine in viewEngines)
                 foreach (var ext in engine.Extensions)
                     _viewEngines[ext] = engine;
-        }
 
-        /// <summary>
-        ///  Gets the view engine which will handle this view.
-        /// </summary>
-        /// <param name="pathToView"></param>
-        /// <returns></returns>
-        /// <exception cref="ArgumentNullException">
-        ///  pathToView is null.
-        /// </exception>
-        /// <exception cref="ArgumentException">
-        ///  No extension is specified for the view.
-        /// </exception>
-        public IViewEngine GetViewEngine(VirtualPath pathToView)
-        {
-            if (pathToView == null) {
-                throw new ArgumentNullException("pathToView");
+            /*
+             * Switchable features take priority over non-switchable features
+             * so include these first.
+             */
+
+            var orderedFeatures =
+                from feature in features
+                let x = feature.Switch.IsDefined ? 0 : 1
+                orderby x
+                select feature;
+
+            foreach (var feature in orderedFeatures) {
+                _viewTables.Add(feature.Views);
             }
-            if (pathToView.Parts.Count == 0) return null;
-            var split = pathToView.Parts.Last().Split('.');
-            if (split.Length <= 1) return null;
-
-            IViewEngine result;
-            if (_viewEngines.TryGetValue(split.Last(), out result)) return result;
-            return null;
         }
 
+
         /// <summary>
-        ///  Gets a view.
+        ///  Gets the <see cref="ViewInfo"/> instance for the first available
+        ///  view: the view registration and the relative path.
         /// </summary>
         /// <param name="pathToView"></param>
         /// <returns></returns>
-        public IView GetView(VirtualPath pathToView)
+
+        public ViewInfo GetViewInfo(VirtualPath pathToView)
         {
-            var extendedPaths =
-                from extension in _viewEngines.Keys
-                select new VirtualPath(pathToView.ToString() + "." + extension);
-            var allPaths = new[] { pathToView }.Concat(extendedPaths);
-            var views =
-                from path in allPaths
-                let engine = this.GetViewEngine(path)
-                where engine != null
-                let view = engine.GetView(path, _resolver)
-                where view != null
-                select view;
-            return views.FirstOrDefault();
+            var registration =
+                from table in _viewTables
+                let matches = table.GetMatches(pathToView)
+                from match in matches
+                let viewPath = match.Parameters["path"].FirstOrDefault()
+                where viewPath != null
+                from item in match.Node.Items
+                where item != null
+                select new ViewInfo() {
+                    Location = item.Location,
+                    RelativePath = viewPath
+                };
+
+            return registration.FirstOrDefault();
+        }
+
+
+        /// <summary>
+        ///  Gets a list of registered extensions for this view.
+        /// </summary>
+        /// <returns></returns>
+
+        public IEnumerable<string> GetRegisteredExtensions()
+        {
+            return _viewEngines.Keys;
+        }
+
+
+        public IViewEngine GetViewEngine(string extension)
+        {
+            IViewEngine result;
+            return _viewEngines.TryGetValue(extension, out result)
+                ? result : null;
         }
     }
 }

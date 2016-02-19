@@ -1,29 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Dolstagis.Web.IoC;
+using Dolstagis.Web.Routes.Trie;
 using Dolstagis.Web.Static;
 
 namespace Dolstagis.Web.Views
 {
-    public class ViewTable
+    public class ViewTable : Trie<ViewNode, ViewRegistration>
     {
-        private IList<ViewLocation> _locations = new List<ViewLocation>();
-
-        public void Add(VirtualPath root, Func<VirtualPath, IServiceLocator, IResource> locator)
+        public void Add(VirtualPath path, Func<VirtualPath, IServiceLocator, IResource> location)
         {
-            _locations.Add(new ViewLocation {
-                Root = root,
-                Locator = locator
-            });
-        }
-
-
-
-        private class ViewLocation
-        {
-            public VirtualPath Root { get; set; }
-
-            public Func<VirtualPath, IServiceLocator, IResource> Locator { get; set; }
+            if (path.Parts.LastOrDefault() != "*")
+                path = path.Append("*");
+            Add(path, new ViewRegistration() { Location = location });
         }
     }
 }

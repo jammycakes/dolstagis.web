@@ -94,7 +94,9 @@
     <Compile Include="IoC\IServiceLocator.cs" />
     <Compile Include="IRequestContext.cs" />
     <Compile Include="IResult.cs" />
+    <Compile Include="JsonResult.cs" />
     <Compile Include="Lifecycle\Interceptors.cs" />
+    <Compile Include="ResultBase.cs" />
     <Compile Include="Routes\RouteException.cs" />
     <Compile Include="Routes\RouteNode.cs" />
     <Compile Include="Routes\RouteTable.cs" />
@@ -169,14 +171,12 @@
     <Compile Include="Sessions\ISessionStore.cs" />
     <Compile Include="Http\IRequest.cs" />
     <Compile Include="Http\IResponse.cs" />
-    <Compile Include="JsonResult.cs" />
     <Compile Include="IInterceptor.cs" />
-    <Compile Include="ResultBase.cs" />
     <Compile Include="Static\AssemblyResource.cs" />
     <Compile Include="Static\AssemblyResourceLocation.cs" />
     <Compile Include="Static\FileResourceLocation.cs" />
     <Compile Include="Static\IResourceLocation.cs" />
-    <Compile Include="Static\IResourceResolver.cs" />
+    <Compile Include="Views\IResourceResolver.cs" />
     <Compile Include="Static\ResourceMapping.cs" />
     <Compile Include="Static\ResourceResolver.cs" />
     <Compile Include="ResourceResult.cs" />
@@ -184,6 +184,13 @@
     <Compile Include="Util\AssemblyExtensions.cs" />
     <Compile Include="Util\DictionaryExtensions.cs" />
     <Compile Include="IoC\IoCExtensions.cs" />
+    <Compile Include="ViewResult.cs" />
+    <Compile Include="Views\IViewResolver.cs" />
+    <Compile Include="Views\ViewInfo.cs" />
+    <Compile Include="Views\ViewNode.cs" />
+    <Compile Include="Views\ViewRegistration.cs" />
+    <Compile Include="Views\ViewResolver.cs" />
+    <Compile Include="Views\ViewResourceResolver.cs" />
     <Compile Include="Views\ViewTable.cs" />
     <Compile Include="VirtualPath.cs" />
     <Compile Include="Lifecycle\RequestContext.cs" />
@@ -194,7 +201,6 @@
     <Compile Include="Lifecycle\RequestProcessor.cs" />
     <Compile Include="RouteAttribute.cs" />
     <Compile Include="Status.cs" />
-    <Compile Include="ViewResult.cs" />
     <Compile Include="Views\IView.cs" />
     <Compile Include="Static\MimeTypes.cs" />
     <Compile Include="Views\IViewEngine.cs" />
