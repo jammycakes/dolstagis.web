@@ -54,6 +54,7 @@ namespace Dolstagis.Web.Lifecycle
                     context = await _interceptors.BeginRequest(context);
                     childContainer.Add(Binding<IRequestContext>
                         .From(cfg => cfg.Only().To(context).Managed()));
+                    ValidateContainer(childContainer);
                     await ProcessRequestContextAsync(context);
                 }
                 finally {
@@ -67,7 +68,10 @@ namespace Dolstagis.Web.Lifecycle
             foreach (var feature in _features.Features) {
                 feature.ContainerBuilder.SetupRequest(childContainer);
             }
+        }
 
+        private void ValidateContainer(IIoCContainer container)
+        {
             if (_settings.Debug) {
                 lock (_featureSetContainer) {
                     // Only validate the request container once.
@@ -82,7 +86,7 @@ namespace Dolstagis.Web.Lifecycle
                     }
                     else {
                         try {
-                            childContainer.Validate();
+                            container.Validate();
                             _requestContainerIsValid = true;
                         }
                         finally {

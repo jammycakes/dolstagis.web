@@ -2,11 +2,14 @@
 using StructureMap;
 using Dolstagis.Web.IoC;
 using System.Collections;
+using Dolstagis.Web.Logging;
 
 namespace Dolstagis.Web.StructureMap
 {
     public class StructureMapContainer : IIoCContainer<IContainer>
     {
+        private static readonly Logger log = Logger.ForThisClass();
+
         private IContainer _container;
         private bool _disposed = false;
 
@@ -86,6 +89,7 @@ namespace Dolstagis.Web.StructureMap
         public void Validate()
         {
             Container.AssertConfigurationIsValid();
+            log.Debug(() => Container.WhatDoIHave());
         }
 
 
