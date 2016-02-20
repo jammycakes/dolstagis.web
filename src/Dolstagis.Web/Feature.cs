@@ -22,6 +22,7 @@ namespace Dolstagis.Web
         private static readonly Logger log = Logger.ForThisClass();
 
         private bool _constructed = false;
+        private int _priority = 0;
         private readonly FeatureSwitch _switch = new FeatureSwitch();
         private string _description = null;
         private IRouteTable _routes = new RouteTable();
@@ -137,6 +138,22 @@ namespace Dolstagis.Web
 
 
         /// <summary>
+        ///  Defines the priority of this feature.
+        /// </summary>
+        /// <param name="priority"></param>
+        /// <remarks>
+        ///  Switchable features always take priority over non-switchable features.
+        ///  Within the two groupings, this specifies the priority of the feature.
+        /// </remarks>
+
+        protected void Priority(int priority)
+        {
+            AssertConstructing();
+            _priority = priority;
+        }
+
+
+        /// <summary>
         ///  Provides a fluent interface to configure routes to controllers.
         /// </summary>
 
@@ -245,6 +262,14 @@ namespace Dolstagis.Web
             get {
                 _constructed = true;
                 return _views;
+            }
+        }
+
+        int IFeature.Priority
+        {
+            get {
+                _constructed = true;
+                return _priority;
             }
         }
     }

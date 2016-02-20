@@ -40,7 +40,10 @@ namespace Dolstagis.Web.Features.Impl
         public FeatureSet(Application application, IEnumerable<IFeature> features)
         {
             this.Application = application;
-            this.Features = features.ToList().AsReadOnly();
+            this.Features = features
+                .OrderByDescending(x => x.Switch.IsDefined)
+                .ThenByDescending(x => x.Priority)
+                .ToList().AsReadOnly();
             if (application != null)
             {
                 Container = application.Container.GetChildContainer();
@@ -71,7 +74,7 @@ namespace Dolstagis.Web.Features.Impl
                 let invocation = feature.GetRouteInvocation(request.Path)
                 where invocation != null && invocation.Target != null
                 select invocation;
-            return result.LastOrDefault();
+            return result.FirstOrDefault();
         }
     }
 }

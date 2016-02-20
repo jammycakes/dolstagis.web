@@ -6,6 +6,7 @@ namespace Dolstagis.Web.Features
 {
     public interface IFeature
     {
+        int Priority { get; }
         IFeatureSwitch Switch { get; }
         string Description { get; }
         RouteInvocation GetRouteInvocation(VirtualPath path);

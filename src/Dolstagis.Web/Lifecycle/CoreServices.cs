@@ -16,6 +16,8 @@ namespace Dolstagis.Web.Lifecycle
     {
         public CoreServices()
         {
+            Priority(Int32.MinValue);
+
             Container.Setup.Application.Bindings(bind => {
                 bind.From<ISessionStore>().Only().To<InMemorySessionStore>().Managed();
                 bind.From<IAuthenticator>().Only().To<SessionAuthenticator>().Managed();
