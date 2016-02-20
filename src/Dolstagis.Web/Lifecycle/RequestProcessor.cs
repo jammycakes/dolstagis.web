@@ -105,17 +105,12 @@ namespace Dolstagis.Web.Lifecycle
                 : (IRequestContext)context;
 
             try {
-                try {
-                    object result = await context.InvokeRequest();
-                    if (!await ProcessResultAsync(outputContext, result))
-                        throw Status.NotAcceptable.CreateException();
-                }
-                catch (Exception ex) {
-                    ex = await _interceptors.Exception(context, ex);
-                    ExceptionDispatchInfo.Capture(ex).Throw();
-                }
+                object result = await context.InvokeRequest();
+                if (!await ProcessResultAsync(outputContext, result))
+                    throw Status.NotAcceptable.CreateException();
             }
             catch (Exception ex) {
+                ex = await _interceptors.Exception(context, ex);
                 try {
                     var result = ex is HttpStatusException
                         ? new StatusResult(((HttpStatusException)ex).Status)
