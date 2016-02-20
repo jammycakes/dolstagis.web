@@ -21,6 +21,11 @@ namespace Dolstagis.Tests.Web.ModelBinding
             return null;
         }
 
+        private object methodWithNullOptionalParameters(string one, string two, string three = null)
+        {
+            return null;
+        }
+
         private object methodWithTypedParameters(int one, bool two, Guid three)
         {
             return null;
@@ -60,6 +65,26 @@ namespace Dolstagis.Tests.Web.ModelBinding
             var result = binder.GetArguments(route, request.Object, method);
 
             CollectionAssert.AreEqual(new object[] { "foo", "bar", "baz" }, result);
+        }
+
+        [Test]
+        public void CanBindRouteDataWithNullOptionalParameters()
+        {   
+            var data = new Dictionary<string, string>() {
+                { "one", "foo" },
+                { "two", "bar" }
+            };
+
+            var route = new RouteInvocation(null, null, data);
+            var request = new Mock<IRequest>();
+            request.SetupGet(x => x.Query).Returns(new Dictionary<string, string[]>());
+
+            var method = this.GetType().GetMethod("methodWithNullOptionalParameters",
+                BindingFlags.NonPublic | BindingFlags.Instance);
+
+            var result = binder.GetArguments(route, request.Object, method);
+
+            CollectionAssert.AreEqual(new object[] { "foo", "bar", null }, result);
         }
 
 

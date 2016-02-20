@@ -57,9 +57,8 @@ namespace Dolstagis.Web.ModelBinding
                 {
                     arg = (parameter.HasDefaultValue ? parameter.DefaultValue : null);
                 }
-                    
 
-                if (arg != null)
+                if (arg != null || parameter.IsOptional)
                 {
                     args.Add(arg);
                 }
