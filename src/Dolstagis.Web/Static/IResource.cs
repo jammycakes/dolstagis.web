@@ -1,11 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 
 namespace Dolstagis.Web.Static
 {
     public interface IResource
     {
-        bool Exists { get; }
+        bool IsFile { get; }
 
         DateTime LastModified { get; }
 

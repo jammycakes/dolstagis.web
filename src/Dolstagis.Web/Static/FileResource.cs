@@ -10,12 +10,12 @@ namespace Dolstagis.Web.Static
         public FileResource(string physicalPath)
         {
             _fileInfo = new FileInfo(physicalPath);
-            Exists = _fileInfo.Exists;
+            IsFile = _fileInfo.Exists;
             LastModified = _fileInfo.LastWriteTimeUtc;
             Length = _fileInfo.Length;
         }
 
-        public bool Exists { get; private set; }
+        public bool IsFile { get; private set; }
 
         public DateTime LastModified { get; private set; }
 

@@ -14,7 +14,7 @@ namespace Dolstagis.Web.Static
             _assembly = assembly;
             _resourceName = resourceName;
             var info = _assembly.GetManifestResourceInfo(resourceName);
-            Exists = (info != null);
+            IsFile = (info != null);
             LastModified = File.GetLastWriteTime(_assembly.Location);
             Length = null;
         }
@@ -23,7 +23,7 @@ namespace Dolstagis.Web.Static
             : this(baseClass.Assembly, baseClass.Namespace + "." + resourceName)
         { }
 
-        public bool Exists { get; private set; }
+        public bool IsFile { get; private set; }
 
         public DateTime LastModified { get; private set; }
 

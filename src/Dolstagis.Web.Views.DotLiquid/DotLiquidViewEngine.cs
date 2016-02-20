@@ -21,7 +21,7 @@ namespace Dolstagis.Web.Views.DotLiquid
         protected override IView CreateView(VirtualPath pathToView, IResourceResolver resolver)
         {
             var resource = resolver.GetResource(pathToView);
-            if (resource == null || !resource.Exists) {
+            if (resource == null || !resource.IsFile) {
                 return null;
             }
 

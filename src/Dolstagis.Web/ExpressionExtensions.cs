@@ -113,7 +113,7 @@ namespace Dolstagis.Web
                 var parts = new[] { rootDirectory }.Concat(path.Parts).ToArray();
                 var filePath = Path.Combine(parts);
                 var resource = new FileResource(filePath);
-                return resource.Exists ? resource : null;
+                return resource.IsFile ? resource : null;
             });
         }
 
@@ -142,7 +142,7 @@ namespace Dolstagis.Web
                 var parts = new[] { rootNamespace }.Concat(path.Parts);
                 var name = String.Join(".", parts);
                 var resource = new AssemblyResource(assembly, name);
-                return resource.Exists ? resource : null;
+                return resource.IsFile ? resource : null;
             });
         }
 

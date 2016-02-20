@@ -45,7 +45,7 @@ namespace Dolstagis.Web.Views
                 from c in candidatePaths
                 let info = _registry.GetViewInfo(path)
                 let resource = info.Location(info.RelativePath, _serviceLocator)
-                where resource != null && resource.Exists
+                where resource != null && resource.IsFile
                 select new {
                     Path = c,
                     Resource = resource

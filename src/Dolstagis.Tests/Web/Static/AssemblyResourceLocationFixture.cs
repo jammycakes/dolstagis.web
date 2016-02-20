@@ -15,7 +15,7 @@ namespace Dolstagis.Tests.Web.Static
             var location = new AssemblyResourceLocation(this.GetType().Assembly, this.GetType().Namespace);
             var resource = location.GetResource(new VirtualPath("~/" + resourceName));
             Assert.IsNotNull(resource);
-            Assert.True(resource.Exists);
+            Assert.True(resource.IsFile);
         }
 
         [Test]
@@ -25,7 +25,7 @@ namespace Dolstagis.Tests.Web.Static
                 this.GetType().Assembly, this.GetType().Namespace + "." + resourceName);
             var resource = location.GetResource(new VirtualPath("~/"));
             Assert.IsNotNull(resource);
-            Assert.True(resource.Exists);
+            Assert.True(resource.IsFile);
         }
 
 
