@@ -48,8 +48,9 @@ namespace Dolstagis.Tests.Web.Features
         {
             var localFeatureSet = switchboard.GetFeatureSet(localRequest);
             Assert.AreEqual(2, localFeatureSet.Features.Count);
-            Assert.AreSame(this.alwaysEnabled, localFeatureSet.Features.First(), "First feature is wrong");
-            Assert.AreSame(this.localhostOnly, localFeatureSet.Features.Last(), "Second feature is wrong");
+            // Switchable features always come first
+            Assert.AreSame(this.localhostOnly, localFeatureSet.Features.First(), "First feature is wrong");
+            Assert.AreSame(this.alwaysEnabled, localFeatureSet.Features.Last(), "Second feature is wrong");
         }
 
         [Test]
