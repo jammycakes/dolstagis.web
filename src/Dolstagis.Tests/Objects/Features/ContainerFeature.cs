@@ -16,13 +16,13 @@ namespace Dolstagis.Tests.Objects.Features
             (When whenToAddSwitch = When.Neither, TContainer instance = null)
         {
             if (whenToAddSwitch.HasFlag(When.Before)) {
-                Active.When(() => false);
+                Activate.When(() => false);
             }
             var containerConfig = Container.Is<TContainer>();
             if (instance != null) containerConfig.Using(instance);
 
             if (whenToAddSwitch.HasFlag(When.After)) {
-                Active.When(() => false);
+                Activate.When(() => false);
             }
         }
     }

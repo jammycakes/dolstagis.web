@@ -13,7 +13,7 @@ namespace Dolstagis.Tests.Objects.Features
         public SwitchableFeature(bool isOn, Action<IContainerExpression> configureMe = null)
         {
             Description("Switchable:" + isOn.ToString());
-            Active.When(() => isOn);
+            Activate.When(() => isOn);
             if (configureMe != null) configureMe(Container);
         }
     }

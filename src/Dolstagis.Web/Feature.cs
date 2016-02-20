@@ -78,7 +78,7 @@ namespace Dolstagis.Web
         ///  Defines the condition under which the feature is active.
         /// </summary>
 
-        protected ISwitchExpression Active
+        protected ISwitchExpression Activate
         {
             get {
                 AssertConstructing();

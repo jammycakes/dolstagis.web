@@ -16,7 +16,7 @@ namespace Dolstagis.Tests.Web.TestFeatures
         public EmptyNamedFeature(string name, Predicate<IRequest> condition)
         {
             Name = name;
-            Active.When(condition);
+            Activate.When(condition);
         }
     }
 }
