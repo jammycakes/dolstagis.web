@@ -132,7 +132,7 @@ namespace Dolstagis.Web.Lifecycle
             }
 
             result = await _interceptors.ControllerResult(this, controller, result);
-            return result ?? Status.NotFound;
+            return result;
         }
 
         protected virtual bool IsLoginRequired(MethodInfo method)

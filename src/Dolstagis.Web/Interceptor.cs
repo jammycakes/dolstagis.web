@@ -35,7 +35,12 @@ namespace Dolstagis.Web
             return Task.FromResult(result);
         }
 
-        public Task<Exception> Exception(IRequestContext context, Exception ex)
+        public Task<IResult> NegotiatedResult(IRequestContext context, IResult result)
+        {
+            return Task.FromResult(result);
+        }
+
+        public Task<Exception> Exception(IRequestContext context, Exception ex, bool handling)
         {
             return Task.FromResult(ex);
         }

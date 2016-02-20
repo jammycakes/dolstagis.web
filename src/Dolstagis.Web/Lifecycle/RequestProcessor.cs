@@ -99,40 +99,48 @@ namespace Dolstagis.Web.Lifecycle
 
         private async Task ProcessRequestContextAsync(IRequestContext context)
         {
-            var outputContext =
-                context.Request.Method.Equals("HEAD", StringComparison.OrdinalIgnoreCase)
-                ? new BodylessRequestContextDecorator(context)
-                : (IRequestContext)context;
+            if (context.Request.Method.Equals("HEAD", StringComparison.OrdinalIgnoreCase))
+                context = new BodylessRequestContextDecorator(context);
 
             try {
                 object result = await context.InvokeRequest();
-                if (!await ProcessResultAsync(outputContext, result))
+                IResult resultObj = GetResultObject(context.Request, result);
+                resultObj = await _interceptors.NegotiatedResult(context, resultObj);
+                if (resultObj == null)
                     throw Status.NotAcceptable.CreateException();
+                await resultObj.RenderAsync(context);
             }
             catch (Exception ex) {
-                ex = await _interceptors.Exception(context, ex);
-                try {
-                    var result = ex is HttpStatusException
-                        ? new StatusResult(((HttpStatusException)ex).Status)
-                        : new ExceptionResult(ex);
-                    await ProcessResultAsync(outputContext, result);
-                }
-                catch (Exception ex1) {
-                    ex1 = await _interceptors.Exception(context, ex1);
-                    ExceptionDispatchInfo.Capture(ex1).Throw();
-                }
+                await HandleException(context, ex);
             }
         }
 
-        private async Task<bool> ProcessResultAsync(IRequestContext context, object result)
+
+        private IResult GetResultObject(IRequest request, object result)
         {
-            IResult resultObj = result is Status
-                ? new StatusResult((Status)result)
-                : result as IResult;
-            resultObj = resultObj ?? _negotiator.Arbitrate(context.Request, result);
-            if (resultObj == null) return false;
-            await resultObj.RenderAsync(context);
-            return true;
+            if (result is IResult)
+                return (IResult)result;
+            if (result == null)
+                return new StatusResult(Status.NotFound);
+            if (result is Status)
+                return new StatusResult((Status)result);
+            return _negotiator.Arbitrate(request, result);
+        }
+
+
+        private async Task HandleException(IRequestContext context, Exception ex)
+        {
+            try {
+                ex = await _interceptors.Exception(context, ex, false);
+                var result = ex is HttpStatusException
+                    ? new StatusResult(((HttpStatusException)ex).Status)
+                    : new ExceptionResult(ex);
+                await result.RenderAsync(context);
+            }
+            catch (Exception ex1) {
+                ex1 = await _interceptors.Exception(context, ex1, true);
+                ExceptionDispatchInfo.Capture(ex1).Throw();
+            }
         }
 
 

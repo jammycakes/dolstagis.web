@@ -57,12 +57,31 @@ namespace Dolstagis.Web
         Task<object> ControllerResult(IRequestContext context, object controller, object result);
 
         /// <summary>
-        ///  Called when an exception is thrown. 
+        ///  Called when the result from the controller has been evaluated and a
+        ///  final result has been built.
         /// </summary>
         /// <param name="context"></param>
-        /// <param name="ex"></param>
+        /// <param name="result"></param>
         /// <returns></returns>
-        Task<Exception> Exception(IRequestContext context, Exception ex);
+        Task<IResult> NegotiatedResult(IRequestContext context, IResult result);
+
+        /// <summary>
+        ///  Called when an exception is thrown. 
+        /// </summary>
+        /// <param name="context">
+        ///  The request context.
+        /// </param>
+        /// <param name="ex">
+        ///  The exception which was thrown.
+        /// </param>
+        /// <param name="handling">
+        ///  true if the exception has been thrown while handling another exception,
+        ///  otherwise false.
+        /// </param>
+        /// <returns>
+        ///  The exception to be rendered by the controller.
+        /// </returns>
+        Task<Exception> Exception(IRequestContext context, Exception ex, bool handling);
 
         /// <summary>
         ///  Called when the request has been completed.

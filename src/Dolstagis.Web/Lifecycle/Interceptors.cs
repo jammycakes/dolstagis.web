@@ -54,10 +54,18 @@ namespace Dolstagis.Web.Lifecycle
         }
 
 
-        public async Task<Exception> Exception(IRequestContext context, Exception ex)
+        public async Task<IResult> NegotiatedResult(IRequestContext context, IResult result)
         {
             foreach (var interceptor in _interceptors) {
-                ex = await interceptor.Exception(context, ex);
+                result = await interceptor.NegotiatedResult(context, result);
+            }
+            return result;
+        }
+
+        public async Task<Exception> Exception(IRequestContext context, Exception ex, bool handling)
+        {
+            foreach (var interceptor in _interceptors) {
+                ex = await interceptor.Exception(context, ex, handling);
             }
             return ex;
         }
